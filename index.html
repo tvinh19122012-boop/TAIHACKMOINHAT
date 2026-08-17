@@ -3,626 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Neon Hub</title>
-    <!-- Google Fonts -->
+    <title>Gaming Neon Hub - Pro Manager</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome cho icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --panel-bg: rgba(17, 24, 39, 0.85);
-            --neon-cyan: #00f3ff;
-            --neon-pink: #ff0055;
-            --neon-green: #00ff66;
-            --text-color: #e2e8f0;
-            --border-color: rgba(0, 243, 255, 0.3);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 40%);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background: rgba(11, 15, 25, 0.95);
-            border-bottom: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
-            letter-spacing: 2px;
-        }
-
-        .logo span {
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        /* Menu 3 gạch */
-        .menu-icon {
-            font-size: 24px;
-            color: var(--neon-cyan);
-            cursor: pointer;
-            padding: 5px 10px;
-            border: 1px solid var(--neon-cyan);
-            border-radius: 4px;
-            box-shadow: 0 0 5px var(--neon-cyan);
-            transition: 0.3s;
-        }
-
-        .menu-icon:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        /* Drawer / Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
-            background: var(--panel-bg);
-            backdrop-filter: blur(10px);
-            border-left: 2px solid var(--neon-cyan);
-            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.8);
-            transition: 0.4s ease;
-            z-index: 1100;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
-
-        .sidebar-header h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-cyan);
-            font-size: 18px;
-        }
-
-        .close-btn {
-            font-size: 22px;
-            color: var(--neon-pink);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .close-btn:hover {
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .admin-login-box {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .admin-login-box input {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--neon-cyan);
-            padding: 12px;
-            color: #fff;
-            border-radius: 4px;
-            outline: none;
-            font-size: 16px;
-        }
-
-        .admin-login-box input:focus {
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
-
-        .neon-btn {
-            background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 10px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            box-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
-        }
-
-        .neon-btn:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        .neon-btn.pink {
-            border-color: var(--neon-pink);
-            color: var(--neon-pink);
-            box-shadow: 0 0 5px rgba(255, 0, 85, 0.3);
-        }
-
-        .neon-btn.pink:hover {
-            background: var(--neon-pink);
-            color: #fff;
-            box-shadow: 0 0 15px var(--neon-pink);
-        }
-
-        /* Container chính */
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* Khung đăng bài (Chỉ hiện khi là Admin) */
-        #admin-panel {
-            display: none;
-            background: var(--panel-bg);
-            border: 2px dashed var(--neon-pink);
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 40px;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
-        }
-
-        #admin-panel h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-pink);
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--neon-cyan);
-            font-weight: 700;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            color: #fff;
-            border-radius: 4px;
-            outline: none;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 8px var(--neon-cyan);
-        }
-
-        /* Khu vực kéo thả ảnh / chọn file */
-        .drop-zone {
-            border: 2px dashed var(--neon-cyan);
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            background: rgba(0, 243, 255, 0.03);
-            border-radius: 4px;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .drop-zone:hover, .drop-zone.dragover {
-            background: rgba(0, 243, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-        }
-
-        .drop-zone input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        /* Danh sách bài viết */
-        .posts-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .post-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.15);
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .post-card:hover {
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
-        }
-
-        .post-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            color: #fff;
-            margin-bottom: 10px;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
-        }
-
-        .post-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-color);
-        }
-
-        .post-desc {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            word-break: break-word;
-        }
-
-        /* Link tự động nhận diện trong mô tả */
-        .post-desc a {
-            color: var(--neon-cyan);
-            text-decoration: underline;
-        }
-        .post-desc a:hover {
-            color: #fff;
-            text-shadow: 0 0 8px var(--neon-cyan);
-        }
-
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, var(--neon-cyan), #0088ff);
-            color: #000;
-            padding: 10px 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            border-radius: 4px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
-            transition: 0.3s;
-        }
-
-        .download-btn:hover {
-            background: #fff;
-            box-shadow: 0 0 20px #fff;
-        }
-
-        .delete-btn {
-            background: transparent;
-            border: 1px solid var(--neon-pink);
-            color: var(--neon-pink);
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.3s;
-            display: none; /* Chỉ hiện khi admin */
-        }
-
-        .delete-btn:hover {
-            background: var(--neon-pink);
-            color: #fff;
-            box-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .admin-status {
-            font-size: 12px;
-            color: var(--neon-green);
-            margin-top: 5px;
-            text-shadow: 0 0 5px var(--neon-green);
-            display: none;
-        }
+        :root { --bg-color: #0b0f19; --panel-bg: rgba(17, 24, 39, 0.9); --neon-cyan: #00f3ff; --neon-pink: #ff0055; --text-color: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding-bottom: 50px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: rgba(11, 15, 25, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: #fff; }
+        .menu-icon { font-size: 24px; color: var(--neon-cyan); cursor: pointer; padding: 5px 10px; border: 1px solid var(--neon-cyan); border-radius: 4px; }
+        .sidebar { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: var(--panel-bg); backdrop-filter: blur(10px); border-left: 2px solid var(--neon-cyan); transition: 0.4s; z-index: 1100; padding: 30px 20px; }
+        .sidebar.active { right: 0; }
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        #admin-panel { display: none; background: var(--panel-bg); border: 2px dashed var(--neon-pink); padding: 25px; border-radius: 8px; margin-bottom: 40px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea { width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid var(--neon-cyan); padding: 12px; color: #fff; border-radius: 4px; }
+        .post-card { background: var(--panel-bg); border: 1px solid var(--neon-cyan); border-radius: 8px; padding: 20px; margin-bottom: 25px; position: relative; }
+        .post-title { font-family: 'Orbitron', sans-serif; font-size: 20px; color: #fff; margin-bottom: 10px; }
+        .post-image { width: 100%; border-radius: 6px; margin-bottom: 15px; }
+        .post-desc a { color: var(--neon-cyan); text-decoration: underline; }
+        .download-btn { background: var(--neon-cyan); color: #000; padding: 10px 20px; font-weight: 700; text-decoration: none; display: inline-block; border-radius: 4px; margin-top: 10px; }
+        .neon-btn { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 10px; cursor: pointer; width: 100%; margin-top: 10px; font-family: 'Orbitron'; }
+        .delete-btn { background: #ff0055; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <div class="logo">GAMING<span>HUB</span></div>
         <div class="menu-icon" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></div>
     </header>
 
-    <!-- Sidebar / Menu ẩn chứa mã bảo mật -->
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>HỆ THỐNG BẢO MẬT</h3>
-            <div class="close-btn" onclick="toggleSidebar()">&times;</div>
-        </div>
-        <div class="admin-login-box">
-            <label style="font-size: 14px; color: var(--text-color);">Nhập mã bí mật quản trị:</label>
-            <input type="password" id="secret-code-input" placeholder="Mã bí mật...">
-            <button class="neon-btn" onclick="loginAdmin()">Đăng nhập Admin</button>
-            <div class="admin-status" id="admin-status-text">Đã đăng nhập quyền Admin!</div>
-            <button class="neon-btn pink" id="logout-btn" style="display: none;" onclick="logoutAdmin()">Đăng xuất</button>
-        </div>
+        <h3>BẢO MẬT</h3>
+        <input type="password" id="secret-code-input" placeholder="Mã bí mật..." style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid var(--neon-cyan);">
+        <button class="neon-btn" onclick="loginAdmin()">ĐĂNG NHẬP</button>
+        <button class="neon-btn" id="logout-btn" style="display:none; border-color:red; color:red;" onclick="logoutAdmin()">ĐĂNG XUẤT</button>
     </div>
 
-    <!-- Nội dung chính -->
     <div class="container">
-        
-        <!-- Bảng điều khiển thêm bài viết (Chỉ hiện khi đăng nhập đúng mã) -->
         <div id="admin-panel">
-            <h2><i class="fa-solid fa-terminal"></i> ĐĂNG BÀI VIẾT MỚI</h2>
-            <div class="form-group">
-                <label>Tên bài viết:</label>
-                <input type="text" id="post-title" placeholder="Nhập tên tiêu đề...">
-            </div>
-            <div class="form-group">
-                <label>Mô tả (Chèn link trực tiếp, người dùng bấm vào sẽ chuyển trang):</label>
-                <textarea id="post-desc" rows="4" placeholder="Nhập mô tả hoặc dán link trực tiếp (vd: https://google.com)..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Link chuyển tiếp (Nút tải ngay sẽ trỏ về link này):</label>
-                <input type="text" id="post-redirect-link" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>Ảnh bài viết (Kéo thả hoặc chọn tệp trên Android/PC):</label>
-                <div class="drop-zone" id="drop-zone">
-                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 30px; color: var(--neon-cyan); margin-bottom: 10px;"></i>
-                    <p style="font-size: 14px;">Kéo thả ảnh vào đây hoặc bấm để chọn ảnh</p>
-                    <input type="file" id="post-image-file" accept="image/*">
-                </div>
-                <div id="file-name-display" style="font-size: 12px; color: var(--neon-green); margin-top: 5px;"></div>
-            </div>
-            <button class="neon-btn" style="width: 100%; padding: 12px;" onclick="createPost()">Đăng Bài Viết</button>
+            <h2>ĐĂNG BÀI VIẾT MỚI</h2>
+            <div class="form-group"><input type="text" id="post-title" placeholder="Tên bài viết"></div>
+            <div class="form-group"><textarea id="post-desc" rows="3" placeholder="Mô tả..."></textarea></div>
+            <div class="form-group"><input type="text" id="post-redirect-link" placeholder="Link tải"></div>
+            <input type="file" id="image-upload" accept="image/*">
+            <button class="neon-btn" onclick="createPost()">ĐĂNG BÀI LÊN CLOUD</button>
         </div>
-
-        <!-- Danh sách hiển thị bài viết -->
-        <div class="posts-container" id="posts-container">
-            <!-- Bài viết sẽ được render ở đây -->
-        </div>
+        <div id="posts-container">Đang tải dữ liệu...</div>
     </div>
 
     <script>
         const SECRET_CODE = "eveujrmx";
-        let isAdmin = localStorage.getItem("isAdmin") === "true";
-        let posts = JSON.parse(localStorage.getItem("gaming_posts")) || [];
-        let currentImageBase64 = "";
+        const BIN_ID = "6a829050da38895dfeed7295"; 
+        const MASTER_KEY = "$2a$10$bdgqB5/wPv/M89cWFqr2X.YEasNmIrnSkUItLWt03Td44GQmacSP2"; 
 
-        // Khởi động giao diện khi tải trang
-        window.onload = function() {
-            updateAdminUI();
-            renderPosts();
-            setupDragAndDrop();
+        let isAdmin = localStorage.getItem("isAdmin") === "true";
+        let posts = [];
+        let base64Image = "";
+
+        window.onload = () => { 
+            if(isAdmin) {
+                document.getElementById("admin-panel").style.display = "block";
+                document.getElementById("logout-btn").style.display = "block";
+            }
+            fetchPostsFromCloud(); 
         };
 
-        // Đóng/Mở Menu sidebar
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("active");
-        }
+        function toggleSidebar() { document.getElementById("sidebar").classList.toggle("active"); }
 
-        // Đăng nhập Admin bằng mã bí mật
         function loginAdmin() {
-            const inputVal = document.getElementById("secret-code-input").value;
-            if (inputVal === SECRET_CODE) {
-                isAdmin = true;
+            if (document.getElementById("secret-code-input").value === SECRET_CODE) {
                 localStorage.setItem("isAdmin", "true");
-                updateAdminUI();
-                alert("Đăng nhập thành công! Bạn có quyền thêm/xóa bài viết.");
-                toggleSidebar();
-            } else {
-                alert("Mã bí mật không chính xác!");
-            }
+                location.reload();
+            } else alert("Sai mã!");
         }
 
-        // Đăng xuất Admin
-        function logoutAdmin() {
-            isAdmin = false;
-            localStorage.setItem("isAdmin", "false");
-            updateAdminUI();
-            alert("Đã thoát quyền quản trị!");
-            toggleSidebar();
-        }
+        function logoutAdmin() { localStorage.setItem("isAdmin", "false"); location.reload(); }
 
-        // Cập nhật giao diện dựa theo quyền Admin
-        function updateAdminUI() {
-            const adminPanel = document.getElementById("admin-panel");
-            const adminStatus = document.getElementById("admin-status-text");
-            const logoutBtn = document.getElementById("logout-btn");
-            const codeInput = document.getElementById("secret-code-input");
-
-            if (isAdmin) {
-                adminPanel.style.display = "block";
-                adminStatus.style.display = "block";
-                logoutBtn.style.display = "block";
-                codeInput.value = SECRET_CODE;
-                codeInput.disabled = true;
-            } else {
-                adminPanel.style.display = "none";
-                adminStatus.style.display = "none";
-                logoutBtn.style.display = "none";
-                codeInput.value = "";
-                codeInput.disabled = false;
-            }
-            renderPosts();
-        }
-
-        // Xử lý kéo thả và chọn file ảnh (Hỗ trợ tốt Android và PC)
-        function setupDragAndDrop() {
-            const dropZone = document.getElementById("drop-zone");
-            const fileInput = document.getElementById("post-image-file");
-            const fileNameDisplay = document.getElementById("file-name-display");
-
-            fileInput.addEventListener("change", function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    fileNameDisplay.innerText = "Đã chọn: " + file.name;
-                    convertImageToBase64(file);
-                }
-            });
-
-            // Kéo thả hiệu ứng
-            ["dragenter", "dragover"].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    dropZone.classList.add("dragover");
-                }, false);
-            });
-
-            ["dragleave", "drop"].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove("dragover");
-                }, false);
-            });
-
-            dropZone.addEventListener("drop", (e) => {
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith("image/")) {
-                    fileNameDisplay.innerText = "Đã chọn: " + file.name;
-                    convertImageToBase64(file);
-                }
-            });
-        }
-
-        // Chuyển file ảnh sang Base64 để lưu vào localStorage
-        function convertImageToBase64(file) {
+        document.getElementById('image-upload').onchange = function(e) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                currentImageBase64 = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+            reader.onload = (e) => base64Image = e.target.result;
+            reader.readAsDataURL(e.target.files[0]);
+        };
 
-        // Tạo bài viết mới
-        function createPost() {
-            const title = document.getElementById("post-title").value.trim();
-            const desc = document.getElementById("post-desc").value.trim();
-            const redirectLink = document.getElementById("post-redirect-link").value.trim();
-
-            if (!title || !desc || !redirectLink) {
-                alert("Vui lòng điền đầy đủ tiêu đề, mô tả và link chuyển tiếp!");
-                return;
-            }
-
-            const newPost = {
-                id: Date.now(),
-                title: title,
-                desc: desc,
-                redirectLink: redirectLink,
-                image: currentImageBase64 || "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80" // Ảnh mặc định nếu không chọn
-            };
-
-            posts.unshift(newPost); // Thêm lên đầu danh sách
-            localStorage.setItem("gaming_posts", JSON.stringify(posts));
-
-            // Reset form
-            document.getElementById("post-title").value = "";
-            document.getElementById("post-desc").value = "";
-            document.getElementById("post-redirect-link").value = "";
-            document.getElementById("post-image-file").value = "";
-            document.getElementById("file-name-display").innerText = "";
-            currentImageBase64 = "";
-
-            renderPosts();
-            alert("Đăng bài viết thành công!");
-        }
-
-        // Xóa bài viết
-        function deletePost(id) {
-            if (confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
-                posts = posts.filter(p => p.id !== id);
-                localStorage.setItem("gaming_posts", JSON.stringify(posts));
+        async function fetchPostsFromCloud() {
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': MASTER_KEY } });
+                const data = await res.json();
+                posts = data.record.posts || [];
                 renderPosts();
+            } catch (e) { document.getElementById("posts-container").innerText = "Chưa có bài viết!"; }
+        }
+
+        async function saveToCloud() {
+            await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+                body: JSON.stringify({ posts: posts })
+            });
+            location.reload();
+        }
+
+        async function createPost() {
+            posts.unshift({
+                id: Date.now(),
+                title: document.getElementById("post-title").value,
+                desc: document.getElementById("post-desc").value,
+                redirectLink: document.getElementById("post-redirect-link").value,
+                image: base64Image
+            });
+            saveToCloud();
+        }
+
+        async function deletePost(id) {
+            if(confirm("Bạn có chắc muốn xóa bài này?")) {
+                posts = posts.filter(p => p.id !== id);
+                saveToCloud();
             }
         }
 
-        // Tự động nhận diện URL trong văn bản để biến thành thẻ chữ bấm vào được ngay
-        function linkifyText(text) {
-            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-            return text.replace(urlRegex, function(url) {
-                return '<a href="' + url + '" target="_blank">' + url + '</a>';
-            });
-        }
-
-        // Render danh sách bài viết ra màn hình
         function renderPosts() {
-            const container = document.getElementById("posts-container");
-            container.innerHTML = "";
-
-            if (posts.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: #64748b; padding: 40px; font-family: 'Orbitron';">CHƯA CÓ BÀI VIẾT NÀO</div>`;
-                return;
-            }
-
-            posts.forEach(post => {
-                const card = document.createElement("div");
-                card.className = "post-card";
-                
-                // Format mô tả, giữ ngắt dòng và tự động nhận diện link
-                let formattedDesc = linkifyText(post.desc).replace(/\n/g, '<br>');
-
-                card.innerHTML = `
-                    <div class="post-title">${post.title}</div>
-                    <img src="${post.image}" class="post-image" alt="Post Image">
-                    <div class="post-desc">${formattedDesc}</div>
-                    <div class="post-footer">
-                        <a href="${post.redirectLink}" target="_blank" class="download-btn">
-                            <i class="fa-solid fa-download"></i> Tải Ngay
-                        </a>
-                        <button class="delete-btn" style="display: ${isAdmin ? 'block' : 'none'}" onclick="deletePost(${post.id})">
-                            <i class="fa-solid fa-trash"></i> Xóa Bài
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+            document.getElementById("posts-container").innerHTML = posts.map(p => `
+                <div class="post-card">
+                    <div class="post-title">${p.title}</div>
+                    ${p.image ? `<img src="${p.image}" class="post-image">` : ''}
+                    <div class="post-desc">${p.desc.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}</div>
+                    <a href="${p.redirectLink}" target="_blank" class="download-btn">TẢI NGAY</a>
+                    <br><button class="delete-btn" style="display:${isAdmin ? 'block' : 'none'}" onclick="deletePost(${p.id})">XÓA BÀI NÀY</button>
+                </div>
+            `).join('');
         }
     </script>
 </body>
