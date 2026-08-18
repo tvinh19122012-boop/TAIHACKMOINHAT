@@ -3,55 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Neon Hub - Pro Manager</title>
+    <title>Trang Chủ - Pro Version</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --bg-color: #0b0f19; --panel-bg: rgba(17, 24, 39, 0.9); --neon-cyan: #00f3ff; --neon-pink: #ff0055; --text-color: #e2e8f0; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; padding-bottom: 50px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: rgba(11, 15, 25, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: #fff; }
-        .menu-icon { font-size: 24px; color: var(--neon-cyan); cursor: pointer; padding: 5px 10px; border: 1px solid var(--neon-cyan); border-radius: 4px; }
-        .sidebar { position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background: var(--panel-bg); backdrop-filter: blur(10px); border-left: 2px solid var(--neon-cyan); transition: 0.4s; z-index: 1100; padding: 30px 20px; }
-        .sidebar.active { right: 0; }
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(11, 15, 25, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 1000; }
+        
+        .home-active-btn { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: #fff; text-decoration: none; text-transform: uppercase; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); border: 2px solid var(--neon-cyan); padding: 8px 15px; border-radius: 6px; background: rgba(0, 243, 255, 0.15); animation: pulseGlow 1.5s infinite alternate; }
+        @keyframes pulseGlow { from { box-shadow: 0 0 5px var(--neon-cyan); } to { box-shadow: 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-cyan); } }
+
+        .bypass-header-btn { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: bold; color: #fff; background: var(--neon-pink); padding: 9px 18px; border-radius: 6px; text-decoration: none; box-shadow: 0 0 10px rgba(255, 0, 85, 0.6); }
+
+        .container { max-width: 800px; margin: 25px auto; padding: 0 20px; }
+        
         #admin-panel { display: none; background: var(--panel-bg); border: 2px dashed var(--neon-pink); padding: 25px; border-radius: 8px; margin-bottom: 40px; }
         .form-group { margin-bottom: 15px; }
         .form-group input, .form-group textarea { width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid var(--neon-cyan); padding: 12px; color: #fff; border-radius: 4px; }
+        
         .post-card { background: var(--panel-bg); border: 1px solid var(--neon-cyan); border-radius: 8px; padding: 20px; margin-bottom: 25px; position: relative; }
         .post-title { font-family: 'Orbitron', sans-serif; font-size: 20px; color: #fff; margin-bottom: 10px; }
         .post-image { width: 100%; border-radius: 6px; margin-bottom: 15px; }
-        .post-desc a { color: var(--neon-cyan); text-decoration: underline; }
+        
+        .post-desc { word-break: break-all; overflow-wrap: break-word; line-height: 1.5; margin-bottom: 15px; }
+        .post-desc a { color: var(--neon-cyan); text-decoration: underline; font-weight: bold; word-break: break-all; }
+        
         .download-btn { background: var(--neon-cyan); color: #000; padding: 10px 20px; font-weight: 700; text-decoration: none; display: inline-block; border-radius: 4px; margin-top: 10px; }
         .neon-btn { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 10px; cursor: pointer; width: 100%; margin-top: 10px; font-family: 'Orbitron'; }
-        .delete-btn { background: #ff0055; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-top: 10px; display: none; }
+        
+        .admin-action-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .edit-btn { background: #ffaa00; color: #000; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: bold; display: none; }
+        .delete-btn { background: #ff0055; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: bold; display: none; }
+
+        .footer-admin-section { max-width: 800px; margin: 50px auto 20px auto; padding: 20px; background: var(--panel-bg); border-top: 2px solid var(--neon-cyan); border-radius: 8px; text-align: center; }
+        .footer-admin-section h3 { font-family: 'Orbitron'; margin-bottom: 15px; color: var(--neon-cyan); }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">GAMING<span>HUB</span></div>
-        <div class="menu-icon" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></div>
+        <a href="#" class="home-active-btn"><i class="fa-solid fa-house"></i> TRANG CHỦ</a>
+        <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="bypass-header-btn">
+            <i class="fa-solid fa-bolt"></i> BYPASS KEY
+        </a>
     </header>
-
-    <div class="sidebar" id="sidebar">
-        <h3>BẢO MẬT</h3>
-        <input type="password" id="secret-code-input" placeholder="Mã bí mật..." style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid var(--neon-cyan);">
-        <button class="neon-btn" onclick="loginAdmin()">ĐĂNG NHẬP</button>
-        <button class="neon-btn" id="logout-btn" style="display:none; border-color:red; color:red;" onclick="logoutAdmin()">ĐĂNG XUẤT</button>
-    </div>
 
     <div class="container">
         <div id="admin-panel">
-            <h2>ĐĂNG BÀI VIẾT MỚI</h2>
-            <div class="form-group"><input type="text" id="post-title" placeholder="Tên bài viết"></div>
-            <div class="form-group"><textarea id="post-desc" rows="3" placeholder="Mô tả..."></textarea></div>
-            <div class="form-group"><input type="text" id="post-redirect-link" placeholder="Link tải"></div>
-            <input type="file" id="image-upload" accept="image/*">
-            <button class="neon-btn" onclick="createPost()">ĐĂNG BÀI LÊN CLOUD</button>
+            <h2 id="form-heading">ĐĂNG BÀI VIẾT MỚI</h2>
+            <input type="hidden" id="edit-post-id" value="">
+            <div class="form-group" style="margin-top: 15px;"><input type="text" id="post-title" placeholder="Tên bài viết"></div>
+            <div class="form-group"><textarea id="post-desc" rows="3" placeholder="Mô tả (Dán link vào đây sẽ tự biến thành link ấn được)"></textarea></div>
+            <div class="form-group"><input type="text" id="post-redirect-link" placeholder="Link nút bấm (Ấn vào đây)"></div>
+            <input type="file" id="image-upload" accept="image/*" style="margin-bottom: 10px;">
+            <button class="neon-btn" id="submit-btn" onclick="savePostToCloud()">ĐĂNG BÀI LÊN CLOUD</button>
+            <button class="neon-btn" id="cancel-edit-btn" style="display:none; border-color: #ffaa00; color: #ffaa00;" onclick="resetForm()">HỦY SỬA</button>
         </div>
+        
         <div id="posts-container">Đang tải dữ liệu...</div>
+    </div>
+
+    <div class="footer-admin-section">
+        <h3>KHU VỰC QUẢN TRỊ (ADMIN)</h3>
+        <div id="login-area">
+            <input type="password" id="secret-code-input" placeholder="Nhập mã bí mật quản trị..." style="width:100%; max-width: 300px; padding:10px; background:#000; color:#fff; border:1px solid var(--neon-cyan); margin-bottom: 10px; border-radius: 4px;">
+            <br>
+            <button class="neon-btn" style="max-width: 300px; margin: 0 auto;" onclick="loginAdmin()">ĐĂNG NHẬP</button>
+        </div>
+        <div id="logout-area" style="display:none;">
+            <p style="margin-bottom: 10px; color: #00ff66; font-weight: bold;">Đang đăng nhập quyền Admin</p>
+            <button class="neon-btn" style="max-width: 300px; margin: 0 auto; border-color:red; color:red;" onclick="logoutAdmin()">ĐĂNG XUẤT</button>
+        </div>
     </div>
 
     <script>
@@ -66,12 +91,11 @@
         window.onload = () => { 
             if(isAdmin) {
                 document.getElementById("admin-panel").style.display = "block";
-                document.getElementById("logout-btn").style.display = "block";
+                document.getElementById("login-area").style.display = "none";
+                document.getElementById("logout-area").style.display = "block";
             }
             fetchPostsFromCloud(); 
         };
-
-        function toggleSidebar() { document.getElementById("sidebar").classList.toggle("active"); }
 
         function loginAdmin() {
             if (document.getElementById("secret-code-input").value === SECRET_CODE) {
@@ -85,7 +109,7 @@
         document.getElementById('image-upload').onchange = function(e) {
             const reader = new FileReader();
             reader.onload = (e) => base64Image = e.target.result;
-            reader.readAsDataURL(e.target.files[0]);
+            if(e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
         };
 
         async function fetchPostsFromCloud() {
@@ -97,7 +121,7 @@
             } catch (e) { document.getElementById("posts-container").innerText = "Chưa có bài viết!"; }
         }
 
-        async function saveToCloud() {
+        async function saveToServer() {
             await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
@@ -106,22 +130,76 @@
             location.reload();
         }
 
-        async function createPost() {
-            posts.unshift({
-                id: Date.now(),
-                title: document.getElementById("post-title").value,
-                desc: document.getElementById("post-desc").value,
-                redirectLink: document.getElementById("post-redirect-link").value,
-                image: base64Image
-            });
-            saveToCloud();
+        async function savePostToCloud() {
+            const editId = document.getElementById("edit-post-id").value;
+            const title = document.getElementById("post-title").value;
+            const desc = document.getElementById("post-desc").value;
+            const redirectLink = document.getElementById("post-redirect-link").value;
+
+            if(!title) { alert("Vui lòng nhập tên bài viết!"); return; }
+
+            if(editId) {
+                posts = posts.map(p => {
+                    if(p.id == editId) {
+                        return {
+                            ...p,
+                            title: title,
+                            desc: desc,
+                            redirectLink: redirectLink,
+                            image: base64Image ? base64Image : p.image
+                        };
+                    }
+                    return p;
+                });
+            } else {
+                const newPost = {
+                    id: Date.now(),
+                    title: title,
+                    desc: desc,
+                    redirectLink: redirectLink,
+                    image: base64Image
+                };
+                posts.unshift(newPost);
+            }
+            saveToServer();
+        }
+
+        function editPost(id) {
+            const p = posts.find(item => item.id == id);
+            if(!p) return;
+            document.getElementById("edit-post-id").value = p.id;
+            document.getElementById("post-title").value = p.title;
+            document.getElementById("post-desc").value = p.desc;
+            document.getElementById("post-redirect-link").value = p.redirectLink;
+            base64Image = p.image || "";
+            
+            document.getElementById("form-heading").innerText = "SỬA BÀI VIẾT";
+            document.getElementById("submit-btn").innerText = "LƯU THAY ĐỔI";
+            document.getElementById("cancel-edit-btn").style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById("edit-post-id").value = "";
+            document.getElementById("post-title").value = "";
+            document.getElementById("post-desc").value = "";
+            document.getElementById("post-redirect-link").value = "";
+            base64Image = "";
+            document.getElementById("form-heading").innerText = "ĐĂNG BÀI VIẾT MỚI";
+            document.getElementById("submit-btn").innerText = "ĐĂNG BÀI LÊN CLOUD";
+            document.getElementById("cancel-edit-btn").style.display = "none";
         }
 
         async function deletePost(id) {
             if(confirm("Bạn có chắc muốn xóa bài này?")) {
                 posts = posts.filter(p => p.id !== id);
-                saveToCloud();
+                saveToServer();
             }
+        }
+
+        function linkify(text) {
+            if(!text) return "";
+            return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
         }
 
         function renderPosts() {
@@ -129,9 +207,12 @@
                 <div class="post-card">
                     <div class="post-title">${p.title}</div>
                     ${p.image ? `<img src="${p.image}" class="post-image">` : ''}
-                    <div class="post-desc">${p.desc.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}</div>
-                    <a href="${p.redirectLink}" target="_blank" class="download-btn">TẢI NGAY</a>
-                    <br><button class="delete-btn" style="display:${isAdmin ? 'block' : 'none'}" onclick="deletePost(${p.id})">XÓA BÀI NÀY</button>
+                    <div class="post-desc">${linkify(p.desc.replace(/\n/g, '<br>'))}</div>
+                    ${p.redirectLink ? `<a href="${p.redirectLink}" target="_blank" class="download-btn">ẤN VÀO ĐÂY</a>` : ''}
+                    <div class="admin-action-btns">
+                        <button class="edit-btn" style="display:${isAdmin ? 'inline-block' : 'none'}" onclick="editPost(${p.id})"><i class="fa-solid fa-pen"></i> SỬA</button>
+                        <button class="delete-btn" style="display:${isAdmin ? 'inline-block' : 'none'}" onclick="deletePost(${p.id})"><i class="fa-solid fa-trash"></i> XÓA</button>
+                    </div>
                 </div>
             `).join('');
         }
