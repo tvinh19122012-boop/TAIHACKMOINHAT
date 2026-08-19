@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass Pro - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #080c14;
+            --bg-secondary: #0f1729;
+            --bg-card: #131d3a;
+            --bg-card-hover: #1a2747;
+            --border-color: #1e3156;
+            --text-primary: #f0f4ff;
+            --text-secondary: #94a9c9;
+            --text-muted: #5a6f94;
+            --cyan: #00d4ff;
+            --cyan-glow: rgba(0, 212, 255, 0.15);
+            --pink: #ff2d75;
+            --pink-glow: rgba(255, 45, 117, 0.15);
+            --green: #00e676;
+            --orange: #ff9100;
+            --radius: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        a { text-decoration: none; color: inherit; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(8, 12, 20, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo i { -webkit-text-fill-color: initial; color: var(--cyan); margin-right: 6px; }
+        
+        .header-badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: var(--cyan-glow);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            letter-spacing: 0.5px;
+        }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .btn-bypass {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--pink), #ff0055);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(255, 45, 117, 0.3);
+        }
+        .btn-bypass:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(255, 45, 117, 0.5); }
+        .btn-bypass i { font-size: 14px; }
+
+        /* ===== CONTAINER ===== */
+        .container { max-width: 960px; margin: 0 auto; padding: 24px 20px 60px; }
+
+        /* ===== ADMIN PANEL ===== */
+        .admin-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 30px;
+            margin-bottom: 32px;
+            display: none;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+        }
+        .admin-panel.active { display: block; animation: fadeSlideIn 0.4s ease; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .admin-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-header h2 i { color: var(--cyan); }
+        .admin-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 14px;
+            border-radius: 20px;
+            background: var(--pink-glow);
+            color: var(--pink);
+            border: 1px solid rgba(255, 45, 117, 0.2);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-grid .full-width { grid-column: 1 / -1; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px var(--cyan-glow);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            padding: 11px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--cyan), #0099cc);
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0, 212, 255, 0.3); }
+        .btn-secondary {
+            padding: 11px 32px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: none;
+        }
+        .btn-secondary:hover { background: var(--bg-card); color: var(--text-primary); }
+        .btn-secondary.active { display: inline-flex; align-items: center; gap: 8px; }
+
+        /* ===== POSTS GRID ===== */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyan), var(--pink));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .post-card:hover {
+            border-color: rgba(0, 212, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .post-card:hover::before { opacity: 1; }
+        .post-card .post-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .post-card .post-title .post-id {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.05);
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+        .post-card .post-image {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 12px 0 14px;
+            border: 1px solid var(--border-color);
+        }
+        .post-card .post-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 14px;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+        .post-card .post-desc a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(0, 212, 255, 0.3);
+            transition: var(--transition);
+            word-break: break-all;
+        }
+        .post-card .post-desc a:hover { 
+            border-bottom-color: var(--cyan);
+            color: #66e0ff;
+        }
+        .post-card .post-desc .text-block {
+            display: block;
+            margin: 4px 0;
+        }
+        .post-card .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .btn-download {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--green), #00c853);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0, 230, 118, 0.3); }
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .btn-edit {
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            background: rgba(255, 170, 0, 0.15);
+            color: var(--orange);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-edit:hover { background: rgba(255, 170, 0, 0.25); }
+        .btn-delete {
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            background: rgba(255, 45, 117, 0.15);
+            color: var(--pink);
+            border: 1px solid rgba(255, 45, 117, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-delete:hover { background: rgba(255, 45, 117, 0.25); }
+        .btn-edit.active, .btn-delete.active { display: inline-flex; }
+
+        /* ===== FOOTER ADMIN ===== */
+        .footer-admin {
+            max-width: 960px;
+            margin: 40px auto 0;
+            padding: 24px 28px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        .footer-admin h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .footer-admin h3 i { color: var(--cyan); }
+        .footer-admin .login-area {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .footer-admin .login-area input {
+            padding: 10px 18px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            min-width: 220px;
+            transition: var(--transition);
+        }
+        .footer-admin .login-area input:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px var(--cyan-glow);
+        }
+        .footer-admin .login-area .btn-login {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            background: var(--cyan);
+            color: #000;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .footer-admin .login-area .btn-login:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3); }
+        .footer-admin .logout-area { display: none; }
+        .footer-admin .logout-area.active { display: block; }
+        .footer-admin .logout-area p {
+            color: var(--green);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .footer-admin .logout-area .btn-logout {
+            padding: 10px 28px;
+            border: 1px solid var(--pink);
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            background: transparent;
+            color: var(--pink);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .footer-admin .logout-area .btn-logout:hover { background: rgba(255, 45, 117, 0.1); }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            color: var(--border-color);
+        }
+        .empty-state h3 { font-size: 18px; color: var(--text-secondary); margin-bottom: 6px; }
+
+        /* ===== LOADING ===== */
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+            gap: 12px;
+            color: var(--text-muted);
+        }
+        .loading-spinner i {
+            font-size: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header { padding: 10px 16px; flex-wrap: wrap; gap: 10px; }
+            .logo { font-size: 18px; }
+            .header-badge { font-size: 10px; padding: 3px 10px; }
+            .btn-bypass { font-size: 13px; padding: 6px 16px; }
+            .container { padding: 16px 14px 40px; }
+            .admin-panel { padding: 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .admin-header { flex-direction: column; align-items: flex-start; }
+            .post-card { padding: 18px 20px; }
+            .post-card .post-title { font-size: 18px; }
+            .footer-admin { padding: 18px 16px; }
+            .footer-admin .login-area { flex-direction: column; }
+            .footer-admin .login-area input { min-width: unset; width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .header-right .btn-bypass span { display: none; }
+            .header-right .btn-bypass i { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo"><i class="fa-solid fa-bolt"></i>Bypass<span style="-webkit-text-fill-color: var(--pink);">Pro</span></div>
+            <span class="header-badge"><i class="fa-regular fa-circle-check"></i> v3.0</span>
+        </div>
+        <div class="header-right">
+            <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="btn-bypass">
+                <i class="fa-solid fa-rocket"></i> <span>Bypass Key</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container">
+
+        <!-- ADMIN PANEL -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h2><i class="fa-solid fa-pen-to-square"></i> <span id="formHeading">Đăng bài viết mới</span></h2>
+                <span class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Quản trị</span>
+            </div>
+            <input type="hidden" id="editPostId" value="">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>Tiêu đề</label>
+                    <input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết...">
+                </div>
+                <div class="form-group full-width">
+                    <label>Mô tả</label>
+                    <textarea id="postDesc" rows="4" placeholder="Mô tả nội dung...&#10;Link sẽ tự động nhận diện và hiển thị dạng clickable."></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label>Link đích (nút bấm)</label>
+                    <input type="text" id="postRedirect" placeholder="https://example.com/download">
+                </div>
+                <div class="form-group full-width">
+                    <label>Hình ảnh</label>
+                    <input type="file" id="imageUpload" accept="image/*" style="padding: 8px;">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-primary" id="submitBtn" onclick="savePost()"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
+                <button class="btn-secondary" id="cancelEditBtn" onclick="resetForm()"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
+            </div>
+        </div>
+
+        <!-- POSTS -->
+        <div id="postsContainer">
+            <div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div>
+        </div>
+
+    </div>
+
+    <!-- ===== FOOTER ADMIN ===== -->
+    <div class="footer-admin">
+        <h3><i class="fa-solid fa-lock"></i> Khu vực quản trị</h3>
+        <div class="login-area" id="loginArea">
+            <input type="password" id="secretInput" placeholder="Nhập mã bí mật...">
+            <button class="btn-login" onclick="loginAdmin()"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button>
+        </div>
+        <div class="logout-area" id="logoutArea">
+            <p><i class="fa-regular fa-circle-check"></i> Đã đăng nhập quyền Admin</p>
+            <button class="btn-logout" onclick="logoutAdmin()"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <script>
+        // ===== CONFIG =====
+        const SECRET_CODE = "eveujrmx";
+        const BIN_ID = "6a829050da38895dfeed7295";
+        const MASTER_KEY = "$2a$10$bdgqB5/wPv/M89cWFqr2X.YEasNmIrnSkUItLWt03Td44GQmacSP2";
+
+        let isAdmin = localStorage.getItem("isAdmin") === "true";
+        let posts = [];
+        let base64Image = "";
+
+        // ===== INIT =====
+        window.onload = () => {
+            if (isAdmin) {
+                document.getElementById("adminPanel").classList.add("active");
+                document.getElementById("loginArea").style.display = "none";
+                document.getElementById("logoutArea").classList.add("active");
+            }
+            fetchPosts();
+        };
+
+        // ===== AUTH =====
+        function loginAdmin() {
+            const input = document.getElementById("secretInput");
+            if (input.value === SECRET_CODE) {
+                localStorage.setItem("isAdmin", "true");
+                location.reload();
+            } else {
+                input.style.borderColor = "#ff2d75";
+                input.style.boxShadow = "0 0 0 3px rgba(255,45,117,0.2)";
+                setTimeout(() => {
+                    input.style.borderColor = "";
+                    input.style.boxShadow = "";
+                }, 1500);
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem("isAdmin");
+            location.reload();
+        }
+
+        // ===== IMAGE UPLOAD =====
+        document.getElementById("imageUpload").onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => base64Image = ev.target.result;
+                reader.readAsDataURL(file);
+            }
+        };
+
+        // ===== FETCH POSTS =====
+        async function fetchPosts() {
+            const container = document.getElementById("postsContainer");
+            try {
+                const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': MASTER_KEY }
+                });
+                const data = await res.json();
+                posts = data.record?.posts || [];
+                renderPosts();
+            } catch (e) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-database"></i>
+                        <h3>Không thể tải dữ liệu</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Vui lòng kiểm tra kết nối hoặc thử lại sau</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ===== SAVE TO JSONBIN =====
+        async function saveToServer() {
+            await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': MASTER_KEY
+                },
+                body: JSON.stringify({ posts: posts })
+            });
+            location.reload();
+        }
+
+        // ===== SAVE POST =====
+        async function savePost() {
+            const editId = document.getElementById("editPostId").value;
+            const title = document.getElementById("postTitle").value.trim();
+            const desc = document.getElementById("postDesc").value.trim();
+            const redirect = document.getElementById("postRedirect").value.trim();
+
+            if (!title) {
+                document.getElementById("postTitle").style.borderColor = "#ff2d75";
+                setTimeout(() => document.getElementById("postTitle").style.borderColor = "", 1500);
+                return;
+            }
+
+            if (editId) {
+                posts = posts.map(p => {
+                    if (p.id == editId) {
+                        return {
+                            ...p,
+                            title,
+                            desc,
+                            redirectLink: redirect,
+                            image: base64Image || p.image
+                        };
+                    }
+                    return p;
+                });
+            } else {
+                posts.unshift({
+                    id: Date.now(),
+                    title,
+                    desc,
+                    redirectLink: redirect,
+                    image: base64Image
+                });
+            }
+            saveToServer();
+        }
+
+        // ===== EDIT POST =====
+        function editPost(id) {
+            const p = posts.find(item => item.id == id);
+            if (!p) return;
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("postTitle").value = p.title;
+            document.getElementById("postDesc").value = p.desc;
+            document.getElementById("postRedirect").value = p.redirectLink || "";
+            base64Image = p.image || "";
+            document.getElementById("formHeading").innerText = "Sửa bài viết";
+            document.getElementById("submitBtn").innerHTML = `<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
+            document.getElementById("cancelEditBtn").classList.add("active");
+            document.getElementById("adminPanel").classList.add("active");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== RESET FORM =====
+        function resetForm() {
+            document.getElementById("editPostId").value = "";
+            document.getElementById("postTitle").value = "";
+            document.getElementById("postDesc").value = "";
+            document.getElementById("postRedirect").value = "";
+            base64Image = "";
+            document.getElementById("imageUpload").value = "";
+            document.getElementById("formHeading").innerText = "Đăng bài viết mới";
+            document.getElementById("submitBtn").innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
+            document.getElementById("cancelEditBtn").classList.remove("active");
+        }
+
+        // ===== DELETE POST =====
+        async function deletePost(id) {
+            if (confirm("Bạn có chắc muốn xóa bài viết này?")) {
+                posts = posts.filter(p => p.id !== id);
+                saveToServer();
+            }
+        }
+
+        // ===== LINKIFY - SỬA LỖI ĐỊNH DẠNG =====
+        function linkify(text) {
+            if (!text) return "";
+            // Chỉ linkify những URL hợp lệ, không biến text thường thành link
+            return text.replace(
+                /(https?:\/\/[^\s<>"']+)/g, 
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+        }
+
+        // ===== RENDER POSTS =====
+        function renderPosts() {
+            const container = document.getElementById("postsContainer");
+            if (!posts || posts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <h3>Chưa có bài viết</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Hãy đăng bài viết đầu tiên ngay nào!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `<div class="posts-grid">${
+                posts.map(p => `
+                    <div class="post-card">
+                        <div class="post-title">
+                            ${p.title}
+                            <span class="post-id">#${p.id.toString().slice(-6)}</span>
+                        </div>
+                        ${p.image ? `<img src="${p.image}" class="post-image" alt="${p.title}">` : ''}
+                        <div class="post-desc">${linkify(p.desc.replace(/\n/g, '<br>'))}</div>
+                        <div class="post-meta">
+                            ${p.redirectLink ? `
+                                <a href="${p.redirectLink}" target="_blank" class="btn-download">
+                                    <i class="fa-solid fa-arrow-right"></i> Truy cập
+                                </a>
+                            ` : ''}
+                        </div>
+                        <div class="post-actions">
+                            <button class="btn-edit ${isAdmin ? 'active' : ''}" onclick="editPost(${p.id})">
+                                <i class="fa-regular fa-pen-to-square"></i> Sửa
+                            </button>
+                            <button class="btn-delete ${isAdmin ? 'active' : ''}" onclick="deletePost(${p.id})">
+                                <i class="fa-regular fa-trash-can"></i> Xóa
+                            </button>
+                        </div>
+                    </div>
+                `).join('')
+            }</div>`;
+        }
+    </script>
+</body>
+</html>
