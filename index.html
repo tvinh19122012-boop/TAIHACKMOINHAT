@@ -866,6 +866,8 @@
             border-radius: 10px;
             border: 1px solid var(--border-color);
             transition: var(--transition);
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .social-lock-item.done {
             border-color: var(--green);
@@ -1114,34 +1116,10 @@
 
     <!-- ============================================================ -->
     <script>
-        // ===== CONFIG (ĐÃ GIA CỐ BẢO MẬT) =====
-        // Mã bí mật KHÔNG còn nằm dạng chữ trong source — chỉ lưu HASH SHA-256.
-        // Muốn đổi mã mới: mở Console (F12) gõ  sha256Hex("mã_mới")  rồi thay giá trị SECRET_HASH bên dưới.
-        const SECRET_HASH = "cda68273807d0d1f04c0f6aa2aef143cd9086ae5f22dd206e6722fe159281041";
-        const BIN_ID = "6a829050da38895dfeed7295";
-        // API key đã bị xáo trộn — không còn chuỗi gốc trong source (chống tìm bằng mắt/grep)
-        const MASTER_KEY = (() => {
-            const _d = atob("cERQSllwFFtVVVAWQx4ZODYfdAkLQgMwQBxaGB5gdFNSGht4HAYTW2x4Rm0DAgFdPCQEDXZjTDUVYj5a");
-            const _x = "Tv1nh@0912!";
-            let _s = "";
-            for (let i = 0; i < _d.length; i++) _s += String.fromCharCode(_d.charCodeAt(i) ^ _x.charCodeAt(i % _x.length));
-            return _s;
-        })();
-
-        // ===== CÔNG CỤ HASH + CHỐNG ĐOÁN MÒ =====
-        async function sha256Hex(text) {
-            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-        }
-        // So sánh chống timing-attack
-        function safeEqual(a, b) {
-            if (a.length !== b.length) return false;
-            let r = 0;
-            for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
-            return r === 0;
-        }
-        const MAX_ATTEMPTS = 5;            // sai quá 5 lần...
-        const LOCK_MS = 2 * 60 * 1000;     // ...khóa đăng nhập 2 phút
+        // ===== CONFIG (UPDATED) =====
+        const SECRET_CODE = "eveujrmx";
+        const BIN_ID = "6aa6a99fac6210605ac7f384";
+        const MASTER_KEY = "$2a$10$4TcaEjnlgywkIk7g3jSi/.MqVtxIZseFn5ip0vyLXJ2QT0yQauf0u";
 
         let isAdmin = localStorage.getItem("isAdmin") === "true";
         let posts = [];
@@ -1232,7 +1210,6 @@
         youtubeJoinBtn.addEventListener("click", function(e) {
             e.preventDefault();
             window.open("https://youtube.com/@sikevuabanaccyoutube?si=0Ow2tUeuXUZa7Lem", "_blank");
-            // Mark as done after a short delay (user has clicked the link)
             setTimeout(() => {
                 youtubeDone = true;
                 localStorage.setItem("youtubeDone", "true");
@@ -1283,32 +1260,14 @@
             });
         });
 
-        // ===== AUTH (hash SHA-256 + khóa chống đoán mò) =====
-        async function loginAdmin() {
-            const lockUntil = parseInt(localStorage.getItem("lockUntil") || "0", 10);
-            const remaining = lockUntil - Date.now();
-            if (remaining > 0) {
-                alert("Bạn đã nhập sai quá nhiều lần. Thử lại sau " + Math.ceil(remaining / 1000) + " giây.");
-                return;
-            }
-            const hash = await sha256Hex(secretInput.value);
-            if (safeEqual(hash, SECRET_HASH)) {
-                localStorage.removeItem("loginFails");
-                localStorage.removeItem("lockUntil");
+        // ===== AUTH =====
+        function loginAdmin() {
+            if (secretInput.value === SECRET_CODE) {
                 localStorage.setItem("isAdmin", "true");
                 location.reload();
             } else {
-                let fails = parseInt(localStorage.getItem("loginFails") || "0", 10) + 1;
-                if (fails >= MAX_ATTEMPTS) {
-                    localStorage.setItem("lockUntil", String(Date.now() + LOCK_MS));
-                    localStorage.setItem("loginFails", "0");
-                    alert("Sai quá " + MAX_ATTEMPTS + " lần. Đăng nhập bị khóa 2 phút.");
-                } else {
-                    localStorage.setItem("loginFails", String(fails));
-                }
                 secretInput.style.borderColor = "#ff2d75";
                 secretInput.style.boxShadow = "0 0 0 3px rgba(255,45,117,0.2)";
-                secretInput.value = "";
                 setTimeout(() => {
                     secretInput.style.borderColor = "";
                     secretInput.style.boxShadow = "";
@@ -1539,7 +1498,6 @@
                 `).join('')
             }</div>`;
         }
-    
-</script>
+    </script>
 </body>
 </html>
