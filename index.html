@@ -4,6 +4,237 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+
+(()=>{"use strict";
+const _KICK_ID = Math.random().toString(36).slice(2,10).toUpperCase()+"-"+Date.now().toString(36).toUpperCase();
+function _kick(reason, code){
+  try{
+    const o=document.getElementById("_kickOverlay");
+    const r=document.getElementById("_kickReason");
+    const c=document.getElementById("_kickCode");
+    if(o){ if(r) r.innerHTML=reason; if(c) c.textContent="ID: "+_KICK_ID+" | "+(code||"TRIPWIRE"); o.classList.add("active"); }
+    document.body.style.overflow="hidden";
+  }catch(e){}
+  try{ localStorage.setItem("_kicked", _KICK_ID+":"+Date.now()); }catch(e){}
+  try{
+    // Chặn mọi fetch tiếp theo
+    const _origFetch = window.fetch;
+    window.fetch = ()=>Promise.reject(new Error("KICKED"));
+    // Xóa key khỏi RAM nếu có
+    try{ window._PASS=""; window._BIN_ENC=""; window._KEY_ENC=""; }catch(e){}
+  }catch(e){}
+  // Không reload tự động để giữ bằng chứng
+  throw new Error("KICKED: "+reason);
+}
+// Expose for internal checks
+window._kick=_kick;
+window._KICK_ID=_KICK_ID;
+
+// ===== 1. FETCH TRIPWIRE - chặn ai dùng BIN/MasterKey ngoài luồng chính =====
+try{
+  const _origFetch = window.fetch.bind(window);
+  window.__SECURE_FETCH = _origFetch;
+  const _binRe = /jsonbin\.io|api\.jsonbin/i;
+  const _keyRe = /\$2a\$10\$/i; // generic bcrypt prefix, không lộ key cụ thể
+  window.fetch = new Proxy(_origFetch, {
+    apply(target, thisArg, args){
+      try{
+        const url = String(args[0]||"");
+        const stack = (new Error().stack||"");
+        const isInternal = stack.includes("fetchPosts") || stack.includes("saveToServer") || stack.includes("_FETCH") || stack.includes("mockFetch");
+        // Nếu URL chứa BIN ID hoặc jsonbin mà không phải từ luồng chính -> kick
+        if(_binRe.test(url) && !isInternal){
+          _kick("Phát hiện truy cập TRỰC TIẾP vào BIN ngoài luồng hệ thống.<br>Chỉ luồng <code>fetchPosts/saveToServer</code> được phép.", "FETCH-BIN");
+          return Promise.reject(new Error("BLOCKED"));
+        }
+        // Nếu ai thử PUT/DELETE trực tiếp
+        const opts = args[1]||{};
+        if(_binRe.test(url) && opts && /PUT|DELETE/i.test(opts.method||"") && !isInternal){
+          _kick("Phát hiện ghi TRÁI PHÉP vào BIN.", "FETCH-PUT");
+          return Promise.reject(new Error("BLOCKED"));
+        }
+      }catch(e){ if(String(e).includes("KICKED")) throw e; }
+      return Reflect.apply(target, thisArg, args);
+    }
+  });
+}catch(e){}
+
+// ===== 2. ATOB/BTOA TRIPWIRE - ai giải mã BIN/KEY thủ công =====
+try{
+  const _origAtob = window.atob.bind(window);
+  const _b64Bin = "chEBawh4TG4/bxszVxsMeHIhQuOQ//Gm"; // b64 của BIN (non-reverse)
+  const _b64Key = "YEIBeVhxUTwKb0xEDEVWLz43Sp2d+66hoYmtobXNkPbLrZeduiI7EWUDNEJ7JD16Vld/aX09HL+sk/m7";
+  const _b64Hash = "LnjIVOI/dpBXVD1R2amZWssiQ8Lh5Eue6yLDUwUegVs="; // hash b64
+  const _fragVals = ["RHduSHViXzlmMw==","a0wycFghNzdfUQ==","el9TM2N1cjNfSzN5XzIwMjU=","UzFrM19TQGx0XzIwMjU=","UzFrM19TQGx0XzIwMjU="]; // frag + BIN b64 decoy
+  window.atob = new Proxy(_origAtob, {
+    apply(target, thisArg, args){
+      try{
+        const input = String(args[0]||"");
+        const stack = (new Error().stack||"");
+        const isInternal = stack.includes("_dec") || stack.includes("_decContent") || stack.includes("_getBin") || stack.includes("_getKey") || stack.includes("_getHash") || stack.includes("_u") || stack.includes("cyrb") || stack.includes("_hashSync");
+        const isOur = input===_b64Bin || input===_b64Key || input===_b64Hash || input===_b64Bin.split("").reverse().join("") || input===_b64Key.split("").reverse().join("");
+        // Cũng bắt trường hợp ai atob trực tiếp ciphertext đã reverse
+        const revBin = "mG//QOuQhIHeMsxVzsxb/4GT4hwaBEhc";
+        const revKey = "7m/ks+LH90Xa/dlV61DJ7JENDUWE7IiudeZrLbPkNXbotmYoh66+d2pS34zLWVEDEx0bKwTUxhVeBIEY".split("").reverse().join(""); // nhưng revKey atob input là b64, không phải rev
+        if(isOur && !isInternal){
+          _kick("Phát hiện giải mã TRỰC TIẾP BIN/KEY/MasterKey ngoài hệ thống.<br>Chỉ hàm <code>_dec()</code> nội bộ được phép.", "ATOB-TRIP");
+          return "";
+        }
+        if(_fragVals.includes(input) && !isInternal){
+          _kick("Phát hiện giải mã TRỰC TIẾP fragment/PASS ngoài hệ thống.<br>Chỉ hàm <code>_u()</code> nội bộ được phép.", "ATOB-FRAG");
+          return "";
+        }
+        // chặn b64 đảo chiều của frag (reverse) - attacker thử decode offline pattern
+        if(_fragVals.includes(input.split("").reverse().join("")) && !isInternal){
+          _kick("Phát hiện dò PASS fragment đảo chiều.", "ATOB-FRAG-REV");
+          return "";
+        }
+        // Nếu ai thử atob với rev ciphertext trực tiếp
+        if((input===revBin || input==="mG//QOuQhIHeMsxVzsxb/4GT4hwaBEhc") && !isInternal){
+          _kick("Phát hiện dò _BIN_ENC.", "ATOB-BIN");
+          return "";
+        }
+      }catch(e){ if(String(e).includes("KICKED")) throw e; }
+      return Reflect.apply(target, thisArg, args);
+    }
+  });
+}catch(e){}
+
+// ===== 2b. BTOA TRIPWIRE - chống giả mạo adm_sess_v2 bằng btoa thủ công =====
+try{
+  const _origBtoa = window.btoa.bind(window);
+  window.btoa = new Proxy(_origBtoa, {
+    apply(target, thisArg, args){
+      try{
+        const input = String(args[0]||"");
+        const stack = (new Error().stack||"");
+        const isInternal = stack.includes("_setAdminSession") || stack.includes("_hashSync") || stack.includes("_encContent") || stack.includes("saveToServer") || stack.includes("_dec") || stack.includes("_u");
+        if(!isInternal && (input.includes(String.fromCharCode(50,101,55,56,99,56,53,52)) || input.includes(String.fromCharCode(83,49,107,51,95,83,64,108,116,95,50,48,50,53)) || input.includes("::cnt::") || /^[a-f0-9]{16}\./.test(input) || input.includes("adm_sess"))){
+          _kick("Phát hiện giả mạo token admin qua <code>btoa()</code> ngoài luồng hệ thống.", "BTOA-TRIP");
+          return "";
+        }
+      }catch(e){ if(String(e).includes("KICKED")) throw e; }
+      return Reflect.apply(target, thisArg, args);
+    }
+  });
+}catch(e){}
+
+// ===== 3. LOCALSTORAGE TRIPWIRE - chống set adm_sess_v2 / socialUnlocked thủ công =====
+try{
+  const _origSet = Storage.prototype.setItem;
+  Storage.prototype.setItem = new Proxy(_origSet, {
+    apply(target, thisArg, args){
+      try{
+        const k = String(args[0]||"");
+        const stack = (new Error().stack||"");
+        const isInternal = stack.includes("_setAdminSession") || stack.includes("updateSocialLockUI") || stack.includes("youtubeJoinBtn") || stack.includes("telegramJoinBtn") || stack.includes("_kick") || stack.includes("socialLock");
+        const sensitive = ["adm_sess_v2","socialUnlocked","youtubeDone","telegramDone","_adm_try_v2","_kicked"];
+        if(sensitive.includes(k) && !isInternal){
+          // Cho phép set true qua luồng chính (có stack), còn set từ console (stack chứa eval/console) thì kick
+          const isConsole = /console|eval|VM|InjectedScript|_kick/.test(stack) || stack.split("\n").length<4;
+          // Nếu giá trị là forged token mà không qua _setAdminSession
+          if(k==="adm_sess_v2"){
+            _kick("Phát hiện giả mạo phiên admin <code>adm_sess_v2</code> ngoài luồng đăng nhập.", "LS-ADMIN");
+            return;
+          }
+          if(k==="socialUnlocked" && String(args[1])==="true"){
+            // Kiểm tra nếu youtubeDone/telegramDone chưa đủ mà đã set unlocked
+            try{
+              const y=localStorage.getItem("youtubeDone"), t=localStorage.getItem("telegramDone");
+              if(y!=="true" || t!=="true"){
+                _kick("Phát hiện bypass khóa YouTube/Telegram.<br>Hãy bấm Đăng ký/Tham gia thật.", "LS-SOCIAL");
+                return;
+              }
+            }catch(e){}
+          }
+        }
+      }catch(e){ if(String(e).includes("KICKED")) throw e; }
+      return Reflect.apply(target, thisArg, args);
+    }
+  });
+}catch(e){}
+
+// ===== 4. TRUY CẬP BIẾN NHẠY CẢM - honeypot =====
+try{
+  // Honeypot global decoy - nếu ai đọc window.BIN_ID decoy
+  Object.defineProperty(window, "BIN_ID", {
+    get(){ _kick("Truy cập honeypot <code>BIN_ID</code>.", "HONEYPOT-BIN"); return "FAKEBINF0000000000000000000000FAKE"; },
+    set(v){ _kick("Ghi honeypot BIN_ID.", "HONEYPOT-BIN-SET"); },
+    configurable:false
+  });
+  Object.defineProperty(window, "MASTER_KEY", {
+    get(){ _kick("Truy cập honeypot <code>MASTER_KEY</code>.", "HONEYPOT-KEY"); return "$2a$10$FAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKEFAKE12"; },
+    configurable:false
+  });
+  Object.defineProperty(window, "SECRET_CODE", {
+    get(){ _kick("Truy cập honeypot <code>SECRET_CODE</code>.", "HONEYPOT-SECRET"); return "FAKECODE99"; },
+    configurable:false
+  });
+}catch(e){}
+
+// ===== 5. DEVTOOLS / VIEW-SOURCE DETECTOR - kick sau 3 lần =====
+try{
+  let _devCnt=0;
+  const _check=()=>{
+    try{
+      const w=window.outerWidth-window.innerWidth;
+      const h=window.outerHeight-window.innerHeight;
+      if(w>160||h>160) _devCnt++;
+      // debugger timing
+      const s=performance.now();
+      // eslint-disable-next-line no-debugger
+      // debugger; // không flood, chỉ đếm
+      const e=performance.now();
+      if(e-s>100) _devCnt++;
+      if(_devCnt>=3){
+        _kick("Phát hiện DevTools mở liên tục (3 lần).<br>Nếu bạn là admin hợp lệ, hãy đóng DevTools và tải lại.", "DEVTOOLS");
+      }
+    }catch(e){}
+  };
+  setInterval(_check, 1200);
+  // Chặn view-source: và curl-like
+  if(location.protocol==="view-source:" || location.protocol==="view-source"){
+    _kick("view-source: bị chặn.", "VIEW-SOURCE");
+  }
+  // Kiểm tra đã bị kick trước đó
+  try{
+    const k=localStorage.getItem("_kicked");
+    if(k){
+      const ts=parseInt(k.split(":")[1]||"0",10);
+      if(Date.now()-ts < 30*60*1000){
+        _kick("Thiết bị này đã bị khóa 30 phút do vi phạm trước đó.<br>ID: "+k.split(":")[0], "REPEAT-KICK");
+      } else {
+        localStorage.removeItem("_kicked");
+      }
+    }
+  }catch(e){}
+}catch(e){}
+
+// ===== 6. FETCH SPAM / BRUTE FORCE DETECTOR =====
+try{
+  let _fetchCnt=0, _last=0;
+  const _origFetch2 = window.__SECURE_FETCH || window.fetch;
+  // Wrap again to count (after previous proxy)
+  const _prevFetch = window.fetch;
+  window.fetch = new Proxy(_prevFetch, {
+    apply(t, th, a){
+      try{
+        const now=Date.now();
+        if(now-_last<800) _fetchCnt++; else _fetchCnt=0;
+        _last=now;
+        if(_fetchCnt>8){
+          _kick("Quá nhiều request liên tục (spam/brute-force).", "SPAM");
+          return Promise.reject(new Error("SPAM"));
+        }
+      }catch(e){ if(String(e).includes("KICKED")) throw e; }
+      return Reflect.apply(t, th, a);
+    }
+  });
+}catch(e){}
+})();
+
+</script>
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -2524,6 +2755,19 @@ img{content-visibility:auto}
 </head>
 <body>
 
+<style id="_kick-style">
+#_kickOverlay{position:fixed;inset:0;z-index:9999999;background:radial-gradient(ellipse at 50% 0%, #1a0a0a 0%, #05070a 60%);display:none;align-items:center;justify-content:center;padding:20px;text-align:center}
+#_kickOverlay.active{display:flex;animation:_kickIn .3s ease}
+@keyframes _kickIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+._kickBox{max-width:560px;width:100%;background:linear-gradient(180deg,rgba(40,14,14,.98),rgba(20,8,8,.98));border:1px solid rgba(255,60,60,.4);border-radius:22px;padding:34px 28px;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 30px 80px rgba(0,0,0,.8)}
+._kickBox h1{color:#ff3b3b;font-size:22px;font-weight:900;letter-spacing:-.3px;margin-bottom:10px}
+._kickBox p{color:#c9b3b3;font-size:14px;line-height:1.7}
+._kickBox code{font-size:12px;background:rgba(255,255,255,.07);padding:2px 6px;border-radius:6px;color:#ffd60a}
+._kickBox .kickId{margin-top:14px;font-size:11px;opacity:.5;letter-spacing:.5px}
+</style>
+<div id="_kickOverlay"><div class="_kickBox"><h1>⛔ TRUY CẬP BỊ CHẶN</h1><p id="_kickReason">Hệ thống phát hiện hành vi thăm dò trái phép vào BIN/MasterKey.<br>Phiên của bạn đã bị khóa.</p><p style="margin-top:12px"><code id="_kickCode">ID: ...</code></p><div class="kickId">Nếu bạn là người dùng hợp lệ, hãy tải lại trang bằng https:// và không mở DevTools</div></div></div>
+
+
 <!-- SOCIAL LOCK -->
 <div id="socialLock" class="social-lock-overlay">
   <div class="social-lock-box">
@@ -2706,18 +2950,20 @@ window.__SECURE_FETCH=__fetch0;
 
 (()=>{"use strict";
 /* ===== FRAGMENTED PASSPHRASE (không bao giờ xuất hiện nguyên văn) ===== */
-const _p1=[68,119,110,72,117,98,95,57,102,51];
-const _p2=[107,76,50,112,88,33,55,55,95,81];
-const _p3=[122,95,83,51,99,117,114,51,95,75,51,121,95,50,48,50,53];
-const _saltCodes=[83,49,107,51,95,83,64,108,116,95,50,48,50,53];
+/* decoy fragments - đánh lạc hướng grep */
+const _fragX1="RkFLRV9GQUtFX0ZBTEU="; const _fragX2="QmFzZTY0RmFrZTIwMjU="; const _fragDecoy="RGVjb3lGbGFnMTIz"; const _unusedEnc="WVVJYmVWWGhVVFdLYjBFREVXTEL6NDNTcDJkKzY2aG9ZbXR...";
+const _fragA="RHduSHViXzlmMw=="; const _fragB="a0wycFghNzdfUQ=="; const _fragC="el9TM2N1cjNfSzN5XzIwMjU="; const _fragS="UzFrM19TQGx0XzIwMjU=";
+function _u(s){ try{ return atob(s); }catch(e){ return ""; } }
+function _c(s){ return Array.from(s).map(ch=>ch.charCodeAt(0)); }
+const _p1=_c(_u(_fragA)); const _p2=_c(_u(_fragB)); const _p3=_c(_u(_fragC)); const _saltCodes=_c(_u(_fragS));
 const _assemble=a=>String.fromCharCode(...a);
-const _PASS=_assemble([..._p1,..._p2,..._p3]); // DwnHub_9f3kL2pX!77_Qz_S3cur3_K3y_2025
-const _SALT=_assemble(_saltCodes); // S1k3_S@lt_2025
+const _PASS=_assemble([..._p1,..._p2,..._p3]);
+const _SALT=_assemble(_saltCodes);
 /* ===== CIPHERTEXT (đã mã hóa: BIN_ID + MASTER_KEY + HASH) =====
    Thuật toán: XOR(keyByte, i*7) + Base64 + reverse.
    Không có plaintext nào trong file. Giải mã chỉ xảy ra trong closure, không gắn window.
 */
-const _BIN_ENC="mG//QOuQhIHeMsxVzsxb/4GT4hwaBEhc";
+const _BIN_ENC="mG//QOuQhIHeMsxVzsxb/4GT4hwaBEhc"; const _cfgFake="mG//QOuQhIHeMsxVzsxb/4GT4hwaBEhcFAKE"; const _unusedBIN="RkFLRUJJTiBGQUtFIEZBS0UgRkFLRQ==";
 const _KEY_ENC="7m/ks+LH90Xa/dlV61DJ7JENDUWE7IiudeZrLbPkNXbotmYoh66+d2pS34zLWVEDEx0bKwTUxhVeBIEY";
 const _HASH_ENC="==Qqyn/rriPwp3Oe35yDccQeHh0P5YUIbVTTeQX/1z+tcHM15K6tlO+rjyPqFDOF3JHeD0RUn5hP7wDQ5pQZXVhd";
 function _dec(enc){
@@ -2734,6 +2980,34 @@ function _dec(enc){
 const _getBin=()=>_dec(_BIN_ENC);
 const _getKey=()=>_dec(_KEY_ENC);
 const _getHash=()=>_dec(_HASH_ENC);
+function _encContent(str){
+  try{
+    if(!str) return str;
+    const _ck=_PASS+"::cnt::"+_SALT;
+    const data=new TextEncoder().encode(str);
+    const kb=Uint8Array.from(_ck,c=>c.charCodeAt(0));
+    const out=new Uint8Array(data.length);
+    for(let i=0;i<data.length;i++) out[i]=data[i]^kb[i%kb.length]^((i*13)&0xFF)^((i*7)&0xFF);
+    const b64=btoa(String.fromCharCode(...out));
+    return b64.split("").reverse().join("")+"::c";
+  }catch(e){ return str; }
+}
+function _decContent(enc){
+  try{
+    if(!enc||typeof enc!=="string") return enc;
+    if(!enc.endsWith("::c")) return enc;
+    const core=enc.slice(0,-3);
+    const b64=core.split("").reverse().join("");
+    const bin=atob(b64);
+    const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));
+    const _ck=_PASS+"::cnt::"+_SALT;
+    const kb=Uint8Array.from(_ck,c=>c.charCodeAt(0));
+    const out=new Uint8Array(bytes.length);
+    for(let i=0;i<bytes.length;i++) out[i]=bytes[i]^kb[i%kb.length]^((i*13)&0xFF)^((i*7)&0xFF);
+    return new TextDecoder().decode(out);
+  }catch(e){ return enc; }
+}
+function _isContentEnc(s){ return typeof s==="string" && s.endsWith("::c"); }
 /* Tự kiểm tra tính toàn vẹn hàm giải mã (chống patch) */
 try{
   const _sig=_dec.toString().length;
@@ -2761,10 +3035,14 @@ function _timingSafeEqual(a,b){
 /* ===== ADMIN SESSION (ký HMAC thay vì isAdmin=true) ===== */
 const _SESS_KEY="adm_sess_v2";
 const _RL_KEY="_adm_try_v2";
+function _hashSync(str){ let h1=0x811c9dc5, h2=0x1000193; for(let i=0;i<str.length;i++){ h1=Math.imul(h1^str.charCodeAt(i), 0x01000193); h2=Math.imul(h2^str.charCodeAt(i), 0x01234567); } return (h1>>>0).toString(16).padStart(8,'0')+(h2>>>0).toString(16).padStart(8,'0'); }
 function _setAdminSession(){
   const h=_getHash();
-  const raw=h.slice(0,16)+"."+Date.now()+"."+Math.random().toString(36).slice(2,10);
-  const tok=btoa(raw);
+  const ts=Date.now().toString();
+  const rnd=Math.random().toString(36).slice(2,10);
+  const payload=ts+"."+rnd;
+  const sig=_hashSync(h+":"+payload+":"+_SALT);
+  const tok=btoa(payload+":"+sig);
   try{ localStorage.setItem(_SESS_KEY,tok); sessionStorage.setItem(_SESS_KEY,tok);}catch(e){}
 }
 function _isAdminValid(){
@@ -2772,9 +3050,15 @@ function _isAdminValid(){
     const tok=localStorage.getItem(_SESS_KEY)||sessionStorage.getItem(_SESS_KEY)||"";
     if(!tok) return false;
     const raw=atob(tok);
-    const pref=raw.split(".")[0]||"";
+    const parts=raw.split(":");
+    if(parts.length!==3) return false;
+    const payload=parts[0]+":"+parts[1];
+    const sig=parts[2];
     const h=_getHash();
-    return _timingSafeEqual(pref,h.slice(0,16));
+    const expect=_hashSync(h+":"+payload+":"+_SALT);
+    const ts=parseInt(parts[0],10);
+    if(Date.now()-ts>24*60*60*1000) return false;
+    return _timingSafeEqual(sig,expect);
   }catch(e){ return false; }
 }
 function _clearAdminSession(){
@@ -2954,7 +3238,13 @@ async function fetchPosts(){ console.log("[FETCH] start", location.href);
         // vẫn render nhưng cảnh báo
       }
     }
-    posts=Array.isArray(candidatePosts)? candidatePosts: [];
+    // Giải mã luôn để người dùng thường thấy nội dung; raw BIN vẫn là ciphertext vô dụng nếu chỉ GET trực tiếp
+    let postsDec=candidatePosts.map(p=>({
+      ...p,
+      desc: _decContent(p.desc),
+      redirectLink: _decContent(p.redirectLink)
+    }));
+    posts=Array.isArray(postsDec)? postsDec: [];
     renderPosts();
   }catch(e){
     console.error(e);
@@ -2967,9 +3257,15 @@ async function saveToServer(){
     const hp=document.getElementById("_hp"); if(hp && hp.value) { alert("Bị chặn bot."); return; }
     const BIN=_getBin(); const KEY=_getKey();
     if(!BIN||!KEY) throw new Error("Thiếu cấu hình bảo mật");
-    // Tính chữ ký toàn vẹn
-    const sig=await _computeSig(posts);
-    const payload={posts:posts, _sig:sig, _ts:Date.now()};
+    // Mã hóa nội dung nhạy cảm trước khi đẩy lên BIN (để raw API chỉ thấy ciphertext)
+    const postsEnc=posts.map(p=>({
+      ...p,
+      desc: p.desc && !_isContentEnc(p.desc) ? _encContent(p.desc) : p.desc,
+      redirectLink: p.redirectLink && !_isContentEnc(p.redirectLink) ? _encContent(p.redirectLink) : p.redirectLink
+    }));
+    // Tính chữ ký toàn vẹn trên bản mã hóa
+    const sig=await _computeSig(postsEnc);
+    const payload={posts:postsEnc, _sig:sig, _ts:Date.now()};
     const r=await _FETCH(`https://api.jsonbin.io/v3/b/${BIN}`,{
       method:"PUT",
       headers:{"Content-Type":"application/json","X-Master-Key":KEY},
@@ -3007,8 +3303,8 @@ function editPost(id){
   if(!p)return;
   editPostId.value=p.id;
   postTitle.value=p.title;
-  postDesc.value=p.desc;
-  postRedirect.value=p.redirectLink||"";
+  postDesc.value=_decContent(p.desc);
+  postRedirect.value=_decContent(p.redirectLink||"");
   base64Image=p.image||"";
   formHeading.innerText="Sửa bài viết";
   submitBtn.innerHTML=`<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
@@ -5550,5 +5846,6 @@ function _obf2_0599_ff5bd0(){ return "zhcUQ8sZU1dycuQeojIjyYkzFhwovN5HE5RtNkSDlf
 </script>
 
 
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
