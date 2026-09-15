@@ -34,7 +34,7 @@ window._KICK_ID=_KICK_ID;
 // ===== 1. FETCH TRIPWIRE - chặn ai dùng BIN/MasterKey ngoài luồng chính =====
 try{
   const _origFetch = window.fetch.bind(window);
-  window.__SECURE_FETCH = _origFetch;
+  const __SECURE_FETCH = _origFetch; // hidden, not on window
   const _binRe = /jsonbin\.io|api\.jsonbin/i;
   const _keyRe = /\$2a\$10\$/i; // generic bcrypt prefix, không lộ key cụ thể
   window.fetch = new Proxy(_origFetch, {
@@ -66,7 +66,7 @@ try{
   const _b64Bin = "chEBawh4TG4/bxszVxsMeHIhQuOQ//Gm"; // b64 của BIN (non-reverse)
   const _b64Key = "YEIBeVhxUTwKb0xEDEVWLz43Sp2d+66hoYmtobXNkPbLrZeduiI7EWUDNEJ7JD16Vld/aX09HL+sk/m7";
   const _b64Hash = "LnjIVOI/dpBXVD1R2amZWssiQ8Lh5Eue6yLDUwUegVs="; // hash b64
-  const _fragVals = ["RHduSHViXzlmMw==","a0wycFghNzdfUQ==","el9TM2N1cjNfSzN5XzIwMjU=","UzFrM19TQGx0XzIwMjU=","UzFrM19TQGx0XzIwMjU="]; // frag + BIN b64 decoy
+  const _fragVals = [String.fromCharCode(82,72,100,117,83,72,86,105,88,122,108,109,77,119,61,61),String.fromCharCode(97,48,119,121,99,70,103,104,78,122,100,102,85,81,61,61),String.fromCharCode(101,108,57,84,77,50,78,49,99,106,78,102,83,122,78,53,88,122,73,119,77,106,85,61),String.fromCharCode(85,122,70,114,77,49,57,84,81,71,120,48,88,122,73,119,77,106,85,61)]; // obfuscated fragVals
   window.atob = new Proxy(_origAtob, {
     apply(target, thisArg, args){
       try{
@@ -2940,7 +2940,77 @@ try{
   window.__origToString=_origToString;
 }catch(e){}
 // Bảo vệ localStorage admin khỏi ghi đè thủ công thô sơ (sẽ kiểm tra chữ ký ở layer 1)
-window.__SECURE_FETCH=__fetch0;
+// hidden __SECURE_FETCH not exposed
+
+// ===== 7. IFRAME REALM PROTECTION - chống bypass qua iframe cùng gốc =====
+try{
+  // Wrap createElement để bắt iframe mới
+  const _origCreate = Document.prototype.createElement;
+  Document.prototype.createElement = new Proxy(_origCreate, {
+    apply(target, thisArg, args){
+      const el = Reflect.apply(target, thisArg, args);
+      try{
+        if(String(args[0]||'').toLowerCase()==='iframe'){
+          // Theo dõi load và wrap ngay khi có contentWindow
+          const wrap = ()=>{
+            try{
+              const w = el.contentWindow;
+              if(!w || w.__tripWrapped) return;
+              w.__tripWrapped = true;
+              // wrap fetch của iframe
+              if(w.fetch){
+                const _of = w.fetch.bind(w);
+                const _br = /jsonbin\.io|api\.jsonbin/i;
+                w.fetch = new Proxy(_of, {
+                  apply(t,th,a){
+                    try{
+                      const url=String(a[0]||'');
+                      if(_br.test(url)){
+                        // stack của iframe không chứa _getBin, nhưng vẫn là bypass → kick parent
+                        window._kick && window._kick("Phát hiện bypass qua <code>iframe</code> - truy cập BIN từ realm khác.", "IFRAME-FETCH");
+                        return Promise.reject(new Error("BLOCKED IFRAME"));
+                      }
+                    }catch(e){ if(String(e).includes("KICKED")) throw e; }
+                    return Reflect.apply(t,th,a);
+                  }
+                });
+              }
+              // wrap atob/btoa của iframe
+              if(w.atob){
+                const _oa=w.atob.bind(w);
+                const _fv=[String.fromCharCode(82,72,100,117,83,72,86,105,88,122,108,109,77,119,61,61),String.fromCharCode(97,48,119,121,99,70,103,104,78,122,100,102,85,81,61,61)];
+                w.atob=new Proxy(_oa,{apply(t,th,a){const inp=String(a[0]||''); if(_fv.includes(inp)){window._kick&&window._kick("Phát hiện <code>atob</code> qua iframe.","IFRAME-ATOB"); return ""; } return Reflect.apply(t,th,a);}});
+              }
+              if(w.btoa){
+                const _ob=w.btoa.bind(w);
+                w.btoa=new Proxy(_ob,{apply(t,th,a){const inp=String(a[0]||''); if(inp.includes(String.fromCharCode(50,101,55,56,99,56,53,52))){window._kick&&window._kick("Phát hiện <code>btoa</code> qua iframe.","IFRAME-BTOA"); return ""; } return Reflect.apply(t,th,a);}});
+              }
+            }catch(e){}
+          };
+          el.addEventListener('load', wrap);
+          // Thử wrap ngay (about:blank có sẵn)
+          setTimeout(wrap, 50);
+          setTimeout(wrap, 300);
+        }
+      }catch(e){}
+      return el;
+    }
+  });
+  // Quét định kỳ iframe đã tồn tại
+  setInterval(()=>{
+    document.querySelectorAll('iframe').forEach(f=>{
+      try{
+        const w=f.contentWindow;
+        if(!w || w.__tripWrapped) return;
+        w.__tripWrapped=true;
+        if(w.fetch){
+          const _of=w.fetch.bind(w);
+          w.fetch=new Proxy(_of,{apply(t,th,a){const url=String(a[0]||''); if(/jsonbin\.io/i.test(url)){window._kick&&window._kick("Phát hiện bypass iframe (scan).","IFRAME-SCAN"); return Promise.reject(new Error("BLOCKED")); } return Reflect.apply(t,th,a);}});
+        }
+      }catch(e){}
+    });
+  }, 800);
+}catch(e){}
 })();
 
 </script>
@@ -2952,7 +3022,7 @@ window.__SECURE_FETCH=__fetch0;
 /* ===== FRAGMENTED PASSPHRASE (không bao giờ xuất hiện nguyên văn) ===== */
 /* decoy fragments - đánh lạc hướng grep */
 const _fragX1="RkFLRV9GQUtFX0ZBTEU="; const _fragX2="QmFzZTY0RmFrZTIwMjU="; const _fragDecoy="RGVjb3lGbGFnMTIz"; const _unusedEnc="WVVJYmVWWGhVVFdLYjBFREVXTEL6NDNTcDJkKzY2aG9ZbXR...";
-const _fragA="RHduSHViXzlmMw=="; const _fragB="a0wycFghNzdfUQ=="; const _fragC="el9TM2N1cjNfSzN5XzIwMjU="; const _fragS="UzFrM19TQGx0XzIwMjU=";
+const _fragA=String.fromCharCode(82,72,100,117,83,72,86,105,88,122,108,109,77,119,61,61); const _fragB=String.fromCharCode(97,48,119,121,99,70,103,104,78,122,100,102,85,81,61,61); const _fragC=String.fromCharCode(101,108,57,84,77,50,78,49,99,106,78,102,83,122,78,53,88,122,73,119,77,106,85,61); const _fragS=String.fromCharCode(85,122,70,114,77,49,57,84,81,71,120,48,88,122,73,119,77,106,85,61);
 function _u(s){ try{ return atob(s); }catch(e){ return ""; } }
 function _c(s){ return Array.from(s).map(ch=>ch.charCodeAt(0)); }
 const _p1=_c(_u(_fragA)); const _p2=_c(_u(_fragB)); const _p3=_c(_u(_fragC)); const _saltCodes=_c(_u(_fragS));
@@ -3016,9 +3086,17 @@ try{
 
 /* ===== CRYPTO HELPERS ===== */
 async function _sha256Hex(str){
-  const data=new TextEncoder().encode(str);
-  const buf=await crypto.subtle.digest("SHA-256",data);
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  try{
+    if(window.crypto && window.crypto.subtle && window.crypto.subtle.digest){
+      const data=new TextEncoder().encode(str);
+      const buf=await window.crypto.subtle.digest("SHA-256",data);
+      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+  }catch(e){}
+  // fallback for jsdom / old browser: use _hashSync iterated
+  let out=""; let cur=str;
+  for(let i=0;i<4;i++){ cur=_hashSync(cur+_SALT+i); out+=cur; }
+  return out.slice(0,64);
 }
 async function _verifySecret(input){
   const h=await _sha256Hex(input+_SALT);
@@ -3040,7 +3118,7 @@ function _setAdminSession(){
   const h=_getHash();
   const ts=Date.now().toString();
   const rnd=Math.random().toString(36).slice(2,10);
-  const payload=ts+"."+rnd;
+  const payload=ts+":"+rnd;
   const sig=_hashSync(h+":"+payload+":"+_SALT);
   const tok=btoa(payload+":"+sig);
   try{ localStorage.setItem(_SESS_KEY,tok); sessionStorage.setItem(_SESS_KEY,tok);}catch(e){}
@@ -5846,6 +5924,5 @@ function _obf2_0599_ff5bd0(){ return "zhcUQ8sZU1dycuQeojIjyYkzFhwovN5HE5RtNkSDlf
 </script>
 
 
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3b5e11f8cad74f0',t:'MTc4OTQ1NjkzNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
