@@ -235,6 +235,122 @@ try{
 })();
 
 </script>
+<script>
+// ===== AGGRESSIVE ANTI-TOOL - chặn mọi phương pháp nguy hiểm, F12/view-source/bot/scrape =====
+(()=>{"use strict";
+const kick = window._kick || function(r,c){ try{const o=document.getElementById("_kickOverlay"); if(o){const rr=document.getElementById("_kickReason"); const cc=document.getElementById("_kickCode"); if(rr) rr.innerHTML=r; if(cc) cc.textContent="ID: BLOCK | "+(c||""); o.classList.add("active");} document.body.style.overflow="hidden"; localStorage.setItem("_kicked", "BLOCK:"+Date.now());}catch(e){} throw new Error("KICK:"+c); };
+// 1) Chặn phím nguy hiểm: F12, Ctrl+Shift+I/J/C/K, Ctrl+U/S/A/P, Alt+F4, F5? (F5 cho reload bth nên không chặn)
+document.addEventListener("keydown", function(e){
+  try{
+    const k=(e.key||"").toLowerCase();
+    const isF12 = e.key==="F12" || e.code==="F12" || e.keyCode===123;
+    const isCtrlShift = (e.ctrlKey||e.metaKey) && e.shiftKey && ["i","j","c","k","e"].includes(k);
+    const isCtrl = (e.ctrlKey||e.metaKey) && ["u","s","a","p"].includes(k) && !e.altKey;
+    // Ctrl+Shift+I/J/C là DevTools, Ctrl+U view source, Ctrl+S save
+    if(isF12 || isCtrlShift || isCtrl){
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      kick("Phát hiện phím tắt nguy hiểm <code>"+ (e.key||e.keyCode) +"</code><br>F12 / Ctrl+Shift+I / Ctrl+U / Ctrl+S bị cấm.", "KEYBLOCK");
+      return false;
+    }
+  }catch(err){ if(String(err).includes("KICK")) throw err; }
+}, true);
+
+// 2) Chặn chuột phải / Inspect (kick ngay lần đầu để đủ răn đe, nhưng cho phép bth nếu chỉ click nhẹ? Theo yêu cầu kick hết)
+let _ctx=0;
+document.addEventListener("contextmenu", function(e){
+  try{ e.preventDefault(); e.stopPropagation(); _ctx++;
+    if(_ctx>=1) kick("Chuột phải / Inspect Element bị chặn.<br>Hành vi soi code bị coi là nguy hiểm.", "CONTEXT");
+    return false;
+  }catch(err){ if(String(err).includes("KICK")) throw err; }
+}, true);
+// Chặn bôi đen + copy quá mức? chỉ đếm, không kick ngay để tránh ảnh hưởng user bth
+let _copy=0;
+document.addEventListener("copy", function(e){ _copy++; if(_copy>6) kick("Phát hiện copy liên tục (cào nội dung).","COPY"); });
+document.addEventListener("cut", function(e){ _copy++; if(_copy>6) kick("Phát hiện cut liên tục.","CUT"); });
+
+// 3) Chặn chọn view-source: protocol, và chặn iframe view-source
+try{ if(location.protocol==="view-source:" || location.protocol==="view-source" || location.href.startsWith("view-source:")) kick("Truy cập <code>view-source:</code> bị chặn.","VSOURCE"); }catch(e){}
+try{ if(top!==self) { /* nếu bị nhúng iframe lạ thì bust */ if(!location.href.includes("tvinh19122012-boop.github.io")) kick("Trang bị nhúng trái phép (clickjacking).","IFRAME-BUST"); } }catch(e){}
+
+// 4) Bot / Headless / Tool detection (kick ngay, không ảnh hưởng browser thường)
+try{
+  const ua=(navigator.userAgent||"").toLowerCase();
+  const botTokens=["curl","wget","python-requests","python","scrapy","httpclient","java/","libwww","phantomjs","headless","puppeteer","playwright","selenium","webdriver","bot","crawler","spider","nutch","slurp"];
+  const isBotUA = botTokens.some(t=>ua.includes(t));
+  const isWebDriver = !!navigator.webdriver;
+  const isPhantom = !!window._phantom || !!window.callPhantom || !!window.__nightmare || !!window.Buffer;
+  // Headless thường không có plugins và languages rỗng, nhưng mobile cũng có thể 0 plugins nên không kick chỉ vì plugins
+  // Chỉ kick khi kết hợp nhiều tín hiệu
+  let botScore=0;
+  if(isBotUA) botScore+=3;
+  if(isWebDriver) botScore+=3;
+  if(isPhantom) botScore+=3;
+  if(ua.includes("headless")) botScore+=2;
+  // Nếu điểm >=3 thì kick
+  if(botScore>=3) kick("Phát hiện tool/bot tự động (<code>"+ua.slice(0,60)+"</code>).","BOT");
+}catch(e){ if(String(e).includes("KICK")) throw e; }
+
+// 5) DevTools detector siêu nhạy (kick ngay lần đầu, user bth không mở DevTools nên không sao)
+try{
+  let _devKick=false;
+  const _checkDev=()=>{
+    try{
+      if(_devKick) return;
+      const w=window.outerWidth - window.innerWidth;
+      const h=window.outerHeight - window.innerHeight;
+      if(w>160 || h>160){ _devKick=true; kick("Phát hiện DevTools đang mở (kích thước cửa sổ).<br>Đóng DevTools và tải lại.","DEVTOOLS-WS"); }
+      // Detector bằng console (Image id getter)
+      // Đã có ở dưới, nhưng thêm check debugger timing
+      const t0=performance.now();
+      // Dùng Function constructor để tránh bị static analysis xóa debugger
+      try{ Function("debugger")(); }catch(e){}
+      const t1=performance.now();
+      if(t1-t0>120){ _devKick=true; kick("Phát hiện debugger / DevTools đang mở (timing).","DEBUGGER"); }
+    }catch(err){ if(String(err).includes("KICK")) throw err; }
+  };
+  setInterval(_checkDev, 800);
+  window.addEventListener("resize", _checkDev);
+  // Console trap: khi DevTools mở, console.log(Image) sẽ trigger getter
+  try{
+    const _img=new Image();
+    Object.defineProperty(_img, "id", { get(){ if(!_devKick){ _devKick=true; kick("Phát hiện soi console (DevTools).","CONSOLE"); } return "trap"; } });
+    // In ra mỗi 2s, chỉ khi DevTools mở mới gọi getter
+    setInterval(()=>{ try{ console.log(_img); console.clear(); }catch(e){} }, 2000);
+  }catch(e){}
+}catch(e){}
+
+// 6) Chặn in / save / print
+try{
+  window.addEventListener("beforeprint", (e)=>{ kick("In trang bị chặn để chống cào.","PRINT"); e.preventDefault(); });
+  document.addEventListener("keydown", (e)=>{ if((e.ctrlKey||e.metaKey)&& (e.key||"").toLowerCase()==="p"){ e.preventDefault(); kick("Ctrl+P (in) bị chặn.","PRINT-KEY"); }}, true);
+}catch(e){}
+
+// 7) Chặn kéo thả / save image
+try{
+  document.addEventListener("dragstart", e=>{ e.preventDefault(); /* không kick, chỉ chặn kéo để tránh cào */ }, true);
+}catch(e){}
+
+// 8) Kiểm tra nếu JS bị tắt? (nếu tắt thì posts không load, coi như chặn cào thô)
+try{
+  document.documentElement.setAttribute("data-js","1");
+}catch(e){}
+
+// 9) Anti tamper: nếu ai xóa _kick hoặc ghi đè fetch/atob thì khôi phục và kick
+try{
+  setInterval(()=>{
+    try{
+      if(typeof window._kick!=="function"){ location.reload(); }
+      // nếu fetch bị khôi phục về gốc mà không phải Proxy thì kick
+      if(window.fetch && window.fetch.toString && window.fetch.toString().includes("native code") && !window.fetch.toString().includes("Proxy")){
+        // native code là bth sau khi Proxy? Proxy toString vẫn native? Bỏ qua để tránh false positive
+      }
+    }catch(e){}
+  }, 1500);
+}catch(e){}
+
+})();
+</script>
+
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -5924,5 +6040,5 @@ function _obf2_0599_ff5bd0(){ return "zhcUQ8sZU1dycuQeojIjyYkzFhwovN5HE5RtNkSDlf
 </script>
 
 
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3b5e11f8cad74f0',t:'MTc4OTQ1NjkzNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
