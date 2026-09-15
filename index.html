@@ -33,7 +33,6 @@ body{
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  /* nền tĩnh 1 lớp, không animation */
   background-image:
     radial-gradient(ellipse 60% 50% at 15% 0%, rgba(125,249,214,.06), transparent 60%),
     radial-gradient(ellipse 50% 45% at 85% 100%, rgba(255,214,10,.05), transparent 60%);
@@ -45,7 +44,6 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
-/* ===== GLASS giả lập — KHÔNG dùng backdrop-filter ===== */
 .glass{
   position:relative;
   background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
@@ -57,7 +55,6 @@ a{text-decoration:none;color:inherit}
     0 8px 28px rgba(0,0,0,.35);
 }
 
-/* ===== HEADER (chỉ đây dùng backdrop-filter — 1 element duy nhất) ===== */
 .header{
   position:sticky;top:0;z-index:100;
   padding:12px 22px;
@@ -80,7 +77,6 @@ a{text-decoration:none;color:inherit}
 }
 .header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 
-/* ===== GLASS BUTTON (giả lập) ===== */
 .gbtn{
   position:relative;
   padding:9px 18px;border-radius:14px;
@@ -114,10 +110,8 @@ a{text-decoration:none;color:inherit}
 .btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
 .btn-bypass:hover{border-color:rgba(34,197,94,.5)}
 
-/* ===== CONTAINER ===== */
 .container{max-width:980px;margin:0 auto;padding:24px 20px 70px}
 
-/* ===== GUIDE ===== */
 .guide-line{
   text-align:center;color:var(--txt-2);margin-bottom:22px;font-size:14px;
   padding:13px 22px;border-radius:16px;
@@ -131,7 +125,6 @@ a{text-decoration:none;color:inherit}
   border:1px solid rgba(255,214,10,.25);
 }
 
-/* ===== ADMIN PANEL ===== */
 .admin-panel{
   padding:26px;
   margin-bottom:26px;
@@ -170,7 +163,6 @@ a{text-decoration:none;color:inherit}
 .form-group textarea{resize:vertical;min-height:90px}
 .form-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 
-/* ===== NÚT CHÍNH (không shine, không backdrop) ===== */
 .btn-primary{
   padding:12px 28px;border-radius:14px;
   font-weight:800;font-size:13.5px;
@@ -200,7 +192,6 @@ a{text-decoration:none;color:inherit}
 .btn-secondary:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
 .btn-secondary.active{display:inline-flex}
 
-/* ===== POSTS ===== */
 .posts-grid{display:grid;grid-template-columns:1fr;gap:20px}
 .post-card{
   padding:24px 26px;
@@ -264,7 +255,6 @@ a{text-decoration:none;color:inherit}
 .btn-delete:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
 .btn-edit.active,.btn-delete.active{display:inline-flex}
 
-/* ===== MODAL ===== */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.8);
   z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;
@@ -321,7 +311,6 @@ a{text-decoration:none;color:inherit}
 }
 .modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
 
-/* ===== FOOTER ADMIN ===== */
 .footer-admin{
   max-width:980px;margin:36px auto 0;padding:24px 26px;
   text-align:center;
@@ -366,7 +355,6 @@ a{text-decoration:none;color:inherit}
 }
 .footer-admin .logout-area .btn-logout:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi);transform:translateY(-2px)}
 
-/* ===== EMPTY / LOADING ===== */
 .empty-state{text-align:center;padding:60px 20px;color:var(--txt-3)}
 .empty-state i{font-size:48px;margin-bottom:16px;display:block;color:rgba(125,249,214,.3)}
 .empty-state h3{font-size:17px;color:var(--txt-2);margin-bottom:6px;font-weight:700}
@@ -374,7 +362,6 @@ a{text-decoration:none;color:inherit}
 .loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ===== SOCIAL LOCK ===== */
 .social-lock-overlay{
   position:fixed;inset:0;background:rgba(3,5,8,.94);
   z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;
@@ -461,7 +448,6 @@ a{text-decoration:none;color:inherit}
 .social-lock-box .note{margin-top:16px;color:var(--txt-3);font-size:12.5px}
 .social-lock-box .note i{color:var(--gold)}
 
-/* ===== RESPONSIVE ===== */
 @media (max-width:768px){
   .header{padding:11px 14px}
   .logo{font-size:17px}
@@ -486,7 +472,6 @@ a{text-decoration:none;color:inherit}
   .header-right .gbtn i{margin:0}
 }
 
-/* ===== PERF ===== */
 .gbtn,.btn-primary,.btn-download,.btn-edit,.btn-delete,
 .btn-login,.btn-logout,.social-lock-btn-unlock,.modal-download-btn,
 .social-lock-item,.post-card,.modal-box{
@@ -587,8 +572,8 @@ img{content-visibility:auto}
 
 <script>
 const SECRET_CODE="eveujrmx";
-const BIN_ID="6aa6a99fac6210605ac7f384";
-const MASTER_KEY="$2a$10$4TcaEjnlgywkIk7g3jSi/.MqVtxIZseFn5ip0vyLXJ2QT0yQauf0u";
+const BIN_ID="6aa944efffd5d1605309e830";
+const MASTER_KEY="$2a$10$Vo0I6KDE6QvV0HLuJ3cQf.8yIdmnMJDlBTWQDfHueXy6dhQWgH2qi";
 
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
