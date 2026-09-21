@@ -105,9 +105,13 @@ a{text-decoration:none;color:inherit}
 .gbtn:active{transform:translateY(0) scale(.97)}
 .btn-social.youtube i{color:var(--gold)}
 .btn-social.telegram i{color:var(--mint)}
+.btn-social.tiktok i{color:#fff}
+.btn-social.zalo i{color:#4fc3f7}
 .btn-bypass i{color:var(--green)}
 .btn-social.youtube:hover{border-color:rgba(255,214,10,.5)}
 .btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
+.btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
+.btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
 .btn-bypass:hover{border-color:rgba(34,197,94,.5)}
 
 .container{max-width:980px;margin:0 auto;padding:24px 20px 70px}
@@ -407,6 +411,8 @@ a{text-decoration:none;color:inherit}
 .social-lock-item .left i{font-size:22px;width:28px;text-align:center}
 .social-lock-item .left i.fa-youtube{color:var(--gold)}
 .social-lock-item .left i.fa-telegram{color:var(--mint)}
+.social-lock-item .left i.fa-tiktok{color:#fff}
+.social-lock-item .left i.fa-zalo{color:#4fc3f7}
 .social-lock-item .status{
   font-size:12px;font-weight:700;padding:5px 13px;border-radius:16px;
   background:rgba(255,255,255,.05);color:var(--txt-3);
@@ -429,6 +435,16 @@ a{text-decoration:none;color:inherit}
   background:linear-gradient(180deg,#7df9d6,#22c55e);
   border-color:rgba(125,249,214,.5);color:#052e12;
   box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(125,249,214,.2);
+}
+.social-lock-item .btn-join.tiktok-btn{
+  background:linear-gradient(180deg,#ffffff,#cccccc);
+  border-color:rgba(255,255,255,.5);color:#0a0d0a;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(255,255,255,.2);
+}
+.social-lock-item .btn-join.zalo-btn{
+  background:linear-gradient(180deg,#4fc3f7,#0288d1);
+  border-color:rgba(79,195,247,.5);color:#001f2e;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(79,195,247,.2);
 }
 .social-lock-item .btn-join:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.06)}
 .social-lock-item .btn-join:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
@@ -490,21 +506,26 @@ img{content-visibility:auto}
   <div class="social-lock-box">
     <i class="fa-solid fa-lock lock-icon"></i>
     <h2>Mở khóa nội dung</h2>
-    <p>Vui lòng đăng ký kênh YouTube và tham gia Telegram để tiếp tục</p>
+    <p>Vui lòng tham gia Telegram, theo dõi TikTok và tham gia Zalo để tiếp tục</p>
     <div class="social-lock-grid">
-      <div class="social-lock-item" id="youtubeItem">
-        <div class="left"><i class="fa-brands fa-youtube"></i><span>Đăng ký YouTube</span></div>
-        <a href="https://youtube.com/@sikevuabanaccyoutube?si=0Ow2tUeuXUZa7Lem" target="_blank" rel="noopener" class="btn-join" id="youtubeJoinBtn"><i class="fa-regular fa-circle-play"></i> Đăng ký</a>
-        <span class="status" id="youtubeStatus">Chưa hoàn thành</span>
-      </div>
       <div class="social-lock-item" id="telegramItem">
         <div class="left"><i class="fa-brands fa-telegram"></i><span>Tham gia Telegram</span></div>
         <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-join telegram-btn" id="telegramJoinBtn"><i class="fa-regular fa-paper-plane"></i> Tham gia</a>
         <span class="status" id="telegramStatus">Chưa hoàn thành</span>
       </div>
+      <div class="social-lock-item" id="tiktokItem">
+        <div class="left"><i class="fa-brands fa-tiktok"></i><span>Theo dõi TikTok</span></div>
+        <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="btn-join tiktok-btn" id="tiktokJoinBtn"><i class="fa-regular fa-circle-play"></i> Theo dõi</a>
+        <span class="status" id="tiktokStatus">Chưa hoàn thành</span>
+      </div>
+      <div class="social-lock-item" id="zaloItem">
+        <div class="left"><i class="fa-solid fa-comment-dots"></i><span>Tham gia Zalo</span></div>
+        <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="btn-join zalo-btn" id="zaloJoinBtn"><i class="fa-regular fa-comment"></i> Tham gia</a>
+        <span class="status" id="zaloStatus">Chưa hoàn thành</span>
+      </div>
     </div>
     <button class="social-lock-btn-unlock" id="unlockBtn" disabled><i class="fa-solid fa-check"></i> Xác nhận & Mở khóa</button>
-    <div class="note"><i class="fa-regular fa-circle-info"></i> Bạn cần hoàn thành cả 2 bước trên</div>
+    <div class="note"><i class="fa-regular fa-circle-info"></i> Bạn cần hoàn thành cả 3 bước trên</div>
   </div>
 </div>
 
@@ -514,8 +535,9 @@ img{content-visibility:auto}
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
-    <a href="https://youtube.com/@sikevuabanaccyoutube?si=0Ow2tUeuXUZa7Lem" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
     <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
+    <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo</span></a>
     <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
   </div>
 </header>
@@ -578,8 +600,9 @@ const MASTER_KEY="$2a$10$Vo0I6KDE6QvV0HLuJ3cQf.8yIdmnMJDlBTWQDfHueXy6dhQWgH2qi";
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
 let base64Image="";
-let youtubeDone=localStorage.getItem("youtubeDone")==="true";
 let telegramDone=localStorage.getItem("telegramDone")==="true";
+let tiktokDone=localStorage.getItem("tiktokDone")==="true";
+let zaloDone=localStorage.getItem("zaloDone")==="true";
 let isUnlocked=localStorage.getItem("socialUnlocked")==="true";
 
 const $=id=>document.getElementById(id);
@@ -589,22 +612,13 @@ postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
 imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
 secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
 modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn"),socialLock=$("socialLock"),
-youtubeItem=$("youtubeItem"),telegramItem=$("telegramItem"),youtubeStatus=$("youtubeStatus"),
-telegramStatus=$("telegramStatus"),youtubeJoinBtn=$("youtubeJoinBtn"),
-telegramJoinBtn=$("telegramJoinBtn"),unlockBtn=$("unlockBtn");
+telegramItem=$("telegramItem"),tiktokItem=$("tiktokItem"),zaloItem=$("zaloItem"),
+telegramStatus=$("telegramStatus"),tiktokStatus=$("tiktokStatus"),zaloStatus=$("zaloStatus"),
+telegramJoinBtn=$("telegramJoinBtn"),tiktokJoinBtn=$("tiktokJoinBtn"),
+zaloJoinBtn=$("zaloJoinBtn"),unlockBtn=$("unlockBtn");
 
 function updateSocialLockUI(){
-  if(youtubeDone){
-    youtubeItem.classList.add("done");
-    youtubeStatus.textContent="✅ Đã hoàn thành";
-    youtubeJoinBtn.disabled=true;
-    youtubeJoinBtn.textContent="✅ Đã đăng ký";
-  } else {
-    youtubeItem.classList.remove("done");
-    youtubeStatus.textContent="Chưa hoàn thành";
-    youtubeJoinBtn.disabled=false;
-    youtubeJoinBtn.innerHTML='<i class="fa-regular fa-circle-play"></i> Đăng ký';
-  }
+  // Telegram
   if(telegramDone){
     telegramItem.classList.add("done");
     telegramStatus.textContent="✅ Đã hoàn thành";
@@ -616,7 +630,32 @@ function updateSocialLockUI(){
     telegramJoinBtn.disabled=false;
     telegramJoinBtn.innerHTML='<i class="fa-regular fa-paper-plane"></i> Tham gia';
   }
-  if(youtubeDone&&telegramDone){
+  // TikTok
+  if(tiktokDone){
+    tiktokItem.classList.add("done");
+    tiktokStatus.textContent="✅ Đã hoàn thành";
+    tiktokJoinBtn.disabled=true;
+    tiktokJoinBtn.textContent="✅ Đã theo dõi";
+  } else {
+    tiktokItem.classList.remove("done");
+    tiktokStatus.textContent="Chưa hoàn thành";
+    tiktokJoinBtn.disabled=false;
+    tiktokJoinBtn.innerHTML='<i class="fa-regular fa-circle-play"></i> Theo dõi';
+  }
+  // Zalo
+  if(zaloDone){
+    zaloItem.classList.add("done");
+    zaloStatus.textContent="✅ Đã hoàn thành";
+    zaloJoinBtn.disabled=true;
+    zaloJoinBtn.textContent="✅ Đã tham gia";
+  } else {
+    zaloItem.classList.remove("done");
+    zaloStatus.textContent="Chưa hoàn thành";
+    zaloJoinBtn.disabled=false;
+    zaloJoinBtn.innerHTML='<i class="fa-regular fa-comment"></i> Tham gia';
+  }
+  // Unlock
+  if(telegramDone && tiktokDone && zaloDone){
     unlockBtn.disabled=false;
     unlockBtn.classList.add("active");
     unlockBtn.innerHTML='<i class="fa-solid fa-check"></i> Mở khóa ngay';
@@ -634,18 +673,23 @@ if(isUnlocked){
   document.body.style.overflow="hidden";
   updateSocialLockUI();
 }
-youtubeJoinBtn.addEventListener("click",e=>{
-  e.preventDefault();
-  window.open("https://youtube.com/@sikevuabanaccyoutube?si=0Ow2tUeuXUZa7Lem","_blank");
-  setTimeout(()=>{youtubeDone=true;localStorage.setItem("youtubeDone","true");updateSocialLockUI();},1500);
-});
 telegramJoinBtn.addEventListener("click",e=>{
   e.preventDefault();
   window.open("https://t.me/SIKEMODFF","_blank");
   setTimeout(()=>{telegramDone=true;localStorage.setItem("telegramDone","true");updateSocialLockUI();},1500);
 });
+tiktokJoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://tiktok.com/@sikeffmod","_blank");
+  setTimeout(()=>{tiktokDone=true;localStorage.setItem("tiktokDone","true");updateSocialLockUI();},1500);
+});
+zaloJoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://zalo.me/g/inj3bicbrjuz53itudvj","_blank");
+  setTimeout(()=>{zaloDone=true;localStorage.setItem("zaloDone","true");updateSocialLockUI();},1500);
+});
 unlockBtn.addEventListener("click",()=>{
-  if(youtubeDone&&telegramDone){
+  if(telegramDone && tiktokDone && zaloDone){
     localStorage.setItem("socialUnlocked","true");
     socialLock.style.display="none";
     document.body.style.overflow="";
