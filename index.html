@@ -593,9 +593,7 @@ img{content-visibility:auto}
 </div>
 
 <script>
-const SECRET_CODE="eveujrmx";
-const BIN_ID="6aa944efffd5d1605309e830";
-const MASTER_KEY="$2a$10$Vo0I6KDE6QvV0HLuJ3cQf.8yIdmnMJDlBTWQDfHueXy6dhQWgH2qi";
+const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
 
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
@@ -714,9 +712,16 @@ document.addEventListener("DOMContentLoaded",()=>{
   secretInput.addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
 });
 
-function loginAdmin(){
-  if(secretInput.value===SECRET_CODE){
+async function loginAdmin(){
+  const res = await fetch(`${WORKER_URL}/api/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: secretInput.value })
+  });
+  const { ok } = await res.json();
+  if(ok){
     localStorage.setItem("isAdmin","true");
+    localStorage.setItem("adminSecret", secretInput.value);
     location.reload();
   } else {
     secretInput.style.borderColor="rgba(255,214,10,.8)";
@@ -737,11 +742,8 @@ function handleImageUpload(e){
 
 async function fetchPosts(){
   try{
-    const res=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
-      headers:{"X-Master-Key":MASTER_KEY},cache:"no-cache"
-    });
-    const data=await res.json();
-    posts=data.record?.posts||[];
+    const res = await fetch(`${WORKER_URL}/api/posts`);
+    posts = await res.json();
     renderPosts();
   }catch(e){
     postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">Vui lòng kiểm tra kết nối hoặc thử lại sau</p></div>`;
@@ -750,14 +752,15 @@ async function fetchPosts(){
 
 async function saveToServer(){
   try{
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},
-      body:JSON.stringify({posts:posts})
+    await fetch(`${WORKER_URL}/api/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Secret": localStorage.getItem("adminSecret") || "" },
+      body: JSON.stringify({ posts })
     });
     location.reload();
-  }catch(e){alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại.");}
+  }catch(e){ alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại."); }
 }
+
 
 async function savePost(){
   const editId=editPostId.value;
