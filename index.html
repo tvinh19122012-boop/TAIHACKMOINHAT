@@ -718,10 +718,10 @@ async function loginAdmin(){
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code: secretInput.value })
   });
-  const { ok } = await res.json();
-  if(ok){
+  const { ok, token } = await res.json();
+  if(ok && token){
     localStorage.setItem("isAdmin","true");
-    localStorage.setItem("adminSecret", secretInput.value);
+    localStorage.setItem("adminToken", token);
     location.reload();
   } else {
     secretInput.style.borderColor="rgba(255,214,10,.8)";
@@ -729,7 +729,11 @@ async function loginAdmin(){
     setTimeout(()=>{secretInput.style.borderColor="";secretInput.style.boxShadow="";},1500);
   }
 }
-function logoutAdmin(){localStorage.removeItem("isAdmin");location.reload();}
+function logoutAdmin(){
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("adminToken");
+  location.reload();
+}
 
 function handleImageUpload(e){
   const file=e.target.files[0];
@@ -752,11 +756,16 @@ async function fetchPosts(){
 
 async function saveToServer(){
   try{
-    await fetch(`${WORKER_URL}/api/posts`, {
+    const res = await fetch(`${WORKER_URL}/api/posts`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-Admin-Secret": localStorage.getItem("adminSecret") || "" },
+      headers: { "Content-Type": "application/json", "X-Admin-Token": localStorage.getItem("adminToken") || "" },
       body: JSON.stringify({ posts })
     });
+    if(res.status===401){
+      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
+      logoutAdmin();
+      return;
+    }
     location.reload();
   }catch(e){ alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại."); }
 }
@@ -815,9 +824,21 @@ async function deletePost(id){
   }
 }
 
-function linkify(text){
+function escapeHtml(str){
+  if(str===null||str===undefined)return"";
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+// Escape trước để chống XSS, sau đó mới đổi xuống dòng và tạo link - tránh bị escape đè lên thẻ <br>
+function formatDesc(text){
   if(!text)return"";
-  return text.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+  const escaped=escapeHtml(text).replace(/\n/g,"<br>");
+  return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 
 function openDownloadModal(id){
@@ -829,7 +850,7 @@ function openDownloadModal(id){
   const p=posts.find(item=>item.id==id);
   if(!p)return;
   modalTitle.textContent=p.title;
-  modalContent.innerHTML=linkify(p.desc.replace(/\n/g,"<br>"));
+  modalContent.innerHTML=formatDesc(p.desc);
   if(p.redirectLink&&p.redirectLink.trim()!==""){
     modalDownloadBtn.style.display="inline-flex";
     modalDownloadBtn.href=p.redirectLink;
@@ -852,9 +873,9 @@ function renderPosts(){
   }
   postsContainer.innerHTML=`<div class="posts-grid">${posts.map(p=>`
     <div class="post-card glass">
-      <div class="post-title">${p.title}<span class="post-id">#${p.id.toString().slice(-6)}</span></div>
-      ${p.image?`<img src="${p.image}" class="post-image" alt="${p.title}" loading="lazy">`:""}
-      <div class="post-desc">${linkify(p.desc.replace(/\n/g,"<br>"))}</div>
+      <div class="post-title">${escapeHtml(p.title)}<span class="post-id">#${p.id.toString().slice(-6)}</span></div>
+      ${p.image?`<img src="${escapeHtml(p.image)}" class="post-image" alt="${escapeHtml(p.title)}" loading="lazy">`:""}
+      <div class="post-desc">${formatDesc(p.desc)}</div>
       <div class="post-meta">
         <button class="btn-download" onclick="openDownloadModal(${p.id})"><i class="fa-solid fa-download"></i> Tải xuống</button>
       </div>
