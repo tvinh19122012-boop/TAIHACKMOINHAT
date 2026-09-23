@@ -1,26 +1,915 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Hub</title>
-    <noscript>
-        <p style="font-family:sans-serif;padding:40px;text-align:center">Trang web này cần bật JavaScript để hiển thị. Vui lòng bật JavaScript trong trình duyệt của bạn.</p>
-    </noscript>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05070a;
+  --txt:#f4f7f5;
+  --txt-2:#a9b3bd;
+  --txt-3:#68737d;
+  --gold:#ffd60a;
+  --gold-2:#f5b301;
+  --mint:#7df9d6;
+  --green:#22c55e;
+  --bd:rgba(255,255,255,.09);
+  --bd-hi:rgba(255,255,255,.2);
+  --glass:rgba(255,255,255,.04);
+  --glass-2:rgba(255,255,255,.07);
+  --r:20px;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(125,249,214,.06), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 100%, rgba(255,214,10,.05), transparent 60%);
+  background-attachment:fixed;
+}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+.glass{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--bd);
+  border-radius:var(--r);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.12) inset,
+    0 -1px 0 rgba(0,0,0,.25) inset,
+    0 8px 28px rgba(0,0,0,.35);
+}
+
+.header{
+  position:sticky;top:0;z-index:100;
+  padding:12px 22px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  background:rgba(10,14,21,.7);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--bd);
+}
+.header-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{
+  font-size:21px;font-weight:900;letter-spacing:-.6px;
+  color:var(--txt);display:flex;align-items:center;gap:8px;
+}
+.logo i{color:var(--mint)}
+.logo span{
+  background:linear-gradient(135deg,var(--gold),var(--mint));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+
+.gbtn{
+  position:relative;
+  padding:9px 18px;border-radius:14px;
+  font-weight:700;font-size:13px;
+  border:1px solid var(--bd);
+  cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--txt);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.14) inset,
+    0 -1px 0 rgba(0,0,0,.2) inset,
+    0 3px 12px rgba(0,0,0,.25);
+  transition:transform .2s var(--ease), border-color .2s, box-shadow .2s, background .2s;
+  will-change:transform;
+}
+.gbtn:hover{
+  transform:translateY(-2px);
+  border-color:var(--bd-hi);
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.2) inset,
+    0 -1px 0 rgba(0,0,0,.2) inset,
+    0 6px 20px rgba(0,0,0,.35);
+}
+.gbtn:active{transform:translateY(0) scale(.97)}
+.btn-social.youtube i{color:var(--gold)}
+.btn-social.telegram i{color:var(--mint)}
+.btn-social.tiktok i{color:#fff}
+.btn-social.zalo i{color:#4fc3f7}
+.btn-bypass i{color:var(--green)}
+.btn-social.youtube:hover{border-color:rgba(255,214,10,.5)}
+.btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
+.btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
+.btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
+.btn-bypass:hover{border-color:rgba(34,197,94,.5)}
+
+.container{max-width:980px;margin:0 auto;padding:24px 20px 70px}
+
+.guide-line{
+  text-align:center;color:var(--txt-2);margin-bottom:22px;font-size:14px;
+  padding:13px 22px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  border:1px solid var(--bd);
+  box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
+}
+.guide-line strong{
+  color:var(--gold);padding:3px 10px;border-radius:8px;
+  background:rgba(255,214,10,.1);
+  border:1px solid rgba(255,214,10,.25);
+}
+
+.admin-panel{
+  padding:26px;
+  margin-bottom:26px;
+  display:none;
+}
+.admin-panel.active{display:block;animation:slideDown .3s var(--ease)}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.admin-header h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.2px}
+.admin-header h2 i{color:var(--mint)}
+.admin-badge{
+  font-size:10px;font-weight:800;letter-spacing:1px;
+  padding:5px 13px;border-radius:20px;text-transform:uppercase;
+  background:rgba(125,249,214,.1);color:var(--mint);
+  border:1px solid rgba(125,249,214,.28);
+  display:flex;align-items:center;gap:5px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full-width{grid-column:1/-1}
+.form-group label{
+  display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--txt-2);margin-bottom:6px;
+}
+.form-group input,.form-group textarea{
+  width:100%;padding:12px 15px;
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--bd);
+  border-radius:12px;color:var(--txt);font-size:14px;
+  transition:border-color .2s, box-shadow .2s;
+  font-family:inherit;
+}
+.form-group input:focus,.form-group textarea:focus{
+  outline:none;border-color:rgba(125,249,214,.55);
+  box-shadow:0 0 0 3px rgba(125,249,214,.12);
+}
+.form-group textarea{resize:vertical;min-height:90px}
+.form-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+.btn-primary{
+  padding:12px 28px;border-radius:14px;
+  font-weight:800;font-size:13.5px;
+  border:1px solid rgba(255,214,10,.5);
+  background:linear-gradient(180deg,#ffd60a,#f5b301);
+  color:#0a0d0a;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 -2px 0 rgba(0,0,0,.15) inset,
+    0 4px 16px rgba(255,214,10,.25);
+  transition:transform .2s var(--ease), box-shadow .2s, filter .2s;
+  will-change:transform;
+}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.15) inset,0 8px 22px rgba(255,214,10,.35)}
+.btn-primary:active{transform:translateY(0) scale(.97)}
+
+.btn-secondary{
+  padding:12px 28px;border-radius:14px;
+  font-weight:700;font-size:13.5px;
+  border:1px solid var(--bd);
+  background:var(--glass);
+  color:var(--txt-2);cursor:pointer;
+  display:none;align-items:center;gap:8px;
+  transition:all .2s var(--ease);
+}
+.btn-secondary:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
+.btn-secondary.active{display:inline-flex}
+
+.posts-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.post-card{
+  padding:24px 26px;
+  transition:transform .25s var(--ease), border-color .25s, box-shadow .25s;
+  will-change:transform;
+}
+.post-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--bd-hi);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.16) inset,
+    0 -1px 0 rgba(0,0,0,.25) inset,
+    0 14px 36px rgba(0,0,0,.45);
+}
+.post-card .post-title{
+  font-size:18px;font-weight:800;letter-spacing:-.3px;
+  color:var(--txt);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.post-card .post-title .post-id{
+  font-size:11px;font-weight:700;
+  color:var(--gold);
+  background:rgba(255,214,10,.1);
+  padding:3px 10px;border-radius:12px;
+  border:1px solid rgba(255,214,10,.25);
+}
+.post-card .post-image{
+  width:100%;max-height:320px;object-fit:cover;
+  border-radius:14px;margin:14px 0;
+  border:1px solid var(--bd);
+}
+.post-card .post-desc{display:none}
+.post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+
+.btn-download{
+  padding:11px 24px;border-radius:14px;
+  font-weight:800;font-size:13.5px;
+  border:1px solid rgba(125,249,214,.45);
+  background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 -2px 0 rgba(0,0,0,.12) inset,
+    0 4px 16px rgba(125,249,214,.25);
+  transition:transform .2s var(--ease), box-shadow .2s, filter .2s;
+  will-change:transform;
+}
+.btn-download:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 8px 22px rgba(125,249,214,.35)}
+.btn-download:active{transform:translateY(0) scale(.97)}
+
+.post-actions{display:flex;gap:9px;margin-top:16px;padding-top:16px;border-top:1px solid var(--bd)}
+.btn-edit,.btn-delete{
+  padding:7px 15px;border-radius:10px;font-weight:700;font-size:12.5px;
+  cursor:pointer;transition:all .2s var(--ease);display:none;align-items:center;gap:6px;
+  border:1px solid var(--bd);background:var(--glass);
+}
+.btn-edit{color:var(--gold)}
+.btn-edit:hover{background:rgba(255,214,10,.12);border-color:rgba(255,214,10,.4)}
+.btn-delete{color:var(--txt-2)}
+.btn-delete:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
+.btn-edit.active,.btn-delete.active{display:inline-flex}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);
+  z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{
+  position:relative;
+  background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi);
+  border-radius:24px;
+  padding:30px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset,
+    0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .3s var(--ease);
+}
+@keyframes popIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  width:38px;height:38px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--bd);
+  color:var(--txt-2);font-size:17px;cursor:pointer;
+  transition:all .25s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{color:var(--mint);border-color:rgba(125,249,214,.5);transform:rotate(90deg)}
+.modal-title{
+  font-size:20px;font-weight:800;letter-spacing:-.3px;
+  color:var(--txt);margin-bottom:18px;padding-right:50px;
+  padding-bottom:14px;border-bottom:1px solid var(--bd);
+}
+.modal-content{color:var(--txt-2);font-size:14.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+.modal-content a{
+  color:var(--mint);text-decoration:none;font-weight:700;
+  border-bottom:1px dashed rgba(125,249,214,.4);
+  word-break:break-all;
+}
+.modal-content a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.modal-actions{margin-top:24px;display:flex;justify-content:center;border-top:1px solid var(--bd);padding-top:20px}
+.modal-download-btn{
+  padding:14px 40px;border-radius:16px;
+  font-weight:900;font-size:15px;
+  border:1px solid rgba(125,249,214,.45);
+  background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 -2px 0 rgba(0,0,0,.12) inset,
+    0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+
+.footer-admin{
+  max-width:980px;margin:36px auto 0;padding:24px 26px;
+  text-align:center;
+}
+.footer-admin h3{
+  font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.6px;
+  color:var(--txt-2);margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+}
+.footer-admin h3 i{color:var(--mint)}
+.footer-admin .login-area{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
+.footer-admin .login-area input{
+  padding:12px 18px;background:rgba(0,0,0,.35);
+  border:1px solid var(--bd);border-radius:12px;color:var(--txt);
+  font-size:14px;min-width:220px;font-family:inherit;
+  transition:border-color .2s, box-shadow .2s;
+}
+.footer-admin .login-area input:focus{
+  outline:none;border-color:rgba(125,249,214,.55);
+  box-shadow:0 0 0 3px rgba(125,249,214,.12);
+}
+.footer-admin .login-area .btn-login{
+  padding:12px 28px;border-radius:14px;
+  font-weight:800;font-size:13.5px;
+  border:1px solid rgba(255,214,10,.5);
+  background:linear-gradient(180deg,#ffd60a,#f5b301);
+  color:#0a0d0a;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 4px 16px rgba(255,214,10,.25);
+  transition:all .2s var(--ease);will-change:transform;
+}
+.footer-admin .login-area .btn-login:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.footer-admin .logout-area{display:none}
+.footer-admin .logout-area.active{display:block;animation:fadeIn .25s ease}
+.footer-admin .logout-area p{color:var(--mint);font-weight:700;margin-bottom:12px}
+.footer-admin .logout-area .btn-logout{
+  padding:12px 28px;border-radius:14px;
+  font-weight:800;font-size:13.5px;
+  border:1px solid var(--bd);
+  background:var(--glass);color:var(--txt-2);cursor:pointer;
+  transition:all .2s var(--ease);
+}
+.footer-admin .logout-area .btn-logout:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi);transform:translateY(-2px)}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--txt-3)}
+.empty-state i{font-size:48px;margin-bottom:16px;display:block;color:rgba(125,249,214,.3)}
+.empty-state h3{font-size:17px;color:var(--txt-2);margin-bottom:6px;font-weight:700}
+.loading-spinner{display:flex;justify-content:center;align-items:center;padding:50px 0;gap:12px;color:var(--mint);font-weight:700}
+.loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.social-lock-overlay{
+  position:fixed;inset:0;background:rgba(3,5,8,.94);
+  z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;
+  animation:fadeIn .3s ease;
+}
+.social-lock-box{
+  position:relative;
+  background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi);
+  border-radius:26px;
+  padding:40px 34px;max-width:580px;width:100%;text-align:center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset,
+    0 40px 100px rgba(0,0,0,.85);
+  animation:popIn .4s var(--ease);
+}
+.social-lock-box h2{
+  font-size:25px;font-weight:900;letter-spacing:-.4px;
+  background:linear-gradient(135deg,var(--gold),var(--mint));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+}
+.social-lock-box p{color:var(--txt-2);font-size:14.5px;margin-bottom:28px}
+.social-lock-box .lock-icon{
+  font-size:48px;color:var(--mint);margin-bottom:14px;display:block;
+}
+.social-lock-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.social-lock-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 20px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  border:1px solid var(--bd);
+  box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
+  transition:border-color .25s, background .25s;gap:10px;flex-wrap:wrap;
+}
+.social-lock-item.done{
+  border-color:rgba(125,249,214,.45);
+  background:linear-gradient(180deg,rgba(125,249,214,.09),rgba(125,249,214,.03));
+}
+.social-lock-item .left{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--txt);font-size:14.5px}
+.social-lock-item .left i{font-size:22px;width:28px;text-align:center}
+.social-lock-item .left i.fa-youtube{color:var(--gold)}
+.social-lock-item .left i.fa-telegram{color:var(--mint)}
+.social-lock-item .left i.fa-tiktok{color:#fff}
+.social-lock-item .left i.fa-zalo{color:#4fc3f7}
+.social-lock-item .status{
+  font-size:12px;font-weight:700;padding:5px 13px;border-radius:16px;
+  background:rgba(255,255,255,.05);color:var(--txt-3);
+  border:1px solid var(--bd);
+}
+.social-lock-item.done .status{
+  background:rgba(125,249,214,.15);color:var(--mint);
+  border-color:rgba(125,249,214,.35);
+}
+.social-lock-item .btn-join{
+  padding:7px 16px;border-radius:10px;font-weight:800;font-size:12.5px;
+  border:1px solid rgba(255,214,10,.5);
+  cursor:pointer;color:#0a0d0a;
+  background:linear-gradient(180deg,#ffd60a,#f5b301);
+  display:inline-flex;align-items:center;gap:6px;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(255,214,10,.2);
+  transition:transform .2s var(--ease), filter .2s;
+}
+.social-lock-item .btn-join.telegram-btn{
+  background:linear-gradient(180deg,#7df9d6,#22c55e);
+  border-color:rgba(125,249,214,.5);color:#052e12;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(125,249,214,.2);
+}
+.social-lock-item .btn-join.tiktok-btn{
+  background:linear-gradient(180deg,#ffffff,#cccccc);
+  border-color:rgba(255,255,255,.5);color:#0a0d0a;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(255,255,255,.2);
+}
+.social-lock-item .btn-join.zalo-btn{
+  background:linear-gradient(180deg,#4fc3f7,#0288d1);
+  border-color:rgba(79,195,247,.5);color:#001f2e;
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(79,195,247,.2);
+}
+.social-lock-item .btn-join:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.06)}
+.social-lock-item .btn-join:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+.social-lock-btn-unlock{
+  padding:16px 38px;border:none;border-radius:16px;
+  font-weight:900;font-size:16px;letter-spacing:.3px;
+  background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:not-allowed;opacity:.35;
+  transition:transform .25s var(--ease), opacity .25s, filter .25s, box-shadow .25s;
+  width:100%;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 6px 20px rgba(125,249,214,.2);
+  will-change:transform;
+}
+.social-lock-btn-unlock.active{cursor:pointer;opacity:1}
+.social-lock-btn-unlock.active:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 32px rgba(125,249,214,.45)}
+.social-lock-btn-unlock:active{transform:scale(.98)}
+.social-lock-box .note{margin-top:16px;color:var(--txt-3);font-size:12.5px}
+.social-lock-box .note i{color:var(--gold)}
+
+@media (max-width:768px){
+  .header{padding:11px 14px}
+  .logo{font-size:17px}
+  .gbtn{font-size:12px;padding:8px 14px}
+  .container{padding:18px 14px 55px}
+  .admin-panel{padding:20px}
+  .form-grid{grid-template-columns:1fr}
+  .admin-header{flex-direction:column;align-items:flex-start}
+  .post-card{padding:20px}
+  .post-card .post-title{font-size:16px}
+  .modal-box{padding:24px 20px}
+  .footer-admin{padding:20px 18px}
+  .footer-admin .login-area{flex-direction:column}
+  .footer-admin .login-area input{min-width:unset;width:100%}
+  .social-lock-box{padding:30px 22px}
+  .social-lock-box h2{font-size:20px}
+  .social-lock-item{flex-wrap:wrap;gap:9px;justify-content:center}
+  .social-lock-item .left{width:100%;justify-content:center}
+}
+@media (max-width:480px){
+  .header-right .gbtn span{display:none}
+  .header-right .gbtn i{margin:0}
+}
+
+.gbtn,.btn-primary,.btn-download,.btn-edit,.btn-delete,
+.btn-login,.btn-logout,.social-lock-btn-unlock,.modal-download-btn,
+.social-lock-item,.post-card,.modal-box{
+  -webkit-tap-highlight-color:transparent;
+}
+img{content-visibility:auto}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 <body>
 
-    <!-- Gọi file JavaScript chứa toàn bộ ruột HTML đã được mã hóa siêu mạnh -->
-    <script src="render_obfuscated.js"></script>
+<!-- SOCIAL LOCK -->
+<div id="socialLock" class="social-lock-overlay">
+  <div class="social-lock-box">
+    <i class="fa-solid fa-lock lock-icon"></i>
+    <h2>Mở khóa nội dung</h2>
+    <p>Vui lòng tham gia Telegram, theo dõi TikTok và tham gia 2 nhóm Zalo để tiếp tục</p>
+    <div class="social-lock-grid">
+      <div class="social-lock-item" id="telegramItem">
+        <div class="left"><i class="fa-brands fa-telegram"></i><span>Tham gia Telegram</span></div>
+        <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-join telegram-btn" id="telegramJoinBtn"><i class="fa-regular fa-paper-plane"></i> Tham gia</a>
+        <span class="status" id="telegramStatus">Chưa hoàn thành</span>
+      </div>
+      <div class="social-lock-item" id="tiktokItem">
+        <div class="left"><i class="fa-brands fa-tiktok"></i><span>Theo dõi TikTok</span></div>
+        <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="btn-join tiktok-btn" id="tiktokJoinBtn"><i class="fa-regular fa-circle-play"></i> Theo dõi</a>
+        <span class="status" id="tiktokStatus">Chưa hoàn thành</span>
+      </div>
+      <div class="social-lock-item" id="zaloItem">
+        <div class="left"><i class="fa-solid fa-comment-dots"></i><span>Tham gia Zalo 1</span></div>
+        <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="btn-join zalo-btn" id="zaloJoinBtn"><i class="fa-regular fa-comment"></i> Tham gia</a>
+        <span class="status" id="zaloStatus">Chưa hoàn thành</span>
+      </div>
+      <div class="social-lock-item" id="zalo2Item">
+        <div class="left"><i class="fa-solid fa-comment-dots"></i><span>Tham gia Zalo 2</span></div>
+        <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="btn-join zalo-btn" id="zalo2JoinBtn"><i class="fa-regular fa-comment"></i> Tham gia</a>
+        <span class="status" id="zalo2Status">Chưa hoàn thành</span>
+      </div>
+    </div>
+    <button class="social-lock-btn-unlock" id="unlockBtn" disabled><i class="fa-solid fa-check"></i> Xác nhận & Mở khóa</button>
+    <div class="note"><i class="fa-regular fa-circle-info"></i> Bạn cần hoàn thành cả 4 bước trên</div>
+  </div>
+</div>
 
-    <script>
-        // Chèn thêm đoạn code chặn F12 và chuột phải để bảo vệ vòng ngoài
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) {
-                return false;
-            }
-        }
-    </script>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
+  </div>
+  <div class="header-right">
+    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
+    <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
+    <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
+    <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
+
+  <div class="glass admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <h2><i class="fa-solid fa-pen-to-square"></i> <span id="formHeading">Đăng bài viết mới</span></h2>
+      <span class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Quản trị</span>
+    </div>
+    <input type="hidden" id="editPostId" value="">
+    <div class="form-grid">
+      <div class="form-group full-width"><label>Tiêu đề</label><input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết..."></div>
+      <div class="form-group full-width"><label>Mô tả (Nơi chứa các link tải)</label><textarea id="postDesc" rows="4" placeholder="Nhập nội dung chứa các link vào đây...&#10;Ví dụ:&#10;Link tải game: https://example.com/game.apk&#10;Link dự phòng: https://example.com/backup"></textarea></div>
+      <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
+      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/*" style="padding:8px"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" id="submitBtn"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
+      <button class="btn-secondary" id="cancelEditBtn"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
+    </div>
+  </div>
+
+  <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
+</div>
+
+<!-- MODAL -->
+<div id="downloadModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+    <h3 id="modalTitle" class="modal-title">Tiêu đề bài viết</h3>
+    <div id="modalContent" class="modal-content">Nội dung các link sẽ hiện ra ở đây...</div>
+    <div class="modal-actions">
+      <a id="modalDownloadBtn" href="#" target="_blank" rel="noopener" class="modal-download-btn" style="display:none"><i class="fa-solid fa-download"></i> Tải xuống ngay</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER ADMIN -->
+<div class="footer-admin glass">
+  <h3><i class="fa-solid fa-lock"></i> Khu vực quản trị</h3>
+  <div class="login-area" id="loginArea">
+    <input type="password" id="secretInput" placeholder="Nhập mã bí mật...">
+    <button class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button>
+  </div>
+  <div class="logout-area" id="logoutArea">
+    <p><i class="fa-regular fa-circle-check"></i> Đã đăng nhập quyền Admin</p>
+    <button class="btn-logout"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</button>
+  </div>
+</div>
+
+<script>
+const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
+
+let isAdmin=localStorage.getItem("isAdmin")==="true";
+let posts=[];
+let base64Image="";
+let telegramDone=localStorage.getItem("telegramDone")==="true";
+let tiktokDone=localStorage.getItem("tiktokDone")==="true";
+let zaloDone=localStorage.getItem("zaloDone")==="true";
+let zalo2Done=localStorage.getItem("zalo2Done")==="true";
+let isUnlocked=localStorage.getItem("socialUnlocked")==="true";
+
+const $=id=>document.getElementById(id);
+const adminPanel=$("adminPanel"),loginArea=$("loginArea"),logoutArea=$("logoutArea"),
+postsContainer=$("postsContainer"),formHeading=$("formHeading"),editPostId=$("editPostId"),
+postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
+imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
+secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
+modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn"),socialLock=$("socialLock"),
+telegramItem=$("telegramItem"),tiktokItem=$("tiktokItem"),zaloItem=$("zaloItem"),zalo2Item=$("zalo2Item"),
+telegramStatus=$("telegramStatus"),tiktokStatus=$("tiktokStatus"),zaloStatus=$("zaloStatus"),zalo2Status=$("zalo2Status"),
+telegramJoinBtn=$("telegramJoinBtn"),tiktokJoinBtn=$("tiktokJoinBtn"),
+zaloJoinBtn=$("zaloJoinBtn"),zalo2JoinBtn=$("zalo2JoinBtn"),unlockBtn=$("unlockBtn");
+
+function updateSocialLockUI(){
+  // Telegram
+  if(telegramDone){
+    telegramItem.classList.add("done");
+    telegramStatus.textContent="✅ Đã hoàn thành";
+    telegramJoinBtn.disabled=true;
+    telegramJoinBtn.textContent="✅ Đã tham gia";
+  } else {
+    telegramItem.classList.remove("done");
+    telegramStatus.textContent="Chưa hoàn thành";
+    telegramJoinBtn.disabled=false;
+    telegramJoinBtn.innerHTML='<i class="fa-regular fa-paper-plane"></i> Tham gia';
+  }
+  // TikTok
+  if(tiktokDone){
+    tiktokItem.classList.add("done");
+    tiktokStatus.textContent="✅ Đã hoàn thành";
+    tiktokJoinBtn.disabled=true;
+    tiktokJoinBtn.textContent="✅ Đã theo dõi";
+  } else {
+    tiktokItem.classList.remove("done");
+    tiktokStatus.textContent="Chưa hoàn thành";
+    tiktokJoinBtn.disabled=false;
+    tiktokJoinBtn.innerHTML='<i class="fa-regular fa-circle-play"></i> Theo dõi';
+  }
+  // Zalo 1
+  if(zaloDone){
+    zaloItem.classList.add("done");
+    zaloStatus.textContent="✅ Đã hoàn thành";
+    zaloJoinBtn.disabled=true;
+    zaloJoinBtn.textContent="✅ Đã tham gia";
+  } else {
+    zaloItem.classList.remove("done");
+    zaloStatus.textContent="Chưa hoàn thành";
+    zaloJoinBtn.disabled=false;
+    zaloJoinBtn.innerHTML='<i class="fa-regular fa-comment"></i> Tham gia';
+  }
+  // Zalo 2
+  if(zalo2Done){
+    zalo2Item.classList.add("done");
+    zalo2Status.textContent="✅ Đã hoàn thành";
+    zalo2JoinBtn.disabled=true;
+    zalo2JoinBtn.textContent="✅ Đã tham gia";
+  } else {
+    zalo2Item.classList.remove("done");
+    zalo2Status.textContent="Chưa hoàn thành";
+    zalo2JoinBtn.disabled=false;
+    zalo2JoinBtn.innerHTML='<i class="fa-regular fa-comment"></i> Tham gia';
+  }
+  // Unlock
+  if(telegramDone && tiktokDone && zaloDone && zalo2Done){
+    unlockBtn.disabled=false;
+    unlockBtn.classList.add("active");
+    unlockBtn.innerHTML='<i class="fa-solid fa-check"></i> Mở khóa ngay';
+  } else {
+    unlockBtn.disabled=true;
+    unlockBtn.classList.remove("active");
+    unlockBtn.innerHTML='<i class="fa-solid fa-check"></i> Xác nhận & Mở khóa';
+  }
+}
+if(isUnlocked){
+  socialLock.style.display="none";
+  document.body.style.overflow="";
+} else {
+  socialLock.style.display="flex";
+  document.body.style.overflow="hidden";
+  updateSocialLockUI();
+}
+telegramJoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://t.me/SIKEMODFF","_blank");
+  setTimeout(()=>{telegramDone=true;localStorage.setItem("telegramDone","true");updateSocialLockUI();},1500);
+});
+tiktokJoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://tiktok.com/@sikeffmod","_blank");
+  setTimeout(()=>{tiktokDone=true;localStorage.setItem("tiktokDone","true");updateSocialLockUI();},1500);
+});
+zaloJoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://zalo.me/g/2xqvud1opgic0gy0tc9r","_blank");
+  setTimeout(()=>{zaloDone=true;localStorage.setItem("zaloDone","true");updateSocialLockUI();},1500);
+});
+zalo2JoinBtn.addEventListener("click",e=>{
+  e.preventDefault();
+  window.open("https://zalo.me/g/inj3bicbrjuz53itudvj","_blank");
+  setTimeout(()=>{zalo2Done=true;localStorage.setItem("zalo2Done","true");updateSocialLockUI();},1500);
+});
+unlockBtn.addEventListener("click",()=>{
+  if(telegramDone && tiktokDone && zaloDone && zalo2Done){
+    localStorage.setItem("socialUnlocked","true");
+    socialLock.style.display="none";
+    document.body.style.overflow="";
+    isUnlocked=true;
+  }
+});
+
+document.addEventListener("DOMContentLoaded",()=>{
+  if(isAdmin){
+    adminPanel.classList.add("active");
+    loginArea.style.display="none";
+    logoutArea.classList.add("active");
+  }
+  fetchPosts();
+  submitBtn.addEventListener("click",savePost);
+  cancelEditBtn.addEventListener("click",resetForm);
+  document.querySelector(".btn-login").addEventListener("click",loginAdmin);
+  document.querySelector(".btn-logout").addEventListener("click",logoutAdmin);
+  document.querySelector(".modal-close").addEventListener("click",closeModal);
+  modalOverlay.addEventListener("click",closeModalOnOutside);
+  imageUpload.addEventListener("change",handleImageUpload);
+  secretInput.addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
+});
+
+async function loginAdmin(){
+  const res = await fetch(`${WORKER_URL}/api/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: secretInput.value })
+  });
+  const { ok, token } = await res.json();
+  if(ok && token){
+    localStorage.setItem("isAdmin","true");
+    localStorage.setItem("adminToken", token);
+    location.reload();
+  } else {
+    secretInput.style.borderColor="rgba(255,214,10,.8)";
+    secretInput.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
+    setTimeout(()=>{secretInput.style.borderColor="";secretInput.style.boxShadow="";},1500);
+  }
+}
+function logoutAdmin(){
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("adminToken");
+  location.reload();
+}
+
+function handleImageUpload(e){
+  const file=e.target.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=ev=>{base64Image=ev.target.result;};
+    reader.readAsDataURL(file);
+  }
+}
+
+async function fetchPosts(){
+  try{
+    const res = await fetch(`${WORKER_URL}/api/posts`);
+    posts = await res.json();
+    renderPosts();
+  }catch(e){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">Vui lòng kiểm tra kết nối hoặc thử lại sau</p></div>`;
+  }
+}
+
+async function saveToServer(){
+  try{
+    const res = await fetch(`${WORKER_URL}/api/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Token": localStorage.getItem("adminToken") || "" },
+      body: JSON.stringify({ posts })
+    });
+    if(res.status===401){
+      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
+      logoutAdmin();
+      return;
+    }
+    location.reload();
+  }catch(e){ alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại."); }
+}
+
+
+async function savePost(){
+  const editId=editPostId.value;
+  const title=postTitle.value.trim();
+  const desc=postDesc.value.trim();
+  const redirect=postRedirect.value.trim();
+  if(!title){
+    postTitle.style.borderColor="rgba(255,214,10,.8)";
+    postTitle.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
+    setTimeout(()=>{postTitle.style.borderColor="";postTitle.style.boxShadow="";},1500);
+    postTitle.focus();return;
+  }
+  if(editId){
+    posts=posts.map(p=>p.id==editId?{...p,title,desc,redirectLink:redirect,image:base64Image||p.image}:p);
+  } else {
+    posts.unshift({id:Date.now(),title,desc,redirectLink:redirect,image:base64Image});
+  }
+  saveToServer();
+}
+
+function editPost(id){
+  const p=posts.find(item=>item.id==id);
+  if(!p)return;
+  editPostId.value=p.id;
+  postTitle.value=p.title;
+  postDesc.value=p.desc;
+  postRedirect.value=p.redirectLink||"";
+  base64Image=p.image||"";
+  formHeading.innerText="Sửa bài viết";
+  submitBtn.innerHTML=`<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
+  cancelEditBtn.classList.add("active");
+  adminPanel.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetForm(){
+  editPostId.value="";
+  postTitle.value="";
+  postDesc.value="";
+  postRedirect.value="";
+  base64Image="";
+  imageUpload.value="";
+  formHeading.innerText="Đăng bài viết mới";
+  submitBtn.innerHTML=`<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
+  cancelEditBtn.classList.remove("active");
+}
+
+async function deletePost(id){
+  if(confirm("Bạn có chắc muốn xóa bài viết này?")){
+    posts=posts.filter(p=>p.id!==id);
+    saveToServer();
+  }
+}
+
+function escapeHtml(str){
+  if(str===null||str===undefined)return"";
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+// Escape trước để chống XSS, sau đó mới đổi xuống dòng và tạo link - tránh bị escape đè lên thẻ <br>
+function formatDesc(text){
+  if(!text)return"";
+  const escaped=escapeHtml(text).replace(/\n/g,"<br>");
+  return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function openDownloadModal(id){
+  if(!isUnlocked){
+    socialLock.style.display="flex";
+    document.body.style.overflow="hidden";
+    return;
+  }
+  const p=posts.find(item=>item.id==id);
+  if(!p)return;
+  modalTitle.textContent=p.title;
+  modalContent.innerHTML=formatDesc(p.desc);
+  if(p.redirectLink&&p.redirectLink.trim()!==""){
+    modalDownloadBtn.style.display="inline-flex";
+    modalDownloadBtn.href=p.redirectLink;
+  } else {
+    modalDownloadBtn.style.display="none";
+  }
+  modalOverlay.classList.add("active");
+  document.body.style.overflow="hidden";
+}
+function closeModal(){modalOverlay.classList.remove("active");document.body.style.overflow="";}
+function closeModalOnOutside(e){if(e.target===modalOverlay)closeModal();}
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&modalOverlay.classList.contains("active"))closeModal();
+});
+
+function renderPosts(){
+  if(!posts||posts.length===0){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-newspaper"></i><h3>Chưa có bài viết</h3><p style="color:var(--txt-3);font-size:14px">Hãy đăng bài viết đầu tiên ngay nào!</p></div>`;
+    return;
+  }
+  postsContainer.innerHTML=`<div class="posts-grid">${posts.map(p=>`
+    <div class="post-card glass">
+      <div class="post-title">${escapeHtml(p.title)}<span class="post-id">#${p.id.toString().slice(-6)}</span></div>
+      ${p.image?`<img src="${escapeHtml(p.image)}" class="post-image" alt="${escapeHtml(p.title)}" loading="lazy">`:""}
+      <div class="post-desc">${formatDesc(p.desc)}</div>
+      <div class="post-meta">
+        <button class="btn-download" onclick="openDownloadModal(${p.id})"><i class="fa-solid fa-download"></i> Tải xuống</button>
+      </div>
+      <div class="post-actions">
+        <button class="btn-edit ${isAdmin?"active":""}" onclick="editPost(${p.id})"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
+        <button class="btn-delete ${isAdmin?"active":""}" onclick="deletePost(${p.id})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
+      </div>
+    </div>
+  `).join("")}</div>`;
+}
+</script>
 </body>
 </html>
