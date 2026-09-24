@@ -366,104 +366,6 @@ a{text-decoration:none;color:inherit}
 .loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.social-lock-overlay{
-  position:fixed;inset:0;background:rgba(3,5,8,.94);
-  z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;
-  animation:fadeIn .3s ease;
-}
-.social-lock-box{
-  position:relative;
-  background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
-  border:1px solid var(--bd-hi);
-  border-radius:26px;
-  padding:40px 34px;max-width:580px;width:100%;text-align:center;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.18) inset,
-    0 -1px 0 rgba(0,0,0,.3) inset,
-    0 40px 100px rgba(0,0,0,.85);
-  animation:popIn .4s var(--ease);
-}
-.social-lock-box h2{
-  font-size:25px;font-weight:900;letter-spacing:-.4px;
-  background:linear-gradient(135deg,var(--gold),var(--mint));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  margin-bottom:8px;
-}
-.social-lock-box p{color:var(--txt-2);font-size:14.5px;margin-bottom:28px}
-.social-lock-box .lock-icon{
-  font-size:48px;color:var(--mint);margin-bottom:14px;display:block;
-}
-.social-lock-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
-.social-lock-item{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:15px 20px;border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
-  border:1px solid var(--bd);
-  box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
-  transition:border-color .25s, background .25s;gap:10px;flex-wrap:wrap;
-}
-.social-lock-item.done{
-  border-color:rgba(125,249,214,.45);
-  background:linear-gradient(180deg,rgba(125,249,214,.09),rgba(125,249,214,.03));
-}
-.social-lock-item .left{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--txt);font-size:14.5px}
-.social-lock-item .left i{font-size:22px;width:28px;text-align:center}
-.social-lock-item .left i.fa-youtube{color:var(--gold)}
-.social-lock-item .left i.fa-telegram{color:var(--mint)}
-.social-lock-item .left i.fa-tiktok{color:#fff}
-.social-lock-item .left i.fa-zalo{color:#4fc3f7}
-.social-lock-item .status{
-  font-size:12px;font-weight:700;padding:5px 13px;border-radius:16px;
-  background:rgba(255,255,255,.05);color:var(--txt-3);
-  border:1px solid var(--bd);
-}
-.social-lock-item.done .status{
-  background:rgba(125,249,214,.15);color:var(--mint);
-  border-color:rgba(125,249,214,.35);
-}
-.social-lock-item .btn-join{
-  padding:7px 16px;border-radius:10px;font-weight:800;font-size:12.5px;
-  border:1px solid rgba(255,214,10,.5);
-  cursor:pointer;color:#0a0d0a;
-  background:linear-gradient(180deg,#ffd60a,#f5b301);
-  display:inline-flex;align-items:center;gap:6px;
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(255,214,10,.2);
-  transition:transform .2s var(--ease), filter .2s;
-}
-.social-lock-item .btn-join.telegram-btn{
-  background:linear-gradient(180deg,#7df9d6,#22c55e);
-  border-color:rgba(125,249,214,.5);color:#052e12;
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(125,249,214,.2);
-}
-.social-lock-item .btn-join.tiktok-btn{
-  background:linear-gradient(180deg,#ffffff,#cccccc);
-  border-color:rgba(255,255,255,.5);color:#0a0d0a;
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(255,255,255,.2);
-}
-.social-lock-item .btn-join.zalo-btn{
-  background:linear-gradient(180deg,#4fc3f7,#0288d1);
-  border-color:rgba(79,195,247,.5);color:#001f2e;
-  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 3px 10px rgba(79,195,247,.2);
-}
-.social-lock-item .btn-join:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.06)}
-.social-lock-item .btn-join:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
-.social-lock-btn-unlock{
-  padding:16px 38px;border:none;border-radius:16px;
-  font-weight:900;font-size:16px;letter-spacing:.3px;
-  background:linear-gradient(180deg,#7df9d6,#22c55e);
-  color:#052e12;cursor:not-allowed;opacity:.35;
-  transition:transform .25s var(--ease), opacity .25s, filter .25s, box-shadow .25s;
-  width:100%;
-  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 6px 20px rgba(125,249,214,.2);
-  will-change:transform;
-}
-.social-lock-btn-unlock.active{cursor:pointer;opacity:1}
-.social-lock-btn-unlock.active:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 32px rgba(125,249,214,.45)}
-.social-lock-btn-unlock:active{transform:scale(.98)}
-.social-lock-box .note{margin-top:16px;color:var(--txt-3);font-size:12.5px}
-.social-lock-box .note i{color:var(--gold)}
-
 @media (max-width:768px){
   .header{padding:11px 14px}
   .logo{font-size:17px}
@@ -478,10 +380,6 @@ a{text-decoration:none;color:inherit}
   .footer-admin{padding:20px 18px}
   .footer-admin .login-area{flex-direction:column}
   .footer-admin .login-area input{min-width:unset;width:100%}
-  .social-lock-box{padding:30px 22px}
-  .social-lock-box h2{font-size:20px}
-  .social-lock-item{flex-wrap:wrap;gap:9px;justify-content:center}
-  .social-lock-item .left{width:100%;justify-content:center}
 }
 @media (max-width:480px){
   .header-right .gbtn span{display:none}
@@ -489,8 +387,8 @@ a{text-decoration:none;color:inherit}
 }
 
 .gbtn,.btn-primary,.btn-download,.btn-edit,.btn-delete,
-.btn-login,.btn-logout,.social-lock-btn-unlock,.modal-download-btn,
-.social-lock-item,.post-card,.modal-box{
+.btn-login,.btn-logout,.modal-download-btn,
+.post-card,.modal-box{
   -webkit-tap-highlight-color:transparent;
 }
 img{content-visibility:auto}
@@ -500,39 +398,6 @@ img{content-visibility:auto}
 </style>
 </head>
 <body>
-
-<!-- SOCIAL LOCK -->
-<div id="socialLock" class="social-lock-overlay">
-  <div class="social-lock-box">
-    <i class="fa-solid fa-lock lock-icon"></i>
-    <h2>Mở khóa nội dung</h2>
-    <p>Vui lòng tham gia Telegram, theo dõi TikTok và tham gia 2 nhóm Zalo để tiếp tục</p>
-    <div class="social-lock-grid">
-      <div class="social-lock-item" id="telegramItem">
-        <div class="left"><i class="fa-brands fa-telegram"></i><span>Tham gia Telegram</span></div>
-        <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-join telegram-btn" id="telegramJoinBtn"><i class="fa-regular fa-paper-plane"></i> Tham gia</a>
-        <span class="status" id="telegramStatus">Chưa hoàn thành</span>
-      </div>
-      <div class="social-lock-item" id="tiktokItem">
-        <div class="left"><i class="fa-brands fa-tiktok"></i><span>Theo dõi TikTok</span></div>
-        <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="btn-join tiktok-btn" id="tiktokJoinBtn"><i class="fa-regular fa-circle-play"></i> Theo dõi</a>
-        <span class="status" id="tiktokStatus">Chưa hoàn thành</span>
-      </div>
-      <div class="social-lock-item" id="zaloItem">
-        <div class="left"><i class="fa-solid fa-comment-dots"></i><span>Tham gia Zalo 1</span></div>
-        <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="btn-join zalo-btn" id="zaloJoinBtn"><i class="fa-regular fa-comment"></i> Tham gia</a>
-        <span class="status" id="zaloStatus">Chưa hoàn thành</span>
-      </div>
-      <div class="social-lock-item" id="zalo2Item">
-        <div class="left"><i class="fa-solid fa-comment-dots"></i><span>Tham gia Zalo 2</span></div>
-        <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="btn-join zalo-btn" id="zalo2JoinBtn"><i class="fa-regular fa-comment"></i> Tham gia</a>
-        <span class="status" id="zalo2Status">Chưa hoàn thành</span>
-      </div>
-    </div>
-    <button class="social-lock-btn-unlock" id="unlockBtn" disabled><i class="fa-solid fa-check"></i> Xác nhận & Mở khóa</button>
-    <div class="note"><i class="fa-regular fa-circle-info"></i> Bạn cần hoàn thành cả 4 bước trên</div>
-  </div>
-</div>
 
 <!-- HEADER -->
 <header class="header">
@@ -604,11 +469,6 @@ const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
 let base64Image="";
-let telegramDone=localStorage.getItem("telegramDone")==="true";
-let tiktokDone=localStorage.getItem("tiktokDone")==="true";
-let zaloDone=localStorage.getItem("zaloDone")==="true";
-let zalo2Done=localStorage.getItem("zalo2Done")==="true";
-let isUnlocked=localStorage.getItem("socialUnlocked")==="true";
 
 const $=id=>document.getElementById(id);
 const adminPanel=$("adminPanel"),loginArea=$("loginArea"),logoutArea=$("logoutArea"),
@@ -616,108 +476,7 @@ postsContainer=$("postsContainer"),formHeading=$("formHeading"),editPostId=$("ed
 postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
 imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
 secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
-modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn"),socialLock=$("socialLock"),
-telegramItem=$("telegramItem"),tiktokItem=$("tiktokItem"),zaloItem=$("zaloItem"),zalo2Item=$("zalo2Item"),
-telegramStatus=$("telegramStatus"),tiktokStatus=$("tiktokStatus"),zaloStatus=$("zaloStatus"),zalo2Status=$("zalo2Status"),
-telegramJoinBtn=$("telegramJoinBtn"),tiktokJoinBtn=$("tiktokJoinBtn"),
-zaloJoinBtn=$("zaloJoinBtn"),zalo2JoinBtn=$("zalo2JoinBtn"),unlockBtn=$("unlockBtn");
-
-function updateSocialLockUI(){
-  // Telegram
-  if(telegramDone){
-    telegramItem.classList.add("done");
-    telegramStatus.textContent="✅ Đã hoàn thành";
-    telegramJoinBtn.disabled=true;
-    telegramJoinBtn.textContent="✅ Đã tham gia";
-  } else {
-    telegramItem.classList.remove("done");
-    telegramStatus.textContent="Chưa hoàn thành";
-    telegramJoinBtn.disabled=false;
-    telegramJoinBtn.innerHTML='<i class="fa-regular fa-paper-plane"></i> Tham gia';
-  }
-  // TikTok
-  if(tiktokDone){
-    tiktokItem.classList.add("done");
-    tiktokStatus.textContent="✅ Đã hoàn thành";
-    tiktokJoinBtn.disabled=true;
-    tiktokJoinBtn.textContent="✅ Đã theo dõi";
-  } else {
-    tiktokItem.classList.remove("done");
-    tiktokStatus.textContent="Chưa hoàn thành";
-    tiktokJoinBtn.disabled=false;
-    tiktokJoinBtn.innerHTML='<i class="fa-regular fa-circle-play"></i> Theo dõi';
-  }
-  // Zalo 1
-  if(zaloDone){
-    zaloItem.classList.add("done");
-    zaloStatus.textContent="✅ Đã hoàn thành";
-    zaloJoinBtn.disabled=true;
-    zaloJoinBtn.textContent="✅ Đã tham gia";
-  } else {
-    zaloItem.classList.remove("done");
-    zaloStatus.textContent="Chưa hoàn thành";
-    zaloJoinBtn.disabled=false;
-    zaloJoinBtn.innerHTML='<i class="fa-regular fa-comment"></i> Tham gia';
-  }
-  // Zalo 2
-  if(zalo2Done){
-    zalo2Item.classList.add("done");
-    zalo2Status.textContent="✅ Đã hoàn thành";
-    zalo2JoinBtn.disabled=true;
-    zalo2JoinBtn.textContent="✅ Đã tham gia";
-  } else {
-    zalo2Item.classList.remove("done");
-    zalo2Status.textContent="Chưa hoàn thành";
-    zalo2JoinBtn.disabled=false;
-    zalo2JoinBtn.innerHTML='<i class="fa-regular fa-comment"></i> Tham gia';
-  }
-  // Unlock
-  if(telegramDone && tiktokDone && zaloDone && zalo2Done){
-    unlockBtn.disabled=false;
-    unlockBtn.classList.add("active");
-    unlockBtn.innerHTML='<i class="fa-solid fa-check"></i> Mở khóa ngay';
-  } else {
-    unlockBtn.disabled=true;
-    unlockBtn.classList.remove("active");
-    unlockBtn.innerHTML='<i class="fa-solid fa-check"></i> Xác nhận & Mở khóa';
-  }
-}
-if(isUnlocked){
-  socialLock.style.display="none";
-  document.body.style.overflow="";
-} else {
-  socialLock.style.display="flex";
-  document.body.style.overflow="hidden";
-  updateSocialLockUI();
-}
-telegramJoinBtn.addEventListener("click",e=>{
-  e.preventDefault();
-  window.open("https://t.me/SIKEMODFF","_blank");
-  setTimeout(()=>{telegramDone=true;localStorage.setItem("telegramDone","true");updateSocialLockUI();},1500);
-});
-tiktokJoinBtn.addEventListener("click",e=>{
-  e.preventDefault();
-  window.open("https://tiktok.com/@sikeffmod","_blank");
-  setTimeout(()=>{tiktokDone=true;localStorage.setItem("tiktokDone","true");updateSocialLockUI();},1500);
-});
-zaloJoinBtn.addEventListener("click",e=>{
-  e.preventDefault();
-  window.open("https://zalo.me/g/2xqvud1opgic0gy0tc9r","_blank");
-  setTimeout(()=>{zaloDone=true;localStorage.setItem("zaloDone","true");updateSocialLockUI();},1500);
-});
-zalo2JoinBtn.addEventListener("click",e=>{
-  e.preventDefault();
-  window.open("https://zalo.me/g/inj3bicbrjuz53itudvj","_blank");
-  setTimeout(()=>{zalo2Done=true;localStorage.setItem("zalo2Done","true");updateSocialLockUI();},1500);
-});
-unlockBtn.addEventListener("click",()=>{
-  if(telegramDone && tiktokDone && zaloDone && zalo2Done){
-    localStorage.setItem("socialUnlocked","true");
-    socialLock.style.display="none";
-    document.body.style.overflow="";
-    isUnlocked=true;
-  }
-});
+modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
 
 document.addEventListener("DOMContentLoaded",()=>{
   if(isAdmin){
@@ -866,11 +625,6 @@ function formatDesc(text){
 }
 
 function openDownloadModal(id){
-  if(!isUnlocked){
-    socialLock.style.display="flex";
-    document.body.style.overflow="hidden";
-    return;
-  }
   const p=posts.find(item=>item.id==id);
   if(!p)return;
   modalTitle.textContent=p.title;
