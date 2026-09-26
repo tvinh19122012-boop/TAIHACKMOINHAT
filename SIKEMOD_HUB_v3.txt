@@ -1,0 +1,2926 @@
+--/================================================================================================
+--  SIKEMOD HUB v3.0 — BLOX FRUITS FULL FEATURE | Delta X (Mobile) | MADE BY Sike Mod
+--
+--  Build tự động từ OFFSETS.json (dump thật trong game, Sea 1, JobId f3afa3c9) + database offset.
+--
+--  ►► DÙNG: dán cả file vào Delta X → Execute (đang ở trong Blox Fruits).
+--      Nút "–" để thu nhỏ, nút "SIKEMOD" để mở lại, keybind F (đổi được ở tab SETTINGS).
+--
+--  ►► TÍNH NĂNG (ngang Redz / Banana / Real Kid):
+--     FARM     : Auto Farm Level theo quest · Auto Farm không quest · Auto Quest (GetBestQuestNPC →
+--                getQuests → StartQuest, có brute-force id theo level) · Auto Next Quest · Auto Boss ·
+--                Auto Sea Beast · Farm theo tên mob · Bring Mob · Kill Aura · Fast Attack (slider) ·
+--                Auto Skill Z/X/C · Auto Equip (Best/Melee/Sword/Gun/Fruit) · Auto Mastery ·
+--                Auto Buso/Ken · Auto Stats (AddPoint) · Safe Mode (slider %HP)
+--     QUÊST    : panel quest realtime (đọc "DEFEAT 5 BANDITS (0/5)") · nhận quest 1 nút ·
+--                bỏ quest · tới NPC quest · tự dò quest · danh sách quest theo biển
+--     ITEMS    : Auto Chest (Teleport/Tween) · Chest ESP · Auto Fruit (bỏ lọc mesh rác) · Fruit Sniper ·
+--                Fruit Bring · Auto Store Fruit (theo rarity) · Fruit Notifier · Auto Đồ Rơi · Mảnh Fruit
+--     RAID     : nhặt chip · bắt đầu raid (thử method) · teleport tới phòng raid
+--     ESP      : Player/Mob/Boss/Chest/Fruit/NPC + Tracer (nếu executor có Drawing) + slider tầm xa
+--     TELEPORT : có Ô TÌM KIẾM — Đảo (3 biển) · NPC (toạ độ thật từ dump) · Vùng (19 zone) · Boss ·
+--                Rương gần nhất · Fruit gần nhất · Lưu vị trí / Quay lại / Set spawn
+--     PLAYER   : Fly (slider) · Noclip · Speed/Jump slider · Anti-AFK · Boost FPS · Ẩn UI · Reset
+--     SERVER   : Server Hop (lọc) · Rejoin · Join JobId · Copy JobId · Auto Rejoin · thông tin server
+--     SETTINGS : Theme · UI scale · thông báo · lưu/tải config · self-test · thông tin DB/dump
+--
+--  Nguyên tắc: mọi offset lấy từ DB (BF_OFFSETS) hoặc quét runtime, mọi lời gọi game bọc pcall →
+--  game update vẫn chạy, cùng lắm tính năng đó tạm không thấy mục tiêu (không crash).
+--/================================================================================================
+
+if not game:IsLoaded() then game.Loaded:Wait() end
+if not getgenv then getgenv = getfenv end
+
+-- ================= BUILD INFO =================
+-- Generated : 2026-09-26 11:40  (tools/build_hub.py)
+-- Offsets DB: offsets/bf_offsets.json  (updated 2026-09-26)
+-- Quests: 47 (chưa verify: 33) | Đảo: 29 | Boss: 22 | Mob dump: 0
+-- Nguồn offset: DUMP TỪ GAME THẬT (Delta X, Sea 1) — remotes/GUI/NPC/chest/entrance chính xác 100%; raw.githubusercontent.com/xHeptc/BloxFruits — quest ID + method (verified)
+-- =============================================
+
+local BF_OFFSETS = {
+	meta = {
+		name = "SIKEMOD OFFSETS DB — BLOX FRUITS",
+		author = "Sike Mod",
+		updated = "2026-09-26",
+		schemaVersion = 2,
+		note = "Offset gồm 3 mức tin cậy: verified = lấy từ script public đang chạy thật; common = các hub lớn dùng phổ biến nhưng chưa tự xác minh; dump = do bf_offset_dumper.lua bóc trực tiếp trong game (chính xác nhất). Chạy dumper rồi build lại là mọi thứ thành 'dump'.",
+		sources = {"DUMP TỪ GAME THẬT (Delta X, Sea 1) — remotes/GUI/NPC/chest/entrance chính xác 100%", "raw.githubusercontent.com/xHeptc/BloxFruits — quest ID + method (verified)", "các hub public (Redz/Banana/Long Hub) — cấu trúc remote & quest pattern"},
+		lastUserDump = {
+			file = "OFFSETS.json (MediaFire)",
+			sea = "Sea 1",
+			jobId = "f3afa3c9-527c-414a-a924-81a40c679899",
+			level = 1,
+			at = "2026-09-26 19:22:16",
+			executor = "Delta",
+		},
+	},
+	places = {
+		["Sea 1"] = 2753915549,
+		["Sea 2"] = 4442272183,
+		["Sea 3"] = 7449423635,
+	},
+	paths = {
+		remotes = "ReplicatedStorage.Remotes",
+		commF = "ReplicatedStorage.Remotes.CommF_",
+		commE = "ReplicatedStorage.Remotes.CommE_",
+		enemies = "workspace.Enemies",
+		map = "workspace.Map",
+		mouseModule = "ReplicatedStorage.Mouse",
+	},
+	remoteMethods = {
+		StartQuest = {
+			args = {"QuestId", "QuestNumber"},
+			src = "verified-dump",
+			desc = "Nhận quest. Bắt buộc đứng gần Quest Giver (teleport tới NPC trước rồi invoke).",
+		},
+		AbandonQuest = {
+			args = {},
+			src = "verified-dump",
+			desc = "Hủy quest hiện tại.",
+		},
+		AddPoint = {
+			args = {"StatName", "Amount"},
+			src = "verified-dump",
+			desc = "StatName: Melee | Defense | Sword | Gun | Demon Fruit. Dùng cho Auto Stats.",
+		},
+		Buso = {
+			args = {},
+			src = "verified-dump",
+			desc = "Bật/tắt Buso (Haki vũ trang). Auto Buso gọi lại mỗi ~1s.",
+		},
+		BuyHaki = {
+			args = {"Buso"},
+			src = "common",
+			desc = "Mua haki. Buso chắc chắn đúng; một số bản còn Geppo/Soru.",
+		},
+		SetTeam = {
+			args = {"Pirates"},
+			src = "verified",
+			desc = "Chọn phe. Nhận 'Pirates' hoặc 'Marines'.",
+		},
+		SetSpawnPoint = {
+			args = {},
+			src = "verified",
+			desc = "Lưu điểm spawn tại chỗ đang đứng.",
+		},
+		requestEntrance = {
+			args = {"Vector3"},
+			src = "verified",
+			desc = "Vào khu vực riêng (Skylands, Cursed Ship, Haunted Castle...). Truyền toạ độ cổng.",
+		},
+		getQuests = {
+			args = {},
+			src = "verified-dump",
+			desc = "Quest của NPC gần nhất → id + level + num.",
+		},
+		getInventory = {
+			args = {},
+			src = "common",
+			desc = "Trả về túi đồ (item + rarity).",
+		},
+		getInventoryWeapons = {
+			args = {},
+			src = "common",
+			desc = "Trả về vũ khí trong túi kèm Level (dùng cho Auto Equip vũ khí mạnh nhất).",
+		},
+		GetFruits = {
+			args = {},
+			src = "verified",
+			desc = "Trả danh sách fruit trong kho (name + rarity).",
+		},
+		GetBestQuestNPC = {
+			args = {},
+			src = "verified-dump",
+			desc = "RemoteFunction ReplicatedStorage.Remotes.GetBestQuestNPC — server trả quest NPC phù hợp level. Dùng cho Auto Quest.",
+		},
+		StoreFruit = {
+			args = {"FruitName"},
+			src = "common",
+			desc = "Cất fruit vào kho. Bọc pcall.",
+		},
+	},
+	workspaceOffsets = {
+		enemiesFolder = {
+			path = "workspace.Enemies",
+			src = "verified",
+			desc = "Mob thường + boss nằm trong này. Tên dạng 'Bandit [Lv. 5]' (có dấu cách sau Lv.).",
+		},
+		mobNamePattern = "^(.+) %[Lv%. ?(%d+)%]$",
+		bossNoLevelPattern = "^[^%[]+$",
+		questGui = {
+			path = "LocalPlayer.PlayerGui.Main.Quest",
+			src = "verified",
+			desc = ".Visible = đang có quest.",
+		},
+		questTitle = {
+			path = "LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title",
+			src = "verified",
+			desc = "Text = tên mob + level của quest, ví dụ 'Bandit [Lv. 5]'.",
+		},
+		toolSkillRemote = {
+			path = "Tool.RemoteFunction",
+			src = "verified",
+			desc = "InvokeServer('Z', CFrame) / ('X') / ('C') để xài skill vũ khí.",
+		},
+		mouseModule = {
+			path = "ReplicatedStorage.Mouse",
+			src = "verified",
+			desc = "require(...).Hit.p = vị trí chuột (dùng cho skill Z).",
+		},
+		fruitModels = {
+			path = "workspace",
+			src = "verified",
+			desc = "Fruit rơi ra là Tool/Model có .Handle, tên chứa 'Fruit'.",
+		},
+	},
+	combat = {
+		attackMethod = "VirtualUser:CaptureController() + VirtualUser:ClickButton1(Vector2.new()) — bấm chuột ảo (verified, chạy tốt trên mobile)",
+		fastAttackDelay = 0.1,
+		skillKeys = {"Z", "X", "C", "F"},
+		note = "Fast attack = spam ClickButton1 theo delay; skill = tool.RemoteFunction:InvokeServer(Z/X/C)",
+	},
+	quests = {
+		["Sea 1"] = {
+			{id = "MarineQuest1", num = 1, mob = "Trainee", lv = 1, island = "Marine Start", npc = Vector3.new(-2655.3, 30.5, 2113.7), giver = "Marine Leader", verify = false, src = "verified-dump"},
+			{id = "BanditQuest1", num = 1, mob = "Bandit", lv = 5, island = "Starter Island", npc = Vector3.new(1062, 16, 1417), verify = false},
+			{id = "JungleQuest", num = 1, mob = "Monkey", lv = 14, island = "Jungle", npc = Vector3.new(-1620, 36, 153), verify = true},
+			{id = "JungleQuest", num = 2, mob = "Gorilla", lv = 20, island = "Jungle", npc = Vector3.new(-1620, 36, 153), verify = true},
+			{id = "BuggyQuest1", num = 1, mob = "Pirate", lv = 35, island = "Pirate Village", npc = Vector3.new(-1191, 5, 3772), verify = true},
+			{id = "BuggyQuest1", num = 2, mob = "Brute", lv = 45, island = "Pirate Village", npc = Vector3.new(-1191, 5, 3772), verify = true},
+			{id = "DesertQuest", num = 1, mob = "Desert Bandit", lv = 60, island = "Desert", npc = Vector3.new(1045, 6, 4300), verify = true},
+			{id = "DesertQuest", num = 2, mob = "Desert Officer", lv = 70, island = "Desert", npc = Vector3.new(1045, 6, 4300), verify = true},
+			{id = "SnowQuest", num = 1, mob = "Snow Bandit", lv = 90, island = "Frozen Village", npc = Vector3.new(-5663, 30, -6679), verify = true},
+			{id = "SnowQuest", num = 2, mob = "Snowman", lv = 100, island = "Frozen Village", npc = Vector3.new(-5663, 30, -6679), verify = true},
+			{id = "MarineQuest2", num = 1, mob = "Chief Petty Officer", lv = 120, island = "Marine Fortress", npc = Vector3.new(-4580, 21, 4276), verify = false},
+			{id = "SkyQuest", num = 1, mob = "Sky Bandit", lv = 150, island = "Skylands", npc = Vector3.new(-4841, 717, -1304), verify = false, entrance = Vector3.new(-4841, 717, -1304)},
+			{id = "SkyQuest", num = 2, mob = "Dark Master", lv = 175, island = "Skylands", npc = Vector3.new(-4841, 717, -1304), verify = true, entrance = Vector3.new(-4841, 717, -1304)},
+			{id = "ColosseumQuest", num = 1, mob = "Toga Warrior", lv = 225, island = "Colosseum", npc = Vector3.new(-1480, 7, -2860), verify = false},
+			{id = "ColosseumQuest", num = 2, mob = "Gladiator", lv = 275, island = "Colosseum", npc = Vector3.new(-1480, 7, -2860), verify = false},
+			{id = "MagmaQuest", num = 1, mob = "Military Soldier", lv = 300, island = "Magma Village", npc = Vector3.new(-5380, 8, -4860), verify = false},
+			{id = "MagmaQuest", num = 2, mob = "Military Spy", lv = 330, island = "Magma Village", npc = Vector3.new(-5380, 8, -4860), verify = false},
+			{id = "FishmanQuest", num = 1, mob = "Fishman Warrior", lv = 375, island = "Under Water", npc = Vector3.new(61163, 11, 1700), verify = true},
+			{id = "FishmanQuest", num = 2, mob = "Fishman Commando", lv = 400, island = "Under Water", npc = Vector3.new(61163, 11, 1700), verify = true},
+			{id = "SkyExp1Quest", num = 1, mob = "God's Guard", lv = 450, island = "Skylands", npc = Vector3.new(-4700, 845, -1300), verify = false, entrance = Vector3.new(-4700, 845, -1300)},
+			{id = "SkyExp1Quest", num = 2, mob = "Shanda", lv = 475, island = "Skylands", npc = Vector3.new(-4700, 845, -1300), verify = false, entrance = Vector3.new(-4700, 845, -1300)},
+			{id = "FountainQuest", num = 1, mob = "Galley Pirate", lv = 625, island = "Usopps Island", npc = Vector3.new(5180, 40, -4700), verify = false},
+			{id = "FountainQuest", num = 2, mob = "Galley Captain", lv = 650, island = "Usopps Island", npc = Vector3.new(5180, 40, -4700), verify = true},
+		},
+		["Sea 2"] = {
+			{id = "Area1Quest", num = 1, mob = "Mercenary", lv = 725, island = "Kingdom of Rose", verify = true},
+			{id = "Area1Quest", num = 2, mob = "Raider", lv = 775, island = "Kingdom of Rose", verify = true},
+			{id = "Area2Quest", num = 1, mob = "Swan Pirate", lv = 825, island = "Kingdom of Rose", verify = true},
+			{id = "Area2Quest", num = 2, mob = "Factory Staff", lv = 875, island = "Green Zone", verify = true},
+			{id = "Area3Quest", num = 1, mob = "Marine Lieutenant", lv = 900, island = "Green Zone", verify = true},
+			{id = "Area3Quest", num = 2, mob = "Marine Captain", lv = 950, island = "Green Zone", verify = true},
+			{id = "Area4Quest", num = 1, mob = "Zombie", lv = 980, island = "Graveyard", verify = true},
+			{id = "Area4Quest", num = 2, mob = "Living Zombie", lv = 1010, island = "Graveyard", verify = true},
+			{id = "Area5Quest", num = 1, mob = "Demonic Soul", lv = 1050, island = "Snow Mountain", verify = true},
+			{id = "Area5Quest", num = 2, mob = "Posessed Mummy", lv = 1100, island = "Snow Mountain", verify = true},
+			{id = "Area6Quest", num = 1, mob = "Snow Lurker", lv = 1150, island = "Hot and Cold", verify = true},
+			{id = "Area6Quest", num = 2, mob = "Arctic Warrior", lv = 1200, island = "Hot and Cold", verify = true},
+			{id = "Area7Quest", num = 1, mob = "Pirate Millionaire", lv = 1250, island = "Cursed Ship", verify = true, entrance = Vector3.new(9238, 62, -37937)},
+			{id = "Area7Quest", num = 2, mob = "Pistol Billionaire", lv = 1300, island = "Cursed Ship", verify = true, entrance = Vector3.new(9238, 62, -37937)},
+			{id = "Area8Quest", num = 1, mob = "Dragon Crew Warrior", lv = 1350, island = "Ice Castle", verify = true},
+			{id = "Area8Quest", num = 2, mob = "Dragon Crew Archer", lv = 1400, island = "Ice Castle", verify = true},
+			{id = "Area9Quest", num = 1, mob = "Isle Outlaw", lv = 1450, island = "Forgotten Island", verify = true},
+			{id = "Area9Quest", num = 2, mob = "Island Boy", lv = 1500, island = "Forgotten Island", verify = true},
+			{id = "BartiloQuest", num = 1, lv = 800, island = "Kingdom of Rose", verify = true},
+		},
+		["Sea 3"] = {
+			{id = "HauntedQuest1", num = 1, mob = "Reborn Skeleton", lv = 1725, island = "Haunted Castle", verify = false},
+			{id = "HauntedQuest2", num = 1, mob = "Living Zombie", lv = 1750, island = "Haunted Castle", verify = false},
+			{id = "CitizenQuest", num = 1, lv = 1800, island = "Castle on the Sea", verify = false},
+			{id = "CakeQuest1", num = 1, mob = "Cocoa Warrior", lv = 2100, island = "Sea of Treats", verify = true},
+			{id = "CakeQuest2", num = 1, mob = "Chocolate Bar Battler", lv = 2150, island = "Sea of Treats", verify = true},
+		},
+	},
+	islands = {
+		["Sea 1"] = {
+			{name = "Starter Island", lv = {1, 10}, pos = Vector3.new(1031, 17, 1435)},
+			{name = "Jungle", lv = {11, 30}, pos = Vector3.new(-1605, 36, 152)},
+			{name = "Pirate Village", lv = {31, 60}, pos = Vector3.new(-1125, 5, 3750)},
+			{name = "Desert", lv = {61, 90}, pos = Vector3.new(1094, 17, 4370)},
+			{name = "Frozen Village", lv = {91, 120}, pos = Vector3.new(-5660, 30, -6670)},
+			{name = "Marine Fortress", lv = {121, 150}, pos = Vector3.new(-4574, 21, 4260)},
+			{name = "Skylands", lv = {151, 210}, pos = Vector3.new(-4700, 700, -1400), entrance = Vector3.new(-4841, 717, -1304)},
+			{name = "Colosseum", lv = {211, 300}, pos = Vector3.new(-1480, 7, -2860)},
+			{name = "Magma Village", lv = {301, 450}, pos = Vector3.new(-5380, 8, -4860)},
+			{name = "Under Water", lv = {451, 575}, pos = Vector3.new(61163, 11, 1700)},
+			{name = "Usopps Island", lv = {576, 700}, pos = Vector3.new(5180, 40, -4700)},
+		},
+		["Sea 2"] = {
+			{name = "Kingdom of Rose", lv = {700, 850}, pos = Vector3.new(-300, 45, 1300)},
+			{name = "Green Zone", lv = {851, 1000}, pos = Vector3.new(-2800, 35, -1600)},
+			{name = "Graveyard", lv = {1001, 1200}, pos = Vector3.new(-5500, 5, -1300)},
+			{name = "Snow Mountain", lv = {1201, 1350}, pos = Vector3.new(750, 450, -4800)},
+			{name = "Hot and Cold", lv = {1351, 1500}, pos = Vector3.new(-5500, 50, 5500)},
+			{name = "Cursed Ship", lv = {1501, 1625}, pos = Vector3.new(9200, 60, -38000), entrance = Vector3.new(9238, 62, -37937)},
+			{name = "Ice Castle", lv = {1626, 1750}, pos = Vector3.new(6000, 50, -6600)},
+			{name = "Forgotten Island", lv = {1751, 1900}, pos = Vector3.new(-6000, 50, -7000)},
+			{name = "Usoap Island", lv = {1901, 2100}, pos = Vector3.new(4500, 45, -4000)},
+		},
+		["Sea 3"] = {
+			{name = "Cafe / Mansion", lv = {1500, 1599}, pos = Vector3.new(-1160, 60, 6080)},
+			{name = "Port Town", lv = {1600, 1700}, pos = Vector3.new(-4000, 30, 4000)},
+			{name = "Haunted Castle", lv = {1725, 1825}, pos = Vector3.new(-9500, 130, 5300), entrance = Vector3.new(-9508, 172, 6073)},
+			{name = "Ice Cream Island", lv = {1826, 1925}, pos = Vector3.new(-1900, 40, 7900)},
+			{name = "Cake Loaf", lv = {1926, 2025}, pos = Vector3.new(-1450, 60, 6400)},
+			{name = "Sea of Treats", lv = {2026, 2200}, pos = Vector3.new(-2000, 40, 9500)},
+			{name = "Tiki Outpost", lv = {2050, 2150}, pos = Vector3.new(-16500, 100, 200)},
+			{name = "Great Tree", lv = {2201, 2275}, pos = Vector3.new(2500, 1200, -8500)},
+			{name = "Castle on the Sea", lv = {2276, 2450}, pos = Vector3.new(-5000, 300, 5000)},
+		},
+	},
+	bosses = {
+		["Sea 1"] = {
+			{name = "Gorilla King", lv = 25, pos = Vector3.new(-1660, 36, 1470)},
+			{name = "Bobby", lv = 55, pos = Vector3.new(-1140, 5, 3750)},
+			{name = "Trevor", lv = 85, pos = Vector3.new(-4574, 21, 4260)},
+			{name = "Mob Leader", lv = 120, pos = Vector3.new(-1180, 5, 3750)},
+			{name = "Magma Admiral", lv = 195, pos = Vector3.new(-5380, 8, -4860)},
+			{name = "Warden", lv = 220, pos = Vector3.new(5108, 5, 1550)},
+			{name = "Chief Warden", lv = 230, pos = Vector3.new(5108, 5, 1550)},
+			{name = "Swan", lv = 240, pos = Vector3.new(5108, 5, 1550)},
+			{name = "Snowman", lv = 270, pos = Vector3.new(-5660, 30, -6670)},
+			{name = "Island Empress", lv = 325, pos = Vector3.new(-5830, 10, -8960)},
+			{name = "Cyborg", lv = 400, pos = Vector3.new(5180, 40, -4700)},
+			{name = "Greybeard", lv = 450, pos = Vector3.new(-1200, 700, -1400)},
+		},
+		["Sea 2"] = {
+			{name = "Diamond", lv = 750, pos = Vector3.new(-300, 45, 1300)},
+			{name = "Jeremy", lv = 850, pos = Vector3.new(-300, 45, 1300)},
+			{name = "Saberman", lv = 1000, pos = Vector3.new(-11600, 15, -1600)},
+			{name = "Cursed Captain", lv = 1050, pos = Vector3.new(9200, 60, -38000)},
+			{name = "Order", lv = 1150, pos = Vector3.new(-6000, 50, -6600)},
+			{name = "Don Swan", lv = 1500, pos = Vector3.new(4000, 45, -4000)},
+		},
+		["Sea 3"] = {
+			{name = "Longma", lv = 2050, pos = Vector3.new(-5000, 300, 5000)},
+			{name = "Soul Reaper", lv = 2100, pos = Vector3.new(-1800, 400, 7500)},
+			{name = "Cake Queen", lv = 2250, pos = Vector3.new(-1800, 400, 7500)},
+			{name = "Tiki Lord", lv = 2500, pos = Vector3.new(-16500, 100, 200)},
+		},
+	},
+	fruitParts = {
+		["Sea 1"] = {
+			{-1060, 10, -14100},
+			{-1500, 5, -12900},
+			{-2300, 5, -9600},
+			{-3700, 10, -10400},
+			{-6200, 10, -5500},
+			{-7800, 10, -6500},
+			{-9000, 10, -3400},
+			{-6900, 10, -2300},
+			{-4400, 10, -1800},
+			{-5500, 10, -700},
+			{-4400, 10, 1100},
+			{-3000, 10, 4600},
+		},
+		["Sea 2"] = {
+			{-3000, 5, 3000},
+			{-4800, 5, 4200},
+			{-3700, 5, -1500},
+			{7000, 5, -30000},
+			{9500, 5, -37000},
+			{-1400, 5, 6000},
+		},
+		["Sea 3"] = {
+			{14000, 60, 1000},
+			{12500, 60, -1500},
+			{13000, 60, 2500},
+			{14500, 60, -3500},
+		},
+	},
+	items = {
+		dropKeywords = {"mace", "accessory", "sword", "gun", "bell", "wand", "hood", "ring", "coat", "mask", "saber", "katana", "cutlass", "club", "dark blade", "trident", "spear", "dragon", "cursed", "dough", "kabucha", "shark", "bizzare"},
+		chestKeywords = {"chest", "barrel", "crate", "crates", "specialcrate"},
+		statNames = {"Melee", "Defense", "Sword", "Gun", "Demon Fruit"},
+		fruitExclude = {"bloxfruit", "meshes", "/", "fruitdealer", "fruitshop", "fruitview", "fruitnotifier"},
+	},
+	server = {
+		publicServersApi = "https://games.roblox.com/v1/games/{PlaceId}/servers/Public?sortOrder=Asc&limit=100",
+		note = "Cần executor có API request (Delta X có). Không có thì dùng Rejoin / Join Code.",
+	},
+	live = {
+		verifiedAt = "2026-09-26 19:22:16",
+		executor = "Delta",
+		capabilities = {
+			gethui = true,
+			isfile = true,
+			readjson = true,
+			firecd = true,
+			fpscap = true,
+			firepp = true,
+			getmods = true,
+			setclip = true,
+			writefile = true,
+			readfile = true,
+			request = true,
+		},
+		paths = {
+			remotesFolder = "ReplicatedStorage.Remotes",
+			commF = "ReplicatedStorage.Remotes.CommF_",
+			commE = "ReplicatedStorage.Remotes.CommE",
+			commF2 = "ReplicatedStorage.Remotes.CommF",
+			raids = "ReplicatedStorage.Remotes.Raids",
+			questUpdate = "ReplicatedStorage.Remotes.QuestUpdate",
+			getBestQuestNPC = "ReplicatedStorage.Remotes.GetBestQuestNPC",
+			statsRemote = "ReplicatedStorage.Remotes.Stats",
+			getFruitData = "ReplicatedStorage.Remotes.GetFruitData",
+			mouse = "ReplicatedStorage.Mouse",
+			enemies = "workspace.Enemies",
+			questController = "ReplicatedStorage.Controllers.QuestController",
+			worldTeleporter = "ReplicatedStorage.Controllers.IslandController.WorldTeleporter",
+			synchronizedTeleport = "ReplicatedStorage.Controllers.MapServices.SynchronizedTeleport",
+		},
+		gui = {
+			quest = "PlayerGui.Main.Quest",
+			questVisible = "PlayerGui.Main.Quest.Visible",
+			questTitle = "PlayerGui.Main.Quest.Container.QuestTitle.Title.Text",
+			questReward = "PlayerGui.Main.Quest.Container.QuestReward",
+			abandonBtn = "PlayerGui.TrackedQuestFrame.Frame.header.abandonQuestButton",
+			dialogue = "PlayerGui.Main.Dialogue",
+			stats = "PlayerGui.StatsRoot.Frame.Menu.Content.Stats",
+			statsPoints = "PlayerGui.StatsRoot.Frame.Menu.Content.Footer.StatPoints",
+			fruitShop = "PlayerGui.FruitShopAndDealer.Shop",
+			fruitInv = "PlayerGui.Main.FruitInventory",
+			mobileStats = "PlayerGui.Main.MobileStatsButton",
+			masteryLabel = "PlayerGui.Main.MobileMasteryLevel",
+			subclass = "PlayerGui.SubclassMenu",
+		},
+		patterns = {
+			questTitleSample = "DEFEAT 5 BANDITS (0/5)",
+			questTitleRegex = "^DEFEAT%s+(%d+)%s+([A-Za-z' ]-)%s*%((%d+)%s*/%s*(%d+)%)",
+			mobLevelRegex = "%[Lv%.?%s*(%d+)%]",
+			mobLevelLess = "Mob cấp thấp (Trainee/Bandit ở Marine Start) KHÔNG có [Lv.] → nhận theo workspace.Enemies + Humanoid",
+			fruitModelName = "Fruit = Tool/Model tên dạng Word-Word (Rocket-Rocket…) có Handle",
+			fruitFalsePositive = "BỎ QUA tên chứa 'bloxfruit'/'Meshes'/'/' — nếu không sẽ nhận nhầm 2000+ mesh trang trí",
+		},
+		chestNames = {"Barrel", "Chest1", "Chest2", "Chest3", "OptimizedBarrel", "OptimizedCrate", "crates", "crates.001"},
+		entranceNames = {"BF_doorCrystal", "Barrier_Door", "BossDoor", "BossGate", "BossRoomEntranceCamera", "DeveloperDoor", "Door", "EarlyAccessDoor", "Elevator", "Elevator_End", "Entrance", "EntranceCamera", "EntrancePoint", "Flagpole_Spawn", "GREYBEARD Respawn Marker", "IntelPirate_Spawn", "Intel_Vault_Spawn", "Leftdoor", "Meshes/Bloxfruits_Scrap1_Landscape.001", "Meshes/main_gate_Cylinder.006", "NewDoorModel", "Npc_Spawn", "PirateDoor", "PirateShip_MobSpawn", "PirateShip_Spawn", "PlayerEntrance", "ProspectorSpawn_Wave", "Rightdoor", "RobotmegaRearDoor", "Rope_Spawn", "SecretDoor", "SewerEntrance", "SkyDoor", "SkyTeleporter", "Spawn", "THE SAW Respawn Marker", "TavernDoor", "TeleportSpawn", "TeleportTo", "TrapDoor", "WorldTeleporter", "YoruDoor", "door", "doorknob", "marineford_door.003"},
+		npcSea1 = {
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2741.1, 30.3, 1900)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2748.1, 30.4, 2152.7)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2667.5, 30.4, 1900)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2710.6, 30.4, 2242.8)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2788.3, 30.3, 2281.4)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2674.6, 30.4, 2186.9)},
+			{name = "Trainee", hp = 100, pos = Vector3.new(-2728.7, 30.4, 1966.2)},
+			{name = "Marines Boat Dealer", hp = 100, pos = Vector3.new(-2456.6, 1.1, 2037.8)},
+			{name = "Sword Dealer", hp = 100, pos = Vector3.new(-2511.5, 4, 2046)},
+			{name = "Blox Fruit Dealer", hp = 100, pos = Vector3.new(-2515.2, 4, 2084)},
+			{name = "Marines Boat Dealer", hp = 100, pos = Vector3.new(-2469.7, 1.1, 2107.5)},
+			{name = "Marine Leader", hp = 100, pos = Vector3.new(-2655.3, 30.5, 2113.7)},
+			{name = "Pirate Recruiter", hp = 100, pos = Vector3.new(-2555.3, 4.6, 2251.1)},
+		},
+		zones = {
+			{name = "SkyArea2", pos = Vector3.new(-6612, 5544.9, 1488.7), yRange = {5323, 5858}, parts = 18},
+			{name = "Sky", pos = Vector3.new(-4781.9, 916.2, -829.2), yRange = {233, 1300}, parts = 11},
+			{name = "Fishmen", pos = Vector3.new(61139.4, 20.1, 728.5), yRange = {-362, 774}, parts = 20},
+			{name = "Jungle", pos = Vector3.new(-1682.8, 26.1, 165.3), yRange = {-42, 26}, parts = 6},
+			{name = "Town", pos = Vector3.new(-819.4, -34.8, 1616.1), yRange = {-76, 6}, parts = 2},
+			{name = "Windmill", pos = Vector3.new(1059.3, -1, 1473), yRange = {-25, 10}, parts = 4},
+			{name = "MarineStart", pos = Vector3.new(-3035.4, -27.3, 2055), yRange = {-110, 57}, parts = 4},
+			{name = "SewerSystem", pos = Vector3.new(-279.1, -581.4, 123.4), yRange = {-582, -577}, parts = 2},
+			{name = "WaterBase-Plane", pos = Vector3.new(-2856.5, -60, 1996.9), yRange = {-100, -20}, parts = 1},
+			{name = "MagmaCave", pos = Vector3.new(-61142.9, 6929.8, 8995.8), yRange = {6801, 7058}, parts = 1},
+			{name = "MarineBase", pos = Vector3.new(-4839.6, -12.4, 4279.8), yRange = {-37, 11}, parts = 2},
+			{name = "Pirate", pos = Vector3.new(-1169.9, 3.6, 4335.8), yRange = {-16, 23}, parts = 2},
+			{name = "magma.040", pos = Vector3.new(-5541.8, 154.6, 8565.3), yRange = {-101, 410}, parts = 1},
+			{name = "colosseum.027", pos = Vector3.new(-1567, 44.1, -3140.7), yRange = {-188, 275}, parts = 1},
+			{name = "Desert.030", pos = Vector3.new(1208.4, 50.4, 4378.2), yRange = {-57, 157}, parts = 1},
+			{name = "fountain2.013", pos = Vector3.new(5504.8, 337, 4296.2), yRange = {-78, 751}, parts = 1},
+			{name = "fountain2.033", pos = Vector3.new(6213.8, 247.7, 4926.8), yRange = {-78, 572}, parts = 1},
+			{name = "ice.001", pos = Vector3.new(1218.9, 98.9, -1475.8), yRange = {-75, 272}, parts = 1},
+			{name = "prision.005", pos = Vector3.new(5289.3, 162.1, 734.4), yRange = {-23, 346}, parts = 1},
+		},
+		fruitShopList = {
+			{price = 5000, name = "Rocket-Rocket", rarity = 0},
+			{price = 7500, name = "Spin-Spin", rarity = 0},
+			{price = 30000, name = "Blade-Blade", rarity = 0},
+			{price = 60000, name = "Spring-Spring", rarity = 0},
+			{price = 80000, name = "Bomb-Bomb", rarity = 0},
+			{price = 100000, name = "Smoke-Smoke", rarity = 0},
+			{price = 180000, name = "Spike-Spike", rarity = 0},
+			{price = 250000, name = "Flame-Flame", rarity = 1},
+			{price = 350000, name = "Ice-Ice", rarity = 1},
+			{price = 420000, name = "Sand-Sand", rarity = 1},
+			{price = 500000, name = "Dark-Dark", rarity = 1},
+			{price = 550000, name = "Eagle-Eagle", rarity = 1},
+			{price = 600000, name = "Diamond-Diamond", rarity = 1},
+			{price = 650000, name = "Light-Light", rarity = 2},
+			{price = 750000, name = "Rubber-Rubber", rarity = 2},
+			{price = 940000, name = "Ghost-Ghost", rarity = 2},
+			{price = 960000, name = "Magma-Magma", rarity = 2},
+			{price = 1000000, name = "Quake-Quake", rarity = 3},
+			{price = 1200000, name = "Buddha-Buddha", rarity = 3},
+			{price = 1300000, name = "Love-Love", rarity = 3},
+			{price = 1400000, name = "Creation-Creation", rarity = 3},
+			{price = 1500000, name = "Spider-Spider", rarity = 3},
+			{price = 1700000, name = "Sound-Sound", rarity = 3},
+			{price = 1800000, name = "Phoenix-Phoenix", rarity = 3},
+			{price = 1900000, name = "Portal-Portal", rarity = 3},
+			{price = 2100000, name = "Lightning-Lightning", rarity = 3},
+			{price = 2300000, name = "Pain-Pain", rarity = 3},
+			{price = 2400000, name = "Blizzard-Blizzard", rarity = 3},
+			{price = 2500000, name = "Gravity-Gravity", rarity = 4},
+			{price = 2700000, name = "T-Rex-T-Rex", rarity = 4},
+			{price = 2700000, name = "Mammoth-Mammoth", rarity = 4},
+			{price = 2800000, name = "Dough-Dough", rarity = 4},
+			{price = 2900000, name = "Shadow-Shadow", rarity = 4},
+			{price = 3000000, name = "Venom-Venom", rarity = 4},
+			{price = 3200000, name = "Gas-Gas", rarity = 4},
+			{price = 3400000, name = "Spirit-Spirit", rarity = 4},
+			{price = 5000000, name = "Yeti-Yeti", rarity = 4},
+			{price = 5000000, name = "Tiger-Tiger", rarity = 4},
+			{price = 6000000, name = "Magnet-Magnet", rarity = 4},
+			{price = 8000000, name = "Kitsune-Kitsune", rarity = 4},
+			{price = 9000000, name = "Control-Control", rarity = 4},
+			{price = 15000000, name = "Dragon-Dragon", rarity = 4},
+		},
+	},
+	npcTeleport = {
+		["Sea 1"] = {
+			{name = "Marine Leader", pos = Vector3.new(-2655.3, 30.5, 2113.7)},
+			{name = "Sword Dealer", pos = Vector3.new(-2511.5, 4, 2046)},
+			{name = "Blox Fruit Dealer", pos = Vector3.new(-2515.2, 4, 2084)},
+			{name = "Pirate Recruiter", pos = Vector3.new(-2555.3, 4.6, 2251.1)},
+			{name = "Marines Boat Dealer", pos = Vector3.new(-2456.6, 1.1, 2037.8)},
+			{name = "Trainee (Lv1 mob)", pos = Vector3.new(-2741.1, 30.3, 1900)},
+		},
+	},
+}
+
+--================================================================================================
+-- 1. CẤU HÌNH MẶC ĐỊNH
+--================================================================================================
+local DEFAULTS = {
+	Active = true,
+
+	-- FARM
+	AutoFarmLevel = false, AutoFarmNoQuest = false, AutoQuest = true, AutoNextQuest = true,
+	FarmMode = "Quest",                 -- Quest | Mọi mob theo zone | Theo tên mob
+	FarmMobName = "",
+	AutoBoss = false, AutoSeaBeast = false, BringMob = false,
+	KillAura = false, KillAuraRange = 90,
+	FastAttack = true, FastAttackDelay = 0.12, AutoClick = true,
+	AutoSkillZ = false, AutoSkillX = false, AutoSkillC = false,
+	AutoEquip = true, EquipMode = "Best", AutoMastery = false, MasteryWeapon = "",
+	AutoBuso = false, AutoKen = false,
+	AutoStats = false, AutoStatsPick = "Melee",
+	SafeMode = false, SafeHP = 30,
+	AttackRange = 90, WalkSpeed = 320, JumpPower = 90,
+
+	-- ITEMS
+	AutoChest = false, ChestMode = "Teleport", AutoDrop = false, AutoPart = false,
+	AutoFruit = false, FruitBring = false, FruitSniper = false, FruitNotifier = false,
+	FruitSniperRarity = 2, AutoStoreFruit = false, StoreRarity = 2, StoreFruitPick = "",
+
+	-- RAID
+	AutoChip = false, AutoRaidStart = false,
+
+	-- ESP
+	ESPPlayers = false, ESPMobs = false, ESPBoss = false, ESPChests = false,
+	ESPFruits = false, ESPNpcs = false, ESPTracer = false, ESPRange = 2000,
+
+	-- PLAYER
+	Fly = false, FlySpeed = 120, Noclip = false, LockSpeed = false, AntiAFK = true,
+
+	-- SERVER
+	SeaHopOnly = true, HopMinPlayers = 0, AutoRejoin = false, Team = "Pirates",
+
+	-- UI
+	Theme = "Purple", UIScale = 1, Notify = true, Keybind = "F",
+}
+local CFG = getgenv().SIKEMOD or {}
+for k, v in pairs(DEFAULTS) do if CFG[k] == nil then CFG[k] = v end end
+getgenv().SIKEMOD = CFG
+
+local Players = game:GetService("Players")
+local RS      = game:GetService("ReplicatedStorage")
+local HTS     = game:GetService("HttpService")
+local VIM     = game:GetService("VirtualInputManager")
+local VU      = game:GetService("VirtualUser")
+local TPS     = game:GetService("TeleportService")
+local UIS     = game:GetService("UserInputService")
+local RUN     = game:GetService("RunService")
+local TWS     = game:GetService("TweenService")
+local LPR     = Players.LocalPlayer
+local CAM     = workspace.CurrentCamera
+
+--================================================================================================
+-- 2. HELPERS
+--================================================================================================
+local function safe(fn, ...) local ok, r = pcall(fn, ...) if ok then return r end return nil end
+local UNPACK = table.unpack or unpack
+
+local API = {
+	writefile = typeof(writefile) == "function", readfile = typeof(readfile) == "function",
+	request = typeof(request) == "function" or typeof(http_request) == "function",
+	clipboard = typeof(setclipboard) == "function", fpscap = typeof(setfpscap) == "function",
+	firecd = typeof(fireclickdetector) == "function", firepp = typeof(fireproximityprompt) == "function",
+	gethui = typeof(gethui) == "function", drawing = typeof(Drawing) == "table",
+}
+
+-- tự định nghĩa clamp (vài executor Lua 5.1 thuần không có math.clamp)
+local function clamp(v, a, b)
+	v = tonumber(v) or 0
+	if v < a then return a elseif v > b then return b end
+	return v
+end
+local function V(t)
+	if typeof(t) == "Vector3" then return t end
+	if type(t) == "table" and #t >= 3 then return Vector3.new(t[1], t[2], t[3]) end
+	return nil
+end
+local function char() return LPR.Character or LPR.CharacterAdded:Wait() end
+local function root()
+	local c = LPR.Character
+	local h = c and (c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso"))
+	if h and h:IsA("BasePart") then return h end
+	return nil
+end
+local function hum() local c = LPR.Character return c and c:FindFirstChildOfClass("Humanoid") end
+local function child(inst, name)
+	if not inst then return nil end
+	local ok, c = pcall(function() return inst:FindFirstChild(name) end)
+	return ok and c or nil
+end
+local function plLevel(pl)   -- level của người chơi khác
+	local d = child(pl, "Data")
+	local v = d and child(d, "Level")
+	return v and tonumber(v.Value) or 0
+end
+local function toolLevel(tool)
+	local v = child(tool, "Level")
+	return v and tonumber(v.Value) or tonumber(safe(function() return tool:GetAttribute("Level") end)) or 0
+end
+local function lvl() return tonumber(safe(function() return LPR.Data.Level.Value end)) or 1 end
+local function beli() return tonumber(safe(function() return LPR.Data.Beli.Value end)) or 0 end
+local function frags() return tonumber(safe(function() return LPR.Data.Fragments.Value end)) or 0 end
+local function pos() local r = root() return r and r.Position or Vector3.new(0, 0, 0) end
+local function dist(p) return (pos() - p).Magnitude end
+local function zoneOf(lv)
+	local sea = onSea()
+	if not sea then return nil end
+	local list = BF_OFFSETS.islands[sea] or {}
+	local last
+	for _, i in ipairs(list) do
+		if lv >= (i.lv[1] or 0) and lv <= (i.lv[2] or 9999) then return i end
+		last = i
+	end
+	return last
+end
+local function onSea()
+	for name, id in pairs(BF_OFFSETS.places) do if id == game.PlaceId then return name end end
+	return nil
+end
+-- giải path dạng chuỗi trong DB thành Instance (tự lành khi game đổi tên chi tiết nhỏ)
+local function resolve(scope, dotted, wantProp)
+	local segs = {}
+	for part in tostring(dotted):gmatch("[^%.]+") do segs[#segs + 1] = part end
+	local cur = scope
+	for i = 1, #segs do
+		if not cur then return nil end
+		local part = segs[i]
+		local nxt
+		if part == "PlayerGui" then nxt = LPR:FindFirstChild("PlayerGui")
+		elseif part == "ReplicatedStorage" then nxt = RS
+		elseif part == "workspace" or part == "Workspace" then nxt = workspace
+		elseif part == "LocalPlayer" then nxt = LPR
+		elseif cur.FindFirstChild then
+			nxt = cur:FindFirstChild(part)
+			-- path trong dump có thể kết thúc bằng TÊN THUỘC TÍNH (vd "...QuestTitle.Title.Text")
+			if not nxt and i == #segs then
+				local okp, val = pcall(function() return cur[part] end)
+				if okp and val ~= nil then
+					return { __prop = part, inst = cur }
+				end
+			end
+		end
+		cur = nxt
+	end
+	return cur
+end
+
+local guiPath = ((BF_OFFSETS.live or {}).gui or {})
+local pathCache = {}
+local function guiNode(key, ttl)
+	local e = pathCache[key]
+	if e and tick() - e.at < (ttl or 1.5) then
+		if e.ok then return e.inst, true end
+		return nil, false
+	end
+	local def = guiPath[key]
+	local inst = def and resolve(LPR, def) or nil
+	pathCache[key] = { at = tick(), inst = inst, ok = inst ~= nil }
+	return inst, inst ~= nil
+end
+-- đọc giá trị: nếu node là "thuộc tính cuối path" thì đọc đúng thuộc tính đó
+local function guiValue(key, fallback)
+	local n = guiNode(key)
+	if not n then return fallback end
+	if type(n) == "table" and n.__prop then
+		local ok, v = pcall(function() return n.inst[n.__prop] end)
+		if ok and v ~= nil then return v end
+		return fallback
+	end
+	return n
+end
+local function guiText(key)
+	local n = guiNode(key)
+	if not n then return nil end
+	if type(n) == "table" and n.__prop then
+		local ok, v = pcall(function() return n.inst[n.__prop] end)
+		if ok and v ~= nil then return tostring(v) end
+		return nil
+	end
+	local ok, v = pcall(function() return n.Text end)
+	if ok and v ~= nil and tostring(v) ~= "" then return tostring(v) end
+	local ok2, v2 = pcall(function() return n.ContentText end)
+	return ok2 and v2 or nil
+end
+
+local UI_NOTIFY = function() end   -- sẽ được gán sau khi UI dựng xong
+local function NOTIFY(title, text, dur, color)
+	if CFG.Notify then
+		safe(function()
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = title or "SikeMod Hub", Text = text or "", Duration = dur or 4,
+			})
+		end)
+	end
+	UI_NOTIFY(title, text, dur, color)
+end
+
+--================================================================================================
+-- 3. REMOTE + ATTACK + TELEPORT
+--================================================================================================
+local function getCommF()
+	local r = RS:FindFirstChild("Remotes") or RS:FindFirstChild("Remote")
+	if not r then return nil end
+	return r:FindFirstChild("CommF_") or r:FindFirstChild("CommF") or r:FindFirstChild("CommE_")
+end
+local COMMF_LAST_OK = nil
+local function commF(name, ...)
+	local c = getCommF()
+	if not c then return nil end
+	local args = { ... }
+	local ok, res = pcall(function() return c:InvokeServer(name, UNPACK(args)) end)
+	COMMF_LAST_OK = ok and (res ~= nil) and name or nil
+	if ok then return res end
+	return nil
+end
+local function remoteAt(p, method, ...)
+	local r = resolve(game, p)
+	if not r then return nil end
+	local args = { ... }
+	local ok, res = pcall(function()
+		if r.ClassName:find("RemoteFunction") then return r:InvokeServer(UNPACK(args)) end
+		r:FireServer(UNPACK(args)); return true
+	end)
+	if ok then return res end
+	return nil
+end
+
+local function attackClick()
+	safe(function() VU:CaptureController() end)
+	safe(function() VU:ClickButton1(Vector2.new(0, 0)) end)
+end
+local function mousePos()
+	local m = safe(function() return require(RS:WaitForChild("Mouse", 3)) end)
+	if m and m.Hit then return m.Hit.p end
+	return pos()
+end
+local function useSkill(k)
+	if k == "C" then
+		safe(function() VIM:SendKeyEvent(true, Enum.KeyCode.C, false, game) end)
+		safe(function() VIM:SendKeyEvent(false, Enum.KeyCode.C, false, game) end)
+		return
+	end
+	local c = LPR.Character
+	if not c then return end
+	for _, t in ipairs(c:GetChildren()) do
+		if t:IsA("Tool") then
+			local rf = t:FindFirstChild("RemoteFunction")
+			if rf then
+				if k == "Z" then
+					local r = root()
+					local cf = r and CFrame.new(r.Position, mousePos()) or CFrame.new()
+					safe(function() rf:InvokeServer("Z", cf) end)
+				else
+					safe(function() rf:InvokeServer(k) end)
+				end
+			end
+		end
+	end
+end
+local function pressKey(k, hold)
+	safe(function() VIM:SendKeyEvent(true, k, false, game) end)
+	task.wait(hold or 0.1)
+	safe(function() VIM:SendKeyEvent(false, k, false, game) end)
+end
+
+local function teleportTo(target, entrance)
+	local r = root()
+	if not r then return false end
+	local p
+	if typeof(target) == "Vector3" then p = target
+	elseif typeof(target) == "CFrame" then p = target.Position
+	elseif typeof(target) == "Instance" then
+		if target:IsA("BasePart") then p = target.Position
+		elseif target:IsA("Model") then p = target:GetPivot().Position end
+	end
+	if not p then return false end
+	if entrance then
+		local e = V(entrance)
+		if e then remoteAt(BF_OFFSETS.live.paths.commF, "requestEntrance", e) task.wait(0.35) end
+	end
+	local hv = hum()
+	if hv then hv.WalkSpeed = 0 end
+	local dest = CFrame.new(p + Vector3.new(0, 6, 0))
+	for _ = 1, 3 do
+		safe(function() r.CFrame = dest r.AssemblyLinearVelocity = Vector3.zero end)
+		task.wait(0.07)
+	end
+	task.wait(0.1)
+	if hv and not CFG.Noclip then hv.WalkSpeed = CFG.WalkSpeed end
+	return true
+end
+
+--================================================================================================
+-- 4. QUÉT MOB / NPC / FRUIT / RƯƠNG  (đã sửa theo dump thật Sea 1)
+--================================================================================================
+local function isPlayerChar(m)
+	for _, pl in ipairs(Players:GetPlayers()) do if pl.Character == m then return true end end
+	return false
+end
+local function mobBase(name)
+	local b = name:match("^([^%[]+)") or name
+	return (b:gsub("%s+$", ""))
+end
+local function mobLv(name)
+	local l = name:match("%[Lv%.?%s*(%d+)%]")
+	return l and tonumber(l) or nil
+end
+
+-- Duump thật: workspace.Enemies chứa cả mob KHÔNG có [Lv.] (Trainee) → phải nhận hết
+local cacheE, cacheEAt = {}, 0
+local function scanEnemies(force)
+	if not force and tick() - cacheEAt < 0.7 and #cacheE > 0 then return cacheE end
+	cacheEAt = tick()
+	local out = {}
+	local function take(folder)
+		for _, m in ipairs(folder:GetChildren()) do
+			if m:IsA("Model") and not isPlayerChar(m) then
+				local h = m:FindFirstChildOfClass("Humanoid")
+				local r = m:FindFirstChild("HumanoidRootPart")
+				if h and r and h.Health > 0 then
+					out[#out + 1] = { model = m, hrp = r, hum = h, name = m.Name, base = mobBase(m.Name),
+						lv = mobLv(m.Name), hp = h.MaxHealth or 0, folder = folder.Name }
+				end
+			end
+		end
+	end
+	local f = workspace:FindFirstChild("Enemies")
+	if f then take(f) end
+	local b = workspace:FindFirstChild("Bosses")
+	if b then take(b) end
+	if #out == 0 then
+		for _, m in ipairs(workspace:GetChildren()) do
+			if m:IsA("Model") then
+				local h = m:FindFirstChildOfClass("Humanoid")
+				if h and m:FindFirstChild("HumanoidRootPart") and not isPlayerChar(m) then
+					out[#out + 1] = { model = m, hrp = m:FindFirstChild("HumanoidRootPart"), hum = h,
+						name = m.Name, base = mobBase(m.Name), lv = mobLv(m.Name), hp = h.MaxHealth or 0, folder = "workspace" }
+				end
+			end
+		end
+	end
+	cacheE = out
+	return out
+end
+local BOSS_HINTS = { "boss", "king", "lord", "admiral", "warden", "cyborg", "swan", "trevor",
+	"empress", "greybeard", "diamond", "order", "mad", "iron", "pirate", "captain", "queen", "reaper" }
+local function isBoss(e)
+	local n = e.base:lower()
+	for _, k in ipairs(BOSS_HINTS) do if n:find(k, 1, true) then return true end end
+	if e.hp >= 5000 then return true end
+	local sea = onSea()
+	for _, b in ipairs(BF_OFFSETS.bosses[sea] or {}) do
+		if n:find(b.name:lower(), 1, true) or b.name:lower():find(n, 1, true) then return true end
+	end
+	return false
+end
+local function findMobByName(name)
+	local want = tostring(name):lower()
+	local all = scanEnemies()
+	for _, e in ipairs(all) do if e.base:lower() == want or e.name:lower() == want then return e end end
+	for _, e in ipairs(all) do
+		if e.base:lower():find(want, 1, true) or want:find(e.base:lower(), 1, true) then return e end
+	end
+	return nil
+end
+local function nearestEnemy(pred, maxD)
+	maxD = maxD or 1e9
+	local best, bd
+	for _, e in ipairs(scanEnemies()) do
+		if not pred or pred(e) then
+			local d = (e.hrp.Position - pos()).Magnitude
+			if d < maxD and (not bd or d < bd) then best, bd = e, d end
+		end
+	end
+	return best
+end
+
+-- FRUIT: dump thật cho thấy phải LỌC mesh rác ("Bloxfruits_SkyBonus6_Cube")
+local FR_EX = { "bloxfruit", "meshes", "/", "fruitdealer", "fruitshop", "fruitview", "fruitnotifier", "fruitinventory" }
+local function looksLikeFruit(inst)
+	if not inst or not inst.Parent then return false end
+	local n = inst.Name:lower()
+	for _, x in ipairs(FR_EX) do if n:find(x, 1, true) then return false end end
+	if inst:IsA("Tool") then return true end
+	if inst:IsA("Model") or inst:IsA("BasePart") then
+		if not inst.Name:find("%a+%-%a+") then return false end
+		if inst:IsA("Model") and not inst:FindFirstChild("Handle") and not inst:FindFirstChildWhichIsA("BasePart") then return false end
+		return true
+	end
+	return false
+end
+local function partPos(inst)
+	if not inst then return nil end
+	if inst:IsA("BasePart") then return inst.Position end
+	local h = inst:FindFirstChild("Handle") or inst:FindFirstChildWhichIsA("BasePart")
+	if h then return h.Position end
+	local hrp = inst:FindFirstChild("HumanoidRootPart")
+	if hrp then return hrp.Position end
+	local ok, pv = pcall(function() return inst:GetPivot().Position end)
+	return ok and pv or nil
+end
+local fruitCache, fruitAt = {}, 0
+local function fruitsInWorld(force)
+	if not force and tick() - fruitAt < 1.5 and #fruitCache > 0 then return fruitCache end
+	fruitAt = tick()
+	local out = {}
+	local function look(inst, depth)
+		if depth > 2 or #out > 30 then return end
+		if (inst:IsA("Tool") or inst:IsA("Model")) and not inst:IsDescendantOf(LPR.Character or RS)
+			and looksLikeFruit(inst) then
+			local p = partPos(inst)
+			if p then out[#out + 1] = { inst = inst, name = inst.Name, pos = p } end
+		end
+		for _, c in ipairs(inst:GetChildren()) do look(c, depth + 1) end
+	end
+	for _, c in ipairs(workspace:GetChildren()) do look(c, 0) end
+	fruitCache = out
+	return out
+end
+local rarityOf = {}
+safe(function()
+	local list = commF("GetFruits")
+	if type(list) == "table" then
+		for _, f in ipairs(list) do
+			if type(f) == "table" and (f.Name or f.name) then
+				rarityOf[tostring(f.Name or f.name)] = tonumber(f.Rarity or f.rarity) or 0
+			end
+		end
+	end
+end)
+local function fruitRarity(name) return rarityOf[name] or 0 end
+
+local CHEST_KW = BF_OFFSETS.items.chestKeywords or { "chest", "barrel", "crate" }
+local chestCache, chestAt = {}, 0
+local function chestsInWorld(force)
+	if not force and tick() - chestAt < 3 and #chestCache > 0 then return chestCache end
+	chestAt = tick()
+	local out = {}
+	local function look(inst, depth)
+		if depth > 3 or #out > 80 then return end
+		if inst:IsA("BasePart") then
+			local n = inst.Name:lower()
+			for _, k in ipairs(CHEST_KW) do
+				if n:find(k, 1, true) then
+					out[#out + 1] = { inst = inst, name = inst.Name, pos = inst.Position }
+					return
+				end
+			end
+		end
+		for _, c in ipairs(inst:GetChildren()) do look(c, depth + 1) end
+	end
+	for _, c in ipairs(workspace:GetChildren()) do look(c, 0) end
+	chestCache = out
+	return out
+end
+
+--================================================================================================
+-- 5. QUEST (parse đúng định dạng thật: "DEFEAT 5 BANDITS (0/5)")
+--================================================================================================
+local function questVisible()
+	if guiPath.questVisible then
+		local v = guiValue("questVisible")
+		if type(v) == "boolean" then return v end
+	end
+	local q = guiNode("quest")
+	if not q then return false end
+	local ok, v = pcall(function() return q.Visible end)
+	return ok and v == true
+end
+local function questTitle()
+	local t = guiText("questTitle")
+	if type(t) ~= "string" then return nil end
+	return t
+end
+local function singular(w)
+	if not w then return nil end
+	local s = w:gsub("%s+$", "")
+	if #s > 3 and s:sub(-1) == "s" and s:sub(-2) ~= "ss" then s = s:sub(1, -2) end
+	return s
+end
+-- trả về: target(mob), số cần giết, đã giết, tổng, tên quest gốc
+local function questInfo()
+	local t = questTitle()
+	if not t then return nil end
+	local need, mob, cur, max = t:match("DEFEAT%s+(%d+)%s+([%a' ]-)%s*%((%d+)%s*/%s*(%d+)%)")
+	if not need then
+		need, mob, cur, max = t:match("Defeat%s+(%d+)%s+([%a' ]-)%s*%((%d+)%s*/%s*(%d+)%)")
+	end
+	if not need then
+		mob = t:match("[Qq]uest:%s*(.-)%s*%[Lv") or t:match("[Dd]efeat%s+%d+%s+([%a' ]+)")
+		if mob then return { title = t, mob = singular(mob:gsub("%s+$", "")), cur = 0, max = 1, need = 0 } end
+		return { title = t, mob = nil }
+	end
+	return { title = t, mob = singular(mob), need = tonumber(need), cur = tonumber(cur) or 0,
+		max = tonumber(max) or tonumber(need) or 0 }
+end
+
+local function questCandidates(lv)
+	local sea = onSea()
+	local list = (BF_OFFSETS.quests[sea] or {})
+	local out = {}
+	for _, q in ipairs(list) do
+		if q.id and (q.lv or 0) > 0 and math.abs((q.lv or 0) - lv) <= 60 then
+			out[#out + 1] = q
+		end
+	end
+	table.sort(out, function(a, b) return math.abs(a.lv - lv) < math.abs(b.lv - lv) end)
+	return out
+end
+
+local function questGiverNear()
+	local best, bd
+	local function try(m)
+		if m:IsA("Model") and not isPlayerChar(m) then
+			local hrp = child(m, "HumanoidRootPart")
+			if hrp then
+				local isG = m:FindFirstChild("QuestGiver") ~= nil or m:FindFirstChild("TitleQuest") ~= nil
+					or m:FindFirstChildWhichIsA("ProximityPrompt", true) ~= nil
+					or m:FindFirstChild("ClickDetector") ~= nil
+				if isG then
+					local d = dist(hrp.Position)
+					if not bd or d < bd then best, bd = m, d end
+				end
+			end
+		end
+	end
+	for _, fname in ipairs({ "NPCs", "Enemies", "Characters", "Quest" }) do
+		local f = workspace:FindFirstChild(fname)
+		if f then for _, m in ipairs(f:GetChildren()) do try(m) end end
+	end
+	return best
+end
+
+-- đọc chữ hội thoại (dùng khi mọi cách khác bí)
+local function readDialogTexts(limit)
+	local out = {}
+	safe(function()
+		local pg = LPR:FindFirstChild("PlayerGui")
+		if not pg then return end
+		for _, l in ipairs(pg:GetDescendants()) do
+			if #out >= (limit or 20) then break end
+			if l:IsA("TextLabel") and l.Visible and l.Text and #l.Text > 2 and #l.Text < 80 then
+				local pth = l:GetFullName()
+				if not pth:find("SikeHub") and not pth:find("SikeHUD") then
+					local t = l.Text:gsub("^%s+", ""):gsub("%s+$", "")
+					if t ~= "" then out[#out + 1] = t end
+				end
+			end
+		end
+	end)
+	return out
+end
+
+-- Cờ "đang bận": nếu vì lý do gì đó không được reset (lỗi giữa đường) thì tự hết hạn sau 15s
+local function busyOK()
+	if CFG._busy and tick() - (CFG._busyAt or 0) > 15 then
+		CFG._busy = false
+	end
+	return not CFG._busy
+end
+local function setBusy(v)
+	CFG._busy = v and true or false
+	CFG._busyAt = tick()
+end
+
+local function acceptQuestBody()
+	local ok = false
+	local lv = lvl()
+
+	-- (1) server tự chỉ NPC quest tốt nhất
+	local hint = remoteAt(BF_OFFSETS.live.paths.getBestQuestNPC, nil)
+	local targetPos
+	if type(hint) == "table" then
+		local hrp = child(hint, "HumanoidRootPart")
+		local p = hint.Position or hint.pos or (hrp and hrp.Position)
+		if typeof(p) == "Vector3" then targetPos = p end
+		if not targetPos and hint.Name then
+			local m = workspace:FindFirstChild(hint.Name, true)
+			local hrp = m and child(m, "HumanoidRootPart")
+			if hrp then targetPos = hrp.Position end
+		end
+	elseif type(hint) == "string" then
+		local m = workspace:FindFirstChild(hint, true)
+		local hrp = m and child(m, "HumanoidRootPart")
+		if hrp then targetPos = hrp.Position end
+	end
+
+	-- (2) NPC quest gần mình
+	if not targetPos then
+		local g = questGiverNear()
+		local hrp = g and child(g, "HumanoidRootPart")
+		if hrp then targetPos = hrp.Position end
+	end
+
+	-- (3) DB: toạ độ NPC theo level
+	if not targetPos then
+		local cands = questCandidates(lv)
+		if cands[1] and V(cands[1].npc) then targetPos = V(cands[1].npc) end
+	end
+
+	if targetPos and dist(targetPos) > 25 then teleportTo(targetPos) task.wait(0.4) end
+
+	-- A. getQuests tại chỗ (chuẩn nhất)
+	local raw = commF("getQuests")
+	local function readQuests(data)
+		local got = {}
+		if type(data) ~= "table" then return got end
+		local function read(e)
+			if type(e) == "string" then
+				local b, l = e:match("^(.-)%s*[%[Lv%.?%s]*(%d+)")
+				got[#got + 1] = { id = e, mob = (b or e):gsub("%s+$", ""), lv = tonumber(l) or 0, num = 1 }
+				return
+			end
+			if type(e) ~= "table" then return end
+			local id, qlv, num, mob
+			for k, v in pairs(e) do
+				local ks = tostring(k):lower()
+				if type(v) == "string" then
+					if ks:find("quest") or ks == "name" or ks == "title" then id = id or v end
+					if ks == "mob" or ks == "monster" or ks == "target" then mob = mob or v end
+				elseif type(v) == "number" then
+					if ks:find("level") or ks == "lv" or ks == "lvl" then qlv = qlv or v
+					elseif ks:find("num") or ks:find("index") or ks == "id" then num = num or v end
+				end
+			end
+			if id then got[#got + 1] = { id = id, mob = mob, lv = qlv or 0, num = num or 1 } end
+		end
+		local seqOk = pcall(function() for i = 1, #data do read(data[i]) end end)
+		if not seqOk or #got == 0 then for _, e in pairs(data) do read(e) end end
+		table.sort(got, function(a, b) return math.abs((a.lv or 0) - lv) < math.abs((b.lv or 0) - lv) end)
+		return got
+	end
+	local list = readQuests(raw)
+	local pick = list[1]
+	if not pick then
+		local cands = questCandidates(lv)
+		if cands[1] then
+			pick = { id = cands[1].id, num = cands[1].num or 1, mob = cands[1].mob }
+		end
+	end
+	if pick and pick.id then
+		commF("StartQuest", pick.id, pick.num or 1)
+		task.wait(0.7)
+		ok = questVisible()
+		-- brute force: thử các id gần level nếu id đầu không ăn
+		if not ok then
+			for i = 2, math.min(6, #questCandidates(lv)) do
+				local c = questCandidates(lv)[i]
+				if c and c.id then
+					commF("StartQuest", c.id, c.num or 1)
+					task.wait(0.6)
+					ok = questVisible()
+					if ok then pick = { id = c.id, num = c.num or 1 } break end
+				end
+			end
+		end
+	end
+
+	-- B. bấm E + nút hội thoại (cuối cùng)
+	if not ok then
+		pressKey(Enum.KeyCode.E, 0.12)
+		task.wait(0.4)
+		local bestBtn
+		for _, b in ipairs(LPR.PlayerGui:GetDescendants()) do
+			if b:IsA("TextButton") and b.Visible and b.AbsoluteSize.X > 20 then
+				local pth = b:GetFullName()
+				if not pth:find("SikeHub") then
+					local t = (b.Text or ""):lower()
+					if t:find("quest") or t:find("accept") or t:find("nhận") or t:find("%d") then bestBtn = b break end
+				end
+			end
+		end
+		if bestBtn then
+			local p = bestBtn.AbsolutePosition + bestBtn.AbsoluteSize / 2
+			safe(function()
+				VIM:SendMouseButtonEvent(p.X, p.Y, 0, true, game, 0)
+				task.wait(0.05)
+				VIM:SendMouseButtonEvent(p.X, p.Y, 0, false, game, 0)
+			end)
+			task.wait(0.6)
+			ok = questVisible()
+		end
+	end
+
+	if ok then
+		NOTIFY("Quest", "Đã nhận: " .. tostring(questTitle() or "?"), 4, Color3.fromRGB(90, 220, 130))
+	else
+		NOTIFY("Quest", "Chưa nhận được quest (thử lại hoặc dùng nút 'Nhận quest ngay')", 5, Color3.fromRGB(240, 160, 80))
+	end
+	return ok
+end
+
+-- Bọc pcall: lỗi giữa đường sẽ tự mở khoá cờ busy + báo lên HUD (không bao giờ kẹt)
+local lastAcceptTry = tick() - 1000
+local acceptFails = 0
+local function acceptQuest()
+	if not busyOK() then return false end
+	-- chống spam: 8s, thất bại thì giãn dần tối đa 45s (an toàn với server)
+	local gap = math.min(45, 8 * (acceptFails + 1))
+	if tick() - lastAcceptTry < gap then return false end
+	lastAcceptTry = tick()
+	setBusy(true)
+	local ok, res = pcall(acceptQuestBody)
+	setBusy(false)
+	if not ok then
+		acceptFails = acceptFails + 1
+		if acceptFails % 3 == 1 then
+			NOTIFY("Quest", "Loi khi nhan quest: " .. tostring(res), 6, Color3.fromRGB(240, 120, 120))
+		end
+		return false
+	end
+	if res then acceptFails = 0 else acceptFails = acceptFails + 1 end
+	return res
+end
+local function abandonQuest()
+	commF("AbandonQuest")
+	local b = guiNode("abandonBtn", 2)
+	if b and b:IsA("TextButton") then
+		local p = b.AbsolutePosition + b.AbsoluteSize / 2
+		safe(function()
+			VIM:SendMouseButtonEvent(p.X, p.Y, 0, true, game, 0)
+			task.wait(0.05)
+			VIM:SendMouseButtonEvent(p.X, p.Y, 0, false, game, 0)
+		end)
+	end
+	NOTIFY("Quest", "Đã bỏ quest", 3)
+end
+
+--================================================================================================
+-- 6. FARM / PLAYER LOGIC
+--================================================================================================
+local function pickEnemy()
+	local q = questInfo()
+	if CFG.FarmMode == "Theo tên mob" and CFG.FarmMobName ~= "" then
+		return findMobByName(CFG.FarmMobName)
+	end
+	local lv = lvl()
+	local want = q and q.mob or nil
+	local best, score
+	for _, e in ipairs(scanEnemies()) do
+		local d = (e.hrp.Position - pos()).Magnitude
+		if d < 2500 then
+			local s = -d / 20
+			if want and e.base:lower():find(want:lower(), 1, true) then s = s + 800 end
+			if e.lv and e.lv > lv + 40 then s = s - 500 end
+			if CFG.FarmMode == "Quest" and want and not e.base:lower():find(want:lower(), 1, true) then s = s - 300 end
+			if not score or s > score then best, score = e, s end
+		end
+	end
+	return best
+end
+
+local function chase(e)
+	local mr = e.hrp
+	local d = (mr.Position - pos()).Magnitude
+	if d > CFG.AttackRange then
+		local r = root()
+		if r then
+			safe(function()
+				r.CFrame = CFrame.new(r.Position, Vector3.new(mr.Position.X, r.Position.Y, mr.Position.Z))
+			end)
+		end
+		local hv = hum()
+		if hv then hv.WalkSpeed = CFG.WalkSpeed end
+		if d > CFG.AttackRange * 1.6 then teleportTo(mr.Position + Vector3.new(0, 4, -3)) end
+	end
+	if CFG.BringMob then safe(function() mr.CFrame = CFrame.new(pos() + Vector3.new(0, 0, -4)) end) end
+	return (mr.Position - pos()).Magnitude
+end
+
+local lastBuso, lastKen = tick() - 1000, tick() - 1000
+local function tickFarm()
+	if not busyOK() then return end
+	local hv = hum()
+	if CFG.SafeMode and hv and hv.MaxHealth > 0 and hv.Health / hv.MaxHealth * 100 < CFG.SafeHP then return end
+
+	if CFG.AutoSeaBeast then
+		local e = nearestEnemy(function(x)
+			local n = (x.name or ""):lower()
+			return n:find("sea beast") or n:find("terror") or n:find("beast")
+		end)
+		if e then chase(e) return end
+	end
+	if CFG.AutoBoss then
+		local e = nearestEnemy(function(x) return isBoss(x) end, 4000)
+		if e then chase(e) return end
+	end
+	if CFG.AutoFarmLevel or CFG.AutoFarmNoQuest then
+		if CFG.AutoFarmLevel and CFG.AutoQuest and not questVisible() and not questTitle() then
+			acceptQuest()
+			return
+		end
+		local e = pickEnemy()
+		if e then chase(e) end
+	end
+end
+
+local function tickKillAura()
+	if not CFG.KillAura then return end
+	local e = nearestEnemy(nil, CFG.KillAuraRange)
+	if e then chase(e) end
+end
+
+local function tickAttackLoop()
+	local ok = false
+	for _, e in ipairs(scanEnemies()) do
+		if (e.hrp.Position - pos()).Magnitude <= CFG.AttackRange + 12 then ok = true break end
+	end
+	if ok then attackClick() end
+end
+
+local function tickSkills()
+	if CFG.AutoSkillZ then useSkill("Z") end
+	if CFG.AutoSkillX then useSkill("X") end
+	if CFG.AutoSkillC then useSkill("C") end
+end
+
+local function tickEquip()
+	if not (CFG.AutoEquip or CFG.AutoMastery) then return end
+	local c = LPR.Character
+	if not c then return end
+	local function owned()
+		local t = {}
+		for _, x in ipairs(LPR.Backpack:GetChildren()) do
+			if x:IsA("Tool") and not x.Name:lower():find("fruit") then
+				t[#t + 1] = { tool = x, lv = toolLevel(x) }
+			end
+		end
+		return t
+	end
+	local eq = c:FindFirstChildOfClass("Tool")
+	local want
+	if CFG.AutoMastery and CFG.MasteryWeapon ~= "" then
+		local list = owned()
+		for _, x in ipairs(list) do
+			if x.tool.Name == CFG.MasteryWeapon then want = x.tool break end
+		end
+		if not want then
+			for _, x in ipairs(LPR.Backpack:GetChildren()) do
+				if x:IsA("Tool") and x.Name == CFG.MasteryWeapon then want = x break end
+			end
+		end
+	elseif CFG.AutoEquip then
+		if eq then return end
+		local list = owned()
+		local mode = CFG.EquipMode
+		if mode == "Best" then
+			local best
+			for _, x in ipairs(list) do if not best or x.lv > best.lv then best = x end end
+			want = best and best.tool
+		else
+			for _, x in ipairs(list) do
+				local n = x.tool.Name:lower()
+				if mode == "Melee" and (n:find("combat") or n:find("black leg") or n:find("electro") or n:find("karate") or n:find("dragon talon") or n:find("superhuman")) then want = x.tool break end
+				if mode == "Sword" and (n:find("sword") or n:find("blade") or n:find("katana") or n:find("saber") or n:find("cutlass") or n:find("scythe")) then want = x.tool break end
+				if mode == "Gun" and (n:find("gun") or n:find("pistol") or n:find("rifle") or n:find("bazooka") or n:find("cannon") or n:find("slingshot")) then want = x.tool break end
+				if mode == "Fruit" and n:find("fruit") then want = x.tool break end
+			end
+		end
+	end
+	if want and (not eq or eq ~= want) then safe(function() hum():EquipTool(want) end) end
+end
+
+local function tickStats()
+	if not CFG.AutoStats then return end
+	local pts = tonumber(safe(function() return LPR.Data.Points.Value end)) or 0
+	if pts <= 0 then return end
+	commF("AddPoint", CFG.AutoStatsPick, pts)
+end
+local function tickHakiKen()
+	if CFG.AutoBuso and tick() - lastBuso > 1.2 then lastBuso = tick() commF("Buso") end
+	if CFG.AutoKen and tick() - lastKen > 8 then
+		lastKen = tick()
+		safe(function() VIM:SendKeyEvent(true, Enum.KeyCode.K, false, game) end)
+		safe(function() VIM:SendKeyEvent(false, Enum.KeyCode.K, false, game) end)
+	end
+end
+
+-- ITEMS
+-- khởi tạo bằng tick() - 1000 để hành động ĐẦU TIÊN không bị chặn chống-spam
+local lastChest, lastDrop, lastPart, lastFruit, lastStore = tick() - 1000, tick() - 1000, tick() - 1000, tick() - 1000, tick() - 1000
+local function tickChest()
+	if not CFG.AutoChest or not busyOK() or tick() - lastChest < 1.2 then return end
+	local best, bd
+	for _, c in ipairs(chestsInWorld()) do
+		local d = (c.pos - pos()).Magnitude
+		if d < 900 and (not bd or d < bd) then best, bd = c, d end
+	end
+	if not best then return end
+	lastChest = tick()
+	local r = root()
+	if CFG.ChestMode == "Teleport" then
+		teleportTo(best.pos)
+	else
+		local tgt = CFrame.new(best.pos + Vector3.new(0, 4, 0))
+		for i = 1, 12 do
+			safe(function() r.CFrame = r.CFrame:Lerp(tgt, 0.35) end)
+			task.wait(0.06)
+		end
+	end
+	task.wait(0.3)
+	safe(function()
+		local cd = best.inst:FindFirstChildWhichIsA("ClickDetector", true)
+		if cd and API.firecd then fireclickdetector(cd) end
+		local pp = best.inst:FindFirstChildWhichIsA("ProximityPrompt", true)
+		if pp and API.firepp then fireproximityprompt(pp) end
+	end)
+end
+local function tickFruit()
+	if not CFG.AutoFruit and not CFG.FruitSniper then return end
+	if not busyOK() or tick() - lastFruit < 1.5 then return end
+	local list = fruitsInWorld()
+	local best, bd
+	for _, f in ipairs(list) do
+		local d = (f.pos - pos()).Magnitude
+		if d < 5000 then
+			if CFG.FruitSniper then
+				if fruitRarity(f.name) >= CFG.FruitSniperRarity and (not bd or d < bd) then best, bd = f, d end
+			elseif not bd or d < bd then best, bd = f, d end
+		end
+	end
+	if not best then return end
+	lastFruit = tick()
+	NOTIFY("Fruit", best.name .. " (" .. math.floor(bd) .. "m)", 4, Color3.fromRGB(255, 120, 240))
+	teleportTo(best.pos)
+end
+local function tickFruitBring()
+	if not CFG.FruitBring then return end
+	local p = pos()
+	for _, f in ipairs(fruitsInWorld()) do
+		if (f.pos - p).Magnitude < CFG.ESPRange then
+			safe(function()
+				local h = f.inst:FindFirstChild("Handle") or f.inst:FindFirstChildWhichIsA("BasePart")
+				if h then h.CFrame = CFrame.new(p + Vector3.new(0, 3, 0)) end
+			end)
+		end
+	end
+end
+local function tickStoreFruit()
+	if not CFG.AutoStoreFruit or tick() - lastStore < 5 then return end
+	local inv = commF("GetFruits")
+	if type(inv) ~= "table" then return end
+	for _, f in ipairs(inv) do
+		local nm = type(f) == "table" and (f.Name or f.name) or nil
+		local ra = type(f) == "table" and tonumber(f.Rarity or f.rarity) or 0
+		if nm and (nm == CFG.StoreFruitPick or (ra or 0) >= CFG.StoreRarity) then
+			lastStore = tick()
+			commF("StoreFruit", nm)
+			NOTIFY("Kho", "Cất fruit: " .. nm, 4, Color3.fromRGB(140, 200, 255))
+			return
+		end
+	end
+end
+local dropNotified = {}
+local function tickDrop()
+	if not CFG.AutoDrop or not busyOK() or tick() - lastDrop < 1.5 then return end
+	local r = root()
+	if not r then return end
+	for _, kw in ipairs(BF_OFFSETS.items.dropKeywords or {}) do
+		local k = kw:lower()
+		local found
+		local function look(inst, depth)
+			if found or depth > 2 then return end
+			if (inst:IsA("Tool") or inst:IsA("BasePart")) and inst.Name:lower():find(k, 1, true)
+				and not inst:IsDescendantOf(LPR.Character) and inst.Name:lower() ~= k then
+				local p = partPos(inst)
+				if p and (p - r.Position).Magnitude < 900 then found = { inst = inst, pos = p } return end
+			end
+			for _, c in ipairs(inst:GetChildren()) do look(c, depth + 1) end
+		end
+		for _, c in ipairs(workspace:GetChildren()) do look(c, 0) end
+		if found then
+			lastDrop = tick()
+			if not dropNotified[found.inst] then
+				dropNotified[found.inst] = true
+				NOTIFY("Đồ rơi", found.inst.Name, 4, Color3.fromRGB(255, 210, 120))
+			end
+			teleportTo(found.pos)
+			return
+		end
+	end
+end
+local function tickPart()
+	if not CFG.AutoPart or not busyOK() or tick() - lastPart < 2 then return end
+	local sea = onSea()
+	local list = BF_OFFSETS.fruitParts[sea] or {}
+	if #list == 0 then return end
+	local best, bd
+	for _, t in ipairs(list) do
+		local p = V(t)
+		if p then
+			local d = (p - pos()).Magnitude
+			if d < 400 then
+				lastPart = tick()
+				teleportTo(p)
+				NOTIFY("Mảnh Fruit", "Nhặt mảnh gần đây!", 3)
+				return
+			end
+			if d > 100 and (not bd or d < bd) then best, bd = p, d end
+		end
+	end
+	if best and bd < 40000 then lastPart = tick() teleportTo(best) end
+end
+local function tickChip()
+	if not CFG.AutoChip or tick() - (CFG._chipAt or 0) < 3 then return end
+	CFG._chipAt = tick()
+	local r = root()
+	if not r then return end
+	local found
+	for _, c in ipairs(workspace:GetChildren()) do
+		if c:IsA("Tool") or c:IsA("Model") or c:IsA("BasePart") then
+			local n = c.Name:lower()
+			if n:find("chip") or n:find("microchip") or n:find("fragment of") then
+				local p = partPos(c)
+				if p and (p - r.Position).Magnitude < 3000 then found = { inst = c, pos = p } break end
+			end
+		end
+	end
+	if found then
+		NOTIFY("Raid", "Nhặt chip: " .. found.inst.Name, 4, Color3.fromRGB(255, 160, 90))
+		teleportTo(found.pos)
+	end
+end
+
+--================================================================================================
+-- 7. ESP
+--================================================================================================
+local espCache = {}
+local function espClear()
+	for inst, e in pairs(espCache) do
+		safe(function() e.bb:Destroy() end)
+		safe(function() if e.hl then e.hl:Destroy() end end)
+		safe(function() if e.dr then e.dr:Destroy() end end)
+		espCache[inst] = nil
+	end
+	espCache = {}
+end
+local function espTrack(inst, text, color)
+	if not inst or not inst.Parent then return end
+	local e = espCache[inst]
+	if not e then
+		local bb = Instance.new("BillboardGui")
+		bb.Name = "SikeESP"
+		bb.Size = UDim2.new(0, 180, 0, 30)
+		bb.StudsOffset = Vector3.new(0, 3, 0)
+		bb.AlwaysOnTop = true
+		bb.MaxDistance = CFG.ESPRange
+		local lbl = Instance.new("TextLabel")
+		lbl.Size = UDim2.new(1, 0, 1, 0)
+		lbl.BackgroundTransparency = 0.35
+		lbl.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		lbl.TextColor3 = color
+		lbl.Font = Enum.Font.GothamBold
+		lbl.TextSize = 12
+		lbl.TextStrokeTransparency = 0.5
+		lbl.Parent = bb
+		local hl = Instance.new("Highlight")
+		hl.FillColor = color
+		hl.FillTransparency = 0.78
+		hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+		hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		hl.Parent = inst
+		bb.Parent = inst
+		e = { bb = bb, label = lbl, hl = hl }
+		espCache[inst] = e
+	end
+	e.label.Text = text
+	e.label.TextColor3 = color
+	e.label.Parent.MaxDistance = CFG.ESPRange
+	return e
+end
+-- kiểm tra instance còn trong DataModel không (chắc hơn IsDescendantOf ở vài executor)
+local function espAlive(inst)
+	if not inst or not inst.Parent then return false end
+	local ok, res = pcall(function() return inst:IsDescendantOf(game) end)
+	if ok and res then return true end
+	local cur, n = inst.Parent, 0
+	while cur and n < 16 do cur = cur.Parent n = n + 1 end
+	return cur == nil
+end
+local function espUpdate()
+	local anyOn = CFG.ESPPlayers or CFG.ESPMobs or CFG.ESPBoss or CFG.ESPChests or CFG.ESPFruits or CFG.ESPNpcs
+	if not anyOn then if next(espCache) then espClear() end return end
+	for inst, e in pairs(espCache) do
+		if not espAlive(inst) then
+			safe(function() e.bb:Destroy() end)
+			safe(function() if e.hl then e.hl:Destroy() end end)
+			espCache[inst] = nil
+		end
+	end
+	if CFG.ESPPlayers then
+		for _, pl in ipairs(Players:GetPlayers()) do
+			if pl ~= LPR and pl.Character then
+				local h = pl.Character:FindFirstChildOfClass("Humanoid")
+				local r = pl.Character:FindFirstChild("HumanoidRootPart")
+				if h and r and h.Health > 0 then
+					local l = plLevel(pl)
+					espTrack(r, string.format("%s [Lv.%d] %d%% · %dm", pl.Name, l,
+						math.floor(h.Health / math.max(1, h.MaxHealth) * 100), dist(r.Position)),
+						Color3.fromRGB(90, 255, 130))
+				end
+			end
+		end
+	end
+	if CFG.ESPMobs or CFG.ESPBoss then
+		local n = 0
+		for _, e in ipairs(scanEnemies()) do
+			n = n + 1
+			if n > 40 then break end
+			local d = (e.hrp.Position - pos()).Magnitude
+			if d < CFG.ESPRange then
+				local boss = isBoss(e)
+				if (boss and CFG.ESPBoss) or ((not boss) and CFG.ESPMobs) then
+					espTrack(e.hrp, string.format("%s%s · %dm", e.name, boss and " [BOSS]" or "", d),
+						boss and Color3.fromRGB(255, 80, 80) or Color3.fromRGB(255, 175, 70))
+				end
+			end
+		end
+	end
+	if CFG.ESPChests then
+		for _, c in ipairs(chestsInWorld()) do
+			local d = (c.pos - pos()).Magnitude
+			if d < CFG.ESPRange then
+				espTrack(c.inst, string.format("RƯƠNG · %dm", math.floor(d)), Color3.fromRGB(255, 230, 90))
+			end
+		end
+	end
+	if CFG.ESPFruits then
+		for _, f in ipairs(fruitsInWorld()) do
+			local d = (f.pos - pos()).Magnitude
+			if d < CFG.ESPRange then
+				espTrack(f.inst, string.format("%s (r%d) · %dm", f.name, fruitRarity(f.name), math.floor(d)),
+					Color3.fromRGB(255, 110, 240))
+			end
+		end
+	end
+	if CFG.ESPNpcs then
+		for _, fname in ipairs({ "NPCs" }) do
+			local f = workspace:FindFirstChild(fname)
+			if f then
+				for _, m in ipairs(f:GetChildren()) do
+					local hrp = m:FindFirstChild("HumanoidRootPart")
+					if hrp then
+						local d = (hrp.Position - pos()).Magnitude
+						if d < CFG.ESPRange then
+							espTrack(hrp, string.format("%s · %dm", m.Name, math.floor(d)),
+								Color3.fromRGB(120, 200, 255))
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+--================================================================================================
+-- 8. PLAYER MODS
+--================================================================================================
+safe(function()
+	if CFG.AntiAFK then
+		LPR.Idled:Connect(function()
+			VU:Button2Down(Vector2.new(0, 0), CAM.CFrame)
+			task.wait(1)
+			VU:Button2Up(Vector2.new(0, 0), CAM.CFrame)
+		end)
+	end
+end)
+safe(function()
+	for _, c in ipairs(safe(getconnections(LPR.Idled)) or {}) do safe(function() c:Disable() end) end
+end)
+
+local flyBV, flyBG
+local function flySet(on)
+	if on then
+		local r = root()
+		if not r then CFG.Fly = false return end
+		if flyBV and flyBV.Parent ~= r then flySet(false) end
+		if not flyBV then
+			flyBV = Instance.new("BodyVelocity")
+			flyBV.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+			flyBV.Velocity = Vector3.new(0, 0, 0)
+			flyBV.P = 1e4
+			flyBV.Parent = r
+			flyBG = Instance.new("BodyGyro")
+			flyBG.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+			flyBG.P = 9e4
+			flyBG.Parent = r
+		end
+	else
+		if flyBV then safe(function() flyBV:Destroy() end) flyBV = nil end
+		if flyBG then safe(function() flyBG:Destroy() end) flyBG = nil end
+	end
+end
+local function flyStep()
+	if not CFG.Fly then return end
+	local r = root()
+	if not r then return end
+	if not flyBV or flyBV.Parent ~= r then flySet(true) return end
+	local cam = workspace.CurrentCamera
+	local fwd, right = cam.CFrame.LookVector, cam.CFrame.RightVector
+	local dir = Vector3.new(0, 0, 0)
+	local key = false
+	if UIS.IsKeyDown and safe(function() return UIS:IsKeyDown(Enum.KeyCode.W) end) then dir = dir + fwd key = true end
+	if UIS.IsKeyDown and safe(function() return UIS:IsKeyDown(Enum.KeyCode.S) end) then dir = dir - fwd key = true end
+	if UIS.IsKeyDown and safe(function() return UIS:IsKeyDown(Enum.KeyCode.A) end) then dir = dir - right key = true end
+	if UIS.IsKeyDown and safe(function() return UIS:IsKeyDown(Enum.KeyCode.D) end) then dir = dir + right key = true end
+	if safe(function() return UIS:IsKeyDown(Enum.KeyCode.Space) end) then dir = dir + Vector3.new(0, 1, 0) key = true end
+	if safe(function() return UIS:IsKeyDown(Enum.KeyCode.LeftShift) end) then dir = dir - Vector3.new(0, 1, 0) key = true end
+	if not key then dir = fwd end
+	if dir.Magnitude > 0 then dir = dir.Unit end
+	safe(function()
+		flyBV.Velocity = dir * CFG.FlySpeed
+		flyBG.CFrame = CFrame.lookAt(r.Position, r.Position + dir)
+	end)
+end
+RUN.Heartbeat:Connect(function() safe(flyStep) end)
+RUN.Stepped:Connect(function()
+	if CFG.Noclip then
+		safe(function()
+			for _, p in ipairs(char():GetDescendants()) do
+				if p:IsA("BasePart") then p.CanCollide = false end
+			end
+		end)
+	end
+	if CFG.LockSpeed then
+		local hv = hum()
+		if hv then
+			hv.UseJumpPower = true
+			hv.WalkSpeed = CFG.WalkSpeed
+			hv.JumpPower = CFG.JumpPower
+		end
+	end
+end)
+
+--================================================================================================
+-- 9. SERVER
+--================================================================================================
+local homePlace = game.PlaceId
+local function serverHop()
+	if not API.request then NOTIFY("Server", "Executor thiếu API request → dùng Rejoin / Join JobId", 6, Color3.fromRGB(255, 120, 120)) return end
+	NOTIFY("Server", "Đang dò server...", 4)
+	local done = false
+	safe(function()
+		local url = (BF_OFFSETS.server.publicServersApi:gsub("{PlaceId}", tostring(homePlace)))
+		local res = (typeof(request) == "function") and request({ Url = url, Method = "GET" })
+			or http_request({ Url = url, Method = "GET" })
+		local data = HTS:JSONDecode(res.Body)
+		local rows = data.data or {}
+		table.sort(rows, function(a, b) return (a.playing or 0) < (b.playing or 0) end)
+		for _, s in ipairs(rows) do
+			local cnt, maxp = s.playing or 0, s.maxPlayers or 12
+			if s.id and s.id ~= game.JobId and cnt < maxp - 1 and cnt >= CFG.HopMinPlayers then
+				done = true
+				NOTIFY("Server", string.format("Vào server %d/%d", cnt, maxp), 4)
+				TPS:TeleportToPlaceInstance(homePlace, s.id, LPR)
+				return
+			end
+		end
+	end)
+	if not done then
+		NOTIFY("Server", "Chưa có server trống → thử lại sau 8s", 5, Color3.fromRGB(255, 190, 90))
+		task.delay(8, function() task.spawn(serverHop) end)
+	end
+end
+local function rejoin() NOTIFY("Server", "Rejoin...", 3) TPS:Teleport(homePlace, LPR) end
+local function joinCode(code)
+	code = (code or ""):gsub("%s", "")
+	if code == "" then NOTIFY("Server", "Dán JobId vào ô trước", 4) return end
+	NOTIFY("Server", "Join: " .. code, 4)
+	TPS:TeleportToPlaceInstance(homePlace, code, LPR)
+end
+local function autoRejoinStep()
+	if not CFG.AutoRejoin or tick() - (CFG._rejoinAt or 0) < 15 then return end
+	local kicked = false
+	if safe(function()
+		for _, d in ipairs(game:GetService("CoreGui"):GetDescendants()) do
+			if d.Name == "ErrorFrame" or d.Name == "DisconnectFrame" then return true end
+		end
+		return false
+	end) then kicked = true end
+	if safe(function()
+		local e = LPR.PlayerGui.Main:FindFirstChild("Error")
+		return e ~= nil and e.Visible == true
+	end) then kicked = true end
+	if kicked then
+		CFG._rejoinAt = tick()
+		NOTIFY("Server", "Bị kick → auto rejoin sau 5s", 6, Color3.fromRGB(255, 140, 140))
+		task.delay(5, function() safe(rejoin) end)
+	end
+end
+
+--================================================================================================
+-- 10. UI LIBRARY (viết trong file, không cần mạng)
+--================================================================================================
+local THEMES = {
+	Purple = { accent = Color3.fromRGB(150, 110, 255), dark = Color3.fromRGB(16, 14, 26), mid = Color3.fromRGB(26, 23, 40) },
+	Red    = { accent = Color3.fromRGB(240, 80, 90),   dark = Color3.fromRGB(24, 12, 14), mid = Color3.fromRGB(38, 20, 22) },
+	Cyan   = { accent = Color3.fromRGB(70, 200, 235),  dark = Color3.fromRGB(10, 20, 26), mid = Color3.fromRGB(18, 32, 40) },
+	Green  = { accent = Color3.fromRGB(90, 220, 130),  dark = Color3.fromRGB(10, 22, 14), mid = Color3.fromRGB(18, 34, 24) },
+	Gold   = { accent = Color3.fromRGB(240, 190, 70),  dark = Color3.fromRGB(24, 20, 10), mid = Color3.fromRGB(38, 32, 16) },
+}
+local TH = THEMES[CFG.Theme] or THEMES.Purple
+
+local UI = {}
+local gui, main, pages, pageBtns, notifHolder, statusLabels = nil, nil, {}, {}, nil, {}
+local reopen
+local toggleMin = function() end
+local UISCALE = CFG.UIScale or 1
+
+local function addCorner(inst, r)
+	local c = Instance.new("UICorner") c.CornerRadius = UDim.new(0, r or 6) c.Parent = inst
+	return c
+end
+local function addStroke(inst, col, th)
+	local s = Instance.new("UIStroke") s.Color = col s.Thickness = th or 1 s.Parent = inst
+	return s
+end
+
+function UI.notify(title, text, dur, color)
+	if not CFG.Notify or not notifHolder then return end
+	local toast = Instance.new("Frame")
+	toast.Size = UDim2.new(0, 240, 0, 46)
+	toast.BackgroundColor3 = TH.mid
+	toast.BackgroundTransparency = 0.05
+	toast.BorderSizePixel = 0
+	toast.Parent = notifHolder
+	addCorner(toast, 7)
+	addStroke(toast, color or TH.accent, 1.5)
+	local bar = Instance.new("Frame")
+	bar.Size = UDim2.new(0, 4, 1, 0)
+	bar.BackgroundColor3 = color or TH.accent
+	bar.BorderSizePixel = 0
+	bar.Parent = toast
+	addCorner(bar, 4)
+	local t = Instance.new("TextLabel")
+	t.Size = UDim2.new(1, -16, 0, 18)
+	t.Position = UDim2.new(0, 12, 0, 4)
+	t.BackgroundTransparency = 1
+	t.Text = tostring(title or "SikeMod")
+	t.TextColor3 = color or TH.accent
+	t.TextXAlignment = Enum.TextXAlignment.Left
+	t.Font = Enum.Font.GothamBold
+	t.TextSize = 12
+	t.Parent = toast
+	local b = Instance.new("TextLabel")
+	b.Size = UDim2.new(1, -16, 0, 22)
+	b.Position = UDim2.new(0, 12, 0, 20)
+	b.BackgroundTransparency = 1
+	b.Text = tostring(text or "")
+	b.TextColor3 = Color3.fromRGB(228, 228, 236)
+	b.TextXAlignment = Enum.TextXAlignment.Left
+	b.TextYAlignment = Enum.TextYAlignment.Top
+	b.TextWrapped = true
+	b.Font = Enum.Font.Gotham
+	b.TextSize = 11
+	b.Parent = toast
+	local layout = notifHolder:FindFirstChildOfClass("UIListLayout")
+	if layout then layout:ApplyLayout() end
+	task.delay(dur or 4, function()
+		safe(function()
+			TWS:Create(toast, TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
+			for _, c in ipairs(toast:GetDescendants()) do
+				if c:IsA("TextLabel") then TWS:Create(c, TweenInfo.new(0.35), { TextTransparency = 1 }):Play() end
+				if c:IsA("Frame") then TWS:Create(c, TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play() end
+			end
+		end)
+		task.wait(0.4)
+		safe(function() toast:Destroy() end)
+	end)
+end
+-- hàm nối thông báo với UI (UI dựng xong mới dùng được)
+local function notifyBridge(title, text, dur, color) UI.notify(title, text, dur, color) end
+
+local function buildWindow()
+	if gui then safe(function() gui:Destroy() end) gui = nil end
+	pages, pageBtns, statusLabels = {}, {}, {}
+
+	gui = Instance.new("ScreenGui")
+	gui.Name = "SikeHub"
+	gui.ResetOnSpawn = false
+	gui.IgnoreGuiInset = true
+	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	gui.DisplayOrder = 50
+	gui.Parent = (API.gethui and gethui()) or LPR:WaitForChild("PlayerGui")
+
+	notifHolder = Instance.new("Frame")
+	notifHolder.Size = UDim2.new(0, 250, 0, 300)
+	notifHolder.Position = UDim2.new(1, -258, 0, 60)
+	notifHolder.BackgroundTransparency = 1
+	notifHolder.Parent = gui
+	local nl = Instance.new("UIListLayout")
+	nl.Padding = UDim.new(0, 6)
+	nl.SortOrder = Enum.SortOrder.LayoutOrder
+	nl.Parent = notifHolder
+
+	main = Instance.new("Frame")
+	main.Name = "Main"
+	main.Size = UDim2.new(0, 350 * UISCALE, 0, 250 * UISCALE)
+	main.Position = UDim2.new(0, 12, 0.5, -125)
+	main.BackgroundColor3 = TH.dark
+	main.BorderSizePixel = 0
+	main.Active = true
+	main.ClipsDescendants = false
+	main.Parent = gui
+	addCorner(main, 10)
+	addStroke(main, TH.accent, 1.5)
+
+	-- header
+	local head = Instance.new("Frame")
+	head.Size = UDim2.new(1, 0, 0, 34 * UISCALE)
+	head.BackgroundColor3 = TH.mid
+	head.BorderSizePixel = 0
+	head.Parent = main
+	addCorner(head, 10)
+	local cover = Instance.new("Frame")
+	cover.Size = UDim2.new(1, 0, 0, 10)
+	cover.Position = UDim2.new(0, 0, 1, -10)
+	cover.BackgroundColor3 = TH.mid
+	cover.BorderSizePixel = 0
+	cover.Parent = head
+	local title = Instance.new("TextLabel")
+	title.Size = UDim2.new(1, -110, 1, 0)
+	title.Position = UDim2.new(0, 10, 0, 0)
+	title.BackgroundTransparency = 1
+	title.Text = "SIKEMOD HUB v3 — BLOX FRUITS"
+	title.TextColor3 = TH.accent
+	title.TextXAlignment = Enum.TextXAlignment.Left
+	title.Font = Enum.Font.GothamBold
+	title.TextSize = 13 * UISCALE
+	title.Parent = head
+	local sub = Instance.new("TextLabel")
+	sub.Size = UDim2.new(1, -110, 0, 12)
+	sub.Position = UDim2.new(0, 10, 0, 19)
+	sub.BackgroundTransparency = 1
+	sub.Text = "MADE BY Sike Mod · DB " .. (BF_OFFSETS.meta.updated or "?") .. " · " .. (onSea() or "?")
+	sub.TextColor3 = Color3.fromRGB(150, 148, 168)
+	sub.TextXAlignment = Enum.TextXAlignment.Left
+	sub.Font = Enum.Font.Gotham
+	sub.TextSize = 9 * UISCALE
+	sub.Parent = head
+
+	local function mkHeadBtn(txt, xoff, col, cb)
+		local b = Instance.new("TextButton")
+		b.Size = UDim2.new(0, 24 * UISCALE, 0, 22 * UISCALE)
+		b.Position = UDim2.new(1, xoff, 0, 6)
+		b.BackgroundColor3 = col
+		b.Text = txt
+		b.TextColor3 = Color3.fromRGB(255, 255, 255)
+		b.Font = Enum.Font.GothamBold
+		b.TextSize = 13 * UISCALE
+		b.AutoButtonColor = true
+		b.Parent = head
+		addCorner(b, 6)
+		b.MouseButton1Click:Connect(function() task.spawn(function() safe(cb) end) end)
+		return b
+	end
+	mkHeadBtn("✕", -30, Color3.fromRGB(180, 60, 60), function() gui.Enabled = false reopen.Visible = true end)
+	mkHeadBtn("–", -58, Color3.fromRGB(70, 70, 100), function() toggleMin() end)
+
+	-- kéo cửa sổ
+	local dragging, dragStart, startPos
+	head.InputBegan:Connect(function(i)
+		if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+			dragging = true dragStart = i.Position startPos = main.Position
+			i.Changed:Connect(function()
+				if i.UserInputState == Enum.UserInputState.End then dragging = false end
+			end)
+		end
+	end)
+	head.InputChanged:Connect(function(i)
+		if dragging and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then
+			local d = i.Position - dragStart
+			main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+		end
+	end)
+
+	-- tab bar
+	local bar = Instance.new("Frame")
+	bar.Name = "TabBar"
+	bar.Size = UDim2.new(1, -14, 0, 88 * UISCALE)
+	bar.Position = UDim2.new(0, 7, 0, 38 * UISCALE)
+	bar.BackgroundTransparency = 1
+	bar.Parent = main
+	local grid = Instance.new("UIGridLayout")
+	grid.CellSize = UDim2.new(0, 64 * UISCALE, 0, 24 * UISCALE)
+	grid.CellPadding = UDim2.new(0, 4, 0, 4)
+	grid.SortOrder = Enum.SortOrder.LayoutOrder
+	grid.Parent = bar
+
+	local content = Instance.new("Frame")
+	content.Name = "Content"
+	content.Size = UDim2.new(1, -14, 1, -152 * UISCALE)
+	content.Position = UDim2.new(0, 7, 0, 130 * UISCALE)
+	content.BackgroundColor3 = TH.mid
+	content.BackgroundTransparency = 0.35
+	content.BorderSizePixel = 0
+	content.Parent = main
+	addCorner(content, 8)
+
+	-- status bar
+	local st = Instance.new("Frame")
+	st.Size = UDim2.new(1, -14, 0, 18 * UISCALE)
+	st.Position = UDim2.new(0, 7, 1, -22 * UISCALE)
+	st.BackgroundColor3 = TH.mid
+	st.BorderSizePixel = 0
+	st.Parent = main
+	addCorner(st, 6)
+	local sl = Instance.new("TextLabel")
+	sl.Size = UDim2.new(1, -10, 1, 0)
+	sl.Position = UDim2.new(0, 6, 0, 0)
+	sl.BackgroundTransparency = 1
+	sl.Text = "LV 1 · Sea 1 · --"
+	sl.TextColor3 = Color3.fromRGB(190, 190, 205)
+	sl.TextXAlignment = Enum.TextXAlignment.Left
+	sl.Font = Enum.Font.Code
+	sl.TextSize = 10 * UISCALE
+	sl.Parent = st
+	statusLabels.main = sl
+
+	-- reopen button
+	reopen = Instance.new("TextButton")
+	reopen.Size = UDim2.new(0, 96, 0, 32)
+	reopen.Position = UDim2.new(0, 12, 0, 160)
+	reopen.BackgroundColor3 = TH.accent
+	reopen.Text = "SIKEMOD"
+	reopen.TextColor3 = Color3.fromRGB(10, 10, 14)
+	reopen.Font = Enum.Font.GothamBold
+	reopen.TextSize = 13
+	reopen.Visible = false
+	reopen.Parent = gui
+	addCorner(reopen, 8)
+	reopen.MouseButton1Click:Connect(function()
+		reopen.Visible = false
+		gui.Enabled = true
+		main.Visible = true
+	end)
+	return content, bar, grid
+end
+
+local content, tabBar, tabGrid = nil, nil, nil
+local minimized = false
+toggleMin = function()
+	minimized = not minimized
+	if minimized then
+		main.Size = UDim2.new(0, 350 * UISCALE, 0, 34 * UISCALE)
+	else
+		main.Size = UDim2.new(0, 350 * UISCALE, 0, 250 * UISCALE)
+	end
+end
+
+local function newPage(name, order)
+	local f = Instance.new("ScrollingFrame")
+	f.Name = "Page" .. name
+	f.Size = UDim2.new(1, 0, 1, 0)
+	f.BackgroundTransparency = 1
+	f.BorderSizePixel = 0
+	f.ScrollBarThickness = 5
+	f.CanvasSize = UDim2.new(0, 0, 0, 0)
+	f.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	f.Visible = (#pages == 0)
+	f.Parent = content
+	local lay = Instance.new("UIListLayout")
+	lay.Padding = UDim.new(0, 6)
+	lay.SortOrder = Enum.SortOrder.LayoutOrder
+	lay.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	lay.Parent = f
+	local pad = Instance.new("UIPadding")
+	pad.PaddingTop = UDim.new(0, 6)
+	pad.PaddingBottom = UDim.new(0, 12)
+	pad.Parent = f
+
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(0, 64 * UISCALE, 0, 24 * UISCALE)
+	btn.BackgroundColor3 = Color3.fromRGB(34, 32, 48)
+	btn.Text = name
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 10 * UISCALE
+	btn.TextColor3 = Color3.fromRGB(220, 218, 235)
+	btn.LayoutOrder = order or (#pages + 1)
+	btn.Parent = tabBar
+	addCorner(btn, 6)
+	btn.MouseButton1Click:Connect(function()
+		for _, p in ipairs(pages) do p.frame.Visible = false p.button.BackgroundColor3 = Color3.fromRGB(34, 32, 48) end
+		f.Visible = true
+		btn.BackgroundColor3 = TH.accent
+		btn.TextColor3 = Color3.fromRGB(12, 12, 16)
+	end)
+	btn.BackgroundColor3 = TH.accent
+	btn.TextColor3 = Color3.fromRGB(12, 12, 16)
+
+	local page = { name = name, frame = f, layout = lay, button = btn }
+	pages[#pages + 1] = page
+	return page
+end
+
+local function newSection(page, title, order)
+	local holder = Instance.new("Frame")
+	holder.Size = UDim2.new(1, -10, 0, 26)
+	holder.BackgroundTransparency = 1
+	holder.LayoutOrder = order or (#page.frame:GetChildren())
+	holder.Parent = page.frame
+	local layout = Instance.new("UIListLayout")
+	layout.Padding = UDim.new(0, 5)
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Parent = holder
+
+	local hdr = Instance.new("TextButton")
+	hdr.Size = UDim2.new(1, 0, 0, 24 * UISCALE)
+	hdr.BackgroundColor3 = TH.accent
+	hdr.BackgroundTransparency = 0.75
+	hdr.Text = "  ▾ " .. title
+	hdr.TextColor3 = TH.accent
+	hdr.TextXAlignment = Enum.TextXAlignment.Left
+	hdr.Font = Enum.Font.GothamBold
+	hdr.TextSize = 11 * UISCALE
+	hdr.LayoutOrder = 0
+	hdr.Parent = holder
+	addCorner(hdr, 6)
+	addStroke(hdr, TH.accent, 1)
+
+	local body = Instance.new("Frame")
+	body.Size = UDim2.new(1, 0, 0, 0)
+	body.AutomaticSize = Enum.AutomaticSize.Y
+	body.BackgroundTransparency = 1
+	body.LayoutOrder = 1
+	body.Parent = holder
+	local bl = Instance.new("UIListLayout")
+	bl.Padding = UDim.new(0, 5)
+	bl.SortOrder = Enum.SortOrder.LayoutOrder
+	bl.Parent = body
+
+	local folded = false
+	hdr.MouseButton1Click:Connect(function()
+		folded = not folded
+		body.Visible = not folded
+		hdr.Text = (folded and "  ▸ " or "  ▾ ") .. title
+	end)
+	return { holder = holder, body = body, layout = bl, header = hdr }
+end
+
+local function elFrame(sec, h)
+	local f = Instance.new("Frame")
+	f.Size = UDim2.new(1, 0, 0, (h or 28) * UISCALE)
+	f.BackgroundColor3 = Color3.fromRGB(30, 28, 44)
+	f.BorderSizePixel = 0
+	f.Parent = sec.body
+	addCorner(f, 6)
+	return f
+end
+
+local function mkToggle(sec, label, key, cb)
+	local f = elFrame(sec, 28)
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(1, -60, 1, 0)
+	lbl.Position = UDim2.new(0, 8, 0, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = label
+	lbl.TextColor3 = Color3.fromRGB(226, 226, 236)
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.TextTruncate = Enum.TextTruncate.AtEnd
+	lbl.Font = Enum.Font.Gotham
+	lbl.TextSize = 11 * UISCALE
+	lbl.Parent = f
+	local sw = Instance.new("TextButton")
+	sw.Size = UDim2.new(0, 46 * UISCALE, 0, 20 * UISCALE)
+	sw.Position = UDim2.new(1, -52 * UISCALE, 0.5, -10 * UISCALE)
+	sw.BackgroundColor3 = Color3.fromRGB(52, 50, 68)
+	sw.Text = ""
+	sw.AutoButtonColor = false
+	sw.Parent = f
+	addCorner(sw, 10)
+	local knob = Instance.new("Frame")
+	knob.Size = UDim2.new(0, 16 * UISCALE, 0, 16 * UISCALE)
+	knob.Position = UDim2.new(0, 2, 0.5, -8 * UISCALE)
+	knob.BackgroundColor3 = Color3.fromRGB(210, 210, 225)
+	knob.BorderSizePixel = 0
+	knob.Parent = sw
+	addCorner(knob, 8)
+	local function paint()
+		local on = CFG[key] == true
+		safe(function()
+			TWS:Create(sw, TweenInfo.new(0.15), { BackgroundColor3 = on and TH.accent or Color3.fromRGB(52, 50, 68) }):Play()
+			TWS:Create(knob, TweenInfo.new(0.15), { Position = on and UDim2.new(1, -18 * UISCALE, 0.5, -8 * UISCALE) or UDim2.new(0, 2, 0.5, -8 * UISCALE) }):Play()
+		end)
+	end
+	sw.MouseButton1Click:Connect(function()
+		CFG[key] = not CFG[key]
+		paint()
+		if cb then task.spawn(function() safe(cb, CFG[key]) end) end
+	end)
+	paint()
+	return f
+end
+
+local function mkButton(sec, label, cb, color)
+	local f = elFrame(sec, 28)
+	local b = Instance.new("TextButton")
+	b.Size = UDim2.new(1, 0, 1, 0)
+	b.BackgroundColor3 = color or Color3.fromRGB(58, 52, 88)
+	b.Text = label
+	b.TextColor3 = Color3.fromRGB(255, 255, 255)
+	b.Font = Enum.Font.GothamSemibold
+	b.TextSize = 11 * UISCALE
+	b.TextTruncate = Enum.TextTruncate.AtEnd
+	b.Parent = f
+	addCorner(b, 6)
+	b.MouseButton1Click:Connect(function()
+		task.spawn(function()
+			local ok, err = pcall(cb)
+			if not ok then notifyBridge("Lỗi nút", tostring(err), 5, Color3.fromRGB(255, 120, 120)) end
+		end)
+	end)
+	return f
+end
+
+local function mkSlider(sec, label, key, min, max, cb, isInt)
+	local f = elFrame(sec, 34)
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(1, -70, 0, 14)
+	lbl.Position = UDim2.new(0, 8, 0, 1)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = label
+	lbl.TextColor3 = Color3.fromRGB(226, 226, 236)
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.Font = Enum.Font.Gotham
+	lbl.TextSize = 11 * UISCALE
+	lbl.Parent = f
+	local val = Instance.new("TextBox")
+	val.Size = UDim2.new(0, 54 * UISCALE, 0, 15 * UISCALE)
+	val.Position = UDim2.new(1, -58 * UISCALE, 0, 1)
+	val.BackgroundColor3 = Color3.fromRGB(22, 20, 34)
+	val.Text = tostring(CFG[key])
+	val.TextColor3 = TH.accent
+	val.Font = Enum.Font.Code
+	val.TextSize = 11 * UISCALE
+	val.ClearTextOnFocus = false
+	val.Parent = f
+	addCorner(val, 4)
+	local bar = Instance.new("TextButton")
+	bar.Size = UDim2.new(1, -16, 0, 10 * UISCALE)
+	bar.Position = UDim2.new(0, 8, 0, 20 * UISCALE)
+	bar.BackgroundColor3 = Color3.fromRGB(48, 46, 66)
+	bar.Text = ""
+	bar.AutoButtonColor = false
+	bar.Parent = f
+	addCorner(bar, 5)
+	local fill = Instance.new("Frame")
+	fill.Size = UDim2.new(0, 0, 1, 0)
+	fill.BackgroundColor3 = TH.accent
+	fill.BorderSizePixel = 0
+	fill.Parent = bar
+	addCorner(fill, 5)
+	local function setFromX(px)
+		local rel = clamp((px - bar.AbsolutePosition.X) / math.max(1, bar.AbsoluteSize.X), 0, 1)
+		local v = min + (max - min) * rel
+		if isInt then v = math.floor(v + 0.5) end
+		CFG[key] = v
+		val.Text = tostring(v)
+		fill.Size = UDim2.new(rel, 0, 1, 0)
+		if cb then safe(cb, v) end
+	end
+	local dragging = false
+	bar.InputBegan:Connect(function(i)
+		if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+			dragging = true setFromX(i.Position.X)
+		end
+	end)
+	bar.InputChanged:Connect(function(i)
+		if dragging and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then
+			setFromX(i.Position.X)
+		end
+	end)
+	bar.InputEnded:Connect(function(i)
+		if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then dragging = false end
+	end)
+	val.FocusLost:Connect(function()
+		local n = tonumber(val.Text)
+		if n then
+			n = clamp(n, min, max)
+			CFG[key] = isInt and math.floor(n) or n
+			val.Text = tostring(CFG[key])
+			local rel = (CFG[key] - min) / math.max(1e-6, (max - min))
+			fill.Size = UDim2.new(clamp(rel, 0, 1), 0, 1, 0)
+			if cb then safe(cb, CFG[key]) end
+		else
+			val.Text = tostring(CFG[key])
+		end
+	end)
+	local initRel = (CFG[key] - min) / math.max(1e-6, (max - min))
+	fill.Size = UDim2.new(clamp(initRel, 0, 1), 0, 1, 0)
+	return f
+end
+
+local function mkTextBox(sec, label, key, cb)
+	local f = elFrame(sec, 28)
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(0.42, 0, 1, 0)
+	lbl.Position = UDim2.new(0, 8, 0, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = label
+	lbl.TextColor3 = Color3.fromRGB(226, 226, 236)
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.TextTruncate = Enum.TextTruncate.AtEnd
+	lbl.Font = Enum.Font.Gotham
+	lbl.TextSize = 11 * UISCALE
+	lbl.Parent = f
+	local box = Instance.new("TextBox")
+	box.Size = UDim2.new(0.55, -10, 0, 20 * UISCALE)
+	box.Position = UDim2.new(0.44, 0, 0.5, -10 * UISCALE)
+	box.BackgroundColor3 = Color3.fromRGB(22, 20, 34)
+	box.Text = tostring(CFG[key] or "")
+	box.TextColor3 = Color3.fromRGB(170, 220, 255)
+	box.Font = Enum.Font.Code
+	box.TextSize = 11 * UISCALE
+	box.ClearTextOnFocus = false
+	box.Parent = f
+	addCorner(box, 4)
+	box.FocusLost:Connect(function()
+		CFG[key] = box.Text
+		if cb then safe(cb, box.Text) end
+	end)
+	return f
+end
+
+local function mkDropdown(sec, label, key, options, cb)
+	local holder = Instance.new("Frame")
+	holder.Size = UDim2.new(1, 0, 0, 28 * UISCALE)
+	holder.BackgroundColor3 = Color3.fromRGB(30, 28, 44)
+	holder.BorderSizePixel = 0
+	holder.Parent = sec.body
+	addCorner(holder, 6)
+	local lbl = Instance.new("TextLabel")
+	lbl.Size = UDim2.new(0.5, 0, 1, 0)
+	lbl.Position = UDim2.new(0, 8, 0, 0)
+	lbl.BackgroundTransparency = 1
+	lbl.Text = label
+	lbl.TextColor3 = Color3.fromRGB(226, 226, 236)
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.TextTruncate = Enum.TextTruncate.AtEnd
+	lbl.Font = Enum.Font.Gotham
+	lbl.TextSize = 11 * UISCALE
+	lbl.Parent = holder
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(0.46, -8, 0, 20 * UISCALE)
+	btn.Position = UDim2.new(0.5, 4, 0.5, -10 * UISCALE)
+	btn.BackgroundColor3 = Color3.fromRGB(48, 44, 70)
+	btn.Text = tostring(CFG[key] or (options[1] or ""))
+	btn.TextColor3 = Color3.fromRGB(220, 215, 245)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 10 * UISCALE
+	btn.TextTruncate = Enum.TextTruncate.AtEnd
+	btn.Parent = holder
+	addCorner(btn, 5)
+
+	local list = Instance.new("ScrollingFrame")
+	list.Size = UDim2.new(1, 0, 0, math.min(140, 20 * math.min(#options, 7)) * UISCALE)
+	list.Position = UDim2.new(0, 0, 1, 2)
+	list.BackgroundColor3 = Color3.fromRGB(20, 18, 32)
+	list.BorderSizePixel = 0
+	list.Visible = false
+	list.ZIndex = 20
+	list.ScrollBarThickness = 4
+	list.CanvasSize = UDim2.new(0, 0, 0, 0)
+	list.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	list.Parent = holder
+	addCorner(list, 6)
+	addStroke(list, TH.accent, 1)
+	local listLayout = Instance.new("UIListLayout")
+	listLayout.Padding = UDim.new(0, 2)
+	listLayout.Parent = list
+
+	local function fill(opts)
+		for _, c in ipairs(list:GetChildren()) do if c:IsA("TextButton") then c:Destroy() end end
+		for _, o in ipairs(opts) do
+			local b = Instance.new("TextButton")
+			b.Size = UDim2.new(1, -6, 0, 20 * UISCALE)
+			b.BackgroundColor3 = Color3.fromRGB(30, 28, 44)
+			b.Text = tostring(o)
+			b.TextColor3 = Color3.fromRGB(215, 215, 230)
+			b.TextXAlignment = Enum.TextXAlignment.Left
+			b.Font = Enum.Font.Gotham
+			b.TextSize = 10 * UISCALE
+			b.TextTruncate = Enum.TextTruncate.AtEnd
+			b.Parent = list
+			addCorner(b, 4)
+			b.MouseButton1Click:Connect(function()
+				CFG[key] = o
+				btn.Text = tostring(o)
+				list.Visible = false
+				if cb then task.spawn(function() safe(cb, o) end) end
+			end)
+		end
+	end
+	fill(options)
+	btn.MouseButton1Click:Connect(function()
+		list.Visible = not list.Visible
+	end)
+	holder.DropdownRefresh = function(opts) fill(opts) end
+	return holder
+end
+
+local function mkLabel(sec, text, h)
+	local f = elFrame(sec, h or 30)
+	f.BackgroundColor3 = Color3.fromRGB(26, 24, 38)
+	local l = Instance.new("TextLabel")
+	l.Size = UDim2.new(1, -12, 1, -4)
+	l.Position = UDim2.new(0, 8, 0, 2)
+	l.BackgroundTransparency = 1
+	l.Text = text
+	l.TextColor3 = Color3.fromRGB(175, 205, 240)
+	l.TextXAlignment = Enum.TextXAlignment.Left
+	l.TextYAlignment = Enum.TextYAlignment.Top
+	l.TextWrapped = true
+	l.Font = Enum.Font.Code
+	l.TextSize = 10 * UISCALE
+	l.Parent = f
+	return f, l
+end
+
+--================================================================================================
+-- 11. DỰNG UI
+--================================================================================================
+content, tabBar, tabGrid = buildWindow()
+
+local function buildAllUI()
+local P = {}
+P.farm = newPage("FARM", 1)
+P.quest = newPage("QUEST", 2)
+P.items = newPage("ITEMS", 3)
+P.raid = newPage("RAID", 4)
+P.esp = newPage("ESP", 5)
+P.tp = newPage("TELEPORT", 6)
+P.player = newPage("PLAYER", 7)
+P.server = newPage("SERVER", 8)
+P.settings = newPage("SETTINGS", 9)
+
+-- ---------- FARM ----------
+do
+	local s = newSection(P.farm, "AUTO FARM", 1)
+	mkToggle(s, "Auto Farm Level (theo quest)", "AutoFarmLevel", function() end)
+	mkToggle(s, "Auto Farm (không cần quest)", "AutoFarmNoQuest")
+	mkToggle(s, "Auto Quest (tự nhận nhiệm vụ)", "AutoQuest")
+	mkToggle(s, "Auto Next Quest theo level", "AutoNextQuest")
+	mkDropdown(s, "Chế độ farm", "FarmMode", { "Quest", "Mọi mob theo zone", "Theo tên mob" },
+		function(v) if v == "Theo tên mob" then notifyBridge("Farm", "Nhập tên mob ở ô dưới", 4) end end)
+	mkTextBox(s, "Tên mob", "FarmMobName")
+	mkToggle(s, "Auto Boss", "AutoBoss")
+	mkToggle(s, "Auto Sea Beast", "AutoSeaBeast")
+	mkToggle(s, "Bring Mob (kéo mob lại)", "BringMob")
+	mkToggle(s, "Kill Aura", "KillAura")
+	mkSlider(s, "Tầm Kill Aura", "KillAuraRange", 20, 500, nil, true)
+
+	local s2 = newSection(P.farm, "ĐÁNH / KỸ NĂNG", 2)
+	mkToggle(s2, "Fast Attack", "FastAttack")
+	mkSlider(s2, "Fast Attack delay (giây)", "FastAttackDelay", 0.02, 0.6, nil)
+	mkToggle(s2, "Auto Click", "AutoClick")
+	mkToggle(s2, "Auto Skill Z", "AutoSkillZ")
+	mkToggle(s2, "Auto Skill X", "AutoSkillX")
+	mkToggle(s2, "Auto Skill C", "AutoSkillC")
+	mkSlider(s2, "Tầm đánh (Reach)", "AttackRange", 20, 400, nil, true)
+
+	local s3 = newSection(P.farm, "VŨ KHÍ / HAKI / STATS", 3)
+	mkToggle(s3, "Auto Equip vũ khí", "AutoEquip")
+	mkDropdown(s3, "Loại vũ khí", "EquipMode", { "Best", "Melee", "Sword", "Gun", "Fruit" })
+	mkToggle(s3, "Auto Mastery (giữ 1 vũ khí)", "AutoMastery")
+	mkTextBox(s3, "Vũ khí mastery", "MasteryWeapon")
+	mkToggle(s3, "Auto Buso (Haki)", "AutoBuso", function(on)
+		if not on then commF("Buso") end
+	end)
+	mkToggle(s3, "Auto Ken (Observation)", "AutoKen")
+	mkToggle(s3, "Auto Stats (cộng điểm)", "AutoStats")
+	mkDropdown(s3, "Cộng vào", "AutoStatsPick", { "Melee", "Defense", "Sword", "Gun", "Demon Fruit" })
+
+	local s4 = newSection(P.farm, "AN TOÀN", 4)
+	mkToggle(s4, "Safe Mode (máu thấp dừng farm)", "SafeMode")
+	mkSlider(s4, "Ngưỡng máu %", "SafeHP", 5, 95, nil, true)
+	mkToggle(s4, "Khóa Speed/Jump", "LockSpeed")
+end
+
+-- ---------- QUEST ----------
+do
+	local s = newSection(P.quest, "QUEST HIỆN TẠI", 1)
+	local _, infoLbl = mkLabel(s, "Đang đọc...", 46)
+	statusLabels.quest = infoLbl
+	mkButton(s, "★ NHẬN QUEST NGAY", function()
+		task.spawn(acceptQuest)
+	end, Color3.fromRGB(46, 130, 82))
+	mkButton(s, "Bỏ quest hiện tại", function() task.spawn(abandonQuest) end, Color3.fromRGB(130, 60, 60))
+	mkButton(s, "Tới NPC quest của level mình", function()
+		local c = questCandidates(lvl())[1]
+		if c and V(c.npc) then teleportTo(V(c.npc), c.entrance)
+			notifyBridge("Quest", "Tới NPC: " .. tostring(c.giver or c.id), 4)
+		else notifyBridge("Quest", "DB chưa có toạ độ NPC cho level này", 5, Color3.fromRGB(255, 180, 90)) end
+	end, Color3.fromRGB(52, 88, 140))
+	mkButton(s, "Tự dò quest tại NPC (getQuests)", function()
+		local raw = commF("getQuests")
+		if type(raw) == "table" then
+			local txt = game:GetService("HttpService"):JSONEncode(raw)
+			print("[SIKEMOD] getQuests → " .. txt)
+			notifyBridge("Quest", "Đã in getQuests ra Console", 5)
+		else
+			notifyBridge("Quest", "getQuests không trả gì — đứng gần NPC hơn", 5, Color3.fromRGB(255, 180, 90))
+		end
+	end, Color3.fromRGB(60, 78, 140))
+	mkButton(s, "Đọc hội thoại NPC (xem chữ)", function()
+		local t = readDialogTexts(10)
+		if #t > 0 then
+			print("[SIKEMOD] Hội thoại: " .. table.concat(t, " | "))
+			notifyBridge("Hội thoại", table.concat(t, " · "):sub(1, 90), 7, Color3.fromRGB(150, 200, 255))
+		else
+			notifyBridge("Hội thoại", "Không thấy chữ nào (bấm vào NPC trước)", 5)
+		end
+	end)
+
+	local s2 = newSection(P.quest, "NHẬN QUEST THEO BIỂN (DB)", 2)
+	local sea = onSea()
+	if sea then
+		local n = 0
+		for _, q in ipairs(BF_OFFSETS.quests[sea] or {}) do
+			if q.lv then
+				n = n + 1
+				if n <= 30 then
+					mkButton(s2, string.format("%s%s — Lv.%d%s", q.mob or q.id,
+						(q.num and q.num > 1) and (" #" .. q.num) or "", q.lv,
+						q.verify and "" or "  ✔"), function()
+						if V(q.npc) then teleportTo(V(q.npc), q.entrance) task.wait(0.4) end
+						commF("StartQuest", q.id, q.num or 1)
+						task.wait(0.6)
+						notifyBridge("Quest", questVisible() and ("OK: " .. tostring(questTitle())) or "Không nhận được (thử bấm E)", 5,
+							questVisible() and Color3.fromRGB(90, 220, 130) or Color3.fromRGB(255, 170, 90))
+					end, q.verify and Color3.fromRGB(80, 70, 40) or Color3.fromRGB(45, 85, 65))
+				end
+			end
+		end
+		if n == 0 then mkLabel(s2, "Sea này chưa có quest trong DB → chạy DUMP ở biển này rồi build lại", 34) end
+	else
+		mkLabel(s2, "Không phải map Blox Fruits", 24)
+	end
+end
+
+-- ---------- ITEMS ----------
+do
+	local s = newSection(P.items, "RƯƠNG / CHEST", 1)
+	mkToggle(s, "Auto Chest", "AutoChest")
+	mkDropdown(s, "Cách tới rương", "ChestMode", { "Teleport", "Bay từ từ (Tween)" })
+	mkToggle(s, "ESP Rương", "ESPChests")
+	mkButton(s, "Bay tới rương gần nhất", function()
+		local best, bd
+		for _, c in ipairs(chestsInWorld(true)) do
+			local d = (c.pos - pos()).Magnitude
+			if not bd or d < bd then best, bd = c, d end
+		end
+		if best then teleportTo(best.pos) notifyBridge("Chest", "Rương cách " .. math.floor(bd) .. "m", 4)
+		else notifyBridge("Chest", "Không thấy rương trong tầm quét", 4, Color3.fromRGB(255, 180, 90)) end
+	end)
+
+	local s2 = newSection(P.items, "FRUIT", 2)
+	mkToggle(s2, "Auto Fruit (bay tới nhặt)", "AutoFruit")
+	mkToggle(s2, "Fruit Sniper (chỉ bay tới fruit quý)", "FruitSniper")
+	mkSlider(s2, "Rarity tối thiểu (0-6)", "FruitSniperRarity", 0, 6, nil, true)
+	mkToggle(s2, "Fruit Bring (hút fruit về người)", "FruitBring")
+	mkToggle(s2, "Fruit Notifier (báo khi fruit spawn)", "FruitNotifier")
+	mkToggle(s2, "Auto Store Fruit (cất vào kho)", "AutoStoreFruit")
+	mkSlider(s2, "Rarity tối thiểu để cất", "StoreRarity", 0, 6, nil, true)
+	mkTextBox(s2, "Hoặc cất fruit này", "StoreFruitPick")
+	mkButton(s2, "Bay tới fruit gần nhất", function()
+		local best, bd
+		for _, f in ipairs(fruitsInWorld(true)) do
+			local d = (f.pos - pos()).Magnitude
+			if not bd or d < bd then best, bd = f, d end
+		end
+		if best then teleportTo(best.pos) notifyBridge("Fruit", best.name .. " (" .. math.floor(bd) .. "m)", 4)
+		else notifyBridge("Fruit", "Không thấy fruit (dump đã lọc mesh rác)", 4, Color3.fromRGB(255, 180, 90)) end
+	end)
+	mkButton(s2, "Xem fruit đang có trong kho", function()
+		local inv = commF("GetFruits")
+		if type(inv) ~= "table" then notifyBridge("Kho", "GetFruits không trả gì", 4) return end
+		local t = {}
+		for _, f in ipairs(inv) do
+			t[#t + 1] = string.format("%s (r%s)", tostring(type(f) == "table" and (f.Name or f.name) or f),
+				tostring(type(f) == "table" and (f.Rarity or f.rarity) or "?"))
+		end
+		local line = table.concat(t, ", ")
+		print("[SIKEMOD] Kho fruit: " .. line)
+		notifyBridge("Kho fruit", (#t) .. " fruit: " .. line:sub(1, 80), 8, Color3.fromRGB(150, 210, 255))
+	end, Color3.fromRGB(52, 70, 120))
+
+	local s3 = newSection(P.items, "ĐỒ RƠI / MẢNH FRUIT", 3)
+	mkToggle(s3, "Auto Đồ Rơi (sword/gun/mace…)", "AutoDrop")
+	mkToggle(s3, "Auto Mảnh Fruit", "AutoPart")
+	mkLabel(s3, "Từ khoá đồ rơi: " .. table.concat((BF_OFFSETS.items.dropKeywords or {}), ", "):sub(1, 150), 34)
+end
+
+-- ---------- RAID ----------
+do
+	local s = newSection(P.raid, "RAID (THỬ NGHIỆM)", 1)
+	mkToggle(s, "Auto nhặt Chip / Microchip", "AutoChip")
+	mkToggle(s, "Auto bắt đầu Raid (thử các method)", "AutoRaidStart")
+	mkButton(s, "Thử method Raid (in kết quả)", function()
+		local methods = { "RaidChip", "BuyMicrochip", "StartRaid", "Raid", "DoughChip" }
+		for _, m in ipairs(methods) do
+			local r = commF(m)
+			print(string.format("[SIKEMOD RAID TEST] CommF_:'%s' → %s", m, tostring(r)))
+		end
+		remoteAt("ReplicatedStorage.Remotes.Raids", "Start")
+		notifyBridge("Raid test", "Đã thử 5 method + Remotes.Raids → xem Console", 6, Color3.fromRGB(255, 170, 90))
+	end, Color3.fromRGB(120, 70, 60))
+	mkButton(s, "Tới phòng Raid (Cursed Ship)", function()
+		local isl = nil
+		for _, i in ipairs(BF_OFFSETS.islands["Sea 2"] or {}) do
+			if i.name:lower():find("cursed") then isl = i end
+		end
+		if isl then teleportTo(V(isl.pos), isl.entrance) notifyBridge("Raid", "Tới Cursed Ship", 4)
+		else notifyBridge("Raid", "Không có toạ độ (cần ở Sea 2)", 4) end
+	end, Color3.fromRGB(70, 70, 110))
+	mkLabel(s, "Raid phụ thuộc microchip + queue riêng và đổi theo update.\nNút test ở trên sẽ in ra method nào còn dùng được → gửi log cho Sike Mod để làm chuẩn.", 40)
+end
+
+-- ---------- ESP ----------
+do
+	local s = newSection(P.esp, "ESP", 1)
+	mkToggle(s, "ESP Players (tên + Lv + HP)", "ESPPlayers")
+	mkToggle(s, "ESP Mob", "ESPMobs")
+	mkToggle(s, "ESP Boss", "ESPBoss")
+	mkToggle(s, "ESP Rương", "ESPChests")
+	mkToggle(s, "ESP Fruit", "ESPFruits")
+	mkToggle(s, "ESP NPC", "ESPNpcs")
+	mkSlider(s, "Tầm hiện ESP", "ESPRange", 200, 6000, nil, true)
+	mkButton(s, "Dọn ESP", function() espClear() notifyBridge("ESP", "Đã dọn", 3) end)
+end
+
+-- ---------- TELEPORT ----------
+do
+	local holder = newSection(P.tp, "TÌM KIẾM", 1)
+	local searchHolder = mkTextBox(holder, "Tìm:", "_TPSearch", function(v)
+		local q = tostring(v):lower()
+		for _, e in ipairs(CFG._tpEntries or {}) do
+			e.frame.Visible = (q == "" or e.name:lower():find(q, 1, true) ~= nil)
+		end
+	end)
+	CFG._tpEntries = {}
+
+	local sIsl = newSection(P.tp, "ĐẢO (theo biển)", 2)
+	local sea = onSea()
+	if sea then
+		for _, i in ipairs(BF_OFFSETS.islands[sea] or {}) do
+			local f = mkButton(sIsl, string.format("%s  [%d-%d]", i.name, i.lv[1], i.lv[2]), function()
+				teleportTo(V(i.pos), i.entrance)
+				notifyBridge("Teleport", i.name, 3)
+			end, Color3.fromRGB(42, 74, 62))
+			CFG._tpEntries[#CFG._tpEntries + 1] = { name = i.name, frame = f }
+		end
+	end
+
+	local sNpc = newSection(P.tp, "NPC / DEALER (toạ độ thật từ dump)", 3)
+	for _, n in ipairs((BF_OFFSETS.npcTeleport or {})[sea or "Sea 1"] or {}) do
+		local f = mkButton(sNpc, n.name, function()
+			teleportTo(V(n.pos))
+			notifyBridge("Teleport", n.name, 3)
+		end, Color3.fromRGB(46, 62, 92))
+		CFG._tpEntries[#CFG._tpEntries + 1] = { name = n.name, frame = f }
+	end
+
+	local sZone = newSection(P.tp, "VÙNG (dump từ map)", 4)
+	for _, z in ipairs(((BF_OFFSETS.live or {}).zones or {})) do
+		local f = mkButton(sZone, string.format("%s  (Y %d-%d)", z.name, z.yRange[1], z.yRange[2]), function()
+			teleportTo(V(z.pos))
+			notifyBridge("Teleport", z.name, 3)
+		end, Color3.fromRGB(44, 66, 78))
+		CFG._tpEntries[#CFG._tpEntries + 1] = { name = z.name, frame = f }
+	end
+
+	local sBoss = newSection(P.tp, "BOSS", 5)
+	for _, b in ipairs(BF_OFFSETS.bosses[sea or "Sea 1"] or {}) do
+		local f = mkButton(sBoss, string.format("%s  [Lv.%d]", b.name, b.lv), function()
+			local e = findMobByName(b.name)
+			if e then teleportTo(e.hrp.Position) notifyBridge("Boss", "Tới " .. b.name, 3)
+			else teleportTo(V(b.pos)) notifyBridge("Boss", b.name .. " chưa spawn → bay tới chỗ chờ", 4) end
+		end, Color3.fromRGB(92, 52, 52))
+		CFG._tpEntries[#CFG._tpEntries + 1] = { name = b.name, frame = f }
+	end
+
+	local sMisc = newSection(P.tp, "KHÁC", 6)
+	mkButton(sMisc, "Lưu vị trí hiện tại", function()
+		CFG._savedPos = { pos().X, pos().Y, pos().Z }
+		notifyBridge("Vị trí", "Đã lưu", 3)
+	end)
+	mkButton(sMisc, "Quay lại vị trí đã lưu", function()
+		if CFG._savedPos then
+			teleportTo(Vector3.new(CFG._savedPos[1], CFG._savedPos[2], CFG._savedPos[3]))
+			notifyBridge("Vị trí", "Đã quay lại", 3)
+		else notifyBridge("Vị trí", "Chưa lưu vị trí nào", 4) end
+	end)
+	mkButton(sMisc, "Set Spawn (lưu điểm hồi sinh)", function()
+		commF("SetSpawnPoint")
+		notifyBridge("Spawn", "Đã lưu điểm spawn", 4)
+	end, Color3.fromRGB(60, 90, 70))
+	mkButton(sMisc, "Về đảo theo level", function()
+		local z = zoneOf and zoneOf(lvl()) or nil
+		if z then teleportTo(V(z.pos), z.entrance) notifyBridge("Teleport", z.name, 3) end
+	end, Color3.fromRGB(52, 88, 120))
+end
+
+-- ---------- PLAYER ----------
+do
+	local s = newSection(P.player, "DI CHUYỂN", 1)
+	mkToggle(s, "Fly (mobile: nghiêng camera)", "Fly", function(on) flySet(on) end)
+	mkSlider(s, "Fly Speed", "FlySpeed", 20, 500, nil, true)
+	mkToggle(s, "Noclip (xuyên tường)", "Noclip")
+	mkSlider(s, "WalkSpeed", "WalkSpeed", 16, 500, nil, true)
+	mkSlider(s, "JumpPower", "JumpPower", 50, 500, nil, true)
+	local s2 = newSection(P.player, "KHÁC", 2)
+	mkToggle(s2, "Anti-AFK", "AntiAFK")
+	mkButton(s2, "Boost FPS (tắt bóng + 30fps)", function()
+		safe(function() game:GetService("Lighting").GlobalShadows = false end)
+		safe(function() settings().Rendering.QualityLevel = 1 end)
+		if API.fpscap then pcall(setfpscap, 30) end
+		notifyBridge("FPS", "Đã boost", 4)
+	end, Color3.fromRGB(45, 92, 96))
+	mkButton(s2, "Khôi phục đồ hoạ + 60fps", function()
+		safe(function() game:GetService("Lighting").GlobalShadows = true end)
+		safe(function() settings().Rendering.QualityLevel = 5 end)
+		if API.fpscap then pcall(setfpscap, 60) end
+	end, Color3.fromRGB(60, 60, 84))
+	mkButton(s2, "Reset nhân vật", function()
+		safe(function() char():BreakJoints() end)
+	end, Color3.fromRGB(120, 60, 60))
+end
+
+-- ---------- SERVER ----------
+do
+	local s = newSection(P.server, "SERVER", 1)
+	mkButton(s, "Server Hop (đổi server)", function() serverHop() end, Color3.fromRGB(150, 60, 60))
+	mkToggle(s, "Chỉ hop cùng Sea", "SeaHopOnly")
+	mkSlider(s, "Số người tối thiểu", "HopMinPlayers", 0, 11, nil, true)
+	mkButton(s, "Rejoin server hiện tại", function() rejoin() end, Color3.fromRGB(128, 96, 44))
+	mkTextBox(s, "JobId", "_jobIdIn")
+	mkButton(s, "Join bằng JobId", function() joinCode(CFG._jobIdIn) end, Color3.fromRGB(60, 88, 160))
+	mkButton(s, "Copy JobId (bạn bè join)", function()
+		if API.clipboard then setclipboard(game.JobId) notifyBridge("Server", "Đã copy JobId", 4) end
+	end)
+	mkToggle(s, "Auto Rejoin khi bị kick", "AutoRejoin")
+	local s2 = newSection(P.server, "PHE / SPAWN", 2)
+	mkDropdown(s2, "Phe", "Team", { "Pirates", "Marines" })
+	mkButton(s2, "Vào phe (SetTeam)", function()
+		commF("SetTeam", CFG.Team)
+		notifyBridge("Server", "Đã gửi SetTeam: " .. tostring(CFG.Team), 4)
+	end)
+	local _, sInfo = mkLabel(s2, "Đang lấy thông tin server...", 40)
+	task.spawn(function()
+		while task.wait(5) do
+			if sInfo and sInfo.Parent then
+				local pl = #Players:GetPlayers()
+				local ping = safe(function()
+					return math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
+				end) or "?"
+				sInfo.Text = string.format("JobId: %s\nNgười chơi: %d/%d · Ping: %s ms",
+					tostring(game.JobId):sub(1, 18) .. "...", pl, Players.MaxPlayers, tostring(ping))
+			end
+		end
+	end)
+end
+
+-- ---------- SETTINGS ----------
+do
+	local s = newSection(P.settings, "GIAO DIỆN", 1)
+	mkDropdown(s, "Theme", "Theme", { "Purple", "Red", "Cyan", "Green", "Gold" }, function(v)
+		CFG.Theme = v
+		notifyBridge("UI", "Đổi theme: " .. v .. " (bấm 'Vẽ lại UI')", 4)
+	end)
+	mkSlider(s, "UI Scale", "UIScale", 0.8, 1.4, nil)
+	mkToggle(s, "Thông báo trong game", "Notify")
+	mkToggle(s, "Bật/tắt toàn bộ hub", "Active")
+	mkTextBox(s, "Keybind ẩn/hiện (1 ký tự)", "Keybind", function(v)
+		CFG.Keybind = tostring(v):sub(1, 1)
+	end)
+	mkButton(s, "Vẽ lại UI (áp theme/scale)", function()
+		UISCALE = CFG.UIScale or 1
+		TH = THEMES[CFG.Theme] or THEMES.Purple
+		buildAllUI()
+		notifyBridge("UI", "Đã vẽ lại giao diện", 4, Color3.fromRGB(150, 210, 255))
+	end, Color3.fromRGB(88, 70, 140))
+	local s2 = newSection(P.settings, "CONFIG", 2)
+	local FOLDER = "SikeMod"
+	local FCONF = FOLDER .. "/hub_v3_config.json"
+	mkButton(s2, "Lưu config", function()
+		if not API.writefile then notifyBridge("Config", "Executor thiếu writefile", 4) return end
+		if typeof(makefolder) == "function" and typeof(isfolder) == "function" and not isfolder(FOLDER) then
+			safe(makefolder, FOLDER)
+		end
+		local t = {}
+		for k, v in pairs(CFG) do
+			if type(k) == "string" and k:sub(1, 1) ~= "_" and (type(v) == "boolean" or type(v) == "number" or type(v) == "string") then
+				t[k] = v
+			end
+		end
+		writefile(FCONF, HTS:JSONEncode(t))
+		notifyBridge("Config", "Đã lưu → " .. FCONF, 5, Color3.fromRGB(90, 220, 130))
+	end, Color3.fromRGB(44, 104, 66))
+	mkButton(s2, "Tải config", function()
+		if not (API.readfile and typeof(isfile) == "function" and isfile(FCONF)) then
+			notifyBridge("Config", "Chưa có file config", 4) return
+		end
+		local t = HTS:JSONDecode(readfile(FCONF))
+		for k, v in pairs(t) do if DEFAULTS[k] ~= nil then CFG[k] = v end end
+		notifyBridge("Config", "Đã tải config (bấm Vẽ lại UI để cập nhật giao diện)", 5)
+	end, Color3.fromRGB(54, 76, 128))
+	mkButton(s2, "Reset config về mặc định", function()
+		for k, v in pairs(DEFAULTS) do CFG[k] = v end
+		notifyBridge("Config", "Đã reset", 4)
+	end, Color3.fromRGB(110, 60, 60))
+	local s3 = newSection(P.settings, "KIỂM TRA / THÔNG TIN", 3)
+	mkButton(s3, "Self-test (in ra Console)", function()
+		local en = scanEnemies(true)
+		local qt = questInfo()
+		local lines = {
+			"===== SIKEMOD v3 SELF-TEST =====",
+			"Executor: " .. tostring(safe(function() return identifyexecutor() end) or "?"),
+			"PlaceId / Sea: " .. game.PlaceId .. " / " .. tostring(onSea()),
+			"Level: " .. lvl() .. " | Beli " .. beli() .. " | Frag " .. frags(),
+			"CommF_: " .. tostring(getCommF() ~= nil) .. " | CommF_ gọi OK gần nhất: " .. tostring(COMMF_LAST_OK),
+			"Enemies quét được: " .. #en .. " (kể cả mob không có Lv.)",
+			"Quest hiện tại: " .. tostring(questVisible()) .. " | " .. tostring(questTitle()),
+			"Quest parse: " .. (qt and ("mob=" .. tostring(qt.mob) .. " " .. tostring(qt.cur) .. "/" .. tostring(qt.max)) or "không có"),
+			"Rương: " .. #chestsInWorld(true) .. " | Fruit trong map: " .. #fruitsInWorld(true),
+			"Đảo DB: " .. #(BF_OFFSETS.islands[onSea()] or {}) .. " | Zone dump: " .. #((BF_OFFSETS.live or {}).zones or {}),
+			"Capabilities: req=" .. tostring(API.request) .. " wf=" .. tostring(API.writefile) .. " gethui=" .. tostring(API.gethui) .. " Drawing=" .. tostring(API.drawing),
+			"#en > 0 and hoạt động tốt or 'Chưa thấy mob — lại gần khu có mob'",
+		}
+		lines[#lines] = (#en > 0) and "✅ Farm: quét được mob" or "⚠ Không thấy mob"
+		for _, l in ipairs(lines) do print(l) end
+		notifyBridge("Self-test", "Đã in ra Console (bấm F9 / log Delta)", 6, Color3.fromRGB(150, 210, 255))
+	end, Color3.fromRGB(72, 72, 116))
+	mkLabel(s3,
+		"SIKEMOD HUB v3.0 — MADE BY Sike Mod\n"
+		.. "DB offset: " .. tostring(BF_OFFSETS.meta.updated) .. " | dump thật: " .. tostring((BF_OFFSETS.live or {}).verifiedAt or "?"):sub(1, 16) .. "\n"
+		.. "Quest DB: " .. tostring(#(BF_OFFSETS.quests["Sea 1"] or {}) + #(BF_OFFSETS.quests["Sea 2"] or {}) + #(BF_OFFSETS.quests["Sea 3"] or {})) .. " · Đảo: "
+		.. tostring(#(BF_OFFSETS.islands["Sea 1"] or {}) + #(BF_OFFSETS.islands["Sea 2"] or {}) + #(BF_OFFSETS.islands["Sea 3"] or {})) .. " · Boss: "
+		.. tostring(#(BF_OFFSETS.bosses["Sea 1"] or {}) + #(BF_OFFSETS.bosses["Sea 2"] or {}) + #(BF_OFFSETS.bosses["Sea 3"] or {})) .. "\n"
+		.. "Path thật: " .. tostring((BF_OFFSETS.live.paths or {}).commF or "?") .. "\n"
+		.. "JobId: " .. tostring(game.JobId):sub(1, 20), 64)
+end
+
+end -- hết buildAllUI()
+buildAllUI()
+UI_NOTIFY = notifyBridge
+
+-- status bar realtime
+task.spawn(function()
+	local frames, last = 0, tick()
+	while gui and gui.Parent do
+		task.wait(1)
+		frames = frames + 1
+		local fps = math.floor(frames / math.max(0.001, tick() - last))
+		frames, last = 0, tick()
+		local q = questInfo()
+		local lbl = statusLabels.main
+		if lbl and lbl.Parent then
+			lbl.Text = string.format("LV %d · %s · %s · FPS %d · %s",
+				lvl(), tostring(onSea() or "?"),
+				(q and q.mob) and ("Quest: " .. q.mob .. " " .. q.cur .. "/" .. q.max) or "no quest",
+				fps, CFG.Active and "ON" or "OFF")
+		end
+		local ql = statusLabels.quest
+		if ql and ql.Parent then
+			if q then
+				ql.Text = string.format("📜 %s\nTiến độ: %d/%d · Mục tiêu: %s", q.title or "?", q.cur or 0, q.max or 0, tostring(q.mob or "?"))
+			else
+				ql.Text = "Chưa có quest.\nBấm '★ NHẬN QUEST NGAY' hoặc bật Auto Quest ở tab FARM."
+			end
+		end
+	end
+end)
+
+-- keybind ẩn/hiện
+safe(function()
+	UIS.InputBegan:Connect(function(i, gp)
+		if gp then return end
+		local key = tostring(CFG.Keybind or "F"):upper()
+		if i.KeyCode and tostring(i.KeyCode.Name):upper() == key then
+			main.Visible = not main.Visible
+		end
+	end)
+end)
+
+--================================================================================================
+-- 12. VÒNG LẶP CHÍNH
+--================================================================================================
+NOTIFY("SikeMod Hub v3", "Đã load! Bật Auto Farm Level + Auto Quest ở tab FARM. MADE BY Sike Mod", 8, Color3.fromRGB(150, 110, 255))
+if API.fpscap then pcall(setfpscap, 60) end
+
+task.spawn(function()
+	while task.wait(0.25) do
+		if CFG.Active and onSea() then
+			tickFarm() tickKillAura() tickEquip() tickStats() tickSkills() tickHakiKen()
+			tickChest() tickFruit() tickFruitBring() tickStoreFruit() tickDrop() tickPart() tickChip()
+		end
+	end
+end)
+task.spawn(function()
+	while task.wait(math.max(0.02, tonumber(CFG.FastAttackDelay) or 0.12)) do
+		if CFG.Active and (CFG.FastAttack or CFG.AutoClick) and onSea() then tickAttackLoop() end
+	end
+end)
+task.spawn(function()
+	while task.wait(2) do
+		if CFG.Active and CFG.AutoQuest and onSea() and (CFG.AutoFarmLevel or CFG.AutoNextQuest) then
+			if not questVisible() and not questTitle() then acceptQuest() end
+		end
+	end
+end)
+task.spawn(function()
+	while task.wait(0.6) do if CFG.Active then espUpdate() end end
+end)
+task.spawn(function()
+	while task.wait(5) do if CFG.Active then autoRejoinStep() end end
+end)
+LPR.CharacterAdded:Connect(function()
+	task.wait(1.5)
+	if CFG.Fly then flySet(false) task.wait(0.3) flySet(true) end
+end)
+
+print("══════════════════════════════════════════════")
+print("  SIKEMOD HUB v3.0 — READY | MADE BY Sike Mod")
+print("  DB: " .. tostring(BF_OFFSETS.meta.updated) .. " | dump thật Sea 1 " .. tostring((BF_OFFSETS.live or {}).verifiedAt or "?"))
+print("  CommF_: " .. tostring((BF_OFFSETS.live.paths or {}).commF) .. " | Quest GUI: " .. tostring((BF_OFFSETS.live.gui or {}).questTitle))
+print("══════════════════════════════════════════════")
