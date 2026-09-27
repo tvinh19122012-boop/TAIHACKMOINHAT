@@ -44,6 +44,23 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
+/* ====== FIX: Cho phép bôi đen & copy văn bản ====== */
+body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-title {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+/* Nút bấm thì không cho bôi đen để tránh nhầm */
+button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
+.btn-login, .btn-logout, .modal-download-btn, .modal-close, .copy-btn {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* ================================================= */
+
 .glass{
   position:relative;
   background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
@@ -227,7 +244,24 @@ a{text-decoration:none;color:inherit}
   border-radius:14px;margin:14px 0;
   border:1px solid var(--bd);
 }
-.post-card .post-desc{display:none}
+/* ====== FIX: Hiển thị mô tả để copy được ====== */
+.post-card .post-desc{
+  display:block;
+  color:var(--txt-2);
+  font-size:14px;
+  line-height:1.75;
+  margin-top:10px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  user-select:text;
+}
+.post-card .post-desc a{
+  color:var(--mint);text-decoration:none;font-weight:700;
+  border-bottom:1px dashed rgba(125,249,214,.4);
+  word-break:break-all;
+}
+.post-card .post-desc a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+/* ============================================ */
 .post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
 
 .btn-download{
@@ -292,14 +326,17 @@ a{text-decoration:none;color:inherit}
   color:var(--txt);margin-bottom:18px;padding-right:50px;
   padding-bottom:14px;border-bottom:1px solid var(--bd);
 }
-.modal-content{color:var(--txt-2);font-size:14.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+.modal-content{color:var(--txt-2);font-size:14.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word;user-select:text}
 .modal-content a{
   color:var(--mint);text-decoration:none;font-weight:700;
   border-bottom:1px dashed rgba(125,249,214,.4);
   word-break:break-all;
 }
 .modal-content a:hover{color:var(--gold);border-bottom-color:var(--gold)}
-.modal-actions{margin-top:24px;display:flex;justify-content:center;border-top:1px solid var(--bd);padding-top:20px}
+.modal-actions{
+  margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--bd);padding-top:20px;
+}
 .modal-download-btn{
   padding:14px 40px;border-radius:16px;
   font-weight:900;font-size:15px;
@@ -314,6 +351,20 @@ a{text-decoration:none;color:inherit}
   transition:all .25s var(--ease);will-change:transform;
 }
 .modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+
+/* ====== Nút Copy nội dung ====== */
+.copy-btn{
+  padding:12px 26px;border-radius:14px;
+  font-weight:700;font-size:13.5px;
+  border:1px solid var(--bd);
+  background:var(--glass);
+  color:var(--txt);cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .2s var(--ease);
+}
+.copy-btn:hover{background:var(--glass-2);border-color:var(--mint);color:var(--mint);transform:translateY(-2px)}
+.copy-btn.copied{background:rgba(125,249,214,.15);border-color:var(--mint);color:var(--mint)}
+/* ============================== */
 
 .footer-admin{
   max-width:980px;margin:36px auto 0;padding:24px 26px;
@@ -445,6 +496,7 @@ img{content-visibility:auto}
     <h3 id="modalTitle" class="modal-title">Tiêu đề bài viết</h3>
     <div id="modalContent" class="modal-content">Nội dung các link sẽ hiện ra ở đây...</div>
     <div class="modal-actions">
+      <button id="copyContentBtn" class="copy-btn"><i class="fa-regular fa-copy"></i> Copy nội dung</button>
       <a id="modalDownloadBtn" href="#" target="_blank" rel="noopener" class="modal-download-btn" style="display:none"><i class="fa-solid fa-download"></i> Tải xuống ngay</a>
     </div>
   </div>
@@ -663,6 +715,53 @@ function renderPosts(){
       </div>
     </div>
   `).join("")}</div>`;
+}
+
+/* ====== Xử lý nút Copy nội dung trong modal ====== */
+const copyContentBtn = document.getElementById("copyContentBtn");
+if (copyContentBtn) {
+  copyContentBtn.addEventListener("click", async () => {
+    const text = modalContent.innerText || modalContent.textContent || "";
+    try {
+      await navigator.clipboard.writeText(text);
+      copyContentBtn.classList.add("copied");
+      copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+      setTimeout(() => {
+        copyContentBtn.classList.remove("copied");
+        copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung';
+      }, 1800);
+    } catch (err) {
+      // Fallback cho trình duyệt cũ / không có HTTPS
+      const range = document.createRange();
+      range.selectNodeContents(modalContent);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try {
+        document.execCommand("copy");
+        copyContentBtn.classList.add("copied");
+        copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+        setTimeout(() => {
+          copyContentBtn.classList.remove("copied");
+          copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung';
+        }, 1800);
+      } catch (e) {
+        alert("Không thể copy tự động. Hãy bôi đen và copy thủ công.");
+      }
+      sel.removeAllRanges();
+    }
+  });
+}
+
+// Click đúp vào nội dung modal để chọn hết
+if (modalContent) {
+  modalContent.addEventListener("dblclick", () => {
+    const range = document.createRange();
+    range.selectNodeContents(modalContent);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
 }
 </script>
 </body>
