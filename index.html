@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Download Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: http: https:; connect-src https://proud-boat-af38.tvinh19122012.workers.dev">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="stylesheet" href="./assets/inter.css">
+<link rel="stylesheet" href="./assets/fontawesome.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -478,7 +480,7 @@ img{content-visibility:auto}
       <div class="form-group full-width"><label>Tiêu đề</label><input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết..."></div>
       <div class="form-group full-width"><label>Mô tả (Nơi chứa các link tải)</label><textarea id="postDesc" rows="4" placeholder="Nhập nội dung chứa các link vào đây...&#10;Ví dụ:&#10;Link tải game: https://example.com/game.apk&#10;Link dự phòng: https://example.com/backup"></textarea></div>
       <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
-      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/*" style="padding:8px"></div>
+      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:8px"></div>
     </div>
     <div class="form-actions">
       <button class="btn-primary" id="submitBtn"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
