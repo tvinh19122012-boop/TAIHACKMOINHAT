@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Download Hub</title>
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; form-action 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: http: https:; connect-src https://proud-boat-af38.tvinh19122012.workers.dev">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<link rel="stylesheet" href="./assets/inter.css">
-<link rel="stylesheet" href="./assets/fontawesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -19,6 +17,7 @@
   --gold-2:#f5b301;
   --mint:#7df9d6;
   --green:#22c55e;
+  --red:#ff4d4d;
   --bd:rgba(255,255,255,.09);
   --bd-hi:rgba(255,255,255,.2);
   --glass:rgba(255,255,255,.04);
@@ -46,22 +45,22 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
-/* ====== FIX: Cho phép bôi đen & copy văn bản ====== */
+/* ====== Cho phép bôi đen & copy văn bản ====== */
 body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-title {
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
   -ms-user-select: text !important;
   user-select: text !important;
 }
-/* Nút bấm thì không cho bôi đen để tránh nhầm */
 button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
-.btn-login, .btn-logout, .modal-download-btn, .modal-close, .copy-btn {
+.btn-login, .btn-logout, .modal-download-btn, .modal-close, .copy-btn,
+.btn-youtube, .btn-confirm {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
 }
-/* ================================================= */
+/* ============================================= */
 
 .glass{
   position:relative;
@@ -122,12 +121,12 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
     0 6px 20px rgba(0,0,0,.35);
 }
 .gbtn:active{transform:translateY(0) scale(.97)}
-.btn-social.youtube i{color:var(--gold)}
+.btn-social.youtube i{color:var(--red)}
 .btn-social.telegram i{color:var(--mint)}
 .btn-social.tiktok i{color:#fff}
 .btn-social.zalo i{color:#4fc3f7}
 .btn-bypass i{color:var(--green)}
-.btn-social.youtube:hover{border-color:rgba(255,214,10,.5)}
+.btn-social.youtube:hover{border-color:rgba(255,77,77,.5)}
 .btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
 .btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
 .btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
@@ -246,24 +245,9 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
   border-radius:14px;margin:14px 0;
   border:1px solid var(--bd);
 }
-/* ====== FIX: Hiển thị mô tả để copy được ====== */
-.post-card .post-desc{
-  display:block;
-  color:var(--txt-2);
-  font-size:14px;
-  line-height:1.75;
-  margin-top:10px;
-  white-space:pre-wrap;
-  word-break:break-word;
-  user-select:text;
-}
-.post-card .post-desc a{
-  color:var(--mint);text-decoration:none;font-weight:700;
-  border-bottom:1px dashed rgba(125,249,214,.4);
-  word-break:break-all;
-}
-.post-card .post-desc a:hover{color:var(--gold);border-bottom-color:var(--gold)}
-/* ============================================ */
+/* ====== Ẩn mô tả trên card để đỡ rối ====== */
+.post-card .post-desc{display:none}
+/* ========================================== */
 .post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
 
 .btn-download{
@@ -354,7 +338,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 }
 .modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
 
-/* ====== Nút Copy nội dung ====== */
 .copy-btn{
   padding:12px 26px;border-radius:14px;
   font-weight:700;font-size:13.5px;
@@ -366,7 +349,83 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 }
 .copy-btn:hover{background:var(--glass-2);border-color:var(--mint);color:var(--mint);transform:translateY(-2px)}
 .copy-btn.copied{background:rgba(125,249,214,.15);border-color:var(--mint);color:var(--mint)}
-/* ============================== */
+
+/* ====== Màn hình chặn đăng ký kênh YouTube ====== */
+.sub-gate{
+  position:fixed;inset:0;z-index:99999;
+  background:rgba(3,5,8,.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.sub-gate.active{display:flex;animation:fadeIn .3s ease}
+.sub-gate-box{
+  max-width:520px;width:100%;
+  background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi);
+  border-radius:26px;
+  padding:38px 32px;
+  text-align:center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset,
+    0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .35s var(--ease);
+}
+.sub-gate-icon{
+  width:80px;height:80px;border-radius:50%;
+  margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 40%,rgba(255,77,77,.35),rgba(255,77,77,.05));
+  border:1px solid rgba(255,77,77,.4);
+  box-shadow:0 0 40px rgba(255,77,77,.25);
+}
+.sub-gate-icon i{font-size:38px;color:#ff4d4d}
+.sub-gate h2{
+  font-size:22px;font-weight:900;letter-spacing:-.4px;
+  margin-bottom:10px;color:var(--txt);
+}
+.sub-gate p{
+  color:var(--txt-2);font-size:14.5px;line-height:1.7;margin-bottom:24px;
+}
+.sub-gate p b{color:var(--gold)}
+.sub-gate-actions{display:flex;flex-direction:column;gap:12px}
+.btn-youtube{
+  padding:15px 26px;border-radius:16px;
+  font-weight:900;font-size:15px;
+  border:1px solid rgba(255,77,77,.5);
+  background:linear-gradient(180deg,#ff4d4d,#cc0000);
+  color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.35) inset,
+    0 -2px 0 rgba(0,0,0,.2) inset,
+    0 6px 22px rgba(255,77,77,.35);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-youtube:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(255,77,77,.5)}
+.btn-youtube:active{transform:translateY(0) scale(.98)}
+.btn-confirm{
+  padding:15px 26px;border-radius:16px;
+  font-weight:800;font-size:15px;
+  border:1px solid rgba(125,249,214,.45);
+  background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.5) inset,
+    0 -2px 0 rgba(0,0,0,.12) inset,
+    0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-confirm:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+.btn-confirm:disabled{
+  opacity:.45;cursor:not-allowed;transform:none;filter:none;
+}
+.btn-confirm-note{
+  font-size:12px;color:var(--txt-3);margin-top:14px;
+}
+/* ================================================= */
 
 .footer-admin{
   max-width:980px;margin:36px auto 0;padding:24px 26px;
@@ -433,6 +492,8 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
   .footer-admin{padding:20px 18px}
   .footer-admin .login-area{flex-direction:column}
   .footer-admin .login-area input{min-width:unset;width:100%}
+  .sub-gate-box{padding:30px 22px}
+  .sub-gate h2{font-size:19px}
 }
 @media (max-width:480px){
   .header-right .gbtn span{display:none}
@@ -441,7 +502,7 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 
 .gbtn,.btn-primary,.btn-download,.btn-edit,.btn-delete,
 .btn-login,.btn-logout,.modal-download-btn,
-.post-card,.modal-box{
+.post-card,.modal-box,.btn-youtube,.btn-confirm{
   -webkit-tap-highlight-color:transparent;
 }
 img{content-visibility:auto}
@@ -452,12 +513,33 @@ img{content-visibility:auto}
 </head>
 <body>
 
+<!-- ====== MÀN HÌNH CHẶN ĐĂNG KÝ KÊNH ====== -->
+<div class="sub-gate" id="subGate">
+  <div class="sub-gate-box">
+    <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
+    <h2>Đăng ký kênh để tiếp tục</h2>
+    <p>Vui lòng <b>đăng ký kênh YouTube</b> của chúng tôi để có thể truy cập vào web.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
+    <div class="sub-gate-actions">
+      <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe">
+        <i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay
+      </a>
+      <button class="btn-confirm" id="btnConfirmSub" disabled>
+        <i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký
+      </button>
+    </div>
+    <div class="btn-confirm-note" id="gateNote">
+      <i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".
+    </div>
+  </div>
+</div>
+
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
+    <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
     <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
     <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
     <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
@@ -480,7 +562,7 @@ img{content-visibility:auto}
       <div class="form-group full-width"><label>Tiêu đề</label><input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết..."></div>
       <div class="form-group full-width"><label>Mô tả (Nơi chứa các link tải)</label><textarea id="postDesc" rows="4" placeholder="Nhập nội dung chứa các link vào đây...&#10;Ví dụ:&#10;Link tải game: https://example.com/game.apk&#10;Link dự phòng: https://example.com/backup"></textarea></div>
       <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
-      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:8px"></div>
+      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/*" style="padding:8px"></div>
     </div>
     <div class="form-actions">
       <button class="btn-primary" id="submitBtn"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
@@ -517,6 +599,292 @@ img{content-visibility:auto}
   </div>
 </div>
 
-<script defer src="./app.js"></script>
+<script>
+const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
+const SUB_KEY = "ytSubConfirmed_v1";
+
+let isAdmin=localStorage.getItem("isAdmin")==="true";
+let posts=[];
+let base64Image="";
+
+const $=id=>document.getElementById(id);
+const adminPanel=$("adminPanel"),loginArea=$("loginArea"),logoutArea=$("logoutArea"),
+postsContainer=$("postsContainer"),formHeading=$("formHeading"),editPostId=$("editPostId"),
+postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
+imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
+secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
+modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
+
+/* ====== Xử lý cổng chặn đăng ký kênh ====== */
+const subGate = $("subGate");
+const btnSubscribe = $("btnSubscribe");
+const btnConfirmSub = $("btnConfirmSub");
+const gateNote = $("gateNote");
+let hasClickedSubscribe = false;
+
+function checkSubGate(){
+  if(localStorage.getItem(SUB_KEY) === "true"){
+    subGate.classList.remove("active");
+    document.body.style.overflow="";
+    return false;
+  } else {
+    subGate.classList.add("active");
+    document.body.style.overflow="hidden";
+    return true;
+  }
+}
+
+// Chỉ cho phép bấm "Tôi đã đăng ký" sau khi đã bấm nút đăng ký kênh
+btnSubscribe.addEventListener("click", ()=>{
+  hasClickedSubscribe = true;
+  btnConfirmSub.disabled = false;
+  gateNote.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để vào web.';
+});
+
+btnConfirmSub.addEventListener("click", ()=>{
+  if(!hasClickedSubscribe){
+    gateNote.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--gold)"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
+    return;
+  }
+  localStorage.setItem(SUB_KEY, "true");
+  subGate.classList.remove("active");
+  document.body.style.overflow="";
+});
+/* ========================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+  // Kiểm tra cổng chặn trước
+  checkSubGate();
+
+  if(isAdmin){
+    adminPanel.classList.add("active");
+    loginArea.style.display="none";
+    logoutArea.classList.add("active");
+  }
+  fetchPosts();
+  submitBtn.addEventListener("click",savePost);
+  cancelEditBtn.addEventListener("click",resetForm);
+  document.querySelector(".btn-login").addEventListener("click",loginAdmin);
+  document.querySelector(".btn-logout").addEventListener("click",logoutAdmin);
+  document.querySelector(".modal-close").addEventListener("click",closeModal);
+  modalOverlay.addEventListener("click",closeModalOnOutside);
+  imageUpload.addEventListener("change",handleImageUpload);
+  secretInput.addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
+});
+
+async function loginAdmin(){
+  const res = await fetch(`${WORKER_URL}/api/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code: secretInput.value })
+  });
+  const { ok, token } = await res.json();
+  if(ok && token){
+    localStorage.setItem("isAdmin","true");
+    localStorage.setItem("adminToken", token);
+    location.reload();
+  } else {
+    secretInput.style.borderColor="rgba(255,214,10,.8)";
+    secretInput.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
+    setTimeout(()=>{secretInput.style.borderColor="";secretInput.style.boxShadow="";},1500);
+  }
+}
+function logoutAdmin(){
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("adminToken");
+  location.reload();
+}
+
+function handleImageUpload(e){
+  const file=e.target.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=ev=>{base64Image=ev.target.result;};
+    reader.readAsDataURL(file);
+  }
+}
+
+async function fetchPosts(){
+  try{
+    const res = await fetch(`${WORKER_URL}/api/posts`);
+    posts = await res.json();
+    renderPosts();
+  }catch(e){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">Vui lòng kiểm tra kết nối hoặc thử lại sau</p></div>`;
+  }
+}
+
+async function saveToServer(){
+  try{
+    const res = await fetch(`${WORKER_URL}/api/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Token": localStorage.getItem("adminToken") || "" },
+      body: JSON.stringify({ posts })
+    });
+    if(res.status===401){
+      alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
+      logoutAdmin();
+      return;
+    }
+    location.reload();
+  }catch(e){ alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại."); }
+}
+
+
+async function savePost(){
+  const editId=editPostId.value;
+  const title=postTitle.value.trim();
+  const desc=postDesc.value.trim();
+  const redirect=postRedirect.value.trim();
+  if(!title){
+    postTitle.style.borderColor="rgba(255,214,10,.8)";
+    postTitle.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
+    setTimeout(()=>{postTitle.style.borderColor="";postTitle.style.boxShadow="";},1500);
+    postTitle.focus();return;
+  }
+  if(editId){
+    posts=posts.map(p=>p.id==editId?{...p,title,desc,redirectLink:redirect,image:base64Image||p.image}:p);
+  } else {
+    posts.unshift({id:Date.now(),title,desc,redirectLink:redirect,image:base64Image});
+  }
+  saveToServer();
+}
+
+function editPost(id){
+  const p=posts.find(item=>item.id==id);
+  if(!p)return;
+  editPostId.value=p.id;
+  postTitle.value=p.title;
+  postDesc.value=p.desc;
+  postRedirect.value=p.redirectLink||"";
+  base64Image=p.image||"";
+  formHeading.innerText="Sửa bài viết";
+  submitBtn.innerHTML=`<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
+  cancelEditBtn.classList.add("active");
+  adminPanel.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetForm(){
+  editPostId.value="";
+  postTitle.value="";
+  postDesc.value="";
+  postRedirect.value="";
+  base64Image="";
+  imageUpload.value="";
+  formHeading.innerText="Đăng bài viết mới";
+  submitBtn.innerHTML=`<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
+  cancelEditBtn.classList.remove("active");
+}
+
+async function deletePost(id){
+  if(confirm("Bạn có chắc muốn xóa bài viết này?")){
+    posts=posts.filter(p=>p.id!==id);
+    saveToServer();
+  }
+}
+
+function escapeHtml(str){
+  if(str===null||str===undefined)return"";
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function formatDesc(text){
+  if(!text)return"";
+  const escaped=escapeHtml(text).replace(/\n/g,"<br>");
+  return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function openDownloadModal(id){
+  const p=posts.find(item=>item.id==id);
+  if(!p)return;
+  modalTitle.textContent=p.title;
+  modalContent.innerHTML=formatDesc(p.desc);
+  if(p.redirectLink&&p.redirectLink.trim()!==""){
+    modalDownloadBtn.style.display="inline-flex";
+    modalDownloadBtn.href=p.redirectLink;
+  } else {
+    modalDownloadBtn.style.display="none";
+  }
+  modalOverlay.classList.add("active");
+  document.body.style.overflow="hidden";
+}
+function closeModal(){modalOverlay.classList.remove("active");document.body.style.overflow="";}
+function closeModalOnOutside(e){if(e.target===modalOverlay)closeModal();}
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&modalOverlay.classList.contains("active"))closeModal();
+});
+
+function renderPosts(){
+  if(!posts||posts.length===0){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-newspaper"></i><h3>Chưa có bài viết</h3><p style="color:var(--txt-3);font-size:14px">Hãy đăng bài viết đầu tiên ngay nào!</p></div>`;
+    return;
+  }
+  postsContainer.innerHTML=`<div class="posts-grid">${posts.map(p=>`
+    <div class="post-card glass">
+      <div class="post-title">${escapeHtml(p.title)}<span class="post-id">#${p.id.toString().slice(-6)}</span></div>
+      ${p.image?`<img src="${escapeHtml(p.image)}" class="post-image" alt="${escapeHtml(p.title)}" loading="lazy">`:""}
+      <div class="post-desc">${formatDesc(p.desc)}</div>
+      <div class="post-meta">
+        <button class="btn-download" onclick="openDownloadModal(${p.id})"><i class="fa-solid fa-download"></i> Tải xuống</button>
+      </div>
+      <div class="post-actions">
+        <button class="btn-edit ${isAdmin?"active":""}" onclick="editPost(${p.id})"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
+        <button class="btn-delete ${isAdmin?"active":""}" onclick="deletePost(${p.id})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
+      </div>
+    </div>
+  `).join("")}</div>`;
+}
+
+/* ====== Nút Copy nội dung trong modal ====== */
+const copyContentBtn = document.getElementById("copyContentBtn");
+if (copyContentBtn) {
+  copyContentBtn.addEventListener("click", async () => {
+    const text = modalContent.innerText || modalContent.textContent || "";
+    try {
+      await navigator.clipboard.writeText(text);
+      copyContentBtn.classList.add("copied");
+      copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+      setTimeout(() => {
+        copyContentBtn.classList.remove("copied");
+        copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung';
+      }, 1800);
+    } catch (err) {
+      const range = document.createRange();
+      range.selectNodeContents(modalContent);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try {
+        document.execCommand("copy");
+        copyContentBtn.classList.add("copied");
+        copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+        setTimeout(() => {
+          copyContentBtn.classList.remove("copied");
+          copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung';
+        }, 1800);
+      } catch (e) {
+        alert("Không thể copy tự động. Hãy bôi đen và copy thủ công.");
+      }
+      sel.removeAllRanges();
+    }
+  });
+}
+
+if (modalContent) {
+  modalContent.addEventListener("dblclick", () => {
+    const range = document.createRange();
+    range.selectNodeContents(modalContent);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+}
+</script>
 </body>
 </html>
