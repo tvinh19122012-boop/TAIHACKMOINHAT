@@ -45,7 +45,6 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
-/* ====== Cho phép bôi đen & copy văn bản ====== */
 body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-title {
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
@@ -60,7 +59,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
   -ms-user-select: none !important;
   user-select: none !important;
 }
-/* ============================================= */
 
 .glass{
   position:relative;
@@ -185,6 +183,21 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 .form-group textarea{resize:vertical;min-height:90px}
 .form-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 
+/* Upload status */
+.upload-status{
+  font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:6px;
+  min-height:18px;color:var(--txt-3);
+}
+.upload-status.loading{color:var(--mint)}
+.upload-status.success{color:var(--green)}
+.upload-status.error{color:var(--red)}
+.upload-status i.fa-spinner{animation:spin 1s linear infinite}
+.upload-preview{
+  margin-top:10px;border-radius:12px;overflow:hidden;
+  border:1px solid var(--bd);max-width:220px;display:none;
+}
+.upload-preview img{width:100%;display:block}
+
 .btn-primary{
   padding:12px 28px;border-radius:14px;
   font-weight:800;font-size:13.5px;
@@ -201,6 +214,7 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 }
 .btn-primary:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.15) inset,0 8px 22px rgba(255,214,10,.35)}
 .btn-primary:active{transform:translateY(0) scale(.97)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none}
 
 .btn-secondary{
   padding:12px 28px;border-radius:14px;
@@ -245,9 +259,7 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
   border-radius:14px;margin:14px 0;
   border:1px solid var(--bd);
 }
-/* ====== Ẩn mô tả trên card để đỡ rối ====== */
 .post-card .post-desc{display:none}
-/* ========================================== */
 .post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
 
 .btn-download{
@@ -350,7 +362,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 .copy-btn:hover{background:var(--glass-2);border-color:var(--mint);color:var(--mint);transform:translateY(-2px)}
 .copy-btn.copied{background:rgba(125,249,214,.15);border-color:var(--mint);color:var(--mint)}
 
-/* ====== Màn hình chặn đăng ký kênh YouTube ====== */
 .sub-gate{
   position:fixed;inset:0;z-index:99999;
   background:rgba(3,5,8,.96);
@@ -425,7 +436,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 .btn-confirm-note{
   font-size:12px;color:var(--txt-3);margin-top:14px;
 }
-/* ================================================= */
 
 .footer-admin{
   max-width:980px;margin:36px auto 0;padding:24px 26px;
@@ -562,7 +572,14 @@ img{content-visibility:auto}
       <div class="form-group full-width"><label>Tiêu đề</label><input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết..."></div>
       <div class="form-group full-width"><label>Mô tả (Nơi chứa các link tải)</label><textarea id="postDesc" rows="4" placeholder="Nhập nội dung chứa các link vào đây...&#10;Ví dụ:&#10;Link tải game: https://example.com/game.apk&#10;Link dự phòng: https://example.com/backup"></textarea></div>
       <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
-      <div class="form-group full-width"><label>Hình ảnh</label><input type="file" id="imageUpload" accept="image/*" style="padding:8px"></div>
+      <div class="form-group full-width">
+        <label>Hình ảnh</label>
+        <input type="file" id="imageUpload" accept="image/*" style="padding:8px">
+        <div class="upload-status" id="uploadStatus"></div>
+        <div class="upload-preview" id="uploadPreview">
+          <img id="previewImg" src="" alt="Preview">
+        </div>
+      </div>
     </div>
     <div class="form-actions">
       <button class="btn-primary" id="submitBtn"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
@@ -601,11 +618,13 @@ img{content-visibility:auto}
 
 <script>
 const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
+const UPLOAD_URL = `${WORKER_URL}/api/upload`;   // Endpoint upload ảnh
 const SUB_KEY = "ytSubConfirmed_v1";
 
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
-let base64Image="";
+let base64Image="";          // Giữ để tương thích bài cũ (dạng base64)
+let uploadedImageUrl="";     // URL ảnh đã upload lên Cloudflare
 
 const $=id=>document.getElementById(id);
 const adminPanel=$("adminPanel"),loginArea=$("loginArea"),logoutArea=$("logoutArea"),
@@ -614,6 +633,73 @@ postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
 imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
 secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
 modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
+
+const uploadStatus=$("uploadStatus"), uploadPreview=$("uploadPreview"), previewImg=$("previewImg");
+
+/* ====== Upload ảnh lên Cloudflare ====== */
+async function uploadImageToCloudflare(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const token = localStorage.getItem("adminToken") || "";
+  const res = await fetch(UPLOAD_URL, {
+    method: "POST",
+    headers: { "X-Admin-Token": token },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(()=>"");
+    throw new Error(`Upload thất bại (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  // Worker trả về { url: "https://.../image.jpg" } hoặc { success: true, result: { url } }
+  const url = data.url || (data.result && data.result.url) || data.imageUrl;
+  if (!url) throw new Error("Không nhận được URL ảnh từ server.");
+  return url;
+}
+
+async function handleImageUpload(e){
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Reset trạng thái
+  base64Image = "";
+  uploadedImageUrl = "";
+  uploadStatus.className = "upload-status";
+  uploadStatus.innerHTML = "";
+  uploadPreview.style.display = "none";
+
+  // Hiện preview local ngay lập tức
+  const localUrl = URL.createObjectURL(file);
+  previewImg.src = localUrl;
+  uploadPreview.style.display = "block";
+
+  // Hiển thị trạng thái đang upload
+  uploadStatus.className = "upload-status loading";
+  uploadStatus.innerHTML = '<i class="fa-solid fa-spinner"></i> Đang tải ảnh lên Cloudflare...';
+  submitBtn.disabled = true;
+
+  try {
+    const url = await uploadImageToCloudflare(file);
+    uploadedImageUrl = url;
+    previewImg.src = url; // Cập nhật ảnh từ server
+    uploadStatus.className = "upload-status success";
+    uploadStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Tải ảnh lên thành công!';
+  } catch (err) {
+    console.error(err);
+    uploadStatus.className = "upload-status error";
+    uploadStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`;
+    // Fallback: giữ base64 nếu upload lỗi
+    const reader = new FileReader();
+    reader.onload = ev => { base64Image = ev.target.result; };
+    reader.readAsDataURL(file);
+  } finally {
+    submitBtn.disabled = false;
+    URL.revokeObjectURL(localUrl);
+  }
+}
 
 /* ====== Xử lý cổng chặn đăng ký kênh ====== */
 const subGate = $("subGate");
@@ -634,7 +720,6 @@ function checkSubGate(){
   }
 }
 
-// Chỉ cho phép bấm "Tôi đã đăng ký" sau khi đã bấm nút đăng ký kênh
 btnSubscribe.addEventListener("click", ()=>{
   hasClickedSubscribe = true;
   btnConfirmSub.disabled = false;
@@ -653,7 +738,6 @@ btnConfirmSub.addEventListener("click", ()=>{
 /* ========================================== */
 
 document.addEventListener("DOMContentLoaded",()=>{
-  // Kiểm tra cổng chặn trước
   checkSubGate();
 
   if(isAdmin){
@@ -695,15 +779,6 @@ function logoutAdmin(){
   location.reload();
 }
 
-function handleImageUpload(e){
-  const file=e.target.files[0];
-  if(file){
-    const reader=new FileReader();
-    reader.onload=ev=>{base64Image=ev.target.result;};
-    reader.readAsDataURL(file);
-  }
-}
-
 async function fetchPosts(){
   try{
     const res = await fetch(`${WORKER_URL}/api/posts`);
@@ -742,10 +817,14 @@ async function savePost(){
     setTimeout(()=>{postTitle.style.borderColor="";postTitle.style.boxShadow="";},1500);
     postTitle.focus();return;
   }
+
+  // Ưu tiên URL đã upload, nếu không có thì dùng base64 (fallback)
+  const imageValue = uploadedImageUrl || base64Image || "";
+
   if(editId){
-    posts=posts.map(p=>p.id==editId?{...p,title,desc,redirectLink:redirect,image:base64Image||p.image}:p);
+    posts=posts.map(p=>p.id==editId?{...p,title,desc,redirectLink:redirect,image:imageValue||p.image}:p);
   } else {
-    posts.unshift({id:Date.now(),title,desc,redirectLink:redirect,image:base64Image});
+    posts.unshift({id:Date.now(),title,desc,redirectLink:redirect,image:imageValue});
   }
   saveToServer();
 }
@@ -758,6 +837,15 @@ function editPost(id){
   postDesc.value=p.desc;
   postRedirect.value=p.redirectLink||"";
   base64Image=p.image||"";
+  uploadedImageUrl = (p.image && p.image.startsWith("http")) ? p.image : "";
+  if(p.image){
+    previewImg.src = p.image;
+    uploadPreview.style.display = "block";
+  } else {
+    uploadPreview.style.display = "none";
+  }
+  uploadStatus.className = "upload-status";
+  uploadStatus.innerHTML = "";
   formHeading.innerText="Sửa bài viết";
   submitBtn.innerHTML=`<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
   cancelEditBtn.classList.add("active");
@@ -771,7 +859,12 @@ function resetForm(){
   postDesc.value="";
   postRedirect.value="";
   base64Image="";
+  uploadedImageUrl="";
   imageUpload.value="";
+  uploadStatus.className = "upload-status";
+  uploadStatus.innerHTML = "";
+  uploadPreview.style.display = "none";
+  previewImg.src = "";
   formHeading.innerText="Đăng bài viết mới";
   submitBtn.innerHTML=`<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
   cancelEditBtn.classList.remove("active");
