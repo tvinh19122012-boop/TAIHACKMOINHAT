@@ -1037,17 +1037,27 @@ function logoutAdmin(){
   location.reload();
 }
 
+let postsLoaded = false;   // chỉ cho lưu khi đã tải được dữ liệu thật từ server (tránh ghi đè mất bài)
 async function fetchPosts(){
   try{
-    const res = await fetch(`${WORKER_URL}/api/posts`);
-    posts = await res.json();
+    const res = await fetch(`${WORKER_URL}/api/posts`, { cache: "no-store" });
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if(data !== null && !Array.isArray(data)) throw new Error("Dữ liệu không hợp lệ");
+    posts = data || [];
+    postsLoaded = true;
     renderPosts();
   }catch(e){
+    console.error("fetchPosts lỗi:", e);
     postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">Vui lòng kiểm tra kết nối hoặc thử lại sau</p></div>`;
   }
 }
 
 async function saveToServer(){
+  if(!postsLoaded){
+    alert("Chưa tải được dữ liệu từ server nên không lưu để tránh ghi đè mất bài. Hãy reload trang rồi thử lại.");
+    return;
+  }
   try{
     const res = await fetch(`${WORKER_URL}/api/posts`, {
       method: "POST",
@@ -1057,6 +1067,12 @@ async function saveToServer(){
     if(res.status===401){
       alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
       logoutAdmin();
+      return;
+    }
+    if(!res.ok){
+      let detail = "";
+      try{ detail = (await res.text()).slice(0,200); }catch(e){}
+      alert("Lưu thất bại (mã lỗi " + res.status + "). " + detail);
       return;
     }
     location.reload();
