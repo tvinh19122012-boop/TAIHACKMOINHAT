@@ -733,7 +733,7 @@ img{content-visibility:auto}
       <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
       <div class="form-group full-width">
         <label>Hình ảnh</label>
-        <input type="file" id="imageUpload" accept="image/*" style="padding:8px">
+        <input type="text" id="imageUpload" placeholder="Dán link ảnh (https://...)">
         <div class="upload-status" id="uploadStatus"></div>
         <div class="upload-preview" id="uploadPreview">
           <img id="previewImg" src="" alt="Preview">
@@ -776,8 +776,12 @@ img{content-visibility:auto}
 </div>
 
 <script>
-const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
-const UPLOAD_URL = `${WORKER_URL}/api/upload`;
+/* ====== CẤU HÌNH API (backend chạy trên Render) ======
+   Dán link Render của bạn vào đây, ví dụ: https://ten-app.onrender.com  (không có dấu / ở cuối)
+   Không có key bí mật nào trong file này: Master Key JSONBin và mã admin nằm trong Render > Environment. */
+const API_URL = "DÁN_LINK_RENDER_VÀO_ĐÂY";
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
 // Qua cổng xong được nhớ GATE_TTL_MS (15 phút), hết hạn là phải làm lại từ đầu
 const GATE_TTL_MS = 15 * 60 * 1000;
 const SUB_KEY  = "ytSubConfirmed_v3";
@@ -809,63 +813,23 @@ modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
 
 const uploadStatus=$("uploadStatus"), uploadPreview=$("uploadPreview"), previewImg=$("previewImg");
 
-/* ====== Upload ảnh lên Cloudflare ====== */
-async function uploadImageToCloudflare(file) {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const token = localStorage.getItem("adminToken") || "";
-  const res = await fetch(UPLOAD_URL, {
-    method: "POST",
-    headers: { "X-Admin-Token": token },
-    body: formData,
-  });
-
-  if (!res.ok) {
-    const errText = await res.text().catch(()=>"");
-    throw new Error(`Upload thất bại (${res.status}): ${errText}`);
-  }
-
-  const data = await res.json();
-  const url = data.url || (data.result && data.result.url) || data.imageUrl;
-  if (!url) throw new Error("Không nhận được URL ảnh từ server.");
-  return url;
-}
-
-async function handleImageUpload(e){
-  const file = e.target.files[0];
-  if (!file) return;
-
+/* ====== Ảnh bài viết: dán LINK ảnh (không upload, không lưu base64 để bin không bị nặng) ====== */
+function handleImageUpload(e){
+  const url = (e.target.value || "").trim();
   base64Image = "";
-  uploadedImageUrl = "";
   uploadStatus.className = "upload-status";
   uploadStatus.innerHTML = "";
-  uploadPreview.style.display = "none";
-
-  const localUrl = URL.createObjectURL(file);
-  previewImg.src = localUrl;
-  uploadPreview.style.display = "block";
-
-  uploadStatus.className = "upload-status loading";
-  uploadStatus.innerHTML = '<i class="fa-solid fa-spinner"></i> Đang tải ảnh lên Cloudflare...';
-  submitBtn.disabled = true;
-
-  try {
-    const url = await uploadImageToCloudflare(file);
+  if(/^https?:\/\//i.test(url)){
     uploadedImageUrl = url;
     previewImg.src = url;
-    uploadStatus.className = "upload-status success";
-    uploadStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Tải ảnh lên thành công!';
-  } catch (err) {
-    console.error(err);
-    uploadStatus.className = "upload-status error";
-    uploadStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`;
-    const reader = new FileReader();
-    reader.onload = ev => { base64Image = ev.target.result; };
-    reader.readAsDataURL(file);
-  } finally {
-    submitBtn.disabled = false;
-    URL.revokeObjectURL(localUrl);
+    uploadPreview.style.display = "block";
+  } else {
+    uploadedImageUrl = "";
+    uploadPreview.style.display = "none";
+    if(url){
+      uploadStatus.className = "upload-status error";
+      uploadStatus.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Link ảnh phải bắt đầu bằng https://';
+    }
   }
 }
 
@@ -1010,17 +974,26 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelector(".btn-logout").addEventListener("click",logoutAdmin);
   document.querySelector(".modal-close").addEventListener("click",closeModal);
   modalOverlay.addEventListener("click",closeModalOnOutside);
-  imageUpload.addEventListener("change",handleImageUpload);
+  imageUpload.addEventListener("input",handleImageUpload);
   secretInput.addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
 });
 
 async function loginAdmin(){
-  const res = await fetch(`${WORKER_URL}/api/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code: secretInput.value })
-  });
-  const { ok, token } = await res.json();
+  const code = secretInput.value;
+  let ok=false, token="";
+  try{
+    const res = await fetch(API_URL + "/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code })
+    });
+    if(res.status===429){ alert("Bạn thử sai quá nhiều lần, hãy đợi 15 phút rồi thử lại."); return; }
+    const data = await res.json().catch(()=>({}));
+    ok = !!data.ok; token = data.token || "";
+  }catch(e){
+    alert("Không kết nối được server. Nếu server đang ngủ, đợi khoảng 1 phút rồi thử lại.");
+    return;
+  }
   if(ok && token){
     localStorage.setItem("isAdmin","true");
     localStorage.setItem("adminToken", token);
@@ -1037,20 +1010,41 @@ function logoutAdmin(){
   location.reload();
 }
 
-let postsLoaded = false;   // chỉ cho lưu khi đã tải được dữ liệu thật từ server (tránh ghi đè mất bài)
+let postsLoaded = false;   // chỉ cho lưu khi đã tải được dữ liệu thật (tránh ghi đè mất bài)
 async function fetchPosts(){
-  try{
-    const res = await fetch(`${WORKER_URL}/api/posts`, { cache: "no-store" });
-    if(!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    if(data !== null && !Array.isArray(data)) throw new Error("Dữ liệu không hợp lệ");
-    posts = data || [];
-    postsLoaded = true;
-    renderPosts();
-  }catch(e){
-    console.error("fetchPosts lỗi:", e);
-    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">Vui lòng kiểm tra kết nối hoặc thử lại sau</p></div>`;
+  if(API_URL.indexOf("DÁN_") === 0){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Chưa cấu hình</h3><p style="color:var(--txt-3);font-size:14px">Chưa điền API_URL (link Render) trong file</p></div>`;
+    return;
   }
+  // Render gói free hay "ngủ" khi lâu không có ai vào, lần đầu có thể chậm cả phút
+  const hint = setTimeout(()=>{
+    if(!postsLoaded) postsContainer.innerHTML='<div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Server đang khởi động, chờ khoảng 30-60 giây nha...</div>';
+  }, 4000);
+  let lastErr = null;
+  for(let attempt=0; attempt<5; attempt++){
+    try{
+      const res = await fetch(API_URL + "/api/posts", { cache: "no-store" });
+      if(!res.ok){
+        const e = new Error("Server trả mã " + res.status);
+        e.retry = res.status >= 500;      // 5xx có thể do server đang thức dậy
+        throw e;
+      }
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error("Dữ liệu không hợp lệ");
+      posts = data;
+      postsLoaded = true;
+      clearTimeout(hint);
+      renderPosts();
+      return;
+    }catch(e){
+      lastErr = e;
+      if(e.retry === false) break;
+      await sleep(5000);
+    }
+  }
+  clearTimeout(hint);
+  console.error("fetchPosts lỗi:", lastErr);
+  postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">${escapeHtml((lastErr&&lastErr.message)||"")}. Thử reload lại sau ít phút.</p></div>`;
 }
 
 async function saveToServer(){
@@ -1059,7 +1053,7 @@ async function saveToServer(){
     return;
   }
   try{
-    const res = await fetch(`${WORKER_URL}/api/posts`, {
+    const res = await fetch(API_URL + "/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Admin-Token": localStorage.getItem("adminToken") || "" },
       body: JSON.stringify({ posts })
@@ -1071,12 +1065,12 @@ async function saveToServer(){
     }
     if(!res.ok){
       let detail = "";
-      try{ detail = (await res.text()).slice(0,200); }catch(e){}
+      try{ const j = await res.json(); detail = j.error || ""; }catch(e){}
       alert("Lưu thất bại (mã lỗi " + res.status + "). " + detail);
       return;
     }
     location.reload();
-  }catch(e){ alert("Lỗi khi lưu dữ liệu. Vui lòng thử lại."); }
+  }catch(e){ alert("Lỗi khi lưu dữ liệu (server có thể đang ngủ, đợi 1 phút rồi thử lại)."); }
 }
 
 
@@ -1109,8 +1103,9 @@ function editPost(id){
   postTitle.value=p.title;
   postDesc.value=p.desc;
   postRedirect.value=p.redirectLink||"";
-  base64Image=p.image||"";
+  base64Image="";
   uploadedImageUrl = (p.image && p.image.startsWith("http")) ? p.image : "";
+  imageUpload.value = uploadedImageUrl;
   if(p.image){
     previewImg.src = p.image;
     uploadPreview.style.display = "block";
