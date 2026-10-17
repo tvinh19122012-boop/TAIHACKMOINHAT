@@ -645,7 +645,7 @@ img{content-visibility:auto}
         Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️
       </p>
       <div class="sub-gate-actions">
-        <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe">
+        <a href="https://www.youtube.com/@SIKEREAL?sub_confirmation=1" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe">
           <i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay
         </a>
         <button class="btn-confirm" id="btnConfirmSub" disabled>
@@ -778,8 +778,21 @@ img{content-visibility:auto}
 <script>
 const WORKER_URL = "https://proud-boat-af38.tvinh19122012.workers.dev";
 const UPLOAD_URL = `${WORKER_URL}/api/upload`;
-const SUB_KEY = "ytSubConfirmed_v2";   // đổi key để reset gate cho user cũ
-const LIKE_KEY = "ytLikedVideo_v2";
+// Qua cổng xong được nhớ GATE_TTL_MS (15 phút), hết hạn là phải làm lại từ đầu
+const GATE_TTL_MS = 15 * 60 * 1000;
+const SUB_KEY  = "ytSubConfirmed_v3";
+const LIKE_KEY = "ytLikedVideo_v3";
+const gateMem = {};   // dự phòng khi trình duyệt chặn localStorage
+function gateGet(key){
+  let exp = gateMem[key] || 0;
+  try{ exp = Math.max(exp, parseInt(localStorage.getItem(key),10) || 0); }catch(e){}
+  return exp > Date.now();
+}
+function gateSet(key){
+  const exp = Date.now() + GATE_TTL_MS;
+  gateMem[key] = exp;
+  try{ localStorage.setItem(key, String(exp)); }catch(e){}
+}
 
 let isAdmin=localStorage.getItem("isAdmin")==="true";
 let posts=[];
@@ -870,8 +883,9 @@ const gateNote2 = $("gateNote2");
 let hasClickedSubscribe = false;
 
 function checkSubGate(){
-  const subDone = localStorage.getItem(SUB_KEY) === "true";
-  const likeDone = localStorage.getItem(LIKE_KEY) === "true";
+  // Admin được bỏ qua cổng (để đăng bài không bị chặn); xoá "isAdmin ||" nếu muốn admin cũng phải làm
+  const subDone = isAdmin || gateGet(SUB_KEY);
+  const likeDone = isAdmin || gateGet(LIKE_KEY);
 
   if(subDone && likeDone){
     subGate.classList.remove("active");
@@ -912,7 +926,7 @@ btnConfirmSub.addEventListener("click", ()=>{
     gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
     return;
   }
-  localStorage.setItem(SUB_KEY, "true");
+  gateSet(SUB_KEY);
   stepDot1.classList.add("done");
   stepDot1.classList.remove("active");
   stepDot2.classList.add("active");
@@ -972,7 +986,7 @@ function shakeBanner(){
       shakeBanner();
       return;
     }
-    localStorage.setItem(LIKE_KEY, "true");
+    gateSet(LIKE_KEY);
     stepDot2.classList.add("done");
     stepDot2.classList.remove("active");
     subGate.classList.remove("active");
