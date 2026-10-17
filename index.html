@@ -653,7 +653,7 @@ img{content-visibility:auto}
         </button>
       </div>
       <div class="btn-confirm-note" id="gateNote2">
-        <i class="fa-regular fa-clock"></i> Bấm "Mở video & Like ngay", like video, rồi quay lại bấm "Tôi đã like video".
+        <i class="fa-regular fa-clock"></i> Bấm "Mở video & Like ngay", xem và like video ít nhất 10 giây, rồi quay lại bấm "Tôi đã like video".
       </div>
     </div>
 
@@ -826,7 +826,6 @@ const btnConfirmLike = $("btnConfirmLike");
 const gateNote2 = $("gateNote2");
 
 let hasClickedSubscribe = false;
-let hasClickedLike = false;
 
 function checkSubGate(){
   const subDone = localStorage.getItem(SUB_KEY) === "true";
@@ -877,28 +876,58 @@ btnConfirmSub.addEventListener("click", ()=>{
   stepDot2.classList.add("active");
   stepDot2.classList.remove("done");
   showStep(2);
-  gateNote2.innerHTML = '<i class="fa-regular fa-clock"></i> Bấm "Mở video & Like ngay", like video, rồi quay lại bấm "Tôi đã like video".';
+  gateNote2.innerHTML = '<i class="fa-regular fa-clock"></i> Bấm "Mở video & Like ngay", xem và like video ít nhất 10 giây, rồi quay lại bấm "Tôi đã like video".';
 });
 
-/* Bước 2 */
-btnLikeVideo.addEventListener("click", ()=>{
-  hasClickedLike = true;
-  btnConfirmLike.disabled = false;
-  btnLikeVideo.classList.add("liked");
-  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã like video" để vào web.';
-});
+/* Bước 2: bắt buộc sang YouTube xem/like video đủ AWAY_LIKE_MS rồi quay lại mới cho tiếp tục */
+const AWAY_LIKE_MS = 10000;   // 10 giây, chỉnh ở đây
 
-btnConfirmLike.addEventListener("click", ()=>{
-  if(!hasClickedLike){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!';
-    return;
+(function(){
+  let armed=false, awayStart=null, awayTotal=0, passed=false;
+
+  function begin(){
+    if(armed && !passed && awayStart===null) awayStart=Date.now();
   }
-  localStorage.setItem(LIKE_KEY, "true");
-  stepDot2.classList.add("done");
-  stepDot2.classList.remove("active");
-  subGate.classList.remove("active");
-  document.body.style.overflow="";
-});
+  function end(){
+    if(!armed || passed || awayStart===null) return;
+    if(document.visibilityState!=="visible") return;
+    awayTotal += Date.now()-awayStart;
+    awayStart = null;
+    if(awayTotal>=AWAY_LIKE_MS){
+      passed=true;
+      btnConfirmLike.disabled=false;
+      gateNote2.innerHTML='<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã like video" để vào web.';
+    } else {
+      const left=Math.ceil((AWAY_LIKE_MS-awayTotal)/1000);
+      gateNote2.innerHTML='<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn quay lại quá nhanh! Hãy mở video lại, xem và like, ở bên YouTube thêm khoảng <b>'+left+'s</b> nữa.';
+    }
+  }
+
+  document.addEventListener("visibilitychange",()=>{
+    document.visibilityState==="hidden" ? begin() : end();
+  });
+  window.addEventListener("blur",begin);
+  window.addEventListener("focus",end);
+  window.addEventListener("pageshow",end);
+
+  btnLikeVideo.addEventListener("click",()=>{
+    armed=true;
+    btnLikeVideo.classList.add("liked");
+    if(!passed) gateNote2.innerHTML='<i class="fa-solid fa-hourglass-half" style="color:var(--gold)"></i> Hãy xem video và bấm like (ít nhất 10 giây) rồi quay lại đây nhé...';
+  });
+
+  btnConfirmLike.addEventListener("click",()=>{
+    if(!passed){
+      gateNote2.innerHTML='<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần mở video, xem và like đủ 10 giây rồi quay lại!';
+      return;
+    }
+    localStorage.setItem(LIKE_KEY, "true");
+    stepDot2.classList.add("done");
+    stepDot2.classList.remove("active");
+    subGate.classList.remove("active");
+    document.body.style.overflow="";
+  });
+})();
 /* ========================================== */
 
 document.addEventListener("DOMContentLoaded",()=>{
