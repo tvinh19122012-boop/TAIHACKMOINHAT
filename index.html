@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* GIỮ NGUYÊN TOÀN BỘ CSS GỐC CỦA BẠN */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#05070a; --txt:#f4f7f5; --txt-2:#a9b3bd; --txt-3:#68737d;
@@ -36,8 +35,7 @@ body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-t
   -webkit-user-select: text !important; -moz-user-select: text !important;
   -ms-user-select: text !important; user-select: text !important;
 }
-button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
-.btn-login, .btn-logout, .modal-download-btn, .modal-close, .copy-btn,
+button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .btn-youtube, .btn-confirm {
   -webkit-user-select: none !important; -moz-user-select: none !important;
   -ms-user-select: none !important; user-select: none !important;
@@ -97,62 +95,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
   background:rgba(255,214,10,.1); border:1px solid rgba(255,214,10,.25);
 }
 
-.admin-panel{padding:26px;margin-bottom:26px;display:none;}
-.admin-panel.active{display:block;animation:slideDown .3s var(--ease)}
-@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
-.admin-header h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.2px}
-.admin-header h2 i{color:var(--mint)}
-.admin-badge{
-  font-size:10px;font-weight:800;letter-spacing:1px;
-  padding:5px 13px;border-radius:20px;text-transform:uppercase;
-  background:rgba(125,249,214,.1);color:var(--mint);
-  border:1px solid rgba(125,249,214,.28); display:flex;align-items:center;gap:5px;
-}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-grid .full-width{grid-column:1/-1}
-.form-group label{
-  display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
-  color:var(--txt-2);margin-bottom:6px;
-}
-.form-group input,.form-group textarea{
-  width:100%;padding:12px 15px; background:rgba(0,0,0,.35);
-  border:1px solid var(--bd); border-radius:12px;color:var(--txt);font-size:14px;
-  transition:border-color .2s, box-shadow .2s; font-family:inherit;
-}
-.form-group input:focus,.form-group textarea:focus{
-  outline:none;border-color:rgba(125,249,214,.55); box-shadow:0 0 0 3px rgba(125,249,214,.12);
-}
-.form-group textarea{resize:vertical;min-height:90px}
-.form-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-
-.upload-status{font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:6px;min-height:18px;color:var(--txt-3);}
-.upload-status.loading{color:var(--mint)}
-.upload-status.success{color:var(--green)}
-.upload-status.error{color:var(--red)}
-.upload-status i.fa-spinner{animation:spin 1s linear infinite}
-.upload-preview{margin-top:10px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);max-width:220px;display:none;}
-.upload-preview img{width:100%;display:block}
-
-.btn-primary{
-  padding:12px 28px;border-radius:14px; font-weight:800;font-size:13.5px;
-  border:1px solid rgba(255,214,10,.5); background:linear-gradient(180deg,#ffd60a,#f5b301);
-  color:#0a0d0a;cursor:pointer; display:inline-flex;align-items:center;gap:8px;
-  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.15) inset, 0 4px 16px rgba(255,214,10,.25);
-  transition:transform .2s var(--ease), box-shadow .2s, filter .2s; will-change:transform;
-}
-.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.15) inset,0 8px 22px rgba(255,214,10,.35)}
-.btn-primary:active{transform:translateY(0) scale(.97)}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none}
-
-.btn-secondary{
-  padding:12px 28px;border-radius:14px; font-weight:700;font-size:13.5px;
-  border:1px solid var(--bd); background:var(--glass); color:var(--txt-2);cursor:pointer;
-  display:none;align-items:center;gap:8px; transition:all .2s var(--ease);
-}
-.btn-secondary:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
-.btn-secondary.active{display:inline-flex}
-
 .posts-grid{display:grid;grid-template-columns:1fr;gap:20px}
 .post-card{
   padding:24px 26px; transition:transform .25s var(--ease), border-color .25s, box-shadow .25s;
@@ -185,18 +127,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 }
 .btn-download:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 8px 22px rgba(125,249,214,.35)}
 .btn-download:active{transform:translateY(0) scale(.97)}
-
-.post-actions{display:flex;gap:9px;margin-top:16px;padding-top:16px;border-top:1px solid var(--bd)}
-.btn-edit,.btn-delete{
-  padding:7px 15px;border-radius:10px;font-weight:700;font-size:12.5px;
-  cursor:pointer;transition:all .2s var(--ease);display:none;align-items:center;gap:6px;
-  border:1px solid var(--bd);background:var(--glass);
-}
-.btn-edit{color:var(--gold)}
-.btn-edit:hover{background:rgba(255,214,10,.12);border-color:rgba(255,214,10,.4)}
-.btn-delete{color:var(--txt-2)}
-.btn-delete:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi)}
-.btn-edit.active,.btn-delete.active{display:inline-flex}
 
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.8); z-index:9999;display:none;
@@ -355,34 +285,6 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 .btn-confirm-note.big b{color:var(--gold);font-size:1.15em}
 .btn-confirm.locked{font-size:clamp(14px,3.9vw,16px)}
 
-.footer-admin{max-width:980px;margin:36px auto 0;padding:24px 26px;text-align:center;}
-.footer-admin h3{
-  font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.6px;
-  color:var(--txt-2);margin-bottom:16px; display:flex;align-items:center;justify-content:center;gap:9px;
-}
-.footer-admin h3 i{color:var(--mint)}
-.footer-admin .login-area{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
-.footer-admin .login-area input{
-  padding:12px 18px;background:rgba(0,0,0,.35); border:1px solid var(--bd);border-radius:12px;color:var(--txt);
-  font-size:14px;min-width:220px;font-family:inherit; transition:border-color .2s, box-shadow .2s;
-}
-.footer-admin .login-area input:focus{outline:none;border-color:rgba(125,249,214,.55);box-shadow:0 0 0 3px rgba(125,249,214,.12);}
-.footer-admin .login-area .btn-login{
-  padding:12px 28px;border-radius:14px; font-weight:800;font-size:13.5px;
-  border:1px solid rgba(255,214,10,.5); background:linear-gradient(180deg,#ffd60a,#f5b301);
-  color:#0a0d0a;cursor:pointer; display:inline-flex;align-items:center;gap:8px;
-  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 4px 16px rgba(255,214,10,.25); transition:all .2s var(--ease);will-change:transform;
-}
-.footer-admin .login-area .btn-login:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.footer-admin .logout-area{display:none}
-.footer-admin .logout-area.active{display:block;animation:fadeIn .25s ease}
-.footer-admin .logout-area p{color:var(--mint);font-weight:700;margin-bottom:12px}
-.footer-admin .logout-area .btn-logout{
-  padding:12px 28px;border-radius:14px; font-weight:800;font-size:13.5px;
-  border:1px solid var(--bd); background:var(--glass);color:var(--txt-2);cursor:pointer; transition:all .2s var(--ease);
-}
-.footer-admin .logout-area .btn-logout:hover{background:var(--glass-2);color:var(--txt);border-color:var(--bd-hi);transform:translateY(-2px)}
-
 .empty-state{text-align:center;padding:60px 20px;color:var(--txt-3)}
 .empty-state i{font-size:48px;margin-bottom:16px;display:block;color:rgba(125,249,214,.3)}
 .empty-state h3{font-size:17px;color:var(--txt-2);margin-bottom:6px;font-weight:700}
@@ -392,28 +294,27 @@ button, .gbtn, .btn-primary, .btn-download, .btn-edit, .btn-delete,
 
 @media (max-width:768px){
   .header{padding:11px 14px} .logo{font-size:17px} .gbtn{font-size:12px;padding:8px 14px}
-  .container{padding:18px 14px 55px} .admin-panel{padding:20px} .form-grid{grid-template-columns:1fr}
-  .admin-header{flex-direction:column;align-items:flex-start} .post-card{padding:20px} .post-card .post-title{font-size:16px}
-  .modal-box{padding:24px 20px} .footer-admin{padding:20px 18px} .footer-admin .login-area{flex-direction:column}
-  .footer-admin .login-area input{min-width:unset;width:100%} .sub-gate-box{padding:26px 18px}
+  .container{padding:18px 14px 55px} .post-card{padding:20px} .post-card .post-title{font-size:16px}
+  .modal-box{padding:24px 20px} .sub-gate-box{padding:26px 18px}
   .sub-gate h2{font-size:18px} .step-dot{font-size:11px;padding:6px 10px} .video-thumb{width:96px;height:56px}
   .video-info .v-title{font-size:12.5px}
 }
 @media (max-width:480px){.header-right .gbtn span{display:none} .header-right .gbtn i{margin:0}}
-.gbtn,.btn-primary,.btn-download,.btn-edit,.btn-delete,.btn-login,.btn-logout,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent;}
+.gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent;}
 img{content-visibility:auto}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
-<!-- MÀN HÌNH CHẶN (GIỮ NGUYÊN) -->
+<!-- MÀN HÌNH CHẶN 2 BƯỚC -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
       <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> Đăng ký kênh</div>
       <div class="step-dot" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> Like video</div>
     </div>
+    
     <div class="gate-step active" id="gateStep1">
       <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
       <h2>Bước 1: Đăng ký kênh</h2>
@@ -424,6 +325,7 @@ img{content-visibility:auto}
       </div>
       <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
     </div>
+    
     <div class="gate-step" id="gateStep2">
       <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
         <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
@@ -453,7 +355,7 @@ img{content-visibility:auto}
   </div>
 </div>
 
-<!-- HEADER (GIỮ NGUYÊN) -->
+<!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
@@ -471,34 +373,12 @@ img{content-visibility:auto}
 <!-- MAIN -->
 <div class="container">
   <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
-
-  <div class="glass admin-panel" id="adminPanel">
-    <div class="admin-header">
-      <h2><i class="fa-solid fa-pen-to-square"></i> <span id="formHeading">Đăng bài viết mới</span></h2>
-      <span class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Quản trị</span>
-    </div>
-    <input type="hidden" id="editPostId" value="">
-    <div class="form-grid">
-      <div class="form-group full-width"><label>Tiêu đề</label><input type="text" id="postTitle" placeholder="Nhập tiêu đề bài viết..."></div>
-      <div class="form-group full-width"><label>Mô tả (Nơi chứa các link tải)</label><textarea id="postDesc" rows="4" placeholder="Nhập nội dung chứa các link vào đây...&#10;Ví dụ:&#10;Link tải game: https://example.com/game.apk&#10;Link dự phòng: https://example.com/backup"></textarea></div>
-      <div class="form-group full-width"><label>Link đích (Nút tải xuống ngay bên trong màn popup)</label><input type="text" id="postRedirect" placeholder="https://example.com/download"></div>
-      <div class="form-group full-width">
-        <label>Hình ảnh</label>
-        <input type="text" id="imageUpload" placeholder="Dán link ảnh (https://...)">
-        <div class="upload-status" id="uploadStatus"></div>
-        <div class="upload-preview" id="uploadPreview"><img id="previewImg" src="" alt="Preview"></div>
-      </div>
-    </div>
-    <div class="form-actions">
-      <button class="btn-primary" id="submitBtn"><i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài</button>
-      <button class="btn-secondary" id="cancelEditBtn"><i class="fa-solid fa-xmark"></i> Hủy sửa</button>
-    </div>
-  </div>
-
+  
+  <!-- DANH SÁCH BÀI VIẾT TỪ JSONBIN -->
   <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL XEM LINK -->
 <div id="downloadModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
@@ -512,9 +392,8 @@ img{content-visibility:auto}
 </div>
 
 <script>
-/* ====== CẤU HÌNH API TRỰC TIẾP LÊN JSONBIN ====== */
+/* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const GATE_TTL_MS = 15 * 60 * 1000;
 const SUB_KEY  = "ytSubConfirmed_v3";
@@ -531,38 +410,11 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-let isAdmin = localStorage.getItem("isAdmin") === "true";
 let posts = [];
-let base64Image = "";
-let uploadedImageUrl = "";
 
 const $ = id => document.getElementById(id);
-const adminPanel=$("adminPanel"),loginArea=$("loginArea"),logoutArea=$("logoutArea"),
-postsContainer=$("postsContainer"),formHeading=$("formHeading"),editPostId=$("editPostId"),
-postTitle=$("postTitle"),postDesc=$("postDesc"),postRedirect=$("postRedirect"),
-imageUpload=$("imageUpload"),submitBtn=$("submitBtn"),cancelEditBtn=$("cancelEditBtn"),
-secretInput=$("secretInput"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),
-modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn"),
-uploadStatus=$("uploadStatus"), uploadPreview=$("uploadPreview"), previewImg=$("previewImg");
-
-function handleImageUpload(e){
-  const url = (e.target.value || "").trim();
-  base64Image = "";
-  uploadStatus.className = "upload-status";
-  uploadStatus.innerHTML = "";
-  if(/^https?:\/\//i.test(url)){
-    uploadedImageUrl = url;
-    previewImg.src = url;
-    uploadPreview.style.display = "block";
-  } else {
-    uploadedImageUrl = "";
-    uploadPreview.style.display = "none";
-    if(url){
-      uploadStatus.className = "upload-status error";
-      uploadStatus.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Link ảnh phải bắt đầu bằng https://';
-    }
-  }
-}
+const postsContainer=$("postsContainer"), modalOverlay=$("downloadModal"), modalTitle=$("modalTitle"),
+modalContent=$("modalContent"), modalDownloadBtn=$("modalDownloadBtn");
 
 /* ====== Cổng chặn 2 bước ====== */
 const subGate = $("subGate"), stepDot1 = $("stepDot1"), stepDot2 = $("stepDot2"),
@@ -572,8 +424,9 @@ btnConfirmLike = $("btnConfirmLike"), gateNote2 = $("gateNote2");
 let hasClickedSubscribe = false;
 
 function checkSubGate(){
-  const subDone = isAdmin || gateGet(SUB_KEY);
-  const likeDone = isAdmin || gateGet(LIKE_KEY);
+  const subDone = gateGet(SUB_KEY);
+  const likeDone = gateGet(LIKE_KEY);
+  
   if(subDone && likeDone){
     subGate.classList.remove("active");
     document.body.style.overflow="";
@@ -659,48 +512,16 @@ function shakeBanner(){
 
 document.addEventListener("DOMContentLoaded",()=>{
   checkSubGate();
-  if(isAdmin){
-    adminPanel.classList.add("active"); loginArea.style.display="none"; logoutArea.classList.add("active");
-  }
   fetchPosts();
-  submitBtn.addEventListener("click",savePost);
-  cancelEditBtn.addEventListener("click",resetForm);
-  document.querySelector(".btn-login").addEventListener("click",loginAdmin);
-  document.querySelector(".btn-logout").addEventListener("click",logoutAdmin);
   document.querySelector(".modal-close").addEventListener("click",closeModal);
   modalOverlay.addEventListener("click",closeModalOnOutside);
-  imageUpload.addEventListener("input",handleImageUpload);
-  secretInput.addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin();});
 });
-
-async function loginAdmin(){
-  const code = secretInput.value.trim();
-  if(!code) {
-    secretInput.style.borderColor="rgba(255,214,10,.8)";
-    secretInput.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
-    setTimeout(()=>{secretInput.style.borderColor="";secretInput.style.boxShadow="";},1500);
-    return;
-  }
-  // Xác thực chỉ đơn giản là lưu API key JSONBin mà bạn nhập vào.
-  // Nếu nhập sai, lúc Đăng bài / Xoá bài sẽ tự báo lỗi.
-  localStorage.setItem("isAdmin","true");
-  localStorage.setItem("adminToken", code);
-  location.reload();
-}
-
-function logoutAdmin(){
-  localStorage.removeItem("isAdmin");
-  localStorage.removeItem("adminToken");
-  location.reload();
-}
-
-let postsLoaded = false; 
 
 /* === ĐỌC DỮ LIỆU TỪ JSONBIN (GET) === */
 async function fetchPosts(){
   try{
     const res = await fetch(BIN_URL, {
-        headers: { "X-Bin-Meta": "false" }, // Chỉ lấy nội dung data, không lấy metadata của JSONBin
+        headers: { "X-Bin-Meta": "false" },
         cache: "no-store" 
     });
     
@@ -708,7 +529,6 @@ async function fetchPosts(){
     
     const data = await res.json();
     
-    // JSONBin lúc mới tạo có thể là Object rỗng, nên cần bọc nó lại thành Mảng
     if(Array.isArray(data)){
         posts = data;
     } else if (data && Array.isArray(data.posts)) {
@@ -717,103 +537,10 @@ async function fetchPosts(){
         posts = []; 
     }
 
-    postsLoaded = true;
     renderPosts();
   }catch(e){
     console.error("fetchPosts lỗi:", e);
     postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">${escapeHtml(e.message)}. Thử reload lại trang.</p></div>`;
-  }
-}
-
-/* === LƯU DỮ LIỆU LÊN JSONBIN (PUT) === */
-async function saveToServer(){
-  if(!postsLoaded){
-    alert("Chưa tải được dữ liệu từ server nên không lưu để tránh ghi đè mất bài. Hãy reload trang rồi thử lại."); return;
-  }
-  const token = localStorage.getItem("adminToken") || "";
-  
-  // Nút loading khi đang lưu
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu...';
-
-  try{
-    const res = await fetch(BIN_URL, {
-      method: "PUT",
-      headers: { 
-        "Content-Type": "application/json", 
-        "X-Master-Key": token // Dùng Master Key hoặc Access Key để JSONBin cho phép sửa
-      },
-      body: JSON.stringify({ posts: posts }) 
-    });
-    
-    if(res.status===401 || res.status===403){
-      alert("Mã API Key (Mã bí mật) của bạn nhập lúc nãy là sai hoặc hết hạn!");
-      logoutAdmin();
-      return;
-    }
-    if(!res.ok){
-      let detail = ""; try{ const j = await res.json(); detail = j.message || ""; }catch(e){}
-      alert("Lưu thất bại (mã lỗi " + res.status + "). " + detail);
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
-      return;
-    }
-    location.reload();
-  }catch(e){ 
-      alert("Lỗi khi kết nối đến Server JSONBin để lưu dữ liệu!"); 
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
-  }
-}
-
-async function savePost(){
-  const editId=editPostId.value;
-  const title=postTitle.value.trim();
-  const desc=postDesc.value.trim();
-  const redirect=postRedirect.value.trim();
-  if(!title){
-    postTitle.style.borderColor="rgba(255,214,10,.8)";
-    postTitle.style.boxShadow="0 0 0 3px rgba(255,214,10,.15)";
-    setTimeout(()=>{postTitle.style.borderColor="";postTitle.style.boxShadow="";},1500);
-    postTitle.focus();return;
-  }
-
-  const imageValue = uploadedImageUrl || base64Image || "";
-
-  if(editId){
-    posts=posts.map(p=>p.id==editId?{...p,title,desc,redirectLink:redirect,image:imageValue||p.image}:p);
-  } else {
-    posts.unshift({id:Date.now(),title,desc,redirectLink:redirect,image:imageValue});
-  }
-  saveToServer();
-}
-
-function editPost(id){
-  const p=posts.find(item=>item.id==id);
-  if(!p)return;
-  editPostId.value=p.id; postTitle.value=p.title; postDesc.value=p.desc; postRedirect.value=p.redirectLink||"";
-  base64Image=""; uploadedImageUrl = (p.image && p.image.startsWith("http")) ? p.image : "";
-  imageUpload.value = uploadedImageUrl;
-  if(p.image){ previewImg.src = p.image; uploadPreview.style.display = "block"; } else { uploadPreview.style.display = "none"; }
-  uploadStatus.className = "upload-status"; uploadStatus.innerHTML = "";
-  formHeading.innerText="Sửa bài viết"; submitBtn.innerHTML=`<i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi`;
-  cancelEditBtn.classList.add("active"); adminPanel.classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function resetForm(){
-  editPostId.value=""; postTitle.value=""; postDesc.value=""; postRedirect.value="";
-  base64Image=""; uploadedImageUrl=""; imageUpload.value="";
-  uploadStatus.className = "upload-status"; uploadStatus.innerHTML = "";
-  uploadPreview.style.display = "none"; previewImg.src = "";
-  formHeading.innerText="Đăng bài viết mới"; submitBtn.innerHTML=`<i class="fa-solid fa-cloud-arrow-up"></i> Đăng bài`;
-  cancelEditBtn.classList.remove("active");
-}
-
-async function deletePost(id){
-  if(confirm("Bạn có chắc muốn xóa bài viết này?")){
-    posts=posts.filter(p=>p.id!==id);
-    saveToServer();
   }
 }
 
@@ -843,7 +570,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modalOverlay.classL
 
 function renderPosts(){
   if(!posts||posts.length===0){
-    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-newspaper"></i><h3>Chưa có bài viết</h3><p style="color:var(--txt-3);font-size:14px">Hãy đăng bài viết đầu tiên ngay nào!</p></div>`; return;
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-newspaper"></i><h3>Chưa có bài viết</h3><p style="color:var(--txt-3);font-size:14px">Hiện chưa có nội dung nào được đăng.</p></div>`; return;
   }
   postsContainer.innerHTML=`<div class="posts-grid">${posts.map(p=>`
     <div class="post-card glass">
@@ -851,10 +578,6 @@ function renderPosts(){
       ${p.image?`<img src="${escapeHtml(p.image)}" class="post-image" alt="${escapeHtml(p.title)}" loading="lazy">`:""}
       <div class="post-desc">${formatDesc(p.desc)}</div>
       <div class="post-meta"><button class="btn-download" onclick="openDownloadModal(${p.id})"><i class="fa-solid fa-download"></i> Tải xuống</button></div>
-      <div class="post-actions">
-        <button class="btn-edit ${isAdmin?"active":""}" onclick="editPost(${p.id})"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
-        <button class="btn-delete ${isAdmin?"active":""}" onclick="deletePost(${p.id})"><i class="fa-regular fa-trash-can"></i> Xóa</button>
-      </div>
     </div>`).join("")}</div>`;
 }
 
