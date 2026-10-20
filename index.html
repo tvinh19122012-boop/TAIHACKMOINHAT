@@ -320,7 +320,7 @@ img{content-visibility:auto}
       
       <div class="video-card">
         <div class="video-thumb">
-          <img src="https://i.ytimg.com/vi/4fWOz7x8G1w/hqdefault.jpg" alt="Video YouTube" loading="lazy">
+          <img src="https://i.ytimg.com/vi/RewtpmblamA/hqdefault.jpg" alt="Video YouTube" loading="lazy">
           <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
         </div>
         <div class="video-info">
@@ -330,7 +330,7 @@ img{content-visibility:auto}
       </div>
       
       <div class="sub-gate-actions">
-        <a href="https://youtu.be/4fWOz7x8G1w" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
+        <a href="https://youtu.be/RewtpmblamA" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
         <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
@@ -393,6 +393,22 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
+// Time-gate: tracking thời điểm bấm nút sub/like
+const SUB_CLICK_TIME = "subClickTime_v3";
+const LIKE_CLICK_TIME = "likeClickTime_v3";
+const GATE_TIMEOUT = 5000; // 5 giây
+
+function recordClickTime(timeKey){
+  localStorage.setItem(timeKey, Date.now().toString());
+}
+
+function checkTimeGate(clickTimeKey){
+  const storedTime = localStorage.getItem(clickTimeKey);
+  if(!storedTime) return false;
+  const elapsed = Date.now() - parseInt(storedTime);
+  return elapsed >= GATE_TIMEOUT;
+}
+
 let posts = [];
 
 const $ = id => document.getElementById(id);
@@ -436,7 +452,8 @@ function showStep(n){
 
 // Logic Bước 1: Đăng ký
 btnSubscribe.addEventListener("click", ()=>{
-  hasClickedSubscribe = true; 
+  hasClickedSubscribe = true;
+  recordClickTime(SUB_CLICK_TIME); // Ghi nhận thời điểm bấm
   btnConfirmSub.disabled = false;
   gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
 });
@@ -445,15 +462,20 @@ btnConfirmSub.addEventListener("click", ()=>{
   if(!hasClickedSubscribe){
     gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!'; return;
   }
+  // Kiểm tra time-gate: nếu quay lại < 5 giây
+  if(!checkTimeGate(SUB_CLICK_TIME)){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!'; return;
+  }
   gateSet(SUB_KEY);
   stepDot1.classList.add("done"); stepDot1.classList.remove("active");
   stepDot2.classList.add("active"); stepDot2.classList.remove("done");
   showStep(2);
 });
 
-// Logic Bước 2: Like video (Đã bỏ chờ 10s)
+// Logic Bước 2: Like video
 btnLikeVideo.addEventListener("click", ()=>{
   hasClickedLike = true;
+  recordClickTime(LIKE_CLICK_TIME); // Ghi nhận thời điểm bấm
   btnLikeVideo.classList.add("liked");
   btnConfirmLike.disabled = false;
   gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để tiếp tục vào web.';
@@ -462,6 +484,10 @@ btnLikeVideo.addEventListener("click", ()=>{
 btnConfirmLike.addEventListener("click", ()=>{
   if(!hasClickedLike){
     gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!'; return;
+  }
+  // Kiểm tra time-gate: nếu quay lại < 5 giây
+  if(!checkTimeGate(LIKE_CLICK_TIME)){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!'; return;
   }
   gateSet(LIKE_KEY); 
   stepDot2.classList.add("done"); stepDot2.classList.remove("active");
