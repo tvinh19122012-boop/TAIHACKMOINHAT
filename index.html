@@ -276,6 +276,12 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .loading-spinner{display:flex;justify-content:center;align-items:center;padding:50px 0;gap:12px;color:var(--mint);font-weight:700}
 .loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
+}
+.shake{animation:shake .4s ease-in-out !important}
 
 @media (max-width:768px){
   .header{padding:11px 14px} .logo{font-size:17px} .gbtn{font-size:12px;padding:8px 14px}
@@ -394,19 +400,33 @@ function gateSet(key){
 }
 
 // Time-gate: tracking thời điểm bấm nút sub/like
-const SUB_CLICK_TIME = "subClickTime_v3";
-const LIKE_CLICK_TIME = "likeClickTime_v3";
+const SUB_START_TIME = "subStartTime_v3";
+const LIKE_START_TIME = "likeStartTime_v3";
 const GATE_TIMEOUT = 5000; // 5 giây
 
-function recordClickTime(timeKey){
+let subTimerInterval = null;
+let likeTimerInterval = null;
+
+function startTimer(timeKey, timerKey){
   localStorage.setItem(timeKey, Date.now().toString());
 }
 
-function checkTimeGate(clickTimeKey){
-  const storedTime = localStorage.getItem(clickTimeKey);
+function checkTimeGate(timeKey){
+  const storedTime = localStorage.getItem(timeKey);
   if(!storedTime) return false;
   const elapsed = Date.now() - parseInt(storedTime);
   return elapsed >= GATE_TIMEOUT;
+}
+
+function triggerShakeAndVibrate(element){
+  // Rung element
+  element.classList.add("shake");
+  setTimeout(() => element.classList.remove("shake"), 400);
+  
+  // Rung máy nếu hỗ trợ
+  if(navigator.vibrate){
+    navigator.vibrate([100, 50, 100, 50, 100]);
+  }
 }
 
 let posts = [];
@@ -423,6 +443,8 @@ btnConfirmLike = $("btnConfirmLike"), gateNote2 = $("gateNote2");
 
 let hasClickedSubscribe = false;
 let hasClickedLike = false;
+let subConfirmLocked = false;
+let likeConfirmLocked = false;
 
 function checkSubGate(){
   const subDone = gateGet(SUB_KEY);
@@ -453,7 +475,8 @@ function showStep(n){
 // Logic Bước 1: Đăng ký
 btnSubscribe.addEventListener("click", ()=>{
   hasClickedSubscribe = true;
-  recordClickTime(SUB_CLICK_TIME); // Ghi nhận thời điểm bấm
+  subConfirmLocked = false; // Reset lock khi click nút sub mới
+  startTimer(SUB_START_TIME); // Bắt đầu đếm 5 giây
   btnConfirmSub.disabled = false;
   gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
 });
@@ -462,9 +485,18 @@ btnConfirmSub.addEventListener("click", ()=>{
   if(!hasClickedSubscribe){
     gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!'; return;
   }
+  // Nếu confirm bị lock (từ lần fail trước) -> từ chối
+  if(subConfirmLocked){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
   // Kiểm tra time-gate: nếu quay lại < 5 giây
-  if(!checkTimeGate(SUB_CLICK_TIME)){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!'; return;
+  if(!checkTimeGate(SUB_START_TIME)){
+    subConfirmLocked = true; // Lock confirm khi fail
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
   }
   gateSet(SUB_KEY);
   stepDot1.classList.add("done"); stepDot1.classList.remove("active");
@@ -475,7 +507,8 @@ btnConfirmSub.addEventListener("click", ()=>{
 // Logic Bước 2: Like video
 btnLikeVideo.addEventListener("click", ()=>{
   hasClickedLike = true;
-  recordClickTime(LIKE_CLICK_TIME); // Ghi nhận thời điểm bấm
+  likeConfirmLocked = false; // Reset lock khi click nút like mới
+  startTimer(LIKE_START_TIME); // Bắt đầu đếm 5 giây
   btnLikeVideo.classList.add("liked");
   btnConfirmLike.disabled = false;
   gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để tiếp tục vào web.';
@@ -485,9 +518,18 @@ btnConfirmLike.addEventListener("click", ()=>{
   if(!hasClickedLike){
     gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!'; return;
   }
+  // Nếu confirm bị lock (từ lần fail trước) -> từ chối
+  if(likeConfirmLocked){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
   // Kiểm tra time-gate: nếu quay lại < 5 giây
-  if(!checkTimeGate(LIKE_CLICK_TIME)){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!'; return;
+  if(!checkTimeGate(LIKE_START_TIME)){
+    likeConfirmLocked = true; // Lock confirm khi fail
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
   }
   gateSet(LIKE_KEY); 
   stepDot2.classList.add("done"); stepDot2.classList.remove("active");
