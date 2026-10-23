@@ -255,6 +255,18 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 }
 .btn-confirm:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
 .btn-confirm:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none;}
+
+/* Nút confirm khi bấm sai (chưa đủ 5s): chuyển đen, viền đỏ */
+.btn-confirm.fail,
+.btn-confirm.fail:disabled{
+  background:linear-gradient(180deg,#2a2f36,#151a20) !important;
+  color:#ff4d4d !important;
+  border-color:rgba(255,77,77,.5) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.08) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 4px 14px rgba(0,0,0,.4) !important;
+  cursor:not-allowed; opacity:1;
+}
+.btn-confirm.fail:hover{transform:none;filter:none;}
+
 .btn-confirm-note{font-size:12px;color:var(--txt-3);margin-top:14px;line-height:1.55;}
 .btn-confirm-note b{color:var(--mint)}
 .warn-note{color:var(--gold)}
@@ -331,7 +343,7 @@ img{content-visibility:auto}
         </div>
         <div class="video-info">
           <div class="v-title">Video cần like để tiếp tục vào web</div>
-          <div class="v-sub">youtu.be/6DNPwrjLyhI</div>
+          <div class="v-sub">youtu.be/vO88JorEjco</div>
         </div>
       </div>
       
@@ -363,7 +375,6 @@ img{content-visibility:auto}
 <div class="container">
   <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
   
-  <!-- DANH SÁCH BÀI VIẾT TỪ JSONBIN -->
   <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
 </div>
 
@@ -402,12 +413,9 @@ function gateSet(key){
 // Time-gate: tracking thời điểm bấm nút sub/like
 const SUB_START_TIME = "subStartTime_v3";
 const LIKE_START_TIME = "likeStartTime_v3";
-const GATE_TIMEOUT = 2000; // 2 giây
+const GATE_TIMEOUT = 5000; // 5 giây
 
-let subTimerInterval = null;
-let likeTimerInterval = null;
-
-function startTimer(timeKey, timerKey){
+function startTimer(timeKey){
   localStorage.setItem(timeKey, Date.now().toString());
 }
 
@@ -419,11 +427,8 @@ function checkTimeGate(timeKey){
 }
 
 function triggerShakeAndVibrate(element){
-  // Rung element
   element.classList.add("shake");
   setTimeout(() => element.classList.remove("shake"), 400);
-  
-  // Rung máy nếu hỗ trợ
   if(navigator.vibrate){
     navigator.vibrate([100, 50, 100, 50, 100]);
   }
@@ -443,8 +448,6 @@ btnConfirmLike = $("btnConfirmLike"), gateNote2 = $("gateNote2");
 
 let hasClickedSubscribe = false;
 let hasClickedLike = false;
-let subConfirmLocked = false;
-let likeConfirmLocked = false;
 
 function checkSubGate(){
   const subDone = gateGet(SUB_KEY);
@@ -472,32 +475,35 @@ function showStep(n){
   gateStep2.classList.toggle("active", n===2);
 }
 
+/* Hiển thị lỗi: nút confirm chuyển đen + note đỏ */
+function showFailState(confirmBtn, noteEl, message){
+  confirmBtn.classList.add("fail");
+  noteEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> ' + message;
+  triggerShakeAndVibrate(noteEl);
+}
+
 // Logic Bước 1: Đăng ký
 btnSubscribe.addEventListener("click", ()=>{
   hasClickedSubscribe = true;
-  subConfirmLocked = false; // Reset lock khi click nút sub mới
-  startTimer(SUB_START_TIME); // Bắt đầu đếm 2 giây
+  btnConfirmSub.classList.remove("fail"); // reset lỗi khi bấm lại nút đỏ
+  startTimer(SUB_START_TIME);             // bắt đầu đếm 5 giây
   btnConfirmSub.disabled = false;
   gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
 });
 
 btnConfirmSub.addEventListener("click", ()=>{
   if(!hasClickedSubscribe){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!'; return;
-  }
-  // Nếu confirm bị lock (từ lần fail trước) -> từ chối
-  if(subConfirmLocked){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote1);
+    showFailState(btnConfirmSub, gateNote1, 'Bạn chưa đăng ký, vui lòng quay lại đăng ký rồi ấn tiếp tục!');
     return;
   }
-  // Kiểm tra time-gate: nếu quay lại < 2 giây
   if(!checkTimeGate(SUB_START_TIME)){
-    subConfirmLocked = true; // Lock confirm khi fail
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote1);
+    // chưa đủ 5s: reset bộ đếm -> phải quay lại bấm nút đỏ mới đếm lại
+    localStorage.removeItem(SUB_START_TIME);
+    hasClickedSubscribe = false;
+    showFailState(btnConfirmSub, gateNote1, 'Bạn chưa đăng ký, vui lòng quay lại đăng ký rồi ấn tiếp tục!');
     return;
   }
+  btnConfirmSub.classList.remove("fail");
   gateSet(SUB_KEY);
   stepDot1.classList.add("done"); stepDot1.classList.remove("active");
   stepDot2.classList.add("active"); stepDot2.classList.remove("done");
@@ -507,8 +513,8 @@ btnConfirmSub.addEventListener("click", ()=>{
 // Logic Bước 2: Like video
 btnLikeVideo.addEventListener("click", ()=>{
   hasClickedLike = true;
-  likeConfirmLocked = false; // Reset lock khi click nút like mới
-  startTimer(LIKE_START_TIME); // Bắt đầu đếm 2 giây
+  btnConfirmLike.classList.remove("fail"); // reset lỗi khi bấm lại nút đỏ
+  startTimer(LIKE_START_TIME);             // bắt đầu đếm 5 giây
   btnLikeVideo.classList.add("liked");
   btnConfirmLike.disabled = false;
   gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để tiếp tục vào web.';
@@ -516,21 +522,17 @@ btnLikeVideo.addEventListener("click", ()=>{
 
 btnConfirmLike.addEventListener("click", ()=>{
   if(!hasClickedLike){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!'; return;
-  }
-  // Nếu confirm bị lock (từ lần fail trước) -> từ chối
-  if(likeConfirmLocked){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote2);
+    showFailState(btnConfirmLike, gateNote2, 'Bạn chưa like, vui lòng quay lại like rồi ấn tiếp tục!');
     return;
   }
-  // Kiểm tra time-gate: nếu quay lại < 2 giây
   if(!checkTimeGate(LIKE_START_TIME)){
-    likeConfirmLocked = true; // Lock confirm khi fail
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote2);
+    // chưa đủ 5s: reset bộ đếm -> phải quay lại bấm nút đỏ mới đếm lại
+    localStorage.removeItem(LIKE_START_TIME);
+    hasClickedLike = false;
+    showFailState(btnConfirmLike, gateNote2, 'Bạn chưa like, vui lòng quay lại like rồi ấn tiếp tục!');
     return;
   }
+  btnConfirmLike.classList.remove("fail");
   gateSet(LIKE_KEY); 
   stepDot2.classList.add("done"); stepDot2.classList.remove("active");
   subGate.classList.remove("active"); 
@@ -553,11 +555,8 @@ async function fetchPosts(){
         headers: { "X-Bin-Meta": "false" },
         cache: "no-store" 
     });
-    
     if(!res.ok) throw new Error("Server trả mã " + res.status);
-    
     const data = await res.json();
-    
     if(Array.isArray(data)){
         posts = data;
     } else if (data && Array.isArray(data.posts)) {
@@ -565,7 +564,6 @@ async function fetchPosts(){
     } else {
         posts = []; 
     }
-
     renderPosts();
   }catch(e){
     console.error("fetchPosts lỗi:", e);
