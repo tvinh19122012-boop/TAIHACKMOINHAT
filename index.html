@@ -38,7 +38,7 @@ body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-t
   -ms-user-select: text !important; user-select: text !important;
 }
 button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
-.btn-youtube, .btn-confirm, .btn-telegram {
+.btn-youtube, .btn-confirm, .btn-telegram, .btn-skip {
   -webkit-user-select: none !important; -moz-user-select: none !important;
   -ms-user-select: none !important; user-select: none !important;
 }
@@ -267,6 +267,29 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .btn-telegram:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(41,182,246,.5)}
 .btn-telegram:active{transform:translateY(0) scale(.98)}
 .btn-telegram.joined{border-color:rgba(125,249,214,.5);background:linear-gradient(180deg,#22c55e,#15803d);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 6px 22px rgba(34,197,94,.35)}
+.req-badge{
+  display:inline-flex;align-items:center;gap:7px;margin:0 auto 14px;padding:7px 16px;border-radius:999px;
+  font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;
+}
+.req-badge.must{color:#fff;background:linear-gradient(180deg,#ff4d4d,#cc0000);box-shadow:0 4px 16px rgba(255,77,77,.35)}
+.req-badge.opt{color:var(--tg);background:rgba(41,182,246,.12);border:1px dashed rgba(41,182,246,.55)}
+.req-rule{
+  margin:0 0 18px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:700;line-height:1.55;
+  color:var(--txt);text-align:center;
+}
+.req-rule.must{background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.35)}
+.req-rule.must b{color:#ff8a8a}
+.req-rule.opt{background:rgba(41,182,246,.08);border:1px solid rgba(41,182,246,.3)}
+.req-rule.opt b{color:var(--tg)}
+.step-dot.must{border-color:rgba(255,77,77,.3)}
+.step-dot.opt{border-style:dashed}
+.btn-skip{
+  padding:13px 24px;border-radius:16px;font-weight:800;font-size:14px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  color:var(--txt-2);background:var(--glass);border:1px solid var(--bd);transition:all .25s var(--ease);
+}
+.btn-skip:hover{color:var(--txt);border-color:var(--bd-hi);background:var(--glass-2);transform:translateY(-2px)}
+.btn-skip.joined{color:#052e12;border-color:rgba(125,249,214,.45);background:linear-gradient(180deg,#7df9d6,#22c55e);font-size:15px;font-weight:900}
 .tg-banner{
   display:inline-block;margin:0 0 18px;padding:10px 16px;border-radius:14px;font-weight:900;
   font-size:clamp(15px,4.2vw,18px);line-height:1.4;color:var(--gold);letter-spacing:.2px;
@@ -329,14 +352,16 @@ img{content-visibility:auto}
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Đăng ký kênh</span></div>
-      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>Like video</span></div>
-      <div class="step-dot tg" id="stepDot3"><i class="fa-brands fa-telegram-plane"></i> <span>Vào box</span></div>
+      <div class="step-dot must" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Đăng ký kênh</span></div>
+      <div class="step-dot must" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>Like video</span></div>
+      <div class="step-dot tg opt" id="stepDot3"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram (tuỳ chọn)</span></div>
     </div>
     
     <div class="gate-step active" id="gateStep1">
       <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
+      <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
       <h2>Bước 1: Đăng ký kênh</h2>
+      <div class="req-rule must">⚠️ <b>Phải ĐĂNG KÝ kênh</b> mới qua được bước tiếp theo.</div>
       <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
       <div class="sub-gate-actions">
         <a href="https://youtube.com/@sikefake?si=c5dm3nD3DFln-Pme" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay</a>
@@ -349,7 +374,9 @@ img{content-visibility:auto}
       <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
         <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
       </div>
+      <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
       <h2>Bước 2: Like video</h2>
+      <div class="req-rule must">⚠️ <b>Phải LIKE video</b> mới vào được web.</div>
       <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để hoàn tất.</p>
       
       <div class="video-card">
@@ -374,14 +401,15 @@ img{content-visibility:auto}
       <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(41,182,246,.35),rgba(41,182,246,.05));border-color:rgba(41,182,246,.45);box-shadow:0 0 40px rgba(41,182,246,.25)">
         <i class="fa-brands fa-telegram-plane" style="color:var(--tg)"></i>
       </div>
-      <h2>Bước 3: Gia nhập box Telegram</h2>
+      <div class="req-badge opt"><i class="fa-solid fa-unlock"></i> Không bắt buộc</div>
+      <h2>Bước 3: Box Telegram</h2>
       <p class="tg-banner"><i class="fa-solid fa-hand-point-down"></i> Vào Box Hoặc Không Ấn Xong Quay Lại</p>
-      <p class="sub-gate-sub">Bấm nút xanh bên dưới để <span class="big-word tg"><i class="fa-brands fa-telegram-plane"></i> VÀO BOX</span> Telegram, xong quay lại đây bấm tiếp tục.</p>
+      <div class="req-rule opt">✅ <b>Vào hay không tuỳ bạn</b> — không vào vẫn xem web bình thường.<br>Vào box để nhận key, link tải mới nhất sớm nhất.</div>
       <div class="sub-gate-actions">
         <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-telegram" id="btnJoinTele"><i class="fa-brands fa-telegram-plane"></i> Vào box Telegram ngay</a>
-        <button class="btn-confirm" id="btnConfirmTele" disabled><i class="fa-solid fa-circle-check"></i> Xong, vào web</button>
+        <button class="btn-skip" id="btnConfirmTele"><i class="fa-solid fa-forward"></i> Không vào, bỏ qua</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote3"><i class="fa-brands fa-telegram-plane" style="color:var(--tg)"></i> Bấm <b>"Vào box Telegram ngay"</b>, sau đó quay lại bấm nút vào web.</div>
+      <div class="btn-confirm-note big" id="gateNote3"><i class="fa-brands fa-telegram-plane" style="color:var(--tg)"></i> Muốn vào box thì bấm nút xanh, xong quay lại bấm <b>"Xong, vào web"</b>. Không muốn thì bấm <b>"Không vào, bỏ qua"</b>.</div>
     </div>
   </div>
 </div>
@@ -594,15 +622,14 @@ btnConfirmLike.addEventListener("click", ()=>{
 // Logic Bước 3: Vào box Telegram (KHÔNG check 5 giây)
 btnJoinTele.addEventListener("click", ()=>{
   hasClickedTele = true;
-  btnConfirmTele.disabled = false;
   btnJoinTele.classList.add("joined");
+  btnConfirmTele.classList.add("joined");
+  btnConfirmTele.innerHTML = '<i class="fa-solid fa-circle-check"></i> Xong, vào web';
   gateNote3.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Xong rồi thì bấm "Xong, vào web" nhé!';
 });
 
 btnConfirmTele.addEventListener("click", ()=>{
-  if(!hasClickedTele){
-    gateNote3.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Vào box Telegram ngay" trước!'; return;
-  }
+  // Telegram không bắt buộc: vào hoặc bỏ qua đều cho qua
   gateSet(TELE_KEY);
   setDot(stepDot3,"done");
   subGate.classList.remove("active");
