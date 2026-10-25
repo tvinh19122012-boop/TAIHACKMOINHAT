@@ -9,8 +9,8 @@
 <style>
   /* === CÀI ĐẶT CHUNG (NEO-BRUTALISM) === */
   :root {
-    --bg-color: #f0f6fa; /* Xanh nhạt */
-    --blue-main: #6bc5ff; /* Xanh dương nhạt */
+    --bg-color: #f0f6fa;
+    --blue-main: #6bc5ff;
     --blue-dark: #4a9fd8;
     --black: #000000;
     --white: #ffffff;
@@ -28,7 +28,6 @@
     font-family: var(--font);
     line-height: 1.5;
     overflow-x: hidden;
-    /* Họa tiết lưới mờ phía sau */
     background-image: 
       linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
@@ -107,7 +106,6 @@
     color: #333;
   }
 
-  /* Nút to (Hero Buttons) */
   .btn-hero-main {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     background: var(--black);
@@ -143,7 +141,7 @@
   .btn-hero-sub:hover { background: #f9f9f9; transform: translateY(-2px); box-shadow: 6px 6px 0px var(--black); }
   .btn-hero-sub:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--black); }
 
-  /* === WINDOW CARD (Khung cửa sổ) === */
+  /* === WINDOW CARD === */
   .window-card {
     background: var(--white);
     border: var(--border-w) solid var(--black);
@@ -177,7 +175,6 @@
   .step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .step-title { font-size: 18px; font-weight: 900; text-transform: uppercase; }
   
-  /* Khung chứa nút */
   .action-box { display: flex; flex-direction: column; gap: 15px; }
   
   .btn-main-action {
@@ -223,11 +220,9 @@
   .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
   @keyframes fadeIn { from{opacity:0} to{opacity:1} }
   
-  /* Ẩn các bước Gate */
   .gate-step { display: none; }
   .gate-step.active { display: block; }
 
-  /* Ảnh Video Thumb */
   .video-card {
     display: flex; gap: 15px; padding: 10px; border: 2px solid var(--black); border-radius: 12px;
     background: #f9f9f9; margin-bottom: 20px; align-items: center;
@@ -235,7 +230,6 @@
   .video-thumb { width: 100px; height: 60px; background: #ddd; border: 2px solid var(--black); border-radius: 8px; object-fit: cover; }
   .video-title { font-size: 14px; font-weight: 800; line-height: 1.3; }
 
-  /* Nút bỏ qua to */
   .btn-skip-big {
     width: 100%; padding: 18px; background: #ffd60a; border: var(--border-w) solid var(--black);
     border-radius: 12px; font-size: 16px; font-weight: 900; text-transform: uppercase;
@@ -244,13 +238,11 @@
   .btn-skip-big:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 var(--black); }
   .btn-skip-big:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--black); }
 
-  /* Khối Lines */
   .hack-lines {
     background: #e5f5ff; border: 2px dashed var(--black); border-radius: 12px;
     padding: 15px; margin-bottom: 20px; font-weight: 800; text-align: center; font-size: 15px;
   }
   
-  /* Nút Box Telegram */
   .btn-box-tg {
     background: var(--blue-main); color: var(--black);
     border: var(--border-w) solid var(--black); border-radius: 12px;
@@ -263,7 +255,6 @@
   
   .note-text { font-size: 13px; font-weight: 700; text-align: center; margin-top: 10px; }
 
-  /* Bài viết bên ngoài */
   .post-card {
     background: var(--white); border: var(--border-w) solid var(--black);
     border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);
@@ -281,7 +272,6 @@
   .btn-download:hover { filter: brightness(1.05); }
   .btn-download:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--black); }
 
-  /* Custom Scrollbar */
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: var(--bg-color); border-left: 2px solid var(--black); }
   ::-webkit-scrollbar-thumb { background: var(--black); }
@@ -325,7 +315,6 @@
 
   <!-- CTA BUTTONS -->
   <button class="btn-hero-main" onclick="openGate()">XEM BÀI VIẾT <i class="fa-solid fa-arrow-down"></i></button>
-  <!-- Đã gắn link Telegram vào nút Tham gia cộng đồng -->
   <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-hero-sub">THAM GIA CỘNG ĐỒNG <i class="fa-solid fa-users"></i></a>
 
   <!-- WINDOW CARD -->
@@ -344,7 +333,6 @@
         <div class="status-badge online" style="border: 2px solid var(--black); background: var(--white); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; box-shadow: 2px 2px 0 var(--black); display: inline-flex; align-items: center; gap: 6px;"><i class="fa-solid fa-circle" style="color: #27c93f;"></i> LIVE</div>
       </div>
       
-      <!-- Khu vực bài viết load từ API -->
       <div id="postsContainer">
         <div style="text-align: center; font-weight: 800; padding: 20px;">Đang tải dữ liệu...</div>
       </div>
@@ -380,7 +368,7 @@
       <!-- BƯỚC 2 -->
       <div class="gate-step" id="gateStep2">
         <div class="step-title" style="margin-bottom: 10px;">BƯỚC 2: LIKE VIDEO</div>
-        <p style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Hãy like video dưới đây để hoàn tất.</p>
+        <p style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Hãy like video dưới đây để hoàn tất xác minh.</p>
         
         <div class="video-card">
           <img src="https://i.ytimg.com/vi/oVt8K_HwzY4/hqdefault.jpg" class="video-thumb">
@@ -448,10 +436,50 @@
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 const GATE_TTL_MS = 15 * 60 * 1000;
 
-const SUB_KEY = "ytSub_v4"; const LIKE_KEY = "ytLike_v4"; const TELE_KEY = "tele_v4";
-const SUB_START = "subStart_v4"; const LIKE_START = "likeStart_v4";
-const TIMEOUT = 5000; // 5 giây chờ
+const SUB_KEY = "ytSub_v6"; 
+const LIKE_KEY = "ytLike_v6"; 
+const TELE_KEY = "tele_v6";
 
+// Thời gian chờ ngầm ngoài web (Ẩn hoàn toàn với người dùng)
+const SUB_TIMEOUT = 3000;  // 3s ngầm cho Sub
+const LIKE_TIMEOUT = 3000; // 3s ngầm cho Like
+
+/* --- HỆ THỐNG ĐẾM THỜI GIAN KHI RỜI WEB --- */
+let activeGateTarget = null;
+let outsideSubMs = 0;
+let outsideLikeMs = 0;
+let leaveTime = null;
+let isAway = false;
+
+function onUserLeave() {
+  if (!isAway && activeGateTarget) {
+    isAway = true;
+    leaveTime = Date.now();
+  }
+}
+
+function onUserReturn() {
+  if (isAway && leaveTime && activeGateTarget) {
+    const elapsed = Date.now() - leaveTime;
+    if (activeGateTarget === 'sub') {
+      outsideSubMs += elapsed;
+    } else if (activeGateTarget === 'like') {
+      outsideLikeMs += elapsed;
+    }
+    isAway = false;
+    leaveTime = null;
+  }
+}
+
+// Bắt sự kiện rời tab hoặc chuyển sang ứng dụng khác
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) onUserLeave();
+  else onUserReturn();
+});
+window.addEventListener("blur", onUserLeave);
+window.addEventListener("focus", onUserReturn);
+
+/* --- QUẢN LÝ TRẠNG THÁI GATE --- */
 const gateMem = {};
 function gateGet(key) {
   let exp = gateMem[key] || 0;
@@ -463,29 +491,20 @@ function gateSet(key) {
   gateMem[key] = exp;
   try { localStorage.setItem(key, String(exp)); } catch(e) {}
 }
-function startTimer(key) { try { localStorage.setItem(key, Date.now().toString()); } catch(e){} }
-function checkTimeGate(key) {
-  let stored; try { stored = localStorage.getItem(key); } catch(e){}
-  if(!stored) return false;
-  return (Date.now() - parseInt(stored)) >= TIMEOUT;
-}
 
 let posts = [];
 const $ = id => document.getElementById(id);
 
-// Khởi tạo
 document.addEventListener("DOMContentLoaded", () => {
   fetchPosts();
   checkGate();
   setupGateLogic();
 });
 
-// --- HÀM MỞ/ĐÓNG MODAL ---
 function openGate() { $("gateOverlay").classList.add("active"); }
 function closeGate() { $("gateOverlay").classList.remove("active"); }
 function closeModal() { $("downloadModal").classList.remove("active"); }
 
-// --- KIỂM TRA TRẠNG THÁI GATE ---
 function checkGate() {
   const subDone = gateGet(SUB_KEY);
   const likeDone = gateGet(LIKE_KEY);
@@ -509,11 +528,12 @@ function showStep(n) {
 // --- SETUP SỰ KIỆN GATE ---
 function setupGateLogic() {
   const btnSub = $("btnSubscribe"), btnConfSub = $("btnConfirmSub"), note1 = $("gateNote1");
-  let clickedSub = false, lockSub = false;
+  let clickedSub = false;
 
   btnSub.addEventListener("click", () => {
-    clickedSub = true; lockSub = false;
-    startTimer(SUB_START);
+    clickedSub = true;
+    activeGateTarget = 'sub';
+    outsideSubMs = 0;
     btnConfSub.disabled = false;
     note1.innerHTML = "Bây giờ bấm 'Tôi đã đăng ký' để tiếp tục.";
     note1.style.color = "var(--blue-main)";
@@ -521,21 +541,25 @@ function setupGateLogic() {
 
   btnConfSub.addEventListener("click", () => {
     if (!clickedSub) return;
-    if (!checkTimeGate(SUB_START)) {
-      note1.innerHTML = "Bạn chưa đăng ký hoặc thao tác quá nhanh!";
+
+    if (outsideSubMs < SUB_TIMEOUT) {
+      note1.innerHTML = "Hệ thống chưa ghi nhận bạn đã đăng ký hoặc bạn thao tác quá nhanh!";
       note1.style.color = "red";
       return;
     }
+
     gateSet(SUB_KEY);
+    activeGateTarget = null;
     showStep(2);
   });
 
   const btnLike = $("btnLikeVideo"), btnConfLike = $("btnConfirmLike"), note2 = $("gateNote2");
-  let clickedLike = false, lockLike = false;
+  let clickedLike = false;
 
   btnLike.addEventListener("click", () => {
-    clickedLike = true; lockLike = false;
-    startTimer(LIKE_START);
+    clickedLike = true;
+    activeGateTarget = 'like';
+    outsideLikeMs = 0;
     btnConfLike.disabled = false;
     note2.innerHTML = "Bây giờ bấm 'Tôi đã Like' để tiếp tục.";
     note2.style.color = "var(--blue-main)";
@@ -543,12 +567,15 @@ function setupGateLogic() {
 
   btnConfLike.addEventListener("click", () => {
     if (!clickedLike) return;
-    if (!checkTimeGate(LIKE_START)) {
-      note2.innerHTML = "Bạn chưa like hoặc thao tác quá nhanh!";
+
+    if (outsideLikeMs < LIKE_TIMEOUT) {
+      note2.innerHTML = "Hệ thống chưa ghi nhận bạn đã Like hoặc bạn thao tác quá nhanh!";
       note2.style.color = "red";
       return;
     }
+
     gateSet(LIKE_KEY);
+    activeGateTarget = null;
     showStep(3);
   });
 
@@ -629,7 +656,6 @@ $("copyContentBtn").addEventListener("click", async () => {
     setTimeout(() => { btn.innerHTML = oldHtml; }, 2000);
   } catch (e) { alert("Không thể copy, vui lòng copy thủ công."); }
 });
-
 </script>
 </body>
 </html>
