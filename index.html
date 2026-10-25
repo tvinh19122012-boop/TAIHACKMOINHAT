@@ -7,214 +7,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  /* === CÀI ĐẶT CHUNG (NEO-BRUTALISM) === */
   :root {
-    --bg-color: #f0f6fa;
-    --blue-main: #6bc5ff;
-    --blue-dark: #4a9fd8;
-    --black: #000000;
-    --white: #ffffff;
-    --border-w: 3px;
-    --shadow: 4px 4px 0px #000000;
-    --shadow-lg: 8px 8px 0px #000000;
-    --font: 'Inter', sans-serif;
+    --bg: #f0f6fa;
+    --main: #6bc5ff;
+    --dark: #4a9fd8;
+    --black: #000;
+    --white: #fff;
+    --b-w: 3px;
+    --sh: 4px 4px 0px #000;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
   body {
-    background-color: var(--bg-color);
+    background-color: var(--bg);
     color: var(--black);
-    font-family: var(--font);
     line-height: 1.5;
-    overflow-x: hidden;
-    background-image: 
-      linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
     background-size: 30px 30px;
   }
-
   a { text-decoration: none; color: inherit; }
-  
-  /* === HEADER === */
-  .header {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
+
+  /* HEADER & HERO */
+  .header { padding: 20px; display: flex; justify-content: center; }
   .header-box {
-    background: var(--white);
-    border: var(--border-w) solid var(--black);
-    border-radius: 16px;
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    box-shadow: var(--shadow);
+    background: var(--white); border: var(--b-w) solid var(--black);
+    border-radius: 16px; padding: 12px 20px; display: flex;
+    justify-content: space-between; align-items: center; width: 100%; max-width: 800px;
+    box-shadow: var(--sh);
   }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 24px; text-transform: uppercase; }
+  .logo-icon { width: 40px; height: 40px; background: var(--main); border: var(--b-w) solid var(--black); border-radius: 10px; display: flex; justify-content: center; align-items: center; }
 
-  .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 24px; letter-spacing: -1px; text-transform: uppercase; }
-  .logo-icon {
-    width: 40px; height: 40px;
-    background: var(--blue-main);
-    border: var(--border-w) solid var(--black);
-    border-radius: 10px;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 20px; color: var(--black);
+  .hero { padding: 20px; max-width: 800px; margin: 0 auto; }
+  .hero-title { font-size: clamp(38px, 8vw, 65px); font-weight: 900; line-height: 0.95; text-transform: uppercase; margin-bottom: 20px; }
+  .hero-title .blue { color: var(--main); text-shadow: 2px 2px 0 var(--black); -webkit-text-stroke: 2px var(--black); }
+  .hero-desc { font-size: 16px; font-weight: 600; line-height: 1.6; margin-bottom: 25px; color: #333; }
+
+  /* NÚT BẤM */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: var(--b-w) solid var(--black); border-radius: 12px; font-weight: 900;
+    text-transform: uppercase; cursor: pointer; box-shadow: var(--sh); transition: 0.1s;
+    user-select: none;
   }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--black); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: var(--sh); }
+  
+  .btn-main { background: var(--main); color: var(--black); padding: 16px; width: 100%; font-size: 16px; }
+  .btn-sub { background: var(--white); color: var(--black); padding: 15px; width: 100%; font-size: 15px; }
+  .btn-dark { background: var(--black); color: var(--main); padding: 18px 30px; font-size: 18px; width: 100%; max-width: 380px; }
+  .btn-light { background: var(--white); color: var(--black); padding: 16px 30px; font-size: 16px; width: 100%; max-width: 380px; }
 
-  .btn-header {
-    background: var(--blue-main);
-    border: var(--border-w) solid var(--black);
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
-    box-shadow: 2px 2px 0px var(--black);
-    transition: all 0.1s;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .btn-header:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--black); }
-
-  /* === HERO SECTION === */
-  .hero {
-    padding: 30px 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: clamp(40px, 8vw, 65px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -2px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .hero-title .text-blue { color: var(--blue-main); text-shadow: 2px 2px 0 var(--black); -webkit-text-stroke: 2px var(--black); }
-  .hero-title .text-black { color: var(--black); }
-
-  .hero-desc {
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    color: #333;
-  }
-
-  .btn-hero-main {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    background: var(--black);
-    color: var(--blue-main);
-    border: var(--border-w) solid var(--black);
-    padding: 18px 30px;
-    border-radius: 12px;
-    font-size: 18px; font-weight: 900;
-    text-transform: uppercase;
-    box-shadow: var(--shadow);
-    transition: all 0.15s;
-    width: 100%; max-width: 400px;
-    margin-bottom: 15px;
-    cursor: pointer;
-  }
-  .btn-hero-main:hover { background: #111; transform: translateY(-2px); box-shadow: 6px 6px 0px var(--black); }
-  .btn-hero-main:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--black); }
-
-  .btn-hero-sub {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    background: var(--white);
-    color: var(--black);
-    border: var(--border-w) solid var(--black);
-    padding: 16px 30px;
-    border-radius: 12px;
-    font-size: 16px; font-weight: 900;
-    text-transform: uppercase;
-    box-shadow: var(--shadow);
-    transition: all 0.15s;
-    width: 100%; max-width: 400px;
-    cursor: pointer;
-  }
-  .btn-hero-sub:hover { background: #f9f9f9; transform: translateY(-2px); box-shadow: 6px 6px 0px var(--black); }
-  .btn-hero-sub:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px var(--black); }
-
-  /* === WINDOW CARD === */
-  .window-card {
-    background: var(--white);
-    border: var(--border-w) solid var(--black);
-    border-radius: 20px;
-    margin-top: 40px;
-    box-shadow: var(--shadow-lg);
+  /* WINDOW CARD */
+  .window {
+    background: var(--white); border: var(--b-w) solid var(--black);
+    border-radius: 20px; margin-top: 30px; box-shadow: 8px 8px 0 var(--black);
     overflow: hidden;
   }
+  .win-head { background: var(--black); padding: 12px 16px; display: flex; align-items: center; position: relative; }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .win-title { position: absolute; left: 0; right: 0; text-align: center; color: var(--main); font-weight: 700; font-size: 13px; font-family: monospace; }
+  .win-body { padding: 20px; }
 
-  .window-header {
-    background: var(--black);
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  .window-dots { display: flex; gap: 8px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
-  .dot.red { background: #ff5f56; }
-  .dot.yellow { background: #ffbd2e; }
-  .dot.green { background: #27c93f; }
-  
-  .window-title {
-    position: absolute; left: 0; right: 0; text-align: center;
-    color: var(--blue-main); font-weight: 700; font-size: 14px; letter-spacing: 1px;
-    font-family: monospace;
-  }
+  /* POST CARD */
+  .post-card { background: var(--white); border: var(--b-w) solid var(--black); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: var(--sh); }
+  .post-title { font-size: 18px; font-weight: 900; margin-bottom: 12px; text-transform: uppercase; }
 
-  .window-body { padding: 24px; }
-
-  .step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-  .step-title { font-size: 18px; font-weight: 900; text-transform: uppercase; }
-  
-  .action-box { display: flex; flex-direction: column; gap: 15px; }
-  
-  .btn-main-action {
-    background: var(--blue-main);
-    color: var(--black);
-    border: var(--border-w) solid var(--black);
-    padding: 18px;
-    border-radius: 12px;
-    font-weight: 900;
-    font-size: 16px;
-    text-transform: uppercase;
-    display: flex; justify-content: center; align-items: center; gap: 10px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-main-action:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 6px 6px 0 var(--black); }
-  .btn-main-action:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0 var(--black); }
-
-  .btn-sub-action {
-    background: var(--white);
-    color: var(--black);
-    border: var(--border-w) solid var(--black);
-    padding: 16px;
-    border-radius: 12px;
-    font-weight: 900;
-    font-size: 15px;
-    text-transform: uppercase;
-    display: flex; justify-content: center; align-items: center; gap: 10px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-sub-action:hover { background: #f0f0f0; transform: translateY(-2px); box-shadow: 6px 6px 0 var(--black); }
-  .btn-sub-action:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0 var(--black); }
-  .btn-sub-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: var(--shadow); }
-
-  /* Modal Overlay */
+  /* MODALS */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px);
+    position: fixed; inset: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
     display: none; align-items: center; justify-content: center; padding: 20px; z-index: 9999;
   }
   .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
@@ -223,438 +85,313 @@
   .gate-step { display: none; }
   .gate-step.active { display: block; }
 
-  .video-card {
-    display: flex; gap: 15px; padding: 10px; border: 2px solid var(--black); border-radius: 12px;
-    background: #f9f9f9; margin-bottom: 20px; align-items: center;
-  }
-  .video-thumb { width: 100px; height: 60px; background: #ddd; border: 2px solid var(--black); border-radius: 8px; object-fit: cover; }
-  .video-title { font-size: 14px; font-weight: 800; line-height: 1.3; }
-
-  .btn-skip-big {
-    width: 100%; padding: 18px; background: #ffd60a; border: var(--border-w) solid var(--black);
-    border-radius: 12px; font-size: 16px; font-weight: 900; text-transform: uppercase;
-    box-shadow: var(--shadow); margin-bottom: 20px; cursor: pointer; transition: all 0.15s;
-  }
-  .btn-skip-big:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 var(--black); }
-  .btn-skip-big:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--black); }
-
-  .hack-lines {
-    background: #e5f5ff; border: 2px dashed var(--black); border-radius: 12px;
-    padding: 15px; margin-bottom: 20px; font-weight: 800; text-align: center; font-size: 15px;
-  }
-  
-  .btn-box-tg {
-    background: var(--blue-main); color: var(--black);
-    border: var(--border-w) solid var(--black); border-radius: 12px;
-    padding: 18px; font-size: 18px; font-weight: 900; text-transform: uppercase;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    box-shadow: var(--shadow); margin-bottom: 15px;
-    transition: all 0.15s;
-  }
-  .btn-box-tg:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 var(--black); }
+  .video-card { display: flex; gap: 12px; padding: 10px; border: 2px solid var(--black); border-radius: 12px; background: #f9f9f9; margin-bottom: 16px; align-items: center; }
+  .video-thumb { width: 90px; height: 55px; border: 2px solid var(--black); border-radius: 6px; object-fit: cover; }
   
   .note-text { font-size: 13px; font-weight: 700; text-align: center; margin-top: 10px; }
-
-  .post-card {
-    background: var(--white); border: var(--border-w) solid var(--black);
-    border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);
-    transition: transform 0.15s;
-  }
-  .post-card:hover { transform: translateY(-2px); }
-  .post-title { font-size: 20px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; line-height: 1.3; }
-  
-  .btn-download {
-    background: var(--blue-main); border: var(--border-w) solid var(--black);
-    padding: 12px 20px; border-radius: 10px; font-weight: 800; font-size: 15px;
-    box-shadow: 2px 2px 0 var(--black); cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-    transition: all 0.1s;
-  }
-  .btn-download:hover { filter: brightness(1.05); }
-  .btn-download:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--black); }
-
-  ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: var(--bg-color); border-left: 2px solid var(--black); }
-  ::-webkit-scrollbar-thumb { background: var(--black); }
-
-  .modal-close-btn {
-    position: absolute; top: 15px; right: 15px; width: 35px; height: 35px;
+  .modal-close {
+    position: absolute; top: 12px; right: 12px; width: 34px; height: 34px;
     background: var(--white); border: 2px solid var(--black); border-radius: 8px;
-    display: flex; justify-content: center; align-items: center; cursor: pointer;
-    box-shadow: 2px 2px 0 var(--black); font-size: 18px; transition: all 0.1s;
+    display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 16px;
   }
-  .modal-close-btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 var(--black); }
-
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-box">
-    <div class="logo-area">
-      <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
-      Download Hub
+    <div class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div> Hub
     </div>
-    <button class="btn-header">TẢI XUỐNG <i class="fa-solid fa-download"></i></button>
+    <button class="btn" style="background:var(--main); padding:8px 16px; border-radius:10px;">TẢI XUỐNG <i class="fa-solid fa-download"></i></button>
   </div>
 </header>
 
-<!-- MAIN CONTAINER -->
 <main class="hero">
-  
-  <!-- HERO TEXT -->
   <div class="hero-title">
-    <div class="text-black">KHO TÀI</div>
-    <div class="text-blue">NGUYÊN</div>
-    <div class="text-black">MIỄN PHÍ.</div>
+    <div>KHO TÀI</div>
+    <div class="blue">NGUYÊN</div>
+    <div>MIỄN PHÍ.</div>
   </div>
-  
-  <p class="hero-desc">
-    Tổng hợp các liên kết tải xuống phần mềm, công cụ và tài nguyên chất lượng cao. Cập nhật liên tục, tốc độ nhanh, an toàn tuyệt đối.
-  </p>
+  <p class="hero-desc">Tổng hợp liên kết tải công cụ và tài nguyên tốc độ cao, an toàn tuyệt đối.</p>
 
-  <!-- CTA BUTTONS -->
-  <button class="btn-hero-main" onclick="openGate()">XEM BÀI VIẾT <i class="fa-solid fa-arrow-down"></i></button>
-  <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-hero-sub">THAM GIA CỘNG ĐỒNG <i class="fa-solid fa-users"></i></a>
+  <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:30px;">
+    <button class="btn btn-dark" onclick="openGate()">XEM BÀI VIẾT <i class="fa-solid fa-arrow-down"></i></button>
+    <a href="https://t.me/SIKEMODFF" target="_blank" class="btn btn-light">THAM GIA CỘNG ĐỒNG <i class="fa-solid fa-users"></i></a>
+  </div>
 
-  <!-- WINDOW CARD -->
-  <div class="window-card">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div>
-        <div class="dot yellow"></div>
-        <div class="dot green"></div>
-      </div>
-      <div class="window-title">download_hub.exe</div>
+  <div class="window">
+    <div class="win-head">
+      <div class="dots"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span></div>
+      <div class="win-title">download_hub.exe</div>
     </div>
-    <div class="window-body">
-      <div class="step-header">
-        <div class="step-title"><i class="fa-solid fa-list"></i> DANH SÁCH BÀI VIẾT</div>
-        <div class="status-badge online" style="border: 2px solid var(--black); background: var(--white); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; box-shadow: 2px 2px 0 var(--black); display: inline-flex; align-items: center; gap: 6px;"><i class="fa-solid fa-circle" style="color: #27c93f;"></i> LIVE</div>
+    <div class="win-body">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-weight:900; text-transform:uppercase;"><i class="fa-solid fa-list"></i> DANH SÁCH BÀI VIẾT</span>
+        <span style="font-size:12px; font-weight:800; border:2px solid #000; padding:4px 8px; border-radius:6px; background:#fff;"><i class="fa-solid fa-circle" style="color:#27c93f"></i> LIVE</span>
       </div>
-      
-      <div id="postsContainer">
-        <div style="text-align: center; font-weight: 800; padding: 20px;">Đang tải dữ liệu...</div>
-      </div>
-
+      <div id="postsContainer"><div style="text-align:center; font-weight:800; padding:20px;">Đang tải dữ liệu...</div></div>
     </div>
   </div>
 </main>
 
-<!-- ========================================== -->
-<!-- CỔNG CHẶN 3 BƯỚC (GATE) -->
-<!-- ========================================== -->
+<!-- MODAL CỔNG CHẶN -->
 <div class="modal-overlay" id="gateOverlay">
-  <div class="window-card" style="max-width: 500px; width: 100%; margin-top: 0;">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
-      </div>
-      <div class="window-title" style="color:#fff">verification</div>
+  <div class="window" style="max-width:480px; width:100%; margin-top:0;">
+    <div class="win-head">
+      <div class="dots"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span></div>
+      <div class="win-title" style="color:#fff">verification</div>
     </div>
-    <div class="window-body">
-      
+    <div class="win-body">
       <!-- BƯỚC 1 -->
-      <div class="gate-step active" id="gateStep1">
-        <div class="step-title" style="margin-bottom: 10px;">BƯỚC 1: ĐĂNG KÝ KÊNH</div>
-        <p style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Bấm nút bên dưới để đăng ký kênh YouTube của chúng tôi.</p>
-        <div class="action-box">
-          <a href="https://youtube.com/@sikecotuat" target="_blank" class="btn-main-action" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký ngay</a>
-          <button class="btn-sub-action" id="btnConfirmSub" disabled><i class="fa-solid fa-check"></i> Tôi đã đăng ký</button>
+      <div class="gate-step" id="gateStep1">
+        <h4 style="font-weight:900; margin-bottom:8px;">BƯỚC 1: ĐĂNG KÝ KÊNH</h4>
+        <p style="font-size:14px; font-weight:600; margin-bottom:15px; color:#444;">Bấm đăng ký kênh để mở khóa nội dung.</p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="https://youtube.com/@sikecotuat" target="_blank" class="btn btn-main" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký ngay</a>
+          <button class="btn btn-sub" id="btnConfirmSub" disabled><i class="fa-solid fa-check"></i> Tôi đã đăng ký</button>
         </div>
-        <div class="note-text" id="gateNote1" style="color: #666;">Bấm "Đăng ký ngay" trước, sau đó quay lại đây.</div>
+        <div class="note-text" id="gateNote1" style="color:#666;">Bấm "Đăng ký ngay" để bắt đầu.</div>
       </div>
 
       <!-- BƯỚC 2 -->
       <div class="gate-step" id="gateStep2">
-        <div class="step-title" style="margin-bottom: 10px;">BƯỚC 2: LIKE VIDEO</div>
-        <p style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Hãy like video dưới đây để hoàn tất xác minh.</p>
-        
+        <h4 style="font-weight:900; margin-bottom:8px;">BƯỚC 2: LIKE VIDEO</h4>
+        <p style="font-size:14px; font-weight:600; margin-bottom:12px; color:#444;">Hãy Like video dưới đây để tiếp tục.</p>
         <div class="video-card">
           <img src="https://i.ytimg.com/vi/oVt8K_HwzY4/hqdefault.jpg" class="video-thumb">
-          <div class="video-title">Video cần like để tiếp tục vào web</div>
+          <span style="font-size:13px; font-weight:800;">Video mở khoá liên kết</span>
         </div>
-
-        <div class="action-box">
-          <a href="https://youtu.be/oVt8K_HwzY4" target="_blank" class="btn-main-action" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like</a>
-          <button class="btn-sub-action" id="btnConfirmLike" disabled><i class="fa-solid fa-check"></i> Tôi đã Like</button>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="https://youtu.be/oVt8K_HwzY4" target="_blank" class="btn btn-main" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like</a>
+          <button class="btn btn-sub" id="btnConfirmLike" disabled><i class="fa-solid fa-check"></i> Tôi đã Like</button>
         </div>
-        <div class="note-text" id="gateNote2" style="color: #666;">Bấm "Mở video & Like", sau đó quay lại đây.</div>
+        <div class="note-text" id="gateNote2" style="color:#666;">Bấm "Mở video & Like" để bắt đầu.</div>
       </div>
 
       <!-- BƯỚC 3 -->
       <div class="gate-step" id="gateStep3">
-        <button class="btn-skip-big" id="btnSkipBox"><i class="fa-solid fa-forward"></i> Bỏ qua, vào web luôn</button>
-        
-        <div class="hack-lines">
-          Vào box nhận hack no vượt<br>
-          Nhận ngay khi tham gia Box Telegram
+        <button class="btn" style="background:#ffd60a; padding:16px; width:100%; margin-bottom:15px;" id="btnSkipBox">
+          <i class="fa-solid fa-forward"></i> Bỏ qua, vào web luôn
+        </button>
+        <div style="background:#e5f5ff; border:2px dashed var(--black); border-radius:10px; padding:12px; margin-bottom:15px; font-weight:800; text-align:center; font-size:14px;">
+          Tham gia Box Telegram để nhận hỗ trợ nhanh nhất
         </div>
-
-        <a href="https://t.me/SIKEMODFF" target="_blank" class="btn-box-tg">
+        <a href="https://t.me/SIKEMODFF" target="_blank" class="btn btn-main" style="margin-bottom:10px;">
           <i class="fa-brands fa-telegram"></i> Box Telegram
         </a>
-        <div class="note-text">Vào xong quay lại bấm nút vàng ở trên.</div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL XEM LINK TẢI XUỐNG -->
-<!-- ========================================== -->
+<!-- MODAL TẢI LINK -->
 <div class="modal-overlay" id="downloadModal">
-  <div class="window-card" style="max-width: 600px; width: 100%; margin-top: 0;">
-    <div class="window-header">
-      <div class="window-dots">
-        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
-      </div>
-      <div class="window-title">download_link.exe</div>
+  <div class="window" style="max-width:550px; width:100%; margin-top:0;">
+    <div class="win-head">
+      <div class="dots"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span></div>
+      <div class="win-title">download_link.exe</div>
     </div>
-    <div class="window-body" style="position: relative;">
-      <button class="modal-close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-      
-      <h3 id="modalTitle" style="font-size: 22px; font-weight: 900; margin-bottom: 15px; padding-right: 30px; text-transform: uppercase;">Tiêu đề</h3>
-      <div id="modalContent" style="font-size: 15px; font-weight: 600; line-height: 1.6; margin-bottom: 20px; word-break: break-all; background: #f9f9f9; border: 2px solid #ccc; padding: 15px; border-radius: 8px;">
-        Nội dung link...
-      </div>
-      
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button id="copyContentBtn" class="btn-sub-action" style="flex: 1;"><i class="fa-solid fa-copy"></i> Copy Link</button>
-        <a id="modalDownloadBtn" href="#" target="_blank" class="btn-main-action" style="flex: 1; display: none; text-decoration: none;"><i class="fa-solid fa-download"></i> Tải Ngay</a>
+    <div class="win-body" style="position:relative;">
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="modalTitle" style="font-size:18px; font-weight:900; margin-bottom:12px; padding-right:30px;"></h3>
+      <div id="modalContent" style="font-size:14px; font-weight:600; line-height:1.6; margin-bottom:15px; word-break:break-all; background:#f9f9f9; border:2px solid #ddd; padding:12px; border-radius:8px;"></div>
+      <div style="display:flex; gap:10px;">
+        <button id="copyBtn" class="btn btn-sub" style="flex:1;"><i class="fa-solid fa-copy"></i> Copy Link</button>
+        <a id="modalDlBtn" href="#" target="_blank" class="btn btn-main" style="flex:1; display:none;"><i class="fa-solid fa-download"></i> Tải Ngay</a>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* ========================================== */
-/* LOGIC CỔNG CHẶN (GATE) & FETCH API         */
-/* ========================================== */
-
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
-const GATE_TTL_MS = 15 * 60 * 1000;
+const GATE_TTL = 15 * 60 * 1000;
+const REQ_TIME = 3000; // Yêu cầu ở ngoài web (chạy ngầm, không hiện ra ngoài)
 
-const SUB_KEY = "ytSub_v6"; 
-const LIKE_KEY = "ytLike_v6"; 
-const TELE_KEY = "tele_v6";
+const $ = id => document.getElementById(id);
+let posts = [];
 
-// Thời gian chờ ngầm ngoài web (Ẩn hoàn toàn với người dùng)
-const SUB_TIMEOUT = 3000;  // 3s ngầm cho Sub
-const LIKE_TIMEOUT = 3000; // 3s ngầm cho Like
-
-/* --- HỆ THỐNG ĐẾM THỜI GIAN KHI RỜI WEB --- */
-let activeGateTarget = null;
-let outsideSubMs = 0;
-let outsideLikeMs = 0;
+/* --- BỘ ĐẾM THỜI GIAN NGẦM: DỪNG VÀ CỘNG DỒN --- */
+let activeTarget = null;
 let leaveTime = null;
-let isAway = false;
 
-function onUserLeave() {
-  if (!isAway && activeGateTarget) {
-    isAway = true;
+function getAccTime(key) {
+  return parseInt(localStorage.getItem('acc_' + key) || "0", 10);
+}
+
+function setAccTime(key, val) {
+  localStorage.setItem('acc_' + key, val);
+}
+
+// Khi rời web sang YouTube -> bấm giờ ngầm
+function handleUserLeave() {
+  if (activeTarget && !leaveTime) {
     leaveTime = Date.now();
   }
 }
 
-function onUserReturn() {
-  if (isAway && leaveTime && activeGateTarget) {
+// Khi quay lại web -> tạm dừng và lưu lại thời gian đã ở ngoài
+function handleUserReturn() {
+  if (activeTarget && leaveTime) {
     const elapsed = Date.now() - leaveTime;
-    if (activeGateTarget === 'sub') {
-      outsideSubMs += elapsed;
-    } else if (activeGateTarget === 'like') {
-      outsideLikeMs += elapsed;
-    }
-    isAway = false;
-    leaveTime = null;
+    const current = getAccTime(activeTarget);
+    setAccTime(activeTarget, current + elapsed);
+    leaveTime = null; 
   }
 }
 
-// Bắt sự kiện rời tab hoặc chuyển sang ứng dụng khác
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) onUserLeave();
-  else onUserReturn();
+  if (document.hidden) handleUserLeave();
+  else handleUserReturn();
 });
-window.addEventListener("blur", onUserLeave);
-window.addEventListener("focus", onUserReturn);
+window.addEventListener("blur", handleUserLeave);
+window.addEventListener("focus", handleUserReturn);
 
-/* --- QUẢN LÝ TRẠNG THÁI GATE --- */
-const gateMem = {};
-function gateGet(key) {
-  let exp = gateMem[key] || 0;
-  try { exp = Math.max(exp, parseInt(localStorage.getItem(key), 10) || 0); } catch(e) {}
-  return exp > Date.now();
+/* --- QUẢN LÝ GATE --- */
+function gatePass(key) {
+  return (parseInt(localStorage.getItem(key) || 0, 10)) > Date.now();
 }
 function gateSet(key) {
-  const exp = Date.now() + GATE_TTL_MS;
-  gateMem[key] = exp;
-  try { localStorage.setItem(key, String(exp)); } catch(e) {}
+  localStorage.setItem(key, Date.now() + GATE_TTL);
 }
 
-let posts = [];
-const $ = id => document.getElementById(id);
-
-document.addEventListener("DOMContentLoaded", () => {
-  fetchPosts();
-  checkGate();
-  setupGateLogic();
-});
-
-function openGate() { $("gateOverlay").classList.add("active"); }
-function closeGate() { $("gateOverlay").classList.remove("active"); }
-function closeModal() { $("downloadModal").classList.remove("active"); }
-
 function checkGate() {
-  const subDone = gateGet(SUB_KEY);
-  const likeDone = gateGet(LIKE_KEY);
-  const teleDone = gateGet(TELE_KEY);
-
-  if (subDone && likeDone && teleDone) {
+  if (gatePass('sub_ok') && gatePass('like_ok') && gatePass('tele_ok')) {
     closeGate();
   } else {
     openGate();
-    if (!subDone) showStep(1);
-    else if (!likeDone) showStep(2);
+    if (!gatePass('sub_ok')) showStep(1);
+    else if (!gatePass('like_ok')) showStep(2);
     else showStep(3);
   }
 }
 
 function showStep(n) {
-  document.querySelectorAll('.gate-step').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.gate-step').forEach(e => e.classList.remove('active'));
   $(`gateStep${n}`).classList.add('active');
 }
 
-// --- SETUP SỰ KIỆN GATE ---
-function setupGateLogic() {
-  const btnSub = $("btnSubscribe"), btnConfSub = $("btnConfirmSub"), note1 = $("gateNote1");
-  let clickedSub = false;
+function openGate() { $("gateOverlay").classList.add("active"); }
+function closeGate() { $("gateOverlay").classList.remove("active"); }
+function closeModal() { $("downloadModal").classList.remove("active"); }
 
+/* --- XỬ LÝ NÚT BẤM (HOÀN TOÀN ẨN THỜI GIAN) --- */
+function setupGate() {
+  // Bước 1: Subscribe
+  const btnSub = $("btnSubscribe"), btnConfSub = $("btnConfirmSub"), note1 = $("gateNote1");
   btnSub.addEventListener("click", () => {
-    clickedSub = true;
-    activeGateTarget = 'sub';
-    outsideSubMs = 0;
+    activeTarget = 'sub';
     btnConfSub.disabled = false;
-    note1.innerHTML = "Bây giờ bấm 'Tôi đã đăng ký' để tiếp tục.";
-    note1.style.color = "var(--blue-main)";
+    note1.innerHTML = "Sau khi hoàn thành, hãy bấm xác nhận bên dưới.";
+    note1.style.color = "var(--dark)";
   });
 
   btnConfSub.addEventListener("click", () => {
-    if (!clickedSub) return;
-
-    if (outsideSubMs < SUB_TIMEOUT) {
-      note1.innerHTML = "Hệ thống chưa ghi nhận bạn đã đăng ký hoặc bạn thao tác quá nhanh!";
+    const acc = getAccTime('sub');
+    if (acc < REQ_TIME) {
+      // Thông báo tự nhiên, không lộ giây
+      note1.innerHTML = "Hệ thống chưa ghi nhận bạn đã đăng ký hoặc thao tác quá nhanh! Vui lòng bấm vào lại link.";
       note1.style.color = "red";
       return;
     }
-
-    gateSet(SUB_KEY);
-    activeGateTarget = null;
+    gateSet('sub_ok');
+    localStorage.removeItem('acc_sub');
+    activeTarget = null;
     showStep(2);
   });
 
+  // Bước 2: Like
   const btnLike = $("btnLikeVideo"), btnConfLike = $("btnConfirmLike"), note2 = $("gateNote2");
-  let clickedLike = false;
-
   btnLike.addEventListener("click", () => {
-    clickedLike = true;
-    activeGateTarget = 'like';
-    outsideLikeMs = 0;
+    activeTarget = 'like';
     btnConfLike.disabled = false;
-    note2.innerHTML = "Bây giờ bấm 'Tôi đã Like' để tiếp tục.";
-    note2.style.color = "var(--blue-main)";
+    note2.innerHTML = "Sau khi hoàn thành, hãy bấm xác nhận bên dưới.";
+    note2.style.color = "var(--dark)";
   });
 
   btnConfLike.addEventListener("click", () => {
-    if (!clickedLike) return;
-
-    if (outsideLikeMs < LIKE_TIMEOUT) {
-      note2.innerHTML = "Hệ thống chưa ghi nhận bạn đã Like hoặc bạn thao tác quá nhanh!";
+    const acc = getAccTime('like');
+    if (acc < REQ_TIME) {
+      // Thông báo tự nhiên, không lộ giây
+      note2.innerHTML = "Hệ thống chưa ghi nhận bạn đã Like! Vui lòng bấm vào lại video.";
       note2.style.color = "red";
       return;
     }
-
-    gateSet(LIKE_KEY);
-    activeGateTarget = null;
+    gateSet('like_ok');
+    localStorage.removeItem('acc_like');
+    activeTarget = null;
     showStep(3);
   });
 
+  // Bước 3: Box Telegram
   $("btnSkipBox").addEventListener("click", () => {
-    gateSet(TELE_KEY);
+    gateSet('tele_ok');
     closeGate();
   });
 }
 
-// --- FETCH & RENDER BÀI VIẾT ---
+/* --- TẢI BÀI VIẾT --- */
 async function fetchPosts() {
   const container = $("postsContainer");
   try {
     const res = await fetch(BIN_URL, { headers: { "X-Bin-Meta": "false" }, cache: "no-store" });
-    if (!res.ok) throw new Error("Lỗi mạng");
-    
     const data = await res.json();
     posts = Array.isArray(data) ? data : (data.posts || []);
     
-    if (posts.length === 0) {
-      container.innerHTML = `<div style="text-align:center;font-weight:800;padding:20px;">Chưa có bài viết.</div>`;
+    if (!posts.length) {
+      container.innerHTML = `<div style="text-align:center;font-weight:800;padding:15px;">Chưa có bài viết nào.</div>`;
       return;
     }
 
     container.innerHTML = posts.map(p => `
       <div class="post-card">
         <div class="post-title">${escapeHtml(p.title)}</div>
-        <div style="display: flex; justify-content: flex-end;">
-          <button class="btn-download" onclick="openDownloadModal(${p.id})">
+        <div style="display:flex; justify-content:flex-end;">
+          <button class="btn" style="background:var(--main); padding:10px 16px; border-radius:8px; font-size:14px;" onclick="openDownload(${p.id})">
             <i class="fa-solid fa-download"></i> Tải xuống
           </button>
         </div>
       </div>
     `).join("");
-
   } catch (e) {
-    container.innerHTML = `<div style="text-align:center;color:red;font-weight:800;padding:20px;">Lỗi tải dữ liệu: ${e.message}</div>`;
+    container.innerHTML = `<div style="text-align:center;color:red;font-weight:800;padding:15px;">Lỗi kết nối dữ liệu!</div>`;
   }
 }
 
-function escapeHtml(str) {
-  if (!str) return "";
-  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function formatDesc(text) {
-  if (!text) return "";
-  return escapeHtml(text).replace(/\n/g, "<br>").replace(/(https?:\/\/[^\s<>"']+)/g, '<a href="$1" target="_blank" style="color:#4a9fd8;text-decoration:underline;font-weight:800;">$1</a>');
-}
-
-// --- MỞ MODAL DOWNLOAD ---
-function openDownloadModal(id) {
-  const p = posts.find(item => item.id == id);
+function openDownload(id) {
+  const p = posts.find(x => x.id == id);
   if (!p) return;
-
   $("modalTitle").textContent = p.title;
-  $("modalContent").innerHTML = formatDesc(p.desc);
+  $("modalContent").innerHTML = escapeHtml(p.desc).replace(/\n/g, '<br>').replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--dark);text-decoration:underline;">$1</a>');
   
-  const dlBtn = $("modalDownloadBtn");
-  if (p.redirectLink && p.redirectLink.trim() !== "") {
-    dlBtn.style.display = "inline-flex";
-    dlBtn.href = p.redirectLink;
+  const dl = $("modalDlBtn");
+  if (p.redirectLink && p.redirectLink.trim()) {
+    dl.style.display = "inline-flex";
+    dl.href = p.redirectLink;
   } else {
-    dlBtn.style.display = "none";
+    dl.style.display = "none";
   }
-  
   $("downloadModal").classList.add("active");
 }
 
-// --- COPY BUTTON ---
-$("copyContentBtn").addEventListener("click", async () => {
-  const text = $("modalContent").innerText;
+$("copyBtn").addEventListener("click", async () => {
   try {
-    await navigator.clipboard.writeText(text);
-    const btn = $("copyContentBtn");
-    const oldHtml = btn.innerHTML;
+    await navigator.clipboard.writeText($("modalContent").innerText);
+    const btn = $("copyBtn");
     btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã Copy!';
-    setTimeout(() => { btn.innerHTML = oldHtml; }, 2000);
-  } catch (e) { alert("Không thể copy, vui lòng copy thủ công."); }
+    setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy Link'; }, 2000);
+  } catch (e) { alert("Không thể sao chép!"); }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchPosts();
+  checkGate();
+  setupGate();
 });
 </script>
 </body>
