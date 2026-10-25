@@ -417,7 +417,7 @@ img{content-visibility:auto}
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot must" id="stepDot1"><i class="fa-brands fa-tiktok"></i> <span>1. Follow</span></div>
+      <div class="step-dot must" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>1. Đăng ký</span></div>
       <div class="step-dot must" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>2. Like</span></div>
       <div class="step-dot tg opt" id="stepDot3"><i class="fa-solid fa-unlock"></i> <span>3. Box (tuỳ chọn)</span></div>
     </div>
@@ -425,33 +425,32 @@ img{content-visibility:auto}
     <!-- MÀN 1: FOLLOW -->
     <div class="gate-step active" id="gateStep1">
       <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
-      <h2>Bước 1: Follow TikTok</h2>
-      <div class="req-rule must">⚠️ <b>Phải FOLLOW</b> mới qua được bước tiếp theo.</div>
+      <h2>Bước 1: Đăng ký kênh YouTube</h2>
+      <div class="req-rule must">⚠️ <b>Phải ĐĂNG KÝ kênh</b> mới qua được bước tiếp theo.</div>
       <div class="task" id="task1">
-        <div class="task-ic"><i class="fa-brands fa-tiktok"></i></div>
+        <div class="task-ic"><i class="fa-brands fa-youtube"></i></div>
         <div class="task-body">
-          <div class="task-title">Follow kênh TikTok @sikereal</div>
+          <div class="task-title">Đăng ký kênh YouTube</div>
           <div class="task-status" id="status1">Chưa làm</div>
         </div>
-        <a href="https://www.tiktok.com/@sikereal" target="_blank" rel="noopener" class="task-btn" id="btnSubscribe"><i class="fa-brands fa-tiktok"></i> Follow</a>
+        <a href="https://youtube.com/@sikecotuat?si=b8Df1WZlOVZN8BAs" target="_blank" rel="noopener" class="task-btn" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký</a>
       </div>
-      <button class="btn-main" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã follow</button>
-      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm nút đỏ Follow, follow xong quay lại bấm nút xanh.</div>
+      <button class="btn-main" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm nút đỏ Đăng ký, đăng ký xong quay lại bấm nút xanh.</div>
     </div>
 
     <!-- MÀN 2: LIKE -->
     <div class="gate-step" id="gateStep2">
       <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
-      <h2>Bước 2: Like video TikTok</h2>
+      <h2>Bước 2: Like video YouTube</h2>
       <div class="req-rule must">⚠️ <b>Phải LIKE video</b> mới vào được web.</div>
       <div class="task" id="task2">
         <div class="task-ic like"><i class="fa-solid fa-thumbs-up"></i></div>
         <div class="task-body">
-          <div class="task-title">Like video TikTok</div>
+          <div class="task-title">Like video YouTube</div>
           <div class="task-status" id="status2">Chưa làm</div>
         </div>
-        <!-- ===== DÁN LINK VIDEO TIKTOK CẦN LIKE VÀO href BÊN DƯỚI (thay chữ DAN_LINK_VIDEO_TIKTOK_VAO_DAY) ===== -->
-        <a href="https://www.tiktok.com/@sikereal/photo/7700389274553781511?_r=1&_t=ZS-9AprwuYu4ls" rel="noopener" class="task-btn" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Like</a>
+        <a href="https://youtu.be/oVt8K_HwzY4" target="_blank" rel="noopener" class="task-btn" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Like</a>
       </div>
       <button class="btn-main" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã like</button>
       <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm nút đỏ Like, like xong quay lại bấm nút xanh.</div>
@@ -520,8 +519,8 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 
 const GATE_TTL_MS = 15 * 60 * 1000;
-const SUB_KEY  = "ttFollowConfirmed_v4";
-const LIKE_KEY = "ttLikedVideo_v4";
+const SUB_KEY  = "ytSubConfirmed_v3";
+const LIKE_KEY = "ytLikedVideo_v3";
 const TELE_KEY = "teleJoined_v3";
 const gateMem = {};   
 function gateGet(key){
@@ -536,8 +535,8 @@ function gateSet(key){
 }
 
 // Time-gate: tracking thời điểm bấm nút sub/like
-const SUB_START_TIME = "ttFollowStart_v4";
-const LIKE_START_TIME = "ttLikeStart_v4";
+const SUB_START_TIME = "subStartTime_v3";
+const LIKE_START_TIME = "likeStartTime_v3";
 const GATE_TIMEOUT = 5000; // 5 giây
 
 let subTimerInterval = null;
@@ -622,23 +621,23 @@ function checkSubGate(){
 btnSubscribe.addEventListener("click", ()=>{
   clickedSub = true;
   startTimer(SUB_START_TIME);
-  markTask(task1,status1,btnSubscribe,false,"Đã mở TikTok, follow rồi quay lại");
+  markTask(task1,status1,btnSubscribe,false,"Đã mở kênh, đăng ký rồi quay lại");
   btnConfirmSub.disabled = false;
-  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Follow xong thì bấm "Tôi đã follow".';
+  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Đăng ký xong thì bấm "Tôi đã đăng ký".';
 });
 btnConfirmSub.addEventListener("click", ()=>{
   if(!clickedSub){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm nút "Follow" trước!'; return;
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm nút "Đăng ký" trước!'; return;
   }
   if(!checkTimeGate(SUB_START_TIME)){
     clickedSub = false; btnConfirmSub.disabled = true;
-    markTask(task1,status1,btnSubscribe,false,"❌ Chưa follow, bấm lại nút Follow");
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa follow, vui lòng quay lại để follow!';
+    markTask(task1,status1,btnSubscribe,false,"❌ Chưa đăng ký, bấm lại nút Đăng ký");
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký, vui lòng quay lại để đăng ký!';
     triggerShakeAndVibrate(gateNote1);
     return;
   }
   gateSet(SUB_KEY);
-  markTask(task1,status1,btnSubscribe,true,"✅ Đã follow");
+  markTask(task1,status1,btnSubscribe,true,"✅ Đã đăng ký");
   setDot(stepDot1,"done"); setDot(stepDot2,"active");
   showStep(2);
 });
@@ -647,7 +646,7 @@ btnConfirmSub.addEventListener("click", ()=>{
 btnLikeVideo.addEventListener("click", ()=>{
   clickedLike = true;
   startTimer(LIKE_START_TIME);
-  markTask(task2,status2,btnLikeVideo,false,"Đã mở video TikTok, like rồi quay lại");
+  markTask(task2,status2,btnLikeVideo,false,"Đã mở video, like rồi quay lại");
   btnConfirmLike.disabled = false;
   gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Like xong thì bấm "Tôi đã like".';
 });
