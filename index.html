@@ -413,19 +413,33 @@ img{content-visibility:auto}
 </head>
 <body>
 
-<!-- MÀN HÌNH CHẶN: 3 MÀN (Follow / Like tách riêng, Box tuỳ chọn) -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot must" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>1. Đăng ký</span></div>
-      <div class="step-dot must" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>2. Like</span></div>
+      <div class="step-dot must" id="stepDot1"><i class="fa-solid fa-thumbs-up"></i> <span>1. Xem + Like</span></div>
+      <div class="step-dot must" id="stepDot2"><i class="fa-brands fa-youtube"></i> <span>2. Đăng ký</span></div>
       <div class="step-dot tg opt" id="stepDot3"><i class="fa-solid fa-unlock"></i> <span>3. Box (tuỳ chọn)</span></div>
     </div>
 
-    <!-- MÀN 1: FOLLOW -->
     <div class="gate-step active" id="gateStep1">
       <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
-      <h2>Bước 1: Đăng ký kênh YouTube</h2>
+      <h2>Bước 1: Xem video + Like</h2>
+      <div class="req-rule must">⚠️ <b>Phải XEM VIDEO (khoảng 20 giây) và LIKE</b> mới qua được bước tiếp theo.</div>
+      <div class="task" id="task2">
+        <div class="task-ic like"><i class="fa-solid fa-thumbs-up"></i></div>
+        <div class="task-body">
+          <div class="task-title">Xem video 20 giây + Like</div>
+          <div class="task-status" id="status2">Chưa làm</div>
+        </div>
+        <a href="https://youtu.be/oVt8K_HwzY4?si=Fxd9KD5KkQJVgFLP" target="_blank" rel="noopener" class="task-btn" id="btnLikeVideo"><i class="fa-solid fa-play"></i> Xem + Like</a>
+      </div>
+      <button class="btn-main" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã xem + like</button>
+      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm nút đỏ, xem hết video khoảng 20 giây, like rồi quay lại bấm nút xanh.</div>
+    </div>
+
+    <div class="gate-step" id="gateStep2">
+      <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
+      <h2>Bước 2: Đăng ký kênh YouTube</h2>
       <div class="req-rule must">⚠️ <b>Phải ĐĂNG KÝ kênh</b> mới qua được bước tiếp theo.</div>
       <div class="task" id="task1">
         <div class="task-ic"><i class="fa-brands fa-youtube"></i></div>
@@ -433,30 +447,12 @@ img{content-visibility:auto}
           <div class="task-title">Đăng ký kênh YouTube</div>
           <div class="task-status" id="status1">Chưa làm</div>
         </div>
-        <a href="https://youtube.com/@sikecotuat?si=b8Df1WZlOVZN8BAs" target="_blank" rel="noopener" class="task-btn" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký</a>
+        <a href="https://youtube.com/@sikecotuat" target="_blank" rel="noopener" class="task-btn" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký</a>
       </div>
-      <button class="btn-main" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+      <button class="btn-main" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm nút đỏ Đăng ký, đăng ký xong quay lại bấm nút xanh.</div>
     </div>
 
-    <!-- MÀN 2: LIKE -->
-    <div class="gate-step" id="gateStep2">
-      <div class="req-badge must"><i class="fa-solid fa-lock"></i> Bắt buộc</div>
-      <h2>Bước 2: Like video YouTube</h2>
-      <div class="req-rule must">⚠️ <b>Phải LIKE video</b> mới vào được web.</div>
-      <div class="task" id="task2">
-        <div class="task-ic like"><i class="fa-solid fa-thumbs-up"></i></div>
-        <div class="task-body">
-          <div class="task-title">Like video YouTube</div>
-          <div class="task-status" id="status2">Chưa làm</div>
-        </div>
-        <a href="https://youtu.be/oVt8K_HwzY4" target="_blank" rel="noopener" class="task-btn" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Like</a>
-      </div>
-      <button class="btn-main" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã like</button>
-      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm nút đỏ Like, like xong quay lại bấm nút xanh.</div>
-    </div>
-
-    <!-- MÀN 3: TELEGRAM + ZALO (TUỲ CHỌN) -->
     <div class="gate-step" id="gateStep3">
       <div class="req-badge opt"><i class="fa-solid fa-unlock"></i> Không bắt buộc</div>
       <div class="skip-hero">
@@ -478,7 +474,6 @@ img{content-visibility:auto}
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
@@ -493,15 +488,11 @@ img{content-visibility:auto}
   </div>
 </header>
 
-<!-- MAIN -->
 <div class="container">
   <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
-  
-  <!-- DANH SÁCH BÀI VIẾT TỪ JSONBIN -->
   <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
 </div>
 
-<!-- MODAL XEM LINK -->
 <div id="downloadModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
@@ -534,38 +525,10 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-// Time-gate: tracking thời điểm bấm nút sub/like
-const SUB_START_TIME = "subStartTime_v3";
-const LIKE_START_TIME = "likeStartTime_v3";
-const GATE_TIMEOUT = 5000; // 5 giây
-
-let subTimerInterval = null;
-let likeTimerInterval = null;
-
-const timeMem = {};
-function startTimer(timeKey){
-  timeMem[timeKey] = Date.now();
-  try{ localStorage.setItem(timeKey, String(timeMem[timeKey])); }catch(e){}
-}
-
-function checkTimeGate(timeKey){
-  let storedTime = timeMem[timeKey];
-  if(!storedTime){ try{ storedTime = localStorage.getItem(timeKey); }catch(e){} }
-  if(!storedTime) return false;
-  const elapsed = Date.now() - parseInt(storedTime);
-  return elapsed >= GATE_TIMEOUT;
-}
-
-function triggerShakeAndVibrate(element){
-  // Rung element
-  element.classList.add("shake");
-  setTimeout(() => element.classList.remove("shake"), 400);
-  
-  // Rung máy nếu hỗ trợ
-  if(navigator.vibrate){
-    navigator.vibrate([100, 50, 100, 50, 100]);
-  }
-}
+// ======== CHỈNH THỜI GIAN Ở ĐÂY (mili-giây, 1000 = 1 giây) ========
+const LIKE_WATCH_MS = 20000; // Bước 1: 20 giây
+const SUB_WAIT_MS   = 3000;  // Bước 2: 3 giây
+// ===========================================================
 
 let posts = [];
 
@@ -573,15 +536,12 @@ const $ = id => document.getElementById(id);
 const postsContainer=$("postsContainer"), modalOverlay=$("downloadModal"), modalTitle=$("modalTitle"),
 modalContent=$("modalContent"), modalDownloadBtn=$("modalDownloadBtn");
 
-/* ====== Cổng chặn: 1 Follow (bắt buộc) / 2 Like (bắt buộc) / 3 Box (tuỳ chọn) ====== */
 const subGate = $("subGate"), stepDot1 = $("stepDot1"), stepDot2 = $("stepDot2"), stepDot3 = $("stepDot3"),
 gateStep1 = $("gateStep1"), gateStep2 = $("gateStep2"), gateStep3 = $("gateStep3"),
 btnSubscribe = $("btnSubscribe"), btnLikeVideo = $("btnLikeVideo"),
 task1 = $("task1"), task2 = $("task2"), status1 = $("status1"), status2 = $("status2"),
 btnConfirmSub = $("btnConfirmSub"), btnConfirmLike = $("btnConfirmLike"),
 gateNote1 = $("gateNote1"), gateNote2 = $("gateNote2"), btnSkipBox = $("btnSkipBox");
-
-let clickedSub = false, clickedLike = false;
 
 function setDot(dot, state){
   dot.classList.toggle("active", state==="active");
@@ -607,9 +567,9 @@ function checkSubGate(){
   if(subDone && likeDone && teleDone){ closeGate(); return false; }
   subGate.classList.add("active");
   document.body.style.overflow="hidden";
-  if(!subDone){
+  if(!likeDone){
     showStep(1); setDot(stepDot1,"active"); setDot(stepDot2,""); setDot(stepDot3,"");
-  } else if(!likeDone){
+  } else if(!subDone){
     showStep(2); setDot(stepDot1,"done"); setDot(stepDot2,"active"); setDot(stepDot3,"");
   } else {
     showStep(3); setDot(stepDot1,"done"); setDot(stepDot2,"done"); setDot(stepDot3,"active");
@@ -617,57 +577,180 @@ function checkSubGate(){
   return true;
 }
 
-/* ---- Bước 1: Follow ---- */
-btnSubscribe.addEventListener("click", ()=>{
-  clickedSub = true;
-  startTimer(SUB_START_TIME);
-  markTask(task1,status1,btnSubscribe,false,"Đã mở kênh, đăng ký rồi quay lại");
-  btnConfirmSub.disabled = false;
-  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Đăng ký xong thì bấm "Tôi đã đăng ký".';
-});
-btnConfirmSub.addEventListener("click", ()=>{
-  if(!clickedSub){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm nút "Đăng ký" trước!'; return;
+const LIKE_OPEN_HTML = '<i class="fa-solid fa-play"></i> Xem + Like';
+const SUB_OPEN_HTML  = '<i class="fa-brands fa-youtube"></i> Đăng ký';
+
+function triggerShakeAndVibrate(element){
+  element.classList.add("shake");
+  setTimeout(() => element.classList.remove("shake"), 400);
+  if(navigator.vibrate){ navigator.vibrate([100, 50, 100, 50, 100]); }
+}
+
+/* =========================================================
+   FIX: đếm giờ khi rời web
+   - awayStart lưu vào localStorage -> không mất khi tab bị đóng/treo
+   - Mỗi khi có TÍN HIỆU BẤT KỲ (click/touch/focus/visible/interval)
+     mà thấy awayStart > 0 và đã trôi >= needMs -> credit.
+   - Confirm click -> credit lần cuối trước khi kiểm tra.
+   ========================================================= */
+function makeWatchStep(cfg){
+  const STORE_KEY = cfg.storeKey;
+  const st = { accum: 0, awayStart: 0, ready: false };
+
+  // Load state
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){
+      const s = JSON.parse(raw);
+      if(s && typeof s === "object"){
+        st.accum = s.accum || 0;
+        st.awayStart = s.awayStart || 0;
+        st.ready = !!s.ready;
+      }
+    }
+  } catch(e){}
+
+  const save = () => {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        accum: st.accum, awayStart: st.awayStart, ready: st.ready
+      }));
+    } catch(e){}
+  };
+
+  const secLeft = () => Math.max(0, Math.ceil((cfg.needMs - st.accum) / 1000));
+
+  function updateReadyUI(){
+    cfg.confirm.disabled = false;
+    cfg.open.innerHTML = cfg.openHtml;
+    markTask(cfg.task, cfg.status, cfg.open, false, cfg.readyText);
+    cfg.note.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> ' + cfg.readyNote;
   }
-  if(!checkTimeGate(SUB_START_TIME)){
-    clickedSub = false; btnConfirmSub.disabled = true;
-    markTask(task1,status1,btnSubscribe,false,"❌ Chưa đăng ký, bấm lại nút Đăng ký");
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký, vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote1);
-    return;
+
+  function updateProgressUI(){
+    const left = secLeft();
+    cfg.open.innerHTML = cfg.resumeHtml(left);
+    if(cfg.hideTime){
+      markTask(cfg.task, cfg.status, cfg.open, false, "Vui lòng đăng ký kênh");
+      cfg.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Vui lòng đăng ký kênh!';
+    } else {
+      markTask(cfg.task, cfg.status, cfg.open, false, "Mới xem " + Math.floor(st.accum/1000) + "s, còn " + left + "s");
+      cfg.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Vui lòng ấn nút "' + cfg.resumeName + '" để quay lại xem tiếp, còn ' + left + ' giây!';
+    }
   }
-  gateSet(SUB_KEY);
-  markTask(task1,status1,btnSubscribe,true,"✅ Đã đăng ký");
-  setDot(stepDot1,"done"); setDot(stepDot2,"active");
-  showStep(2);
+
+  function creditAway(){
+    if(!st.awayStart) return false;
+    const now = Date.now();
+    const elapsed = now - st.awayStart;
+    if(elapsed <= 0){ st.awayStart = 0; save(); return false; }
+    st.accum += elapsed;
+    st.awayStart = 0;
+
+    if(st.accum >= cfg.needMs){
+      const wasReady = st.ready;
+      st.ready = true;
+      save();
+      if(!wasReady) updateReadyUI();
+    } else {
+      save();
+      updateProgressUI();
+    }
+    return true;
+  }
+
+  // Nếu đã load state sẵn (user F5) -> render lại
+  if(st.ready){
+    updateReadyUI();
+  } else if(st.awayStart){
+    // Đang có phiên away dở (user quay lại sau khi rời mà tab trước đó bị kill)
+    // -> thử credit ngay; nếu chưa đủ sẽ hiện "Xem tiếp (còn Ns)"
+    creditAway();
+  }
+
+  // Bấm nút mở link -> bắt đầu tính giờ rời web
+  cfg.open.addEventListener("click", ()=>{
+    if(st.ready) return;
+    if(st.awayStart) creditAway();
+    markTask(cfg.task, cfg.status, cfg.open, false, cfg.openedText);
+    cfg.note.innerHTML = cfg.openedNote;
+    st.awayStart = Date.now();
+    save();
+  });
+
+  // Mọi tín hiệu "quay lại" đều thử credit
+  const tryCredit = () => { if(!document.hidden) creditAway(); };
+  document.addEventListener("visibilitychange", tryCredit);
+  window.addEventListener("focus", tryCredit);
+  window.addEventListener("pageshow", tryCredit);
+  window.addEventListener("online", tryCredit);
+  window.addEventListener("touchstart", tryCredit, {passive:true});
+  window.addEventListener("mousedown", tryCredit);
+
+  // Fallback: nếu away đủ lâu (trình duyệt treo, không bắn event)
+  setInterval(()=>{
+    if(st.awayStart && (Date.now() - st.awayStart) >= cfg.needMs){
+      creditAway();
+    }
+  }, 1000);
+
+  // Confirm
+  cfg.confirm.addEventListener("click", ()=>{
+    if(st.awayStart) creditAway(); // credit lần cuối
+    if(!st.ready){
+      cfg.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> ' + cfg.notReadyNote;
+      triggerShakeAndVibrate(cfg.note);
+      return;
+    }
+    try { localStorage.removeItem(STORE_KEY); } catch(e){}
+    cfg.onDone();
+  });
+}
+
+/* ---- Bước 1: Xem video + Like ---- */
+makeWatchStep({
+  storeKey: "watchStep_like_v1",
+  open: btnLikeVideo, confirm: btnConfirmLike, task: task2, status: status2, note: gateNote2,
+  needMs: LIKE_WATCH_MS,
+  openHtml: LIKE_OPEN_HTML,
+  resumeName: "Xem tiếp",
+  resumeHtml: left => '<i class="fa-solid fa-play"></i> Xem tiếp (còn ' + left + 's)',
+  openedText: "Đã mở video, xem hết rồi like rồi quay lại",
+  openedNote: '<i class="fa-regular fa-clock"></i> Xem video và like, xong quay lại đây. Web sẽ báo còn thiếu bao nhiêu giây.',
+  readyText: "Đã đủ thời gian xem",
+  readyNote: 'Đủ thời gian rồi! Bấm "Tôi đã xem + like".',
+  notReadyNote: 'Bạn chưa xem đủ thời gian, bấm nút đỏ "Xem + Like" trước!',
+  onDone: ()=>{
+    gateSet(LIKE_KEY);
+    markTask(task2,status2,btnLikeVideo,true,"✅ Đã xem + like");
+    setDot(stepDot1,"done"); setDot(stepDot2,"active");
+    showStep(2);
+  }
 });
 
-/* ---- Bước 2: Like ---- */
-btnLikeVideo.addEventListener("click", ()=>{
-  clickedLike = true;
-  startTimer(LIKE_START_TIME);
-  markTask(task2,status2,btnLikeVideo,false,"Đã mở video, like rồi quay lại");
-  btnConfirmLike.disabled = false;
-  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Like xong thì bấm "Tôi đã like".';
-});
-btnConfirmLike.addEventListener("click", ()=>{
-  if(!clickedLike){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm nút "Like" trước!'; return;
+/* ---- Bước 2: Đăng ký kênh ---- */
+makeWatchStep({
+  storeKey: "watchStep_sub_v1",
+  open: btnSubscribe, confirm: btnConfirmSub, task: task1, status: status1, note: gateNote1,
+  needMs: SUB_WAIT_MS,
+  openHtml: SUB_OPEN_HTML,
+  resumeName: "Đăng ký",
+  hideTime: true,
+  resumeHtml: () => '<i class="fa-brands fa-youtube"></i> Đăng ký',
+  openedText: "Đăng ký xong thì quay lại đây",
+  openedNote: '<i class="fa-brands fa-youtube" style="color:#ff4d4d"></i> Đăng ký kênh xong thì quay lại bấm "Tiếp tục".',
+  readyText: "Bấm Tiếp tục",
+  readyNote: 'Bấm "Tiếp tục".',
+  notReadyNote: 'Vui lòng đăng ký kênh!',
+  onDone: ()=>{
+    gateSet(SUB_KEY);
+    markTask(task1,status1,btnSubscribe,true,"✅ Đã đăng ký");
+    setDot(stepDot2,"done"); setDot(stepDot3,"active");
+    showStep(3);
   }
-  if(!checkTimeGate(LIKE_START_TIME)){
-    clickedLike = false; btnConfirmLike.disabled = true;
-    markTask(task2,status2,btnLikeVideo,false,"❌ Chưa like, bấm lại nút Like");
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video, vui lòng quay lại để like!';
-    triggerShakeAndVibrate(gateNote2);
-    return;
-  }
-  gateSet(LIKE_KEY);
-  markTask(task2,status2,btnLikeVideo,true,"✅ Đã like");
-  setDot(stepDot2,"done"); setDot(stepDot3,"active");
-  showStep(3);
 });
 
-/* ---- Bước 3: Box (tuỳ chọn) -> vào web, không check gì ---- */
+/* ---- Bước 3: Box (tuỳ chọn) ---- */
 btnSkipBox.addEventListener("click", ()=>{
   gateSet(TELE_KEY);
   setDot(stepDot3,"done");
@@ -683,26 +766,17 @@ document.addEventListener("DOMContentLoaded",()=>{
   modalOverlay.addEventListener("click",closeModalOnOutside);
 });
 
-/* === ĐỌC DỮ LIỆU TỪ JSONBIN (GET) === */
 async function fetchPosts(){
   try{
     const res = await fetch(BIN_URL, {
         headers: { "X-Bin-Meta": "false" },
         cache: "no-store" 
     });
-    
     if(!res.ok) throw new Error("Server trả mã " + res.status);
-    
     const data = await res.json();
-    
-    if(Array.isArray(data)){
-        posts = data;
-    } else if (data && Array.isArray(data.posts)) {
-        posts = data.posts;
-    } else {
-        posts = []; 
-    }
-
+    if(Array.isArray(data)){ posts = data; }
+    else if (data && Array.isArray(data.posts)) { posts = data.posts; }
+    else { posts = []; }
     renderPosts();
   }catch(e){
     console.error("fetchPosts lỗi:", e);
