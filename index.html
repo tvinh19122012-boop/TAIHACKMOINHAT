@@ -205,7 +205,7 @@ img{content-visibility:auto}
       </div>
       <div class="sub-gate-actions">
         <!-- TỰ SỬA LINK VIDEO CẦN TIM TẠI HREF NÀY -->
-        <a href="https://www.tiktok.com/@sikeffmod/video/7700919773382593798?_r=1&_t=ZS-9AsINDTMqCF" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeTikTok"><i class="fa-solid fa-heart"></i> Mở TikTok và tim video</a>
+        <a href="https://vt.tiktok.com/ZSgXVEUgT/" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeTikTok"><i class="fa-solid fa-heart"></i> Mở TikTok và tim video</a>
         <button class="btn-confirm" id="btnConfirm3" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã tim (Tiếp tục)</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote3">Mở video, nhấn tim rồi quay lại xác nhận.</div>
@@ -264,9 +264,9 @@ img{content-visibility:auto}
 /* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 
-const GATE_TTL_MS = 365 * 24 * 60 * 60 * 1000;
-const FOLLOW1_KEY="ttFollowSikereal_v1", FOLLOW2_KEY="ttFollowSikeffmod_v1", HEART_KEY="ttHeartVideo_v1";
-const FOLLOW1_START="ttFollow1Start_v1", FOLLOW2_START="ttFollow2Start_v1", HEART_START="ttHeartStart_v1";
+const GATE_TTL_MS = 30 * 60 * 1000; // Reset xác nhận sau 30 phút
+const FOLLOW1_KEY="ttFollowSikereal_v2", FOLLOW2_KEY="ttFollowSikeffmod_v2", HEART_KEY="ttHeartVideo_v2";
+const FOLLOW1_START="ttFollow1Start_v2", FOLLOW2_START="ttFollow2Start_v2", HEART_START="ttHeartStart_v2";
 const GATE_TIMEOUT=5000, gateMem={};
 function gateGet(key){let exp=gateMem[key]||0;try{exp=Math.max(exp,parseInt(localStorage.getItem(key),10)||0)}catch(e){}return exp>Date.now()}
 function gateSet(key){const exp=Date.now()+GATE_TTL_MS;gateMem[key]=exp;try{localStorage.setItem(key,String(exp))}catch(e){}}
@@ -289,7 +289,7 @@ function checkSubGate(){
  const n=gateConfig.findIndex(x=>!gateGet(x.key));showStep(n<0?2:n);return true
 }
 gateConfig.forEach((item,i)=>{
- item.link.addEventListener("click",()=>{clicked[i]=true;startTimer(item.time);item.confirm.disabled=false;item.note.innerHTML='<i class="fa-solid fa-circle-check"></i> Đã mở liên kết. Hoàn tất thao tác trên TikTok, chờ 5 giây rồi xác nhận.'});
+ item.link.addEventListener("click",()=>{clicked[i]=true;startTimer(item.time);item.confirm.disabled=false;item.note.innerHTML='<i class="fa-solid fa-circle-check"></i> Đã mở liên kết. Hoàn tất thao tác trên TikTok rồi xác nhận.'});
  item.confirm.addEventListener("click",()=>{
   if(!clicked[i]){item.note.textContent="Hãy mở liên kết TikTok trước, rồi quay lại đây.";return}
   if(!checkTimeGate(item.time)){item.note.innerHTML='<i class="fa-regular fa-clock"></i> Chưa thể xác nhận lúc này. Hãy hoàn tất thao tác TikTok rồi thử lại.';return}
