@@ -130,6 +130,12 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .shake{animation:shake .3s ease-in-out!important}
+@keyframes warningShake{
+  0%,100%{transform:translateX(0)}
+  15%,45%,75%{transform:translateX(-5px)}
+  30%,60%,90%{transform:translateX(5px)}
+}
+.gate-warning-shake{animation:warningShake .42s ease-in-out!important}
 
 .community-hub{margin:0 0 26px;background:#fff;border:2px solid #171717;border-radius:16px;overflow:hidden}
 .hub-heading{padding:25px 24px 21px;background:#111;color:#fff;border-bottom:5px solid var(--gold)}
@@ -319,7 +325,11 @@ gateConfig.forEach((item,i)=>{
  item.link.addEventListener("click",()=>{clicked[i]=true;startTimer(item.time);item.confirm.disabled=false;item.note.innerHTML='<i class="fa-solid fa-circle-check"></i> Đã mở liên kết. Hoàn tất thao tác trên TikTok rồi xác nhận.'});
  item.confirm.addEventListener("click",()=>{
   if(!clicked[i]){item.note.textContent="Hãy mở liên kết TikTok trước, rồi quay lại đây.";return}
-  if(!checkTimeGate(item.time)){item.note.innerHTML='<i class="fa-regular fa-clock"></i> Chưa thể xác nhận lúc này. Hãy hoàn tất thao tác TikTok rồi thử lại.';return}
+  if(!checkTimeGate(item.time)){item.note.innerHTML='<i class="fa-regular fa-clock"></i> Chưa follow hoặc like? Vui lòng quay lại TikTok để hoàn thành và trở lại web.';
+   item.note.classList.remove("gate-warning-shake");
+   void item.note.offsetWidth;
+   item.note.classList.add("gate-warning-shake");
+   return}
   gateSet(item.key);stepDots[i].classList.add("done");stepDots[i].classList.remove("active");
   if(i<2)showStep(i+1);else{subGate.classList.remove("active");document.body.style.overflow=""}
  })
