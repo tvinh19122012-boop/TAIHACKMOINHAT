@@ -162,9 +162,36 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 .gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent}
 img{content-visibility:auto}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* Màn Telegram tùy chọn — không dùng bộ đếm 5 giây */
+.telegram-gate{position:fixed;inset:0;z-index:100000;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.telegram-gate.hidden{display:none}
+.telegram-gate-box{max-width:520px;width:100%;background:#fff;border:1px solid #d5d5cf;border-top:5px solid #229ED9;border-radius:16px;padding:30px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.09);margin:auto}
+.telegram-gate-icon{width:68px;height:68px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:#e4f5ff;border:1px solid #b7e5fb}
+.telegram-gate-icon i{font-size:32px;color:#229ED9}
+.telegram-gate-box h2{font-size:23px;font-weight:900;margin-bottom:8px;color:#111}
+.telegram-gate-box p{color:#444;font-size:15px;line-height:1.7;margin-bottom:20px}
+.telegram-gate-actions{display:flex;flex-direction:column;gap:10px}
+.telegram-gate-link,.telegram-gate-skip{padding:14px 20px;border-radius:9px;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer}
+.telegram-gate-link{border:2px solid #168ac0;background:#229ED9;color:#fff}
+.telegram-gate-skip{border:1px solid #c8c8c2;background:#fff;color:#111}
+
 </style>
 </head>
 <body>
+
+<!-- MÀN TELEGRAM TÙY CHỌN: KHÔNG BẮT BUỘC, KHÔNG CÓ ĐẾM 5 GIÂY -->
+<div class="telegram-gate" id="telegramGate">
+  <div class="telegram-gate-box">
+    <div class="telegram-gate-icon"><i class="fa-brands fa-telegram"></i></div>
+    <h2>Tham gia Telegram (Tùy chọn)</h2>
+    <p>Bạn có thể tham gia kênh Telegram SIKE để cập nhật thông tin. <strong>Không bắt buộc</strong> — bạn có thể bỏ qua và tiếp tục vào trang bất cứ lúc nào.</p>
+    <div class="telegram-gate-actions">
+      <a class="telegram-gate-link" href="https://t.me/SIKEMODFF" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Mở Telegram (tùy chọn)</a>
+      <button type="button" class="telegram-gate-skip" id="skipTelegramGate"><i class="fa-solid fa-forward"></i> Bỏ qua và tiếp tục</button>
+    </div>
+  </div>
+</div>
 
 <!-- MÀN HÌNH CHẶN 2 BƯỚC -->
 <div class="sub-gate" id="subGate">
@@ -301,6 +328,14 @@ gateConfig.forEach((item,i)=>{
 
 document.addEventListener("DOMContentLoaded",()=>{
   checkSubGate();
+  const telegramGate = $("telegramGate");
+  const skipTelegramGate = $("skipTelegramGate");
+  if (skipTelegramGate && telegramGate) {
+    skipTelegramGate.addEventListener("click", () => {
+      telegramGate.classList.add("hidden");
+      document.body.style.overflow = "";
+    });
+  }
   fetchPosts();
   document.querySelector(".modal-close").addEventListener("click",closeModal);
   modalOverlay.addEventListener("click",closeModalOnOutside);
