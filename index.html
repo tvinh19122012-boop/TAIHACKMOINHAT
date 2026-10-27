@@ -169,7 +169,6 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 img{content-visibility:auto}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
-/* Màn Telegram tùy chọn — không dùng bộ đếm 5 giây */
 .telegram-gate{position:fixed;inset:0;z-index:100000;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .telegram-gate.hidden{display:none}
 .telegram-gate-box{max-width:520px;width:100%;background:#fff;border:1px solid #d5d5cf;border-top:5px solid #229ED9;border-radius:16px;padding:30px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.09);margin:auto}
@@ -181,12 +180,10 @@ img{content-visibility:auto}
 .telegram-gate-link,.telegram-gate-skip{padding:14px 20px;border-radius:9px;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer}
 .telegram-gate-link{border:2px solid #168ac0;background:#229ED9;color:#fff}
 .telegram-gate-skip{border:1px solid #c8c8c2;background:#fff;color:#111}
-
 </style>
 </head>
 <body>
 
-<!-- MÀN TELEGRAM TÙY CHỌN: KHÔNG BẮT BUỘC, KHÔNG CÓ ĐẾM 5 GIÂY -->
 <div class="telegram-gate" id="telegramGate">
   <div class="telegram-gate-box">
     <div class="telegram-gate-icon"><i class="fa-brands fa-telegram"></i></div>
@@ -199,7 +196,6 @@ img{content-visibility:auto}
   </div>
 </div>
 
-<!-- MÀN HÌNH CHẶN 2 BƯỚC -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
@@ -214,7 +210,7 @@ img{content-visibility:auto}
       <p class="sub-gate-sub">Mở trang TikTok, nhấn Follow, sau đó quay lại xác nhận.</p>
       <div class="sub-gate-actions">
         <a href="https://www.tiktok.com/@sikereal" target="_blank" rel="noopener" class="btn-youtube" id="btnFollow1"><i class="fa-brands fa-tiktok"></i> Mở @sikereal và Follow</a>
-        <button class="btn-confirm" id="btnConfirm1" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Follow</button>
+        <button class="btn-confirm" id="btnConfirm1"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote1">Mở TikTok trước, sau đó quay lại xác nhận.</div>
     </div>
@@ -224,7 +220,7 @@ img{content-visibility:auto}
       <p class="sub-gate-sub">Follow tài khoản thứ hai để tiếp tục vào trang.</p>
       <div class="sub-gate-actions">
         <a href="https://www.tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="btn-youtube" id="btnFollow2"><i class="fa-brands fa-tiktok"></i> Mở @sikeffmod và Follow</a>
-        <button class="btn-confirm" id="btnConfirm2" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Follow</button>
+        <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote2">Mở TikTok trước, sau đó quay lại xác nhận.</div>
     </div>
@@ -237,16 +233,14 @@ img{content-visibility:auto}
         <div class="video-info"><div class="v-title">Video TikTok cần tim</div><div class="v-sub">SIKE</div></div>
       </div>
       <div class="sub-gate-actions">
-        <!-- TỰ SỬA LINK VIDEO CẦN TIM TẠI HREF NÀY -->
         <a href="https://vt.tiktok.com/ZSgV9xaNc/" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeTikTok"><i class="fa-solid fa-heart"></i> Mở TikTok và tim video</a>
-        <button class="btn-confirm" id="btnConfirm3" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã tim (Tiếp tục)</button>
+        <button class="btn-confirm" id="btnConfirm3"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote3">Mở video, nhấn tim rồi quay lại xác nhận.</div>
     </div>
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
@@ -258,13 +252,10 @@ img{content-visibility:auto}
   </div>
 </header>
 
-<!-- MAIN -->
 <div class="container">
-
   <section class="community-hub">
     <div class="hub-heading"><span class="hub-kicker">SIKE COMMUNITY</span><h1>Chia sẻ bản mới nhất <span>+ NO VƯỢT</span></h1><p>Cập nhật bản mới, tham gia cộng đồng và chọn box còn chỗ.</p></div>
     <div class="hub-grid">
-      <!-- TỰ THAY href="#" BẰNG LINK CHIA SẺ BẢN MỚI NHẤT -->
       <a class="hub-card hub-card-featured" href="#" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-share-nodes"></i></span><span class="hub-card-title">Chia sẻ bản mới nhất</span><span class="hub-card-desc">Link cập nhật · No vượt</span><span class="hub-card-action">Mở liên kết ↗</span></a>
       <a class="hub-card" href="https://t.me/SIKEMODFF" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-brands fa-telegram"></i></span><span class="hub-card-title">Telegram</span><span class="hub-card-desc">https://t.me/SIKEMODFF</span><span class="hub-card-action">Vào Telegram ↗</span></a>
       <a class="hub-card" href="https://zalo.me/g/0hbi6p2gplz0idb9sfnz" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-comments"></i></span><span class="hub-card-title">Zalo Box 1</span><span class="hub-card-desc">https://zalo.me/g/0hbi6p2gplz0idb9sfnz</span><span class="hub-card-action">Vào Box 1 ↗</span></a>
@@ -276,11 +267,9 @@ img{content-visibility:auto}
 
   <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
   
-  <!-- DANH SÁCH BÀI VIẾT TỪ JSONBIN -->
   <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
 </div>
 
-<!-- MODAL XEM LINK -->
 <div id="downloadModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
@@ -297,43 +286,161 @@ img{content-visibility:auto}
 /* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 
-const GATE_TTL_MS = 30 * 60 * 1000; // Reset xác nhận sau 30 phút
+const GATE_TTL_MS = 30 * 60 * 1000;
 const FOLLOW1_KEY="ttFollowSikereal_v2", FOLLOW2_KEY="ttFollowSikeffmod_v2", HEART_KEY="ttHeartVideo_v2";
-const FOLLOW1_START="ttFollow1Start_v2", FOLLOW2_START="ttFollow2Start_v2", HEART_START="ttHeartStart_v2";
-const GATE_TIMEOUT=5000, gateMem={};
+
+const GATE_OUTSIDE_MS = 3000; // cần 3s ở ngoài web — ẨN HOÀN TOÀN với người dùng
+let gateMem = {};
+
+/*
+ Mỗi bước:
+ - leaveTime: thời điểm rời tab (null = đang ở trong web)
+ - done: đã đủ 5s ngoài
+*/
+const stepState = {
+  0: { leaveTime: null, done: false },
+  1: { leaveTime: null, done: false },
+  2: { leaveTime: null, done: false }
+};
+
 function gateGet(key){let exp=gateMem[key]||0;try{exp=Math.max(exp,parseInt(localStorage.getItem(key),10)||0)}catch(e){}return exp>Date.now()}
 function gateSet(key){const exp=Date.now()+GATE_TTL_MS;gateMem[key]=exp;try{localStorage.setItem(key,String(exp))}catch(e){}}
-function startTimer(key){try{localStorage.setItem(key,Date.now().toString())}catch(e){}}
-function checkTimeGate(key){try{const t=localStorage.getItem(key);return !!t&&Date.now()-parseInt(t,10)>=GATE_TIMEOUT}catch(e){return false}}
+
 let posts=[];
 const $=id=>document.getElementById(id);
 const postsContainer=$("postsContainer"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
 const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2"),$("stepDot3")],gateSteps=[$("gateStep1"),$("gateStep2"),$("gateStep3")];
+
 const gateConfig=[
- {link:$("btnFollow1"),confirm:$("btnConfirm1"),note:$("gateNote1"),key:FOLLOW1_KEY,time:FOLLOW1_START},
- {link:$("btnFollow2"),confirm:$("btnConfirm2"),note:$("gateNote2"),key:FOLLOW2_KEY,time:FOLLOW2_START},
- {link:$("btnLikeTikTok"),confirm:$("btnConfirm3"),note:$("gateNote3"),key:HEART_KEY,time:HEART_START}
+ {link:$("btnFollow1"),confirm:$("btnConfirm1"),note:$("gateNote1"),key:FOLLOW1_KEY,index:0,
+  msgFail:"Bạn chưa Follow @sikereal! Vui lòng bấm nút <b>Mở @sikereal và Follow</b> để vào TikTok và Follow, rồi quay lại."},
+ {link:$("btnFollow2"),confirm:$("btnConfirm2"),note:$("gateNote2"),key:FOLLOW2_KEY,index:1,
+  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."},
+ {link:$("btnLikeTikTok"),confirm:$("btnConfirm3"),note:$("gateNote3"),key:HEART_KEY,index:2,
+  msgFail:"Bạn chưa Tim video! Vui lòng bấm nút <b>Mở TikTok và tim video</b> để vào TikTok và nhấn tim, rồi quay lại."}
 ];
-const clicked=[false,false,false];
-function showStep(n){gateSteps.forEach((el,i)=>el.classList.toggle("active",i===n));stepDots.forEach((el,i)=>{el.classList.toggle("active",i===n);el.classList.toggle("done",i<n||gateGet(gateConfig[i].key))})}
-function checkSubGate(){
- if(gateConfig.every(x=>gateGet(x.key))){subGate.classList.remove("active");document.body.style.overflow="";return false}
- subGate.classList.add("active");document.body.style.overflow="hidden";
- const n=gateConfig.findIndex(x=>!gateGet(x.key));showStep(n<0?2:n);return true
+
+const defaultNote = [
+  "Mở TikTok trước, sau đó quay lại xác nhận.",
+  "Mở TikTok trước, sau đó quay lại xác nhận.",
+  "Mở video, nhấn tim rồi quay lại xác nhận."
+];
+
+function showStep(n){
+  gateSteps.forEach((el,i)=>el.classList.toggle("active",i===n));
+  stepDots.forEach((el,i)=>{
+    el.classList.toggle("active",i===n);
+    el.classList.toggle("done",i<n||gateGet(gateConfig[i].key));
+  });
 }
-gateConfig.forEach((item,i)=>{
- item.link.addEventListener("click",()=>{clicked[i]=true;startTimer(item.time);item.confirm.disabled=false;item.note.innerHTML='<i class="fa-solid fa-circle-check"></i> Đã mở liên kết. Hoàn tất thao tác trên TikTok rồi xác nhận.'});
- item.confirm.addEventListener("click",()=>{
-  if(!clicked[i]){item.note.textContent="Hãy mở liên kết TikTok trước, rồi quay lại đây.";return}
-  if(!checkTimeGate(item.time)){item.note.innerHTML='<i class="fa-regular fa-clock"></i> Chưa follow hoặc like? Vui lòng quay lại TikTok để hoàn thành và trở lại web.';
-   item.note.classList.remove("gate-warning-shake");
-   void item.note.offsetWidth;
-   item.note.classList.add("gate-warning-shake");
-   return}
-  gateSet(item.key);stepDots[i].classList.add("done");stepDots[i].classList.remove("active");
-  if(i<2)showStep(i+1);else{subGate.classList.remove("active");document.body.style.overflow=""}
- })
+
+function checkSubGate(){
+ if(gateConfig.every(x=>gateGet(x.key))){
+   subGate.classList.remove("active");
+   document.body.style.overflow="";
+   return false;
+ }
+ subGate.classList.add("active");
+ document.body.style.overflow="hidden";
+ const n=gateConfig.findIndex(x=>!gateGet(x.key));
+ showStep(n<0?2:n);
+ return true;
+}
+
+// Rời tab → bắt đầu tính giây NGẦM cho tất cả bước chưa done
+function onHide(){
+  gateConfig.forEach((cfg, i) => {
+    const st = stepState[i];
+    if (st.done || gateGet(cfg.key)) return;
+    if (st.leaveTime === null) {
+      st.leaveTime = Date.now();
+    }
+  });
+}
+
+// Quay lại tab → dừng, kiểm tra đủ 5s chưa (KHÔNG hiển thị gì)
+function onShow(){
+  gateConfig.forEach((cfg, i) => {
+    const st = stepState[i];
+    if (st.leaveTime === null) return;
+    if (st.done || gateGet(cfg.key)) { st.leaveTime = null; return; }
+
+    const spent = Date.now() - st.leaveTime;
+    st.leaveTime = null;
+
+    if (spent >= GATE_OUTSIDE_MS) {
+      st.done = true;
+    } else {
+      st.done = false; // quay lại quá sớm → reset ngầm
+    }
+  });
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) onHide();
+  else onShow();
 });
+window.addEventListener("blur", () => { if (document.hidden) onHide(); });
+window.addEventListener("focus", () => { if (!document.hidden) onShow(); });
+
+gateConfig.forEach((item, i) => {
+  item.link.addEventListener("click", () => {
+    const st = stepState[i];
+    if (st.done || gateGet(item.key)) return;
+    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Hãy hoàn tất trên TikTok rồi quay lại xác nhận.';
+  });
+
+  item.confirm.addEventListener("click", () => {
+    const st = stepState[i];
+
+    // Nếu đang ở ngoài tab mà bấm được thì tính luôn
+    if (!st.done && st.leaveTime !== null) {
+      const spent = Date.now() - st.leaveTime;
+      if (spent >= GATE_OUTSIDE_MS) st.done = true;
+    }
+
+    if (!st.done && !gateGet(item.key)) {
+      item.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + item.msgFail;
+      shakeAll(item);
+      return;
+    }
+
+    gateSet(item.key);
+    stepDots[i].classList.add("done");
+    stepDots[i].classList.remove("active");
+    item.note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã xác nhận!';
+    item.note.classList.remove("gate-warning-shake");
+
+    if (i < 2) {
+      const nextSt = stepState[i + 1];
+      nextSt.leaveTime = null;
+      nextSt.done = false;
+      const nextCfg = gateConfig[i + 1];
+      nextCfg.note.innerHTML = defaultNote[i + 1];
+      nextCfg.note.classList.remove("gate-warning-shake");
+      showStep(i + 1);
+    } else {
+      subGate.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  });
+});
+
+function shakeAll(item){
+  item.note.classList.remove("gate-warning-shake");
+  void item.note.offsetWidth;
+  item.note.classList.add("gate-warning-shake");
+  item.confirm.classList.remove("shake");
+  void item.confirm.offsetWidth;
+  item.confirm.classList.add("shake");
+  const box = document.querySelector(".sub-gate-box");
+  if (box) {
+    box.classList.remove("shake");
+    void box.offsetWidth;
+    box.classList.add("shake");
+  }
+}
+
 /* ========================================== */
 
 document.addEventListener("DOMContentLoaded",()=>{
@@ -351,26 +458,17 @@ document.addEventListener("DOMContentLoaded",()=>{
   modalOverlay.addEventListener("click",closeModalOnOutside);
 });
 
-/* === ĐỌC DỮ LIỆU TỪ JSONBIN (GET) === */
 async function fetchPosts(){
   try{
     const res = await fetch(BIN_URL, {
         headers: { "X-Bin-Meta": "false" },
         cache: "no-store" 
     });
-    
     if(!res.ok) throw new Error("Server trả mã " + res.status);
-    
     const data = await res.json();
-    
-    if(Array.isArray(data)){
-        posts = data;
-    } else if (data && Array.isArray(data.posts)) {
-        posts = data.posts;
-    } else {
-        posts = []; 
-    }
-
+    if(Array.isArray(data)){ posts = data; }
+    else if (data && Array.isArray(data.posts)) { posts = data.posts; }
+    else { posts = []; }
     renderPosts();
   }catch(e){
     console.error("fetchPosts lỗi:", e);
@@ -382,13 +480,11 @@ function escapeHtml(str){
   if(str===null||str===undefined)return"";
   return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
-
 function formatDesc(text){
   if(!text)return"";
   const escaped=escapeHtml(text).replace(/\n/g,"<br>");
   return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
 }
-
 function openDownloadModal(id){
   const p=posts.find(item=>item.id==id);
   if(!p)return;
