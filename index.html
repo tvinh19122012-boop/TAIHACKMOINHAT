@@ -168,6 +168,13 @@ img{content-visibility:auto}
 .telegram-gate-link,.telegram-gate-skip{padding:14px 20px;border-radius:9px;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer}
 .telegram-gate-link{border:2px solid #168ac0;background:#229ED9;color:#fff}
 .telegram-gate-skip{border:1px solid #c8c8c2;background:#fff;color:#111}
+
+.video-link-input{
+  width:100%;padding:13px 15px;border-radius:9px;border:2px solid #ddd;background:#fafaf7;
+  font-family:Inter,sans-serif;font-size:14px;color:#111;outline:none;transition:border-color .18s;
+}
+.video-link-input:focus{border-color:var(--gold);background:#fff}
+.video-link-input::placeholder{color:#aaa;font-weight:500}
 </style>
 </head>
 <body>
@@ -189,6 +196,7 @@ img{content-visibility:auto}
     <div class="step-bar">
       <div class="step-dot" id="stepDot1"><i class="fa-brands fa-tiktok"></i> Follow @sikereal</div>
       <div class="step-dot" id="stepDot2"><i class="fa-brands fa-tiktok"></i> Follow @sikeffmod</div>
+      <div class="step-dot" id="stepDot3"><i class="fa-solid fa-heart"></i> Like + Bình luận</div>
     </div>
     
     <div class="gate-step active" id="gateStep1">
@@ -201,6 +209,7 @@ img{content-visibility:auto}
       </div>
       <div class="btn-confirm-note big" id="gateNote1">Mở TikTok trước, sau đó quay lại xác nhận.</div>
     </div>
+    
     <div class="gate-step" id="gateStep2">
       <div class="sub-gate-icon"><i class="fa-brands fa-tiktok"></i></div>
       <h2>Bước 2: Follow TikTok @sikeffmod</h2>
@@ -210,6 +219,28 @@ img{content-visibility:auto}
         <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote2">Mở TikTok trước, sau đó quay lại xác nhận.</div>
+    </div>
+    
+    <div class="gate-step" id="gateStep3">
+      <div class="sub-gate-icon"><i class="fa-solid fa-heart"></i></div>
+      <h2>Bước 3: Like + Bình luận + Dán link video</h2>
+      <p class="sub-gate-sub">Mở video TikTok, nhấn <strong>Like</strong>, để lại <strong>bình luận</strong>, sau đó <strong>sao chép liên kết video</strong> và dán vào ô bên dưới.</p>
+      <div class="video-card" style="margin-bottom:16px">
+        <div class="video-thumb"><div class="play-ic"><i class="fa-brands fa-tiktok"></i></div></div>
+        <div class="video-info"><div class="v-title">Video TikTok cần Like + Bình luận</div><div class="v-sub">SIKE</div></div>
+      </div>
+      <div class="sub-gate-actions" style="margin-bottom:14px">
+        <!-- ============================================================ -->
+        <!-- CHỖ NÀY ĐỂ BẠN DÁN LINK VIDEO CẦN LIKE + COMMENT + COPY LINK -->
+        <!-- TỰ SỬA href="..." THÀNH LINK VIDEO CỦA BẠN -->
+        <!-- ============================================================ -->
+        <a href="https://vt.tiktok.com/ZSgqNRabV/" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-heart"></i> Mở TikTok, Like và Bình luận</a>
+      </div>
+      <input type="text" class="video-link-input" id="videoLinkInput" placeholder="Dán link video TikTok vào đây (có thể dán cả đoạn text copy từ TikTok Lite, miễn có link video)">
+      <div class="sub-gate-actions" style="margin-top:12px">
+        <button class="btn-confirm" id="btnConfirm3"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote3">Mở video, Like + Bình luận, sao chép link và dán vào ô trên rồi xác nhận.</div>
     </div>
   </div>
 </div>
@@ -260,21 +291,22 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 
 const GATE_TTL_MS = 30 * 60 * 1000;
-const FOLLOW1_KEY="ttFollowSikereal_v2", FOLLOW2_KEY="ttFollowSikeffmod_v2";
+const FOLLOW1_KEY="ttFollowSikereal_v9", FOLLOW2_KEY="ttFollowSikeffmod_v9", LIKE_KEY="ttLikeComment_v9";
 
-const GATE_TOTAL_MS = 5000; // Đủ 5s (cả trong lẫn ngoài web, chỉ sau khi bấm nút), đếm ngầm
+const GATE_FOLLOW_MS = 5000;  // 5 giây
+const GATE_LIKE_MS   = 5000;  // 5 giây
+
 let gateMem = {};
 
 /*
  Mỗi bước:
- - started: đã bấm nút "Mở TikTok và Follow" chưa
- - accum: tổng thời gian đã tích lũy (ms)
- - lastTick: mốc cập nhật gần nhất (null = tạm dừng)
- - done: đã đủ 5s
+ - startTime: thời điểm bấm nút mở TikTok (null = chưa bấm)
+ - done: đã đủ thời gian
 */
 const stepState = {
-  0: { started: false, accum: 0, lastTick: null, done: false },
-  1: { started: false, accum: 0, lastTick: null, done: false }
+  0: { startTime: null, done: false },
+  1: { startTime: null, done: false },
+  2: { startTime: null, done: false }
 };
 
 function gateGet(key){let exp=gateMem[key]||0;try{exp=Math.max(exp,parseInt(localStorage.getItem(key),10)||0)}catch(e){}return exp>Date.now()}
@@ -283,18 +315,21 @@ function gateSet(key){const exp=Date.now()+GATE_TTL_MS;gateMem[key]=exp;try{loca
 let posts=[];
 const $=id=>document.getElementById(id);
 const postsContainer=$("postsContainer"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
-const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2")],gateSteps=[$("gateStep1"),$("gateStep2")];
+const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2"),$("stepDot3")],gateSteps=[$("gateStep1"),$("gateStep2"),$("gateStep3")];
 
 const gateConfig=[
  {link:$("btnFollow1"),confirm:$("btnConfirm1"),note:$("gateNote1"),key:FOLLOW1_KEY,index:0,
   msgFail:"Bạn chưa Follow @sikereal! Vui lòng bấm nút <b>Mở @sikereal và Follow</b> để vào TikTok và Follow, rồi quay lại."},
  {link:$("btnFollow2"),confirm:$("btnConfirm2"),note:$("gateNote2"),key:FOLLOW2_KEY,index:1,
-  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."}
+  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."},
+ {link:$("btnLikeVideo"),confirm:$("btnConfirm3"),note:$("gateNote3"),key:LIKE_KEY,index:2,
+  msgFail:"Bạn chưa Like + Bình luận hoặc chưa dán link! Vui lòng bấm nút <b>Mở TikTok, Like và Bình luận</b>, sau đó sao chép link video và dán vào ô bên trên."}
 ];
 
 const defaultNote = [
   "Mở TikTok trước, sau đó quay lại xác nhận.",
-  "Mở TikTok trước, sau đó quay lại xác nhận."
+  "Mở TikTok trước, sau đó quay lại xác nhận.",
+  "Mở video, Like + Bình luận, sao chép link và dán vào ô trên rồi xác nhận."
 ];
 
 function showStep(n){
@@ -314,79 +349,88 @@ function checkSubGate(){
  subGate.classList.add("active");
  document.body.style.overflow="hidden";
  const n=gateConfig.findIndex(x=>!gateGet(x.key));
- showStep(n<0?1:n);
+ showStep(n<0?2:n);
  return true;
 }
 
-// Cộng dồn thời gian kể từ lastTick vào accum cho các bước đã started & chưa done
-function tickAccum(){
-  const now = Date.now();
-  gateConfig.forEach((cfg, i) => {
-    const st = stepState[i];
-    if (!st.started || st.done || gateGet(cfg.key)) return;
-    if (st.lastTick === null) return;
-    const delta = now - st.lastTick;
-    if (delta > 0) st.accum += delta;
-    st.lastTick = now;
-    if (st.accum >= GATE_TOTAL_MS) {
-      st.accum = GATE_TOTAL_MS;
-      st.done = true;
-    }
-  });
+// Trích URL TikTok đầu tiên trong chuỗi (bỏ text rác TikTok Lite)
+function extractFirstTikTokUrl(text){
+  if(!text || typeof text !== "string") return "";
+  const match = text.match(/https?:\/\/[^\s<>"']*(?:tiktok\.com|tiktokv\.com)[^\s<>"']*/i);
+  return match ? match[0] : "";
 }
 
-// Bắt đầu/tiếp tục đếm (khi tab hiện hoặc vừa bấm nút)
-function resumeTicking(){
-  const now = Date.now();
-  gateConfig.forEach((cfg, i) => {
-    const st = stepState[i];
-    if (st.started && !st.done && !gateGet(cfg.key)) {
-      st.lastTick = now;
-    }
-  });
+// Kiểm tra link TikTok hợp lệ — CHỈ CẦN ĐÚNG DOMAIN + CÓ PATH, KHÔNG CHECK KÝ TỰ/ĐỘ DÀI
+function isValidTikTokLink(rawInput){
+  const clean = extractFirstTikTokUrl(rawInput);
+  if(!clean) return false;
+
+  // Bỏ query params & hash
+  const urlOnly = clean.split("?")[0].split("#")[0];
+
+  try {
+    const u = new URL(urlOnly);
+    const host = u.hostname.toLowerCase();
+    const path = u.pathname;
+
+    // Domain phải là tiktok.com hoặc subdomain của nó, hoặc tiktokv.com
+    const isTikTokDomain =
+      host === "tiktok.com" ||
+      host.endsWith(".tiktok.com") ||
+      host === "tiktokv.com" ||
+      host.endsWith(".tiktokv.com");
+
+    if (!isTikTokDomain) return false;
+
+    // Path không được rỗng (phải có gì đó sau domain)
+    if (!path || path === "/") return false;
+
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
-// Tạm dừng đếm, chốt accum
-function pauseTicking(){
-  tickAccum();
-  gateConfig.forEach((cfg, i) => {
-    const st = stepState[i];
-    if (st.started && !st.done && !gateGet(cfg.key)) {
-      st.lastTick = null;
-    }
-  });
+// Tính thời gian đã trôi kể từ startTime
+function elapsedSince(startTime){
+  if(!startTime) return 0;
+  return Date.now() - startTime;
 }
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) pauseTicking();
-  else resumeTicking();
-});
-window.addEventListener("blur", () => { if (document.hidden) pauseTicking(); });
-window.addEventListener("focus", () => { if (!document.hidden) resumeTicking(); });
 
 gateConfig.forEach((item, i) => {
+  const threshold = (i === 2) ? GATE_LIKE_MS : GATE_FOLLOW_MS;
+
   item.link.addEventListener("click", () => {
     const st = stepState[i];
     if (st.done || gateGet(item.key)) return;
 
-    // Bắt đầu đếm ngầm từ lúc bấm nút Follow
-    if (!st.started) {
-      st.started = true;
-      st.accum = 0;
+    // Ghi mốc bắt đầu đếm (chỉ ghi lần đầu)
+    if (st.startTime === null) {
+      st.startTime = Date.now();
     }
-    st.lastTick = document.hidden ? null : Date.now();
-    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Hãy hoàn tất trên TikTok rồi quay lại xác nhận.';
+    const taskText = (i === 2) ? "Like + Bình luận + sao chép link" : "Follow";
+    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Hãy hoàn tất ' + taskText + ' trên TikTok rồi quay lại xác nhận.';
   });
 
   item.confirm.addEventListener("click", () => {
     const st = stepState[i];
 
-    // Chốt thời gian hiện tại trước khi kiểm tra
-    if (st.started && !st.done && st.lastTick !== null) {
-      const now = Date.now();
-      st.accum += now - st.lastTick;
-      st.lastTick = now;
-      if (st.accum >= GATE_TOTAL_MS) st.done = true;
+    // Tính thời gian đã trôi (cả trong lẫn ngoài web)
+    if (st.startTime !== null && !st.done && !gateGet(item.key)) {
+      const spent = elapsedSince(st.startTime);
+      if (spent >= threshold) {
+        st.done = true;
+      }
+    }
+
+    // Riêng bước 3: kiểm tra link đã dán (chỉ cần đúng domain + path)
+    if (i === 2) {
+      const inputVal = $("videoLinkInput") ? $("videoLinkInput").value : "";
+      if (!isValidTikTokLink(inputVal)) {
+        item.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Link video chưa hợp lệ! Vui lòng dán link TikTok (có thể dán cả đoạn text copy từ TikTok Lite, miễn có link video).';
+        shakeAll(item);
+        return;
+      }
     }
 
     if (!st.done && !gateGet(item.key)) {
@@ -401,12 +445,9 @@ gateConfig.forEach((item, i) => {
     item.note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã xác nhận!';
     item.note.classList.remove("gate-warning-shake");
 
-    if (i < 1) {
-      // Reset bước tiếp theo (chưa started, chưa đếm)
+    if (i < 2) {
       const nextSt = stepState[i + 1];
-      nextSt.started = false;
-      nextSt.accum = 0;
-      nextSt.lastTick = null;
+      nextSt.startTime = null;
       nextSt.done = false;
       const nextCfg = gateConfig[i + 1];
       nextCfg.note.innerHTML = defaultNote[i + 1];
