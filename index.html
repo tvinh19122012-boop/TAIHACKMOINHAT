@@ -99,24 +99,14 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 .step-dot.done{color:#111;border-color:#d2d2ca;background:#ededE8}
 .gate-step{display:none}
 .gate-step.active{display:block;animation:fadeIn .2s ease}
-.video-card{display:flex;align-items:center;gap:14px;padding:12px;border-radius:10px;background:#f7f7f4;border:1px solid var(--bd);margin-bottom:20px;text-align:left}
-.video-thumb{width:120px;height:68px;border-radius:7px;flex-shrink:0;overflow:hidden;position:relative;background:#111;border:1px solid var(--bd)}
-.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.video-thumb .play-ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)}
-.video-thumb .play-ic i{font-size:22px;color:#fff;filter:none}
-.video-info{min-width:0;flex:1}
-.video-info .v-title{font-size:14px;font-weight:800;color:#111;line-height:1.4;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.video-info .v-sub{font-size:12px;color:#707070}
 .sub-gate-actions{display:flex;flex-direction:column;gap:10px}
 .btn-youtube{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:#111;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
 .btn-youtube:hover{background:#333}
-.btn-youtube.liked{border-color:#111;background:#333;color:#fff;box-shadow:none}
 .btn-confirm{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:var(--gold);color:#111;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
 .btn-confirm:hover{background:#ffda26}
 .btn-confirm:disabled{opacity:.45;cursor:not-allowed}
 .btn-confirm-note{font-size:13px;color:#666;margin-top:14px;line-height:1.6}
 .btn-confirm-note b{color:#111}
-.warn-note{color:#8a6b00}
 .big-word{display:inline-block;font-weight:900;font-size:clamp(22px,6vw,29px);line-height:1.2;letter-spacing:0;padding:3px 9px;margin:2px;border-radius:5px;vertical-align:middle}
 .big-word.red{color:#111;background:var(--gold);box-shadow:none}
 .big-word.mint{color:#111;background:#ecece7;box-shadow:none}
@@ -153,8 +143,6 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 .hub-card-action{margin-top:auto;padding-top:7px;font-size:12px;font-weight:900;color:#087bea;overflow-wrap:anywhere}.hub-card-action:hover{text-decoration:underline}
 .hub-footnote{margin:0 16px 16px;padding:11px 13px;border-radius:8px;background:#f3f3ef;color:#333;font-size:12px;font-weight:700}
 .hub-footnote i{color:#8c7100;margin-right:5px}
-#gateStep3 .video-thumb{display:flex;align-items:center;justify-content:center}
-#gateStep3 .video-thumb .play-ic{background:#111}
 @media(max-width:768px){.hub-heading{padding:21px 17px}.hub-grid{padding:11px;gap:9px}.hub-card{padding:13px}}
 @media(max-width:480px){.hub-grid{grid-template-columns:1fr}.hub-card{min-height:130px}}
 
@@ -162,7 +150,7 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
   .header{padding:12px 14px}.logo{font-size:22px}.gbtn{font-size:12px;padding:8px 11px}
   .container{padding:18px 13px 48px}.post-card{padding:19px}.post-card .post-title{font-size:19px}
   .modal-box{padding:23px 18px}.sub-gate-box{padding:25px 17px}.sub-gate h2{font-size:21px}
-  .step-dot{font-size:11px;padding:7px 9px}.video-thumb{width:96px;height:56px}.video-info .v-title{font-size:12.5px}
+  .step-dot{font-size:11px;padding:7px 9px}
 }
 @media(max-width:480px){.header-right .gbtn span{display:none}.header-right .gbtn i{margin:0}.logo{font-size:20px}}
 .gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent}
@@ -201,7 +189,6 @@ img{content-visibility:auto}
     <div class="step-bar">
       <div class="step-dot" id="stepDot1"><i class="fa-brands fa-tiktok"></i> Follow @sikereal</div>
       <div class="step-dot" id="stepDot2"><i class="fa-brands fa-tiktok"></i> Follow @sikeffmod</div>
-      <div class="step-dot" id="stepDot3"><i class="fa-solid fa-heart"></i> Tim TikTok</div>
     </div>
     
     <div class="gate-step active" id="gateStep1">
@@ -223,20 +210,6 @@ img{content-visibility:auto}
         <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote2">Mở TikTok trước, sau đó quay lại xác nhận.</div>
-    </div>
-    <div class="gate-step" id="gateStep3">
-      <div class="sub-gate-icon"><i class="fa-solid fa-heart"></i></div>
-      <h2>Bước 3: Tim video TikTok</h2>
-      <p class="sub-gate-sub">Mở video TikTok và nhấn tim. Bạn có thể tự sửa link video trong file HTML.</p>
-      <div class="video-card">
-        <div class="video-thumb"><div class="play-ic"><i class="fa-brands fa-tiktok"></i></div></div>
-        <div class="video-info"><div class="v-title">Video TikTok cần tim</div><div class="v-sub">SIKE</div></div>
-      </div>
-      <div class="sub-gate-actions">
-        <a href="https://vt.tiktok.com/ZSgV9xaNc/" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeTikTok"><i class="fa-solid fa-heart"></i> Mở TikTok và tim video</a>
-        <button class="btn-confirm" id="btnConfirm3"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
-      </div>
-      <div class="btn-confirm-note big" id="gateNote3">Mở video, nhấn tim rồi quay lại xác nhận.</div>
     </div>
   </div>
 </div>
@@ -287,20 +260,21 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
 
 const GATE_TTL_MS = 30 * 60 * 1000;
-const FOLLOW1_KEY="ttFollowSikereal_v2", FOLLOW2_KEY="ttFollowSikeffmod_v2", HEART_KEY="ttHeartVideo_v2";
+const FOLLOW1_KEY="ttFollowSikereal_v2", FOLLOW2_KEY="ttFollowSikeffmod_v2";
 
-const GATE_OUTSIDE_MS = 3000; // cần 3s ở ngoài web — ẨN HOÀN TOÀN với người dùng
+const GATE_TOTAL_MS = 5000; // Đủ 5s (cả trong lẫn ngoài web, chỉ sau khi bấm nút), đếm ngầm
 let gateMem = {};
 
 /*
  Mỗi bước:
- - leaveTime: thời điểm rời tab (null = đang ở trong web)
- - done: đã đủ 5s ngoài
+ - started: đã bấm nút "Mở TikTok và Follow" chưa
+ - accum: tổng thời gian đã tích lũy (ms)
+ - lastTick: mốc cập nhật gần nhất (null = tạm dừng)
+ - done: đã đủ 5s
 */
 const stepState = {
-  0: { leaveTime: null, done: false },
-  1: { leaveTime: null, done: false },
-  2: { leaveTime: null, done: false }
+  0: { started: false, accum: 0, lastTick: null, done: false },
+  1: { started: false, accum: 0, lastTick: null, done: false }
 };
 
 function gateGet(key){let exp=gateMem[key]||0;try{exp=Math.max(exp,parseInt(localStorage.getItem(key),10)||0)}catch(e){}return exp>Date.now()}
@@ -309,21 +283,18 @@ function gateSet(key){const exp=Date.now()+GATE_TTL_MS;gateMem[key]=exp;try{loca
 let posts=[];
 const $=id=>document.getElementById(id);
 const postsContainer=$("postsContainer"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
-const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2"),$("stepDot3")],gateSteps=[$("gateStep1"),$("gateStep2"),$("gateStep3")];
+const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2")],gateSteps=[$("gateStep1"),$("gateStep2")];
 
 const gateConfig=[
  {link:$("btnFollow1"),confirm:$("btnConfirm1"),note:$("gateNote1"),key:FOLLOW1_KEY,index:0,
   msgFail:"Bạn chưa Follow @sikereal! Vui lòng bấm nút <b>Mở @sikereal và Follow</b> để vào TikTok và Follow, rồi quay lại."},
  {link:$("btnFollow2"),confirm:$("btnConfirm2"),note:$("gateNote2"),key:FOLLOW2_KEY,index:1,
-  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."},
- {link:$("btnLikeTikTok"),confirm:$("btnConfirm3"),note:$("gateNote3"),key:HEART_KEY,index:2,
-  msgFail:"Bạn chưa Tim video! Vui lòng bấm nút <b>Mở TikTok và tim video</b> để vào TikTok và nhấn tim, rồi quay lại."}
+  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."}
 ];
 
 const defaultNote = [
   "Mở TikTok trước, sau đó quay lại xác nhận.",
-  "Mở TikTok trước, sau đó quay lại xác nhận.",
-  "Mở video, nhấn tim rồi quay lại xác nhận."
+  "Mở TikTok trước, sau đó quay lại xác nhận."
 ];
 
 function showStep(n){
@@ -343,60 +314,79 @@ function checkSubGate(){
  subGate.classList.add("active");
  document.body.style.overflow="hidden";
  const n=gateConfig.findIndex(x=>!gateGet(x.key));
- showStep(n<0?2:n);
+ showStep(n<0?1:n);
  return true;
 }
 
-// Rời tab → bắt đầu tính giây NGẦM cho tất cả bước chưa done
-function onHide(){
+// Cộng dồn thời gian kể từ lastTick vào accum cho các bước đã started & chưa done
+function tickAccum(){
+  const now = Date.now();
   gateConfig.forEach((cfg, i) => {
     const st = stepState[i];
-    if (st.done || gateGet(cfg.key)) return;
-    if (st.leaveTime === null) {
-      st.leaveTime = Date.now();
+    if (!st.started || st.done || gateGet(cfg.key)) return;
+    if (st.lastTick === null) return;
+    const delta = now - st.lastTick;
+    if (delta > 0) st.accum += delta;
+    st.lastTick = now;
+    if (st.accum >= GATE_TOTAL_MS) {
+      st.accum = GATE_TOTAL_MS;
+      st.done = true;
     }
   });
 }
 
-// Quay lại tab → dừng, kiểm tra đủ 5s chưa (KHÔNG hiển thị gì)
-function onShow(){
+// Bắt đầu/tiếp tục đếm (khi tab hiện hoặc vừa bấm nút)
+function resumeTicking(){
+  const now = Date.now();
   gateConfig.forEach((cfg, i) => {
     const st = stepState[i];
-    if (st.leaveTime === null) return;
-    if (st.done || gateGet(cfg.key)) { st.leaveTime = null; return; }
+    if (st.started && !st.done && !gateGet(cfg.key)) {
+      st.lastTick = now;
+    }
+  });
+}
 
-    const spent = Date.now() - st.leaveTime;
-    st.leaveTime = null;
-
-    if (spent >= GATE_OUTSIDE_MS) {
-      st.done = true;
-    } else {
-      st.done = false; // quay lại quá sớm → reset ngầm
+// Tạm dừng đếm, chốt accum
+function pauseTicking(){
+  tickAccum();
+  gateConfig.forEach((cfg, i) => {
+    const st = stepState[i];
+    if (st.started && !st.done && !gateGet(cfg.key)) {
+      st.lastTick = null;
     }
   });
 }
 
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) onHide();
-  else onShow();
+  if (document.hidden) pauseTicking();
+  else resumeTicking();
 });
-window.addEventListener("blur", () => { if (document.hidden) onHide(); });
-window.addEventListener("focus", () => { if (!document.hidden) onShow(); });
+window.addEventListener("blur", () => { if (document.hidden) pauseTicking(); });
+window.addEventListener("focus", () => { if (!document.hidden) resumeTicking(); });
 
 gateConfig.forEach((item, i) => {
   item.link.addEventListener("click", () => {
     const st = stepState[i];
     if (st.done || gateGet(item.key)) return;
+
+    // Bắt đầu đếm ngầm từ lúc bấm nút Follow
+    if (!st.started) {
+      st.started = true;
+      st.accum = 0;
+    }
+    st.lastTick = document.hidden ? null : Date.now();
     item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Hãy hoàn tất trên TikTok rồi quay lại xác nhận.';
   });
 
   item.confirm.addEventListener("click", () => {
     const st = stepState[i];
 
-    // Nếu đang ở ngoài tab mà bấm được thì tính luôn
-    if (!st.done && st.leaveTime !== null) {
-      const spent = Date.now() - st.leaveTime;
-      if (spent >= GATE_OUTSIDE_MS) st.done = true;
+    // Chốt thời gian hiện tại trước khi kiểm tra
+    if (st.started && !st.done && st.lastTick !== null) {
+      const now = Date.now();
+      st.accum += now - st.lastTick;
+      st.lastTick = now;
+      if (st.accum >= GATE_TOTAL_MS) st.done = true;
     }
 
     if (!st.done && !gateGet(item.key)) {
@@ -411,9 +401,12 @@ gateConfig.forEach((item, i) => {
     item.note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã xác nhận!';
     item.note.classList.remove("gate-warning-shake");
 
-    if (i < 2) {
+    if (i < 1) {
+      // Reset bước tiếp theo (chưa started, chưa đếm)
       const nextSt = stepState[i + 1];
-      nextSt.leaveTime = null;
+      nextSt.started = false;
+      nextSt.accum = 0;
+      nextSt.lastTick = null;
       nextSt.done = false;
       const nextCfg = gateConfig[i + 1];
       nextCfg.note.innerHTML = defaultNote[i + 1];
