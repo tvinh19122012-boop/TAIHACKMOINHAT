@@ -9,248 +9,435 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f7f7f5; --txt:#111111; --txt-2:#444444; --txt-3:#707070;
-  --gold:#f2c500; --gold-2:#d9ad00; --mint:#f2c500; --green:#222222;
-  --red:#222222; --bd:rgba(0,0,0,.12); --bd-hi:rgba(0,0,0,.28);
-  --glass:#ffffff; --glass-2:#f0f0ed; --r:14px; --ease:cubic-bezier(.2,.7,.2,1);
+  --bg:#05070a; --txt:#f4f7f5; --txt-2:#a9b3bd; --txt-3:#68737d;
+  --gold:#ffd60a; --gold-2:#f5b301; --mint:#7df9d6; --green:#22c55e;
+  --red:#ff4d4d; --bd:rgba(255,255,255,.09); --bd-hi:rgba(255,255,255,.2);
+  --glass:rgba(255,255,255,.04); --glass-2:rgba(255,255,255,.07);
+  --r:20px; --ease:cubic-bezier(.32,.72,0,1);
+  --tg:#29b6f6; --tg-2:#0288d1;
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.65;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg); color:var(--txt); min-height:100vh; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(125,249,214,.06), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 100%, rgba(255,214,10,.05), transparent 60%);
+  background-attachment:fixed;
 }
 a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-track{background:#eeeeeb}
-::-webkit-scrollbar-thumb{background:#bdbdb7;border-radius:8px}
-::-webkit-scrollbar-thumb:hover{background:var(--gold-2)}
-body,.post-card,.post-desc,.modal-content,.guide-line,.post-title,.modal-title{
-  -webkit-user-select:text!important;-moz-user-select:text!important;-ms-user-select:text!important;user-select:text!important;
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-title {
+  -webkit-user-select: text !important; -moz-user-select: text !important;
+  -ms-user-select: text !important; user-select: text !important;
 }
-button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtube,.btn-confirm{
-  -webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;
+button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
+.btn-youtube, .btn-confirm, .btn-skip, .btn-box {
+  -webkit-user-select: none !important; -moz-user-select: none !important;
+  -ms-user-select: none !important; user-select: none !important;
 }
-.glass{position:relative;background:#fff;border:1px solid var(--bd);border-radius:var(--r);box-shadow:0 2px 8px rgba(0,0,0,.035)}
+
+.glass{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--bd); border-radius:var(--r);
+  box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 -1px 0 rgba(0,0,0,.25) inset, 0 8px 28px rgba(0,0,0,.35);
+}
+
 .header{
-  position:sticky;top:0;z-index:100;padding:14px 22px;display:flex;justify-content:space-between;
-  align-items:center;gap:12px;flex-wrap:wrap;background:rgba(255,255,255,.96);
-  border-bottom:2px solid #171717;
+  position:sticky;top:0;z-index:100; padding:12px 22px; display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap; background:rgba(10,14,21,.7);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--bd);
 }
 .header-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.logo{font-size:25px;font-weight:900;letter-spacing:-.8px;color:#111;display:flex;align-items:center;gap:9px}
-.logo i{color:#111}
-.logo span{color:#111;background:var(--gold);padding:0 6px;border-radius:4px;-webkit-text-fill-color:#111}
-.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.logo{font-size:21px;font-weight:900;letter-spacing:-.6px;color:var(--txt);display:flex;align-items:center;gap:8px;}
+.logo i{color:var(--mint)}
+.logo span{background:linear-gradient(135deg,var(--gold),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+
 .gbtn{
-  padding:9px 14px;border-radius:9px;font-weight:800;font-size:13px;border:1px solid #d5d5d0;
-  cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:#171717;background:#fff;
-  transition:background .18s,border-color .18s,transform .18s;
+  position:relative; padding:9px 18px;border-radius:14px; font-weight:700;font-size:13px;
+  border:1px solid var(--bd); cursor:pointer; display:inline-flex;align-items:center;gap:7px;
+  color:var(--txt); background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  box-shadow: 0 1px 0 rgba(255,255,255,.14) inset, 0 -1px 0 rgba(0,0,0,.2) inset, 0 3px 12px rgba(0,0,0,.25);
+  transition:transform .2s var(--ease), border-color .2s, box-shadow .2s, background .2s; will-change:transform;
 }
-.gbtn:hover{transform:translateY(-1px);background:#f2f2ef;border-color:#777}
-.btn-social.youtube i{color:#e60000}
-.btn-social.telegram i{color:#229ED9}
-.container{max-width:980px;margin:0 auto;padding:26px 20px 70px}
-.guide-line{text-align:center;color:#444;margin-bottom:22px;font-size:15px;font-weight:600;padding:15px 18px;border-radius:12px;background:#fff;border:1px solid var(--bd)}
-.guide-line strong{color:#111;background:var(--gold);padding:4px 9px;border-radius:5px;font-weight:900}
-.posts-grid{display:grid;grid-template-columns:1fr;gap:16px}
-.post-card{padding:24px 26px;transition:border-color .18s,box-shadow .18s}
-.post-card:hover{border-color:#a99a4d;box-shadow:0 5px 18px rgba(0,0,0,.06)}
-.post-card .post-title{font-size:21px;font-weight:900;letter-spacing:-.35px;color:#111;margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;line-height:1.35}
-.post-card .post-title .post-id{font-size:12px;font-weight:900;color:#111;background:var(--gold);padding:4px 9px;border-radius:5px;border:0}
-.post-card .post-image{width:100%;max-height:320px;object-fit:cover;border-radius:9px;margin:14px 0;border:1px solid var(--bd)}
+.gbtn:hover{
+  transform:translateY(-2px); border-color:var(--bd-hi);
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -1px 0 rgba(0,0,0,.2) inset, 0 6px 20px rgba(0,0,0,.35);
+}
+.gbtn:active{transform:translateY(0) scale(.97)}
+.btn-social.youtube i{color:var(--red)}
+.btn-social.telegram i{color:var(--mint)}
+.btn-social.tiktok i{color:#fff}
+.btn-social.zalo i{color:#4fc3f7}
+.btn-bypass i{color:var(--green)}
+.btn-social.youtube:hover{border-color:rgba(255,77,77,.5)}
+.btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
+.btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
+.btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
+.btn-bypass:hover{border-color:rgba(34,197,94,.5)}
+
+.container{max-width:980px;margin:0 auto;padding:24px 20px 70px}
+.guide-line{
+  text-align:center;color:var(--txt-2);margin-bottom:22px;font-size:14px;
+  padding:13px 22px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  border:1px solid var(--bd); box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
+}
+.guide-line strong{
+  color:var(--gold);padding:3px 10px;border-radius:8px;
+  background:rgba(255,214,10,.1); border:1px solid rgba(255,214,10,.25);
+}
+
+.posts-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.post-card{
+  padding:24px 26px; transition:transform .25s var(--ease), border-color .25s, box-shadow .25s;
+  will-change:transform;
+}
+.post-card:hover{
+  transform:translateY(-4px); border-color:var(--bd-hi);
+  box-shadow: 0 1px 0 rgba(255,255,255,.16) inset, 0 -1px 0 rgba(0,0,0,.25) inset, 0 14px 36px rgba(0,0,0,.45);
+}
+.post-card .post-title{
+  font-size:18px;font-weight:800;letter-spacing:-.3px; color:var(--txt);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.post-card .post-title .post-id{
+  font-size:11px;font-weight:700; color:var(--gold); background:rgba(255,214,10,.1);
+  padding:3px 10px;border-radius:12px; border:1px solid rgba(255,214,10,.25);
+}
+.post-card .post-image{
+  width:100%;max-height:320px;object-fit:cover; border-radius:14px;margin:14px 0; border:1px solid var(--bd);
+}
 .post-card .post-desc{display:none}
-.post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+.post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+
 .btn-download{
-  padding:12px 21px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;
-  background:var(--gold);color:#111;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
-  transition:transform .18s,background .18s;
+  padding:11px 24px;border-radius:14px; font-weight:800;font-size:13.5px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;gap:9px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 16px rgba(125,249,214,.25);
+  transition:transform .2s var(--ease), box-shadow .2s, filter .2s; will-change:transform;
 }
-.btn-download:hover{transform:translateY(-1px);background:#ffda26}
-.btn-download:active{transform:scale(.98)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.active{display:flex;animation:fadeIn .18s ease}
+.btn-download:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 8px 22px rgba(125,249,214,.35)}
+.btn-download:active{transform:translateY(0) scale(.97)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.8); z-index:9999;display:none;
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex;animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-box{position:relative;background:#fff;border:1px solid #d6d6d1;border-radius:16px;padding:28px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 18px 55px rgba(0,0,0,.2);animation:popIn .22s var(--ease)}
-@keyframes popIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.modal-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:8px;background:#f4f4f1;border:1px solid var(--bd);color:#111;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.modal-close:hover{background:var(--gold)}
-.modal-title{font-size:23px;font-weight:900;letter-spacing:-.35px;color:#111;margin-bottom:18px;padding-right:48px;padding-bottom:14px;border-bottom:2px solid var(--gold)}
-.modal-content{color:#333;font-size:15px;font-weight:500;line-height:1.85;white-space:pre-wrap;word-break:break-word;user-select:text}
-.modal-content a{color:#111;text-decoration:underline;text-decoration-color:#d5ad00;text-decoration-thickness:2px;font-weight:800;word-break:break-all}
-.modal-content a:hover{background:#fff2a8}
-.modal-actions{margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--bd);padding-top:20px}
-.modal-download-btn{padding:13px 28px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:var(--gold);color:#111;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .18s}
-.modal-download-btn:hover{transform:translateY(-1px)}
-.copy-btn{padding:12px 22px;border-radius:9px;font-weight:800;font-size:14px;border:1px solid #c8c8c2;background:#fff;color:#111;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .18s}
-.copy-btn:hover,.copy-btn.copied{background:#f5e8a4;border-color:#b89b13;color:#111}
+.modal-box{
+  position:relative; background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi); border-radius:24px; padding:30px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .3s var(--ease);
+}
+@keyframes popIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{
+  position:absolute;top:14px;right:16px; width:38px;height:38px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--bd); color:var(--txt-2);font-size:17px;cursor:pointer;
+  transition:all .25s var(--ease); display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{color:var(--mint);border-color:rgba(125,249,214,.5);transform:rotate(90deg)}
+.modal-title{
+  font-size:20px;font-weight:800;letter-spacing:-.3px; color:var(--txt);margin-bottom:18px;padding-right:50px;
+  padding-bottom:14px;border-bottom:1px solid var(--bd);
+}
+.modal-content{color:var(--txt-2);font-size:14.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word;user-select:text}
+.modal-content a{
+  color:var(--mint);text-decoration:none;font-weight:700;
+  border-bottom:1px dashed rgba(125,249,214,.4); word-break:break-all;
+}
+.modal-content a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.modal-actions{
+  margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--bd);padding-top:20px;
+}
+.modal-download-btn{
+  padding:14px 40px;border-radius:16px; font-weight:900;font-size:15px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;gap:9px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
 
-.sub-gate{position:fixed;inset:0;z-index:99999;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-.sub-gate:not(.active){display:none}.sub-gate.active{display:flex;animation:fadeIn .2s ease}
-.sub-gate-box{max-width:560px;width:100%;background:#fff;border:1px solid #d5d5cf;border-top:5px solid var(--gold);border-radius:16px;padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.09);animation:popIn .22s var(--ease);margin:auto}
-.sub-gate-icon{width:68px;height:68px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:#fff4b8;border:1px solid #e0c84c}
-.sub-gate-icon i{font-size:32px}
-.sub-gate h2{font-size:23px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px;color:#111}
-.sub-gate>.sub-gate-box>p.sub-gate-sub{color:#444;font-size:15px;line-height:1.7;margin-bottom:20px}
-.sub-gate p b{color:#111;background:#fff0a3}
+.copy-btn{
+  padding:12px 26px;border-radius:14px; font-weight:700;font-size:13.5px;
+  border:1px solid var(--bd); background:var(--glass); color:var(--txt);cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px; transition:all .2s var(--ease);
+}
+.copy-btn:hover{background:var(--glass-2);border-color:var(--mint);color:var(--mint);transform:translateY(-2px)}
+.copy-btn.copied{background:rgba(125,249,214,.15);border-color:var(--mint);color:var(--mint)}
+
+.sub-gate{
+  position:fixed;inset:0;z-index:99999; background:rgba(3,5,8,.96);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  display:none;align-items:center;justify-content:center;padding:20px; overflow-y:auto;
+}
+.sub-gate.active{display:flex;animation:fadeIn .3s ease}
+.sub-gate-box{
+  max-width:560px;width:100%; background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi); border-radius:26px; padding:34px 30px; text-align:center;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .35s var(--ease); margin:auto;
+}
+.sub-gate-icon{
+  width:76px;height:76px;border-radius:50%; margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 40%,rgba(255,77,77,.35),rgba(255,77,77,.05));
+  border:1px solid rgba(255,77,77,.4); box-shadow:0 0 40px rgba(255,77,77,.25);
+}
+.sub-gate-icon i{font-size:36px;color:#ff4d4d}
+.sub-gate h2{font-size:21px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px;color:var(--txt);}
+.sub-gate > .sub-gate-box > p.sub-gate-sub{color:var(--txt-2);font-size:14px;line-height:1.65;margin-bottom:20px;}
+.sub-gate p b{color:var(--gold)}
+
 .step-bar{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap}
-.step-dot{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:800;border:1px solid #ddd;background:#f8f8f5;color:#777;transition:background .18s}
-.step-dot.active{color:#111;border-color:#c9a900;background:#fff2a6}
-.step-dot.done{color:#111;border-color:#d2d2ca;background:#ededE8}
+.step-dot{
+  display:flex;align-items:center;gap:7px; padding:7px 14px;border-radius:20px;
+  font-size:12px;font-weight:800;letter-spacing:.3px; border:1px solid var(--bd);
+  background:var(--glass);color:var(--txt-3); transition:all .25s var(--ease);
+}
+.step-dot i{font-size:12px}
+.step-dot.active{color:var(--gold); border-color:rgba(255,214,10,.45); background:rgba(255,214,10,.1); box-shadow:0 0 0 3px rgba(255,214,10,.08);}
+.step-dot.done{color:var(--mint); border-color:rgba(125,249,214,.45); background:rgba(125,249,214,.1);}
+.step-dot.done i{color:var(--mint)}
+.step-dot.opt{border-style:dashed}
+.step-dot.active.tg{color:var(--tg);border-color:rgba(41,182,246,.5);background:rgba(41,182,246,.1);box-shadow:0 0 0 3px rgba(41,182,246,.08)}
 .gate-step{display:none}
-.gate-step.active{display:block;animation:fadeIn .2s ease}
-.sub-gate-actions{display:flex;flex-direction:column;gap:10px}
-.btn-youtube{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:#cc0000;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
-.btn-youtube:hover{background:#aa0000}
-.btn-confirm{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:var(--gold);color:#111;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
-.btn-confirm:hover{background:#ffda26}
-.btn-confirm-note{font-size:13px;color:#666;margin-top:14px;line-height:1.6}
-.btn-confirm-note.big{font-size:clamp(14px,3.9vw,16px);font-weight:650;color:#555;margin-top:16px;line-height:1.6}
-.btn-confirm-note.big b{color:#111;font-size:1.05em;background:#fff1a8}
-.empty-state{text-align:center;padding:56px 20px;color:#777}
-.empty-state i{font-size:42px;margin-bottom:16px;display:block;color:#b5a03a}
-.empty-state h3{font-size:19px;color:#222;margin-bottom:6px;font-weight:900}
-.loading-spinner{display:flex;justify-content:center;align-items:center;padding:50px 0;gap:12px;color:#333;font-weight:800}
-.loading-spinner i{font-size:22px;animation:spin 1s linear infinite}
+.gate-step.active{display:block;animation:fadeIn .3s ease}
+
+.video-card{
+  display:flex;align-items:center;gap:14px; padding:12px;border-radius:16px;
+  background:rgba(0,0,0,.35); border:1px solid var(--bd); margin-bottom:20px;text-align:left;
+}
+.video-thumb{
+  width:120px;height:68px;border-radius:10px; flex-shrink:0;overflow:hidden;position:relative;
+  background:#000;border:1px solid var(--bd);
+}
+.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.video-thumb .play-ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);}
+.video-thumb .play-ic i{font-size:22px;color:#ff4d4d;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.video-info{min-width:0;flex:1}
+.video-info .v-title{
+  font-size:13.5px;font-weight:800;color:var(--txt); line-height:1.4;margin-bottom:3px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.video-info .v-sub{font-size:12px;color:var(--txt-3)}
+
+.sub-gate-actions{display:flex;flex-direction:column;gap:12px}
+.btn-youtube{
+  padding:15px 26px;border-radius:16px; font-weight:900;font-size:14.5px;
+  border:1px solid rgba(255,77,77,.5); background:linear-gradient(180deg,#ff4d4d,#cc0000);
+  color:#fff;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.2) inset, 0 6px 22px rgba(255,77,77,.35);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-youtube:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(255,77,77,.5)}
+.btn-youtube:active{transform:translateY(0) scale(.98)}
+.btn-youtube.liked{
+  border-color:rgba(125,249,214,.5); background:linear-gradient(180deg,#22c55e,#15803d);
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(34,197,94,.35);
+}
+.btn-confirm{
+  padding:15px 26px;border-radius:16px; font-weight:800;font-size:15px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-confirm:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+.btn-confirm:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none;}
+.btn-confirm-note{font-size:12px;color:var(--txt-3);margin-top:14px;line-height:1.55;}
+.btn-confirm-note b{color:var(--mint)}
+.warn-note{color:var(--gold)}
+
+.big-word{
+  display:inline-block;font-weight:900;font-size:clamp(22px,6vw,30px);
+  line-height:1.2;letter-spacing:.3px;padding:2px 12px;margin:2px 3px;border-radius:12px;
+  vertical-align:middle;
+}
+.big-word.red{color:#fff;background:linear-gradient(180deg,#ff4d4d,#cc0000);box-shadow:0 4px 18px rgba(255,77,77,.4)}
+.big-word.mint{color:#052e12;background:linear-gradient(180deg,#7df9d6,#22c55e);box-shadow:0 4px 18px rgba(125,249,214,.35)}
+
+.btn-confirm-note.big{font-size:clamp(14px,3.9vw,16px);font-weight:700;color:var(--txt-2);margin-top:16px;line-height:1.5;}
+.btn-confirm-note.big b{color:var(--gold);font-size:1.15em}
+
+/* ===== Màn 3: Box tuỳ chọn ===== */
+.req-badge{
+  display:inline-flex;align-items:center;gap:7px;margin:0 auto 14px;padding:7px 16px;border-radius:999px;
+  font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;
+}
+.req-badge.opt{color:var(--tg);background:rgba(41,182,246,.12);border:1px dashed rgba(41,182,246,.55)}
+.skip-hero{
+  margin:0 0 16px;padding:16px 14px;border-radius:18px;text-align:center;
+  background:linear-gradient(180deg,rgba(255,214,10,.14),rgba(255,214,10,.05));
+  border:2px dashed rgba(255,214,10,.65);
+  animation:pulseGold 2.2s ease-in-out infinite;
+}
+.skip-hero .big{font-size:clamp(17px,5vw,21px);font-weight:900;color:var(--gold);line-height:1.35}
+.skip-hero .small{font-size:13px;font-weight:700;color:var(--txt-2);margin-top:4px}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 0 0 rgba(255,214,10,.0)}50%{box-shadow:0 0 0 6px rgba(255,214,10,.12)}}
+.btn-skip.big{
+  width:100%;padding:16px 24px;font-size:16px;font-weight:900;color:#1a1500;
+  background:linear-gradient(180deg,#ffe45c,#ffc400);border:1px solid rgba(255,214,10,.7);
+  box-shadow:0 6px 22px rgba(255,196,0,.35);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .25s var(--ease);
+}
+.btn-skip.big:hover{color:#1a1500;background:linear-gradient(180deg,#ffe97f,#ffcf2e);border-color:rgba(255,214,10,.9);transform:translateY(-2px)}
+.box-title{font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--txt-3);margin:18px 0 10px}
+.box-list{display:grid;grid-template-columns:1fr;gap:10px}
+.btn-box{
+  display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;font-weight:900;font-size:14.5px;
+  color:#fff;text-decoration:none;text-align:left;border:1px solid rgba(255,255,255,.18);
+  transition:all .25s var(--ease);cursor:pointer;
+}
+.btn-box i{font-size:20px;flex:0 0 auto}
+.btn-box span{flex:1}
+.btn-box em{font-style:normal;font-size:11px;font-weight:800;opacity:.85;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.25)}
+.btn-box.tg{background:linear-gradient(180deg,#29b6f6,#0288d1);border-color:rgba(41,182,246,.6)}
+.btn-box.zalo{background:linear-gradient(180deg,#2d8cff,#0068ff);border-color:rgba(0,104,255,.6)}
+.btn-box:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-box:active{transform:scale(.98)}
+.box-note{margin:14px 0 14px;font-size:13px;font-weight:700;color:var(--txt-2);line-height:1.55}
+.box-note b{color:var(--gold)}
+.tg-banner{
+  display:inline-block;margin:0 0 12px;padding:10px 16px;border-radius:14px;font-weight:900;
+  font-size:clamp(15px,4.2vw,18px);line-height:1.4;color:var(--gold);letter-spacing:.2px;
+  background:rgba(255,214,10,.08);border:1px dashed rgba(255,214,10,.45);
+}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--txt-3)}
+.empty-state i{font-size:48px;margin-bottom:16px;display:block;color:rgba(125,249,214,.3)}
+.empty-state h3{font-size:17px;color:var(--txt-2);margin-bottom:6px;font-weight:700}
+.loading-spinner{display:flex;justify-content:center;align-items:center;padding:50px 0;gap:12px;color:var(--mint);font-weight:700}
+.loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.shake{animation:shake .3s ease-in-out!important}
-@keyframes warningShake{
+@keyframes shake{
   0%,100%{transform:translateX(0)}
-  15%,45%,75%{transform:translateX(-5px)}
-  30%,60%,90%{transform:translateX(5px)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
 }
-.gate-warning-shake{animation:warningShake .42s ease-in-out!important}
+.shake{animation:shake .4s ease-in-out !important}
 
-.community-hub{margin:0 0 26px;background:#fff;border:2px solid #171717;border-radius:16px;overflow:hidden}
-.hub-heading{padding:25px 24px 21px;background:#111;color:#fff;border-bottom:5px solid var(--gold)}
-.hub-kicker{display:inline-block;font-size:11px;font-weight:900;letter-spacing:1.8px;color:#111;background:var(--gold);padding:5px 8px;border-radius:4px;margin-bottom:10px}
-.hub-heading h1{font-size:clamp(23px,4.5vw,34px);font-weight:900;line-height:1.2;letter-spacing:-.7px}
-.hub-heading h1 span{color:var(--gold)}
-.hub-heading p{font-size:14px;color:#e5e5e5;margin-top:8px}
-.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:16px}
-.hub-card{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0;padding:17px;border:1px solid #d7d7d1;border-radius:11px;background:#fafaf7;color:#111;transition:transform .18s,border-color .18s,background .18s}
-.hub-card:hover{transform:translateY(-2px);border-color:#b99b00;background:#fffdf0}
-.hub-card-featured{background:#fff5b7;border:2px solid #111}
-.hub-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:var(--gold);color:#111;font-size:19px}
-.hub-card-title{font-size:16px;font-weight:900;line-height:1.35}
-.hub-card-desc{font-size:12px;color:#087cf0;line-height:1.5;overflow-wrap:anywhere}
-.hub-card-action{margin-top:auto;padding-top:7px;font-size:12px;font-weight:900;color:#087bea;overflow-wrap:anywhere}.hub-card-action:hover{text-decoration:underline}
-.hub-footnote{margin:0 16px 16px;padding:11px 13px;border-radius:8px;background:#f3f3ef;color:#333;font-size:12px;font-weight:700}
-.hub-footnote i{color:#8c7100;margin-right:5px}
-
-@media(max-width:768px){
-  .header{padding:12px 14px}.logo{font-size:22px}.gbtn{font-size:12px;padding:8px 11px}
-  .container{padding:18px 13px 48px}.post-card{padding:19px}.post-card .post-title{font-size:19px}
-  .modal-box{padding:23px 18px}.sub-gate-box{padding:25px 17px}.sub-gate h2{font-size:21px}
-  .step-dot{font-size:12px;padding:7px 10px}
-  .hub-heading{padding:21px 17px}.hub-grid{padding:11px;gap:9px}.hub-card{padding:13px}
+@media (max-width:768px){
+  .header{padding:11px 14px} .logo{font-size:17px} .gbtn{font-size:12px;padding:8px 14px}
+  .container{padding:18px 14px 55px} .post-card{padding:20px} .post-card .post-title{font-size:16px}
+  .modal-box{padding:24px 20px} .sub-gate-box{padding:26px 18px}
+  .sub-gate h2{font-size:18px} .step-dot{font-size:11px;padding:6px 10px} .video-thumb{width:96px;height:56px}
+  .video-info .v-title{font-size:12.5px}
 }
-@media(max-width:480px){.hub-grid{grid-template-columns:1fr}.header-right .gbtn span{display:none}}
-.gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent}
-
-.telegram-gate{position:fixed;inset:0;z-index:100000;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-.telegram-gate.hidden{display:none}
-.telegram-gate-box{max-width:520px;width:100%;background:#fff;border:1px solid #d5d5cf;border-top:5px solid #229ED9;border-radius:16px;padding:30px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.09);margin:auto}
-.telegram-gate-icon{width:68px;height:68px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:#e4f5ff;border:1px solid #b7e5fb}
-.telegram-gate-icon i{font-size:32px;color:#229ED9}
-.telegram-gate-box h2{font-size:23px;font-weight:900;margin-bottom:8px;color:#111}
-.telegram-gate-box p{color:#444;font-size:15px;line-height:1.7;margin-bottom:20px}
-.telegram-gate-actions{display:flex;flex-direction:column;gap:10px}
-.telegram-gate-link,.telegram-gate-skip{padding:14px 20px;border-radius:9px;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer}
-.telegram-gate-link{border:2px solid #168ac0;background:#229ED9;color:#fff}
-.telegram-gate-skip{border:1px solid #c8c8c2;background:#fff;color:#111}
+@media (max-width:480px){.header-right .gbtn span{display:none} .header-right .gbtn i{margin:0} .step-dot{padding:6px 9px} .step-dot span{display:none} .step-dot.active span{display:inline}}
+.gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm,.btn-skip,.btn-box{-webkit-tap-highlight-color:transparent;}
+img{content-visibility:auto}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
-<!-- MODAL TELEGRAM (TÙY CHỌN) -->
-<div class="telegram-gate" id="telegramGate">
-  <div class="telegram-gate-box">
-    <div class="telegram-gate-icon"><i class="fa-brands fa-telegram"></i></div>
-    <h2>Tham gia Telegram (Tùy chọn)</h2>
-    <p>Bạn có thể tham gia kênh Telegram SIKE để cập nhật thông tin. <strong>Không bắt buộc</strong> — bạn có thể bỏ qua và tiếp tục vào trang bất cứ lúc nào.</p>
-    <div class="telegram-gate-actions">
-      <a class="telegram-gate-link" href="https://t.me/SIKEMODFF" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Mở Telegram (tùy chọn)</a>
-      <button type="button" class="telegram-gate-skip" id="skipTelegramGate"><i class="fa-solid fa-forward"></i> Bỏ qua và tiếp tục</button>
-    </div>
-  </div>
-</div>
-
-<!-- CỔNG SUBGATE YOUTUBE (BẮT BUỘC) -->
+<!-- MÀN HÌNH CHẶN 3 BƯỚC -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube" style="color:#e60000"></i> 1. Đăng ký YouTube</div>
-      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-heart" style="color:#e60000"></i> 2. Like + Comment</div>
+      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Đăng ký kênh</span></div>
+      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>Like video</span></div>
+      <div class="step-dot opt" id="stepDot3"><i class="fa-solid fa-unlock"></i> <span>Box (tuỳ chọn)</span></div>
     </div>
     
-    <!-- BƯỚC 1: SUB KÊNH YOUTUBE (3S) -->
+    <!-- BƯỚC 1: ĐĂNG KÝ -->
     <div class="gate-step active" id="gateStep1">
-      <div class="sub-gate-icon"><i class="fa-brands fa-youtube" style="color:#e60000"></i></div>
-      <h2>Bước 1: Đăng ký kênh YouTube</h2>
-      <p class="sub-gate-sub">Mở kênh YouTube, nhấn <b>Đăng ký kênh</b>, sau đó quay lại web xác nhận.</p>
+      <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
+      <h2>Bước 1: Đăng ký kênh</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
       <div class="sub-gate-actions">
-        <a href="https://youtube.com/@kesiff?si=plImrbvKmK9P38ak" target="_blank" rel="noopener" class="btn-youtube" id="btnSub1">
-          <i class="fa-brands fa-youtube"></i> Mở kênh @kesiff và Đăng ký
-        </a>
-        <button class="btn-confirm" id="btnConfirm1"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
+        <a href="https://youtube.com/@kesiff?si=M_t6pcv-Tg31oySB" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay</a>
+        <button class="btn-confirm" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote1">Mở YouTube đăng ký trước, sau đó quay lại xác nhận.</div>
+      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
     </div>
     
-    <!-- BƯỚC 2: LIKE + COMMENT VIDEO YOUTUBE (5S) -->
+    <!-- BƯỚC 2: LIKE VIDEO -->
     <div class="gate-step" id="gateStep2">
-      <div class="sub-gate-icon"><i class="fa-solid fa-heart" style="color:#e60000"></i></div>
-      <h2>Bước 2: Like + Bình luận video</h2>
-      <p class="sub-gate-sub">Mở video YouTube, nhấn <strong>Like</strong> và để lại <strong>1 bình luận</strong>, sau đó quay lại xác nhận.</p>
+      <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
+        <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
+      </div>
+      <h2>Bước 2: Like video</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để hoàn tất.</p>
       
-      <div class="sub-gate-actions" style="margin-bottom:14px">
-        <!-- ================================================================= -->
-        <!-- >>> CHỖ NÀY ĐỂ BẠN DÁN LINK VIDEO YOUTUBE CẦN LIKE + COMMENT <<< -->
-        <!-- ================================================================= -->
-        <a href="https://youtu.be/plKk2OKTrxg" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo">
-          <i class="fa-brands fa-youtube"></i> Mở Video YouTube để Like + Bình luận
-        </a>
-        <!-- ================================================================= -->
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://i.ytimg.com/vi/VuhadbE1JiE/hqdefault.jpg" alt="Video YouTube" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="v-title">Video cần like để tiếp tục vào web</div>
+          <div class="v-sub">youtu.be/4fWOz7x8G1w</div>
+        </div>
       </div>
       
-      <div class="sub-gate-actions" style="margin-top:12px">
-        <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Hoàn tất & Mở khoá</button>
+      <div class="sub-gate-actions">
+        <a href="https://youtu.be/VuhadbE1JiE?si=BV9sslFCtraCzQ3T" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
+        <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote2">Mở video, Like + Bình luận, sau đó quay lại xác nhận.</div>
+      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
+    </div>
+    
+    <!-- BƯỚC 3: BOX TELEGRAM + ZALO (TUỲ CHỌN) -->
+    <div class="gate-step" id="gateStep3">
+      <div class="req-badge opt"><i class="fa-solid fa-unlock"></i> Không bắt buộc</div>
+      <div class="skip-hero">
+        <div class="big">👉 CÓ THỂ BỎ QUA, KHÔNG VÀO CŨNG ĐƯỢC</div>
+        <div class="small">Không vào box vẫn xem và tải web bình thường.</div>
+      </div>
+      <button class="btn-skip big" id="btnSkipBox"><i class="fa-solid fa-forward"></i> Bỏ qua, vào web luôn</button>
+
+      <div class="box-title">Hoặc tham gia box (nếu muốn)</div>
+      <p class="tg-banner"><i class="fa-solid fa-hand-point-down"></i> Vào Box Hoặc Không Ấn Xong Quay Lại</p>
+      <div class="box-list">
+        <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-box tg"><i class="fa-brands fa-telegram-plane"></i><span>Box Telegram</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/0hbi6p2gplz0idb9sfnz" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 1</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 2</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 3</span><em>Tuỳ chọn</em></a>
+      </div>
+      <div class="box-note">Vào xong quay lại đây, bấm nút vàng <b>"Bỏ qua, vào web luôn"</b> ở trên để tiếp tục.</div>
     </div>
   </div>
 </div>
 
+<!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
-    <a href="https://youtube.com/@kesiff?si=plImrbvKmK9P38ak" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube @kesiff</span></a>
-    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram"></i> <span>Telegram</span></a>
+    <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
+    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
+    <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
+    <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
+    <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
   </div>
 </header>
 
+<!-- MAIN -->
 <div class="container">
-  <section class="community-hub">
-    <div class="hub-heading"><span class="hub-kicker">SIKE COMMUNITY</span><h1>Chia sẻ bản mới nhất <span>+ NO VƯỢT</span></h1><p>Cập nhật bản mới, tham gia cộng đồng và chọn box còn chỗ.</p></div>
-    <div class="hub-grid">
-      <a class="hub-card hub-card-featured" href="#" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-share-nodes"></i></span><span class="hub-card-title">Chia sẻ bản mới nhất</span><span class="hub-card-desc">Link cập nhật · No vượt</span><span class="hub-card-action">Mở liên kết ↗</span></a>
-      <a class="hub-card" href="https://t.me/SIKEMODFF" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-brands fa-telegram"></i></span><span class="hub-card-title">Telegram</span><span class="hub-card-desc">https://t.me/SIKEMODFF</span><span class="hub-card-action">Vào Telegram ↗</span></a>
-      <a class="hub-card" href="https://zalo.me/g/0hbi6p2gplz0idb9sfnz" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-comments"></i></span><span class="hub-card-title">Zalo Box 1</span><span class="hub-card-desc">https://zalo.me/g/0hbi6p2gplz0idb9sfnz</span><span class="hub-card-action">Vào Box 1 ↗</span></a>
-      <a class="hub-card" href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-comments"></i></span><span class="hub-card-title">Zalo Box 2</span><span class="hub-card-desc">https://zalo.me/g/2xqvud1opgic0gy0tc9r</span><span class="hub-card-action">Vào Box 2 ↗</span></a>
-      <a class="hub-card" href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener"><span class="hub-icon"><i class="fa-solid fa-comments"></i></span><span class="hub-card-title">Zalo Box 3</span><span class="hub-card-desc">https://zalo.me/g/inj3bicbrjuz53itudvj</span><span class="hub-card-action">Vào Box 3 ↗</span></a>
-    </div>
-    <div class="hub-footnote"><i class="fa-solid fa-circle-info"></i> Box nào đã đủ thành viên, hãy chọn một box Zalo khác còn chỗ.</div>
-  </section>
-
   <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Tải xuống"</strong> để xem các link tải.</div>
   
   <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
 </div>
 
+<!-- MODAL XEM LINK -->
 <div id="downloadModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
@@ -264,190 +451,208 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 </div>
 
 <script>
-/* ====== CẤU HÌNH API JSONBIN ====== */
+/* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
 const BIN_URL = "https://www.jsonkeeper.com/b/8NXQ1"; 
 
-const GATE_TTL_MS = 30 * 60 * 1000;
-const SUB_KEY = "ytSubKesiff_v1";
-const LIKE_KEY = "ytLikeComment_v1";
-
-/* THỜI GIAN CHỜ */
-const GATE_SUB_MS  = 5000; // 5 giây
-const GATE_LIKE_MS = 5000; // 5 giây
-
-let gateMem = {};
-
-const stepState = {
-  0: { startTime: null, done: false },
-  1: { startTime: null, done: false }
-};
-
+const GATE_TTL_MS = 15 * 60 * 1000;
+const SUB_KEY  = "ytSubConfirmed_v3";
+const LIKE_KEY = "ytLikedVideo_v3";
+const TELE_KEY = "teleJoined_v3";
+const gateMem = {};   
 function gateGet(key){
   let exp = gateMem[key] || 0;
-  try { exp = Math.max(exp, parseInt(localStorage.getItem(key), 10) || 0); } catch(e){}
+  try{ exp = Math.max(exp, parseInt(localStorage.getItem(key),10) || 0); }catch(e){}
   return exp > Date.now();
 }
-
 function gateSet(key){
   const exp = Date.now() + GATE_TTL_MS;
   gateMem[key] = exp;
-  try { localStorage.setItem(key, String(exp)); } catch(e){}
+  try{ localStorage.setItem(key, String(exp)); }catch(e){}
+}
+
+// Time-gate: tracking thời điểm bấm nút sub/like
+const SUB_START_TIME = "subStartTime_v3";
+const LIKE_START_TIME = "likeStartTime_v3";
+const GATE_TIMEOUT = 5000; // 5 giây
+
+function startTimer(timeKey){
+  try { localStorage.setItem(timeKey, Date.now().toString()); } catch(e){}
+}
+
+function checkTimeGate(timeKey){
+  let storedTime;
+  try { storedTime = localStorage.getItem(timeKey); } catch(e){}
+  if(!storedTime) return false;
+  const elapsed = Date.now() - parseInt(storedTime);
+  return elapsed >= GATE_TIMEOUT;
+}
+
+function triggerShakeAndVibrate(element){
+  element.classList.add("shake");
+  setTimeout(() => element.classList.remove("shake"), 400);
+  if(navigator.vibrate){
+    navigator.vibrate([100, 50, 100, 50, 100]);
+  }
 }
 
 let posts = [];
+
 const $ = id => document.getElementById(id);
-const postsContainer = $("postsContainer"),
-      modalOverlay = $("downloadModal"),
-      modalTitle = $("modalTitle"),
-      modalContent = $("modalContent"),
-      modalDownloadBtn = $("modalDownloadBtn");
+const postsContainer=$("postsContainer"), modalOverlay=$("downloadModal"), modalTitle=$("modalTitle"),
+modalContent=$("modalContent"), modalDownloadBtn=$("modalDownloadBtn");
 
-const subGate = $("subGate"),
-      stepDots = [$("stepDot1"), $("stepDot2")],
-      gateSteps = [$("gateStep1"), $("gateStep2")];
+/* ====== Cổng chặn 3 bước ====== */
+const subGate = $("subGate"), stepDot1 = $("stepDot1"), stepDot2 = $("stepDot2"), stepDot3 = $("stepDot3"),
+gateStep1 = $("gateStep1"), gateStep2 = $("gateStep2"), gateStep3 = $("gateStep3"),
+btnSubscribe = $("btnSubscribe"), btnConfirmSub = $("btnConfirmSub"), gateNote1 = $("gateNote1"),
+btnLikeVideo = $("btnLikeVideo"), btnConfirmLike = $("btnConfirmLike"), gateNote2 = $("gateNote2"),
+btnSkipBox = $("btnSkipBox");
 
-const gateConfig = [
-  {
-    link: $("btnSub1"),
-    confirm: $("btnConfirm1"),
-    note: $("gateNote1"),
-    key: SUB_KEY,
-    threshold: GATE_SUB_MS,
-    msgFail: "Bạn chưa đăng ký kênh! Vui lòng bấm <b>Mở kênh @kesiff và Đăng ký</b> trên YouTube rồi quay lại xác nhận."
-  },
-  {
-    link: $("btnLikeVideo"),
-    confirm: $("btnConfirm2"),
-    note: $("gateNote2"),
-    key: LIKE_KEY,
-    threshold: GATE_LIKE_MS,
-    msgFail: "Bạn chưa Like + Bình luận! Vui lòng bấm <b>Mở Video YouTube</b>, Like và Bình luận rồi quay lại xác nhận."
-  }
-];
-
-const defaultNote = [
-  "Mở YouTube đăng ký trước, sau đó quay lại xác nhận.",
-  "Mở video, Like + Bình luận, sau đó quay lại xác nhận."
-];
+let hasClickedSubscribe = false;
+let hasClickedLike = false;
+let subConfirmLocked = false;
+let likeConfirmLocked = false;
 
 function showStep(n){
-  gateSteps.forEach((el, i) => el.classList.toggle("active", i === n));
-  stepDots.forEach((el, i) => {
-    el.classList.toggle("active", i === n);
-    el.classList.toggle("done", i < n || gateGet(gateConfig[i].key));
-  });
+  gateStep1.classList.toggle("active", n===1);
+  gateStep2.classList.toggle("active", n===2);
+  gateStep3.classList.toggle("active", n===3);
 }
 
 function checkSubGate(){
-  if(gateConfig.every(x => gateGet(x.key))){
+  const subDone = gateGet(SUB_KEY);
+  const likeDone = gateGet(LIKE_KEY);
+  const teleDone = gateGet(TELE_KEY);
+  
+  if(subDone && likeDone && teleDone){
     subGate.classList.remove("active");
-    document.body.style.overflow = "";
+    document.body.style.overflow="";
     return false;
-  }
-  subGate.classList.add("active");
-  document.body.style.overflow = "hidden";
-  const n = gateConfig.findIndex(x => !gateGet(x.key));
-  showStep(n < 0 ? 1 : n);
-  return true;
-}
-
-function elapsedSince(startTime){
-  if(!startTime) return 0;
-  return Date.now() - startTime;
-}
-
-gateConfig.forEach((item, i) => {
-  const threshold = item.threshold;
-
-  item.link.addEventListener("click", () => {
-    const st = stepState[i];
-    if (st.done || gateGet(item.key)) return;
-
-    if (st.startTime === null) {
-      st.startTime = Date.now();
-    }
-    const taskText = (i === 1) ? "Like + Bình luận video" : "Đăng ký kênh";
-    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Đang mở YouTube... Vui lòng hoàn thành ' + taskText + ' rồi quay lại bấm nút Tiếp tục.';
-  });
-
-  item.confirm.addEventListener("click", () => {
-    const st = stepState[i];
-
-    if (st.startTime !== null && !st.done && !gateGet(item.key)) {
-      const spent = elapsedSince(st.startTime);
-      if (spent >= threshold) {
-        st.done = true;
-      }
-    }
-
-    if (!st.done && !gateGet(item.key)) {
-      item.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + item.msgFail;
-      shakeAll(item);
-      return;
-    }
-
-    gateSet(item.key);
-    stepDots[i].classList.add("done");
-    stepDots[i].classList.remove("active");
-    item.note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã xác nhận!';
-    item.note.classList.remove("gate-warning-shake");
-
-    if (i < 1) {
-      const nextSt = stepState[i + 1];
-      nextSt.startTime = null;
-      nextSt.done = false;
-      const nextCfg = gateConfig[i + 1];
-      nextCfg.note.innerHTML = defaultNote[i + 1];
-      nextCfg.note.classList.remove("gate-warning-shake");
-      showStep(i + 1);
+  } else {
+    subGate.classList.add("active");
+    document.body.style.overflow="hidden";
+    if(!subDone){
+      showStep(1);
+      stepDot1.classList.add("active"); stepDot1.classList.remove("done");
+      stepDot2.classList.remove("active","done");
+      stepDot3.classList.remove("active","done");
+    } else if(!likeDone){
+      showStep(2);
+      stepDot1.classList.add("done"); stepDot1.classList.remove("active");
+      stepDot2.classList.add("active"); stepDot2.classList.remove("done");
+      stepDot3.classList.remove("active","done");
     } else {
-      subGate.classList.remove("active");
-      document.body.style.overflow = "";
+      showStep(3);
+      stepDot1.classList.add("done"); stepDot1.classList.remove("active");
+      stepDot2.classList.add("done"); stepDot2.classList.remove("active");
+      stepDot3.classList.add("active"); stepDot3.classList.remove("done");
     }
-  });
-});
-
-function shakeAll(item){
-  item.note.classList.remove("gate-warning-shake");
-  void item.note.offsetWidth;
-  item.note.classList.add("gate-warning-shake");
-  item.confirm.classList.remove("shake");
-  void item.confirm.offsetWidth;
-  item.confirm.classList.add("shake");
-  const box = document.querySelector(".sub-gate-box");
-  if (box) {
-    box.classList.remove("shake");
-    void box.offsetWidth;
-    box.classList.add("shake");
+    return true;
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  checkSubGate();
-  const telegramGate = $("telegramGate");
-  const skipTelegramGate = $("skipTelegramGate");
-  if (skipTelegramGate && telegramGate) {
-    skipTelegramGate.addEventListener("click", () => {
-      telegramGate.classList.add("hidden");
-      document.body.style.overflow = "";
-    });
-  }
-  fetchPosts();
-  document.querySelector(".modal-close").addEventListener("click", closeModal);
-  modalOverlay.addEventListener("click", closeModalOnOutside);
+// ===== BƯỚC 1: ĐĂNG KÝ =====
+btnSubscribe.addEventListener("click", ()=>{
+  hasClickedSubscribe = true;
+  subConfirmLocked = false;
+  startTimer(SUB_START_TIME);
+  btnConfirmSub.disabled = false;
+  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
 });
 
+btnConfirmSub.addEventListener("click", ()=>{
+  if(!hasClickedSubscribe){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  if(subConfirmLocked){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  if(!checkTimeGate(SUB_START_TIME)){
+    subConfirmLocked = true;
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  gateSet(SUB_KEY);
+  stepDot1.classList.add("done"); stepDot1.classList.remove("active");
+  stepDot2.classList.add("active"); stepDot2.classList.remove("done");
+  showStep(2);
+});
+
+// ===== BƯỚC 2: LIKE VIDEO =====
+btnLikeVideo.addEventListener("click", ()=>{
+  hasClickedLike = true;
+  likeConfirmLocked = false;
+  startTimer(LIKE_START_TIME);
+  btnLikeVideo.classList.add("liked");
+  btnConfirmLike.disabled = false;
+  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để tiếp tục vào web.';
+});
+
+btnConfirmLike.addEventListener("click", ()=>{
+  if(!hasClickedLike){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  if(likeConfirmLocked){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  if(!checkTimeGate(LIKE_START_TIME)){
+    likeConfirmLocked = true;
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  gateSet(LIKE_KEY); 
+  stepDot2.classList.add("done"); stepDot2.classList.remove("active");
+  stepDot3.classList.add("active"); stepDot3.classList.remove("done");
+  showStep(3);
+});
+
+// ===== BƯỚC 3: BOX (TUỲ CHỌN) =====
+btnSkipBox.addEventListener("click", ()=>{
+  gateSet(TELE_KEY);
+  stepDot3.classList.add("done"); stepDot3.classList.remove("active");
+  subGate.classList.remove("active");
+  document.body.style.overflow="";
+});
+
+/* ========================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+  checkSubGate();
+  fetchPosts();
+  document.querySelector(".modal-close").addEventListener("click",closeModal);
+  modalOverlay.addEventListener("click",closeModalOnOutside);
+});
+
+/* === ĐỌC DỮ LIỆU TỪ JSONBIN (GET) === */
 async function fetchPosts(){
   try{
     const res = await fetch(BIN_URL, {
         headers: { "X-Bin-Meta": "false" },
         cache: "no-store" 
     });
+    
     if(!res.ok) throw new Error("Server trả mã " + res.status);
+    
     const data = await res.json();
-    if(Array.isArray(data)){ posts = data; }
-    else if (data && Array.isArray(data.posts)) { posts = data.posts; }
-    else { posts = []; }
+    
+    if(Array.isArray(data)){
+        posts = data;
+    } else if (data && Array.isArray(data.posts)) {
+        posts = data.posts;
+    } else {
+        posts = []; 
+    }
+
     renderPosts();
   }catch(e){
     console.error("fetchPosts lỗi:", e);
@@ -459,11 +664,13 @@ function escapeHtml(str){
   if(str===null||str===undefined)return"";
   return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
+
 function formatDesc(text){
   if(!text)return"";
   const escaped=escapeHtml(text).replace(/\n/g,"<br>");
   return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
 }
+
 function openDownloadModal(id){
   const p=posts.find(item=>item.id==id);
   if(!p)return;
