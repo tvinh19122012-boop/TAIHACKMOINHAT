@@ -48,8 +48,8 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
   transition:background .18s,border-color .18s,transform .18s;
 }
 .gbtn:hover{transform:translateY(-1px);background:#f2f2ef;border-color:#777}
-.btn-social.youtube i,.btn-social.telegram i,.btn-social.tiktok i,.btn-social.zalo i,.btn-bypass i{color:#111}
-.btn-bypass{border-color:#c9a900;background:#fff9d7}
+.btn-social.youtube i{color:#e60000}
+.btn-social.telegram i{color:#229ED9}
 .container{max-width:980px;margin:0 auto;padding:26px 20px 70px}
 .guide-line{text-align:center;color:#444;margin-bottom:22px;font-size:15px;font-weight:600;padding:15px 18px;border-radius:12px;background:#fff;border:1px solid var(--bd)}
 .guide-line strong{color:#111;background:var(--gold);padding:4px 9px;border-radius:5px;font-weight:900}
@@ -84,32 +84,27 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 .modal-download-btn:hover{transform:translateY(-1px)}
 .copy-btn{padding:12px 22px;border-radius:9px;font-weight:800;font-size:14px;border:1px solid #c8c8c2;background:#fff;color:#111;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .18s}
 .copy-btn:hover,.copy-btn.copied{background:#f5e8a4;border-color:#b89b13;color:#111}
+
 .sub-gate{position:fixed;inset:0;z-index:99999;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .sub-gate:not(.active){display:none}.sub-gate.active{display:flex;animation:fadeIn .2s ease}
 .sub-gate-box{max-width:560px;width:100%;background:#fff;border:1px solid #d5d5cf;border-top:5px solid var(--gold);border-radius:16px;padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.09);animation:popIn .22s var(--ease);margin:auto}
-.sub-gate-icon{width:68px;height:68px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:#fff4b8;border:1px solid #e0c84c;box-shadow:none}
-.sub-gate-icon i{font-size:30px;color:#111}
+.sub-gate-icon{width:68px;height:68px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:#fff4b8;border:1px solid #e0c84c}
+.sub-gate-icon i{font-size:32px}
 .sub-gate h2{font-size:23px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px;color:#111}
 .sub-gate>.sub-gate-box>p.sub-gate-sub{color:#444;font-size:15px;line-height:1.7;margin-bottom:20px}
 .sub-gate p b{color:#111;background:#fff0a3}
 .step-bar{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap}
-.step-dot{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:800;border:1px solid #ddd;background:#f8f8f5;color:#777;transition:background .18s}
-.step-dot i{font-size:12px}
+.step-dot{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:800;border:1px solid #ddd;background:#f8f8f5;color:#777;transition:background .18s}
 .step-dot.active{color:#111;border-color:#c9a900;background:#fff2a6}
 .step-dot.done{color:#111;border-color:#d2d2ca;background:#ededE8}
 .gate-step{display:none}
 .gate-step.active{display:block;animation:fadeIn .2s ease}
 .sub-gate-actions{display:flex;flex-direction:column;gap:10px}
-.btn-youtube{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:#111;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
-.btn-youtube:hover{background:#333}
+.btn-youtube{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:#cc0000;color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
+.btn-youtube:hover{background:#aa0000}
 .btn-confirm{padding:14px 22px;border-radius:9px;font-weight:900;font-size:15px;border:2px solid #111;background:var(--gold);color:#111;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .18s}
 .btn-confirm:hover{background:#ffda26}
-.btn-confirm:disabled{opacity:.45;cursor:not-allowed}
 .btn-confirm-note{font-size:13px;color:#666;margin-top:14px;line-height:1.6}
-.btn-confirm-note b{color:#111}
-.big-word{display:inline-block;font-weight:900;font-size:clamp(22px,6vw,29px);line-height:1.2;letter-spacing:0;padding:3px 9px;margin:2px;border-radius:5px;vertical-align:middle}
-.big-word.red{color:#111;background:var(--gold);box-shadow:none}
-.big-word.mint{color:#111;background:#ecece7;box-shadow:none}
 .btn-confirm-note.big{font-size:clamp(14px,3.9vw,16px);font-weight:650;color:#555;margin-top:16px;line-height:1.6}
 .btn-confirm-note.big b{color:#111;font-size:1.05em;background:#fff1a8}
 .empty-state{text-align:center;padding:56px 20px;color:#777}
@@ -143,19 +138,16 @@ button,.gbtn,.btn-download,.modal-download-btn,.modal-close,.copy-btn,.btn-youtu
 .hub-card-action{margin-top:auto;padding-top:7px;font-size:12px;font-weight:900;color:#087bea;overflow-wrap:anywhere}.hub-card-action:hover{text-decoration:underline}
 .hub-footnote{margin:0 16px 16px;padding:11px 13px;border-radius:8px;background:#f3f3ef;color:#333;font-size:12px;font-weight:700}
 .hub-footnote i{color:#8c7100;margin-right:5px}
-@media(max-width:768px){.hub-heading{padding:21px 17px}.hub-grid{padding:11px;gap:9px}.hub-card{padding:13px}}
-@media(max-width:480px){.hub-grid{grid-template-columns:1fr}.hub-card{min-height:130px}}
 
 @media(max-width:768px){
   .header{padding:12px 14px}.logo{font-size:22px}.gbtn{font-size:12px;padding:8px 11px}
   .container{padding:18px 13px 48px}.post-card{padding:19px}.post-card .post-title{font-size:19px}
   .modal-box{padding:23px 18px}.sub-gate-box{padding:25px 17px}.sub-gate h2{font-size:21px}
-  .step-dot{font-size:11px;padding:7px 9px}
+  .step-dot{font-size:12px;padding:7px 10px}
+  .hub-heading{padding:21px 17px}.hub-grid{padding:11px;gap:9px}.hub-card{padding:13px}
 }
-@media(max-width:480px){.header-right .gbtn span{display:none}.header-right .gbtn i{margin:0}.logo{font-size:20px}}
+@media(max-width:480px){.hub-grid{grid-template-columns:1fr}.header-right .gbtn span{display:none}}
 .gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm{-webkit-tap-highlight-color:transparent}
-img{content-visibility:auto}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 
 .telegram-gate{position:fixed;inset:0;z-index:100000;background:rgba(247,247,245,.98);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .telegram-gate.hidden{display:none}
@@ -172,6 +164,7 @@ img{content-visibility:auto}
 </head>
 <body>
 
+<!-- MODAL TELEGRAM (TÙY CHỌN) -->
 <div class="telegram-gate" id="telegramGate">
   <div class="telegram-gate-box">
     <div class="telegram-gate-icon"><i class="fa-brands fa-telegram"></i></div>
@@ -184,55 +177,48 @@ img{content-visibility:auto}
   </div>
 </div>
 
+<!-- CỔNG SUBGATE YOUTUBE (BẮT BUỘC) -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-tiktok"></i> Follow @sikereal</div>
-      <div class="step-dot" id="stepDot2"><i class="fa-brands fa-tiktok"></i> Follow @sikeffmod</div>
-      <div class="step-dot" id="stepDot3"><i class="fa-solid fa-heart"></i> Like + Bình luận</div>
+      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube" style="color:#e60000"></i> 1. Đăng ký YouTube</div>
+      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-heart" style="color:#e60000"></i> 2. Like + Comment</div>
     </div>
     
+    <!-- BƯỚC 1: SUB KÊNH YOUTUBE (3S) -->
     <div class="gate-step active" id="gateStep1">
-      <div class="sub-gate-icon"><i class="fa-brands fa-tiktok"></i></div>
-      <h2>Bước 1: Follow TikTok @sikereal</h2>
-      <p class="sub-gate-sub">Mở trang TikTok, nhấn Follow, sau đó quay lại xác nhận.</p>
+      <div class="sub-gate-icon"><i class="fa-brands fa-youtube" style="color:#e60000"></i></div>
+      <h2>Bước 1: Đăng ký kênh YouTube</h2>
+      <p class="sub-gate-sub">Mở kênh YouTube, nhấn <b>Đăng ký kênh</b>, sau đó quay lại web xác nhận.</p>
       <div class="sub-gate-actions">
-        <a href="https://www.tiktok.com/@sikereal" target="_blank" rel="noopener" class="btn-youtube" id="btnFollow1"><i class="fa-brands fa-tiktok"></i> Mở @sikereal và Follow</a>
+        <a href="https://youtube.com/@kesiff?si=plImrbvKmK9P38ak" target="_blank" rel="noopener" class="btn-youtube" id="btnSub1">
+          <i class="fa-brands fa-youtube"></i> Mở kênh @kesiff và Đăng ký
+        </a>
         <button class="btn-confirm" id="btnConfirm1"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote1">Mở TikTok trước, sau đó quay lại xác nhận.</div>
+      <div class="btn-confirm-note big" id="gateNote1">Mở YouTube đăng ký trước, sau đó quay lại xác nhận.</div>
     </div>
     
+    <!-- BƯỚC 2: LIKE + COMMENT VIDEO YOUTUBE (5S) -->
     <div class="gate-step" id="gateStep2">
-      <div class="sub-gate-icon"><i class="fa-brands fa-tiktok"></i></div>
-      <h2>Bước 2: Follow TikTok @sikeffmod</h2>
-      <p class="sub-gate-sub">Follow tài khoản thứ hai để tiếp tục vào trang.</p>
-      <div class="sub-gate-actions">
-        <a href="https://www.tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="btn-youtube" id="btnFollow2"><i class="fa-brands fa-tiktok"></i> Mở @sikeffmod và Follow</a>
-        <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
-      </div>
-      <div class="btn-confirm-note big" id="gateNote2">Mở TikTok trước, sau đó quay lại xác nhận.</div>
-    </div>
-    
-    <div class="gate-step" id="gateStep3">
-      <div class="sub-gate-icon"><i class="fa-solid fa-heart"></i></div>
-      <h2>Bước 3: Like + Bình luận</h2>
-      <p class="sub-gate-sub">Mở video TikTok, nhấn <strong>Like</strong>, để lại <strong>bình luận</strong>, sau đó quay lại xác nhận.</p>
-      <div class="video-card" style="margin-bottom:16px">
-        <div class="video-thumb"><div class="play-ic"><i class="fa-brands fa-tiktok"></i></div></div>
-        <div class="video-info"><div class="v-title">Video TikTok cần Like + Bình luận</div><div class="v-sub">SIKE</div></div>
-      </div>
+      <div class="sub-gate-icon"><i class="fa-solid fa-heart" style="color:#e60000"></i></div>
+      <h2>Bước 2: Like + Bình luận video</h2>
+      <p class="sub-gate-sub">Mở video YouTube, nhấn <strong>Like</strong> và để lại <strong>1 bình luận</strong>, sau đó quay lại xác nhận.</p>
+      
       <div class="sub-gate-actions" style="margin-bottom:14px">
-        <!-- ============================================================ -->
-        <!-- CHỖ NÀY ĐỂ BẠN DÁN LINK VIDEO CẦN LIKE + COMMENT -->
-        <!-- TỰ SỬA href="..." THÀNH LINK VIDEO CỦA BẠN -->
-        <!-- ============================================================ -->
-        <a href="https://www.tiktok.com/@sikereal/video/7703164035482602770?_r=1&_t=ZS-9B2ZcmNVQ9c" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-heart"></i> Mở TikTok, Like và Bình luận</a>
+        <!-- ================================================================= -->
+        <!-- >>> CHỖ NÀY ĐỂ BẠN DÁN LINK VIDEO YOUTUBE CẦN LIKE + COMMENT <<< -->
+        <!-- ================================================================= -->
+        <a href="https://youtu.be/plKk2OKTrxg" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo">
+          <i class="fa-brands fa-youtube"></i> Mở Video YouTube để Like + Bình luận
+        </a>
+        <!-- ================================================================= -->
       </div>
+      
       <div class="sub-gate-actions" style="margin-top:12px">
-        <button class="btn-confirm" id="btnConfirm3"><i class="fa-solid fa-circle-check"></i> Tiếp tục</button>
+        <button class="btn-confirm" id="btnConfirm2"><i class="fa-solid fa-circle-check"></i> Hoàn tất & Mở khoá</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote3">Mở video, Like + Bình luận, sau đó quay lại xác nhận.</div>
+      <div class="btn-confirm-note big" id="gateNote2">Mở video, Like + Bình luận, sau đó quay lại xác nhận.</div>
     </div>
   </div>
 </div>
@@ -242,8 +228,7 @@ img{content-visibility:auto}
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
-    <a href="https://www.tiktok.com/@sikereal" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok @sikereal</span></a>
-    <a href="https://www.tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok @sikeffmod</span></a>
+    <a href="https://youtube.com/@kesiff?si=plImrbvKmK9P38ak" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube @kesiff</span></a>
     <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram"></i> <span>Telegram</span></a>
   </div>
 </header>
@@ -279,97 +264,115 @@ img{content-visibility:auto}
 </div>
 
 <script>
-/* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
-const BIN_URL = "https://api.jsonbin.io/v3/b/6ad4105aac6210605a3af475"; 
+/* ====== CẤU HÌNH API JSONBIN ====== */
+const BIN_URL = "https://www.jsonkeeper.com/b/8NXQ1"; 
 
 const GATE_TTL_MS = 30 * 60 * 1000;
-const FOLLOW1_KEY="ttFollowSikereal_v9", FOLLOW2_KEY="ttFollowSikeffmod_v9", LIKE_KEY="ttLikeComment_v9";
+const SUB_KEY = "ytSubKesiff_v1";
+const LIKE_KEY = "ytLikeComment_v1";
 
-const GATE_FOLLOW_MS = 5000;  // 5 giây
-const GATE_LIKE_MS   = 7000;  // 7 giây
+/* THỜI GIAN CHỜ */
+const GATE_SUB_MS  = 5000; // 5 giây
+const GATE_LIKE_MS = 5000; // 5 giây
 
 let gateMem = {};
 
-/*
- Mỗi bước:
- - startTime: thời điểm bấm nút mở TikTok (null = chưa bấm)
- - done: đã đủ thời gian
-*/
 const stepState = {
   0: { startTime: null, done: false },
-  1: { startTime: null, done: false },
-  2: { startTime: null, done: false }
+  1: { startTime: null, done: false }
 };
 
-function gateGet(key){let exp=gateMem[key]||0;try{exp=Math.max(exp,parseInt(localStorage.getItem(key),10)||0)}catch(e){}return exp>Date.now()}
-function gateSet(key){const exp=Date.now()+GATE_TTL_MS;gateMem[key]=exp;try{localStorage.setItem(key,String(exp))}catch(e){}}
+function gateGet(key){
+  let exp = gateMem[key] || 0;
+  try { exp = Math.max(exp, parseInt(localStorage.getItem(key), 10) || 0); } catch(e){}
+  return exp > Date.now();
+}
 
-let posts=[];
-const $=id=>document.getElementById(id);
-const postsContainer=$("postsContainer"),modalOverlay=$("downloadModal"),modalTitle=$("modalTitle"),modalContent=$("modalContent"),modalDownloadBtn=$("modalDownloadBtn");
-const subGate=$("subGate"),stepDots=[$("stepDot1"),$("stepDot2"),$("stepDot3")],gateSteps=[$("gateStep1"),$("gateStep2"),$("gateStep3")];
+function gateSet(key){
+  const exp = Date.now() + GATE_TTL_MS;
+  gateMem[key] = exp;
+  try { localStorage.setItem(key, String(exp)); } catch(e){}
+}
 
-const gateConfig=[
- {link:$("btnFollow1"),confirm:$("btnConfirm1"),note:$("gateNote1"),key:FOLLOW1_KEY,index:0,
-  msgFail:"Bạn chưa Follow @sikereal! Vui lòng bấm nút <b>Mở @sikereal và Follow</b> để vào TikTok và Follow, rồi quay lại."},
- {link:$("btnFollow2"),confirm:$("btnConfirm2"),note:$("gateNote2"),key:FOLLOW2_KEY,index:1,
-  msgFail:"Bạn chưa Follow @sikeffmod! Vui lòng bấm nút <b>Mở @sikeffmod và Follow</b> để vào TikTok và Follow, rồi quay lại."},
- {link:$("btnLikeVideo"),confirm:$("btnConfirm3"),note:$("gateNote3"),key:LIKE_KEY,index:2,
-  msgFail:"Bạn chưa Like + Bình luận! Vui lòng bấm nút <b>Mở TikTok, Like và Bình luận</b>, sau đó quay lại xác nhận."}
+let posts = [];
+const $ = id => document.getElementById(id);
+const postsContainer = $("postsContainer"),
+      modalOverlay = $("downloadModal"),
+      modalTitle = $("modalTitle"),
+      modalContent = $("modalContent"),
+      modalDownloadBtn = $("modalDownloadBtn");
+
+const subGate = $("subGate"),
+      stepDots = [$("stepDot1"), $("stepDot2")],
+      gateSteps = [$("gateStep1"), $("gateStep2")];
+
+const gateConfig = [
+  {
+    link: $("btnSub1"),
+    confirm: $("btnConfirm1"),
+    note: $("gateNote1"),
+    key: SUB_KEY,
+    threshold: GATE_SUB_MS,
+    msgFail: "Bạn chưa đăng ký kênh! Vui lòng bấm <b>Mở kênh @kesiff và Đăng ký</b> trên YouTube rồi quay lại xác nhận."
+  },
+  {
+    link: $("btnLikeVideo"),
+    confirm: $("btnConfirm2"),
+    note: $("gateNote2"),
+    key: LIKE_KEY,
+    threshold: GATE_LIKE_MS,
+    msgFail: "Bạn chưa Like + Bình luận! Vui lòng bấm <b>Mở Video YouTube</b>, Like và Bình luận rồi quay lại xác nhận."
+  }
 ];
 
 const defaultNote = [
-  "Mở TikTok trước, sau đó quay lại xác nhận.",
-  "Mở TikTok trước, sau đó quay lại xác nhận.",
+  "Mở YouTube đăng ký trước, sau đó quay lại xác nhận.",
   "Mở video, Like + Bình luận, sau đó quay lại xác nhận."
 ];
 
 function showStep(n){
-  gateSteps.forEach((el,i)=>el.classList.toggle("active",i===n));
-  stepDots.forEach((el,i)=>{
-    el.classList.toggle("active",i===n);
-    el.classList.toggle("done",i<n||gateGet(gateConfig[i].key));
+  gateSteps.forEach((el, i) => el.classList.toggle("active", i === n));
+  stepDots.forEach((el, i) => {
+    el.classList.toggle("active", i === n);
+    el.classList.toggle("done", i < n || gateGet(gateConfig[i].key));
   });
 }
 
 function checkSubGate(){
- if(gateConfig.every(x=>gateGet(x.key))){
-   subGate.classList.remove("active");
-   document.body.style.overflow="";
-   return false;
- }
- subGate.classList.add("active");
- document.body.style.overflow="hidden";
- const n=gateConfig.findIndex(x=>!gateGet(x.key));
- showStep(n<0?2:n);
- return true;
+  if(gateConfig.every(x => gateGet(x.key))){
+    subGate.classList.remove("active");
+    document.body.style.overflow = "";
+    return false;
+  }
+  subGate.classList.add("active");
+  document.body.style.overflow = "hidden";
+  const n = gateConfig.findIndex(x => !gateGet(x.key));
+  showStep(n < 0 ? 1 : n);
+  return true;
 }
 
-// Tính thời gian đã trôi kể từ startTime
 function elapsedSince(startTime){
   if(!startTime) return 0;
   return Date.now() - startTime;
 }
 
 gateConfig.forEach((item, i) => {
-  const threshold = (i === 2) ? GATE_LIKE_MS : GATE_FOLLOW_MS;
+  const threshold = item.threshold;
 
   item.link.addEventListener("click", () => {
     const st = stepState[i];
     if (st.done || gateGet(item.key)) return;
 
-    // Ghi mốc bắt đầu đếm (chỉ ghi lần đầu)
     if (st.startTime === null) {
       st.startTime = Date.now();
     }
-    const taskText = (i === 2) ? "Like + Bình luận" : "Follow";
-    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Hãy hoàn tất ' + taskText + ' trên TikTok rồi quay lại xác nhận.';
+    const taskText = (i === 1) ? "Like + Bình luận video" : "Đăng ký kênh";
+    item.note.innerHTML = '<i class="fa-regular fa-clock"></i> Đang mở YouTube... Vui lòng hoàn thành ' + taskText + ' rồi quay lại bấm nút Tiếp tục.';
   });
 
   item.confirm.addEventListener("click", () => {
     const st = stepState[i];
 
-    // Tính thời gian đã trôi (cả trong lẫn ngoài web)
     if (st.startTime !== null && !st.done && !gateGet(item.key)) {
       const spent = elapsedSince(st.startTime);
       if (spent >= threshold) {
@@ -389,7 +392,7 @@ gateConfig.forEach((item, i) => {
     item.note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã xác nhận!';
     item.note.classList.remove("gate-warning-shake");
 
-    if (i < 2) {
+    if (i < 1) {
       const nextSt = stepState[i + 1];
       nextSt.startTime = null;
       nextSt.done = false;
@@ -419,9 +422,7 @@ function shakeAll(item){
   }
 }
 
-/* ========================================== */
-
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
   checkSubGate();
   const telegramGate = $("telegramGate");
   const skipTelegramGate = $("skipTelegramGate");
@@ -432,8 +433,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   }
   fetchPosts();
-  document.querySelector(".modal-close").addEventListener("click",closeModal);
-  modalOverlay.addEventListener("click",closeModalOnOutside);
+  document.querySelector(".modal-close").addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", closeModalOnOutside);
 });
 
 async function fetchPosts(){
