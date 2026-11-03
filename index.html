@@ -383,7 +383,7 @@ img{content-visibility:auto}
       
       <div class="video-card">
         <div class="video-thumb">
-          <img src="https://i.ytimg.com/vi/VuhadbE1JiE/hqdefault.jpg" alt="Video YouTube" loading="lazy">
+          <img src="https://i.ytimg.com/vi/DajGJ6ecTRw/hqdefault.jpg" alt="Video YouTube" loading="lazy">
           <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
         </div>
         <div class="video-info">
@@ -393,7 +393,7 @@ img{content-visibility:auto}
       </div>
       
       <div class="sub-gate-actions">
-        <a href="https://youtu.be/VuhadbE1JiE?si=BV9sslFCtraCzQ3T" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
+        <a href="https://youtu.be/DajGJ6ecTRw" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
         <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
@@ -507,7 +507,7 @@ function gateSet(key){
 const SUB_START_TIME     = "subStartTime_v4";
 const LIKE_START_TIME    = "likeStartTime_v4";
 const COMMENT_START_TIME = "commentStartTime_v4";
-const GATE_TIMEOUT = 3000; // 3 giây
+const GATE_TIMEOUT = 5000; // 3 giây
 
 function startTimer(timeKey){
   try { localStorage.setItem(timeKey, Date.now().toString()); } catch(e){}
