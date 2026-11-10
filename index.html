@@ -15,6 +15,7 @@
   --glass:rgba(255,255,255,.04); --glass-2:rgba(255,255,255,.07);
   --r:20px; --ease:cubic-bezier(.32,.72,0,1);
   --tg:#29b6f6; --tg-2:#0288d1;
+  --tt:#ff0050; --tt-2:#00f2ea;
 }
 html{scroll-behavior:smooth}
 body{
@@ -73,14 +74,12 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
   box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -1px 0 rgba(0,0,0,.2) inset, 0 6px 20px rgba(0,0,0,.35);
 }
 .gbtn:active{transform:translateY(0) scale(.97)}
-.btn-social.youtube i{color:var(--red)}
-.btn-social.telegram i{color:var(--mint)}
 .btn-social.tiktok i{color:#fff}
+.btn-social.telegram i{color:var(--mint)}
 .btn-social.zalo i{color:#4fc3f7}
 .btn-bypass i{color:var(--green)}
-.btn-social.youtube:hover{border-color:rgba(255,77,77,.5)}
+.btn-social.tiktok:hover{border-color:rgba(255,0,80,.5)}
 .btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
-.btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
 .btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
 .btn-bypass:hover{border-color:rgba(34,197,94,.5)}
 
@@ -194,10 +193,10 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .sub-gate-icon{
   width:76px;height:76px;border-radius:50%; margin:0 auto 16px;
   display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 50% 40%,rgba(255,77,77,.35),rgba(255,77,77,.05));
-  border:1px solid rgba(255,77,77,.4); box-shadow:0 0 40px rgba(255,77,77,.25);
+  background:radial-gradient(circle at 50% 40%,rgba(255,0,80,.35),rgba(255,0,80,.05));
+  border:1px solid rgba(255,0,80,.4); box-shadow:0 0 40px rgba(255,0,80,.25);
 }
-.sub-gate-icon i{font-size:36px;color:#ff4d4d}
+.sub-gate-icon i{font-size:36px;color:#ff0050}
 .sub-gate h2{font-size:21px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px;color:var(--txt);}
 .sub-gate > .sub-gate-box > p.sub-gate-sub{color:var(--txt-2);font-size:14px;line-height:1.65;margin-bottom:20px;}
 .sub-gate p b{color:var(--gold)}
@@ -213,7 +212,6 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .step-dot.done{color:var(--mint); border-color:rgba(125,249,214,.45); background:rgba(125,249,214,.1);}
 .step-dot.done i{color:var(--mint)}
 .step-dot.opt{border-style:dashed}
-.step-dot.active.tg{color:var(--tg);border-color:rgba(41,182,246,.5);background:rgba(41,182,246,.1);box-shadow:0 0 0 3px rgba(41,182,246,.08)}
 .gate-step{display:none}
 .gate-step.active{display:block;animation:fadeIn .3s ease}
 
@@ -227,7 +225,7 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 }
 .video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .video-thumb .play-ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);}
-.video-thumb .play-ic i{font-size:22px;color:#ff4d4d;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.video-thumb .play-ic i{font-size:22px;color:#ff0050;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
 .video-info{min-width:0;flex:1}
 .video-info .v-title{
   font-size:13.5px;font-weight:800;color:var(--txt); line-height:1.4;margin-bottom:3px;
@@ -238,12 +236,12 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
 .sub-gate-actions{display:flex;flex-direction:column;gap:12px}
 .btn-youtube{
   padding:15px 26px;border-radius:16px; font-weight:900;font-size:14.5px;
-  border:1px solid rgba(255,77,77,.5); background:linear-gradient(180deg,#ff4d4d,#cc0000);
+  border:1px solid rgba(255,0,80,.5); background:linear-gradient(180deg,#ff0050,#cc0040);
   color:#fff;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.2) inset, 0 6px 22px rgba(255,77,77,.35);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.2) inset, 0 6px 22px rgba(255,0,80,.35);
   transition:all .25s var(--ease);will-change:transform;
 }
-.btn-youtube:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(255,77,77,.5)}
+.btn-youtube:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(255,0,80,.5)}
 .btn-youtube:active{transform:translateY(0) scale(.98)}
 .btn-youtube.liked{
   border-color:rgba(125,249,214,.5); background:linear-gradient(180deg,#22c55e,#15803d);
@@ -271,14 +269,13 @@ button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
   line-height:1.2;letter-spacing:.3px;padding:2px 12px;margin:2px 3px;border-radius:12px;
   vertical-align:middle;
 }
-.big-word.red{color:#fff;background:linear-gradient(180deg,#ff4d4d,#cc0000);box-shadow:0 4px 18px rgba(255,77,77,.4)}
+.big-word.red{color:#fff;background:linear-gradient(180deg,#ff0050,#cc0040);box-shadow:0 4px 18px rgba(255,0,80,.4)}
 .big-word.mint{color:#052e12;background:linear-gradient(180deg,#7df9d6,#22c55e);box-shadow:0 4px 18px rgba(125,249,214,.35)}
 .big-word.blue{color:#fff;background:linear-gradient(180deg,#29b6f6,#0288d1);box-shadow:0 4px 18px rgba(41,182,246,.4)}
 
 .btn-confirm-note.big{font-size:clamp(14px,3.9vw,16px);font-weight:700;color:var(--txt-2);margin-top:16px;line-height:1.5;}
 .btn-confirm-note.big b{color:var(--gold);font-size:1.15em}
 
-/* ===== Màn cuối: Box tuỳ chọn ===== */
 .req-badge{
   display:inline-flex;align-items:center;gap:7px;margin:0 auto 14px;padding:7px 16px;border-radius:999px;
   font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;
@@ -355,48 +352,50 @@ img{content-visibility:auto}
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Đăng ký</span></div>
-      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>Like</span></div>
+      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-tiktok"></i> <span>Follow</span></div>
+      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-heart"></i> <span>Tim</span></div>
       <div class="step-dot" id="stepDot3"><i class="fa-solid fa-comment-dots"></i> <span>Comment</span></div>
       <div class="step-dot opt" id="stepDot4"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
     </div>
     
-    <!-- BƯỚC 1: ĐĂNG KÝ KÊNH -->
+    <!-- BƯỚC 1: FOLLOW TIKTOK -->
     <div class="gate-step active" id="gateStep1">
-      <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
-      <h2>Bước 1: Đăng ký kênh</h2>
-      <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
+      <div class="sub-gate-icon"><i class="fa-brands fa-tiktok"></i></div>
+      <h2>Bước 1: Follow TikTok</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-tiktok"></i> FOLLOW</span> kênh TikTok của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
       <div class="sub-gate-actions">
-        <a href="https://youtube.com/@kesiff?si=M_t6pcv-Tg31oySB" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay</a>
-        <button class="btn-confirm" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+        <a href="https://tiktok.com/@sikereal" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-tiktok"></i> Follow TikTok ngay</a>
+        <button class="btn-confirm" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã follow</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
+      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Follow TikTok ngay" trước, sau đó quay lại bấm "Tôi đã follow".</div>
     </div>
     
-    <!-- BƯỚC 2: LIKE VIDEO -->
+    <!-- BƯỚC 2: TIM VIDEO -->
     <div class="gate-step" id="gateStep2">
       <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
-        <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
+        <i class="fa-solid fa-heart" style="color:var(--mint)"></i>
       </div>
-      <h2>Bước 2: Like video</h2>
-      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để hoàn tất.</p>
+      <h2>Bước 2: Tim video</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-heart"></i> TIM</span> video TikTok dưới đây để hoàn tất.</p>
       
       <div class="video-card">
         <div class="video-thumb">
-          <img src="https://i.ytimg.com/vi/CIYK0rglrDQ/hqdefault.jpg" alt="Video YouTube" loading="lazy">
-          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+          <img src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-p-0037-euttp/90bd1a5a4f5a4a0a9a9a0a0a0a0a0a0a~tplv-tiktokx-cropcenter:720:720.jpeg" 
+               onerror="this.onerror=null;this.src='https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-i-0068/8f0f2e4e4b0d4f8e9c8e8e8e8e8e8e8e.jpeg';" 
+               alt="Video TikTok" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-tiktok"></i></div>
         </div>
         <div class="video-info">
-          <div class="v-title">Video cần like để tiếp tục vào web</div>
-          <div class="v-sub">youtu.be/CIYK0rglrDQ</div>
+          <div class="v-title">Video cần tim để tiếp tục vào web</div>
+          <div class="v-sub">tiktok.com/@sikeffmod</div>
         </div>
       </div>
       
       <div class="sub-gate-actions">
-        <a href="https://youtu.be/CIYK0rglrDQ" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
-        <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
+        <a href="https://vm.tiktok.com/ZSpfXWN7L/" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-heart"></i> Mở video & Tim ngay</a>
+        <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã tim (Tiếp tục)</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
+      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Tim ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
     </div>
     
     <!-- BƯỚC 3: COMMENT VIDEO -->
@@ -405,22 +404,24 @@ img{content-visibility:auto}
         <i class="fa-solid fa-comment-dots" style="color:var(--tg)"></i>
       </div>
       <h2>Bước 3: Comment video</h2>
-      <p class="sub-gate-sub">Hãy <span class="big-word blue"><i class="fa-solid fa-comment-dots"></i> COMMENT</span> video YouTube dưới đây (nội dung gì cũng được) để hoàn tất.</p>
+      <p class="sub-gate-sub">Hãy <span class="big-word blue"><i class="fa-solid fa-comment-dots"></i> COMMENT</span> video TikTok dưới đây (nội dung gì cũng được) để hoàn tất.</p>
       
       <div class="video-card">
         <div class="video-thumb">
-          <img src="https://i.ytimg.com/vi/CIYK0rglrDQ/hqdefault.jpg" alt="Video YouTube" loading="lazy">
-          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+          <img src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-p-0037-euttp/90bd1a5a4f5a4a0a9a9a0a0a0a0a0a0a~tplv-tiktokx-cropcenter:720:720.jpeg" 
+               onerror="this.onerror=null;this.src='https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tos-alisg-i-0068/8f0f2e4e4b0d4f8e9c8e8e8e8e8e8e8e.jpeg';" 
+               alt="Video TikTok" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-tiktok"></i></div>
         </div>
         <div class="video-info">
           <div class="v-title">Video cần comment để tiếp tục vào web</div>
-          <div class="v-sub">youtu.be/CIYK0rglrDQ</div>
+          <div class="v-sub">tiktok.com/@sikeffmod</div>
         </div>
       </div>
       
       <div class="sub-gate-actions">
-        <a href="https://youtu.be/CIYK0rglrDQ" target="_blank" rel="noopener" class="btn-youtube" id="btnCommentVideo" style="background:linear-gradient(180deg,#29b6f6,#0288d1);border-color:rgba(41,182,246,.5);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(41,182,246,.35)"><i class="fa-solid fa-comment-dots"></i> Mở video & Comment ngay</a>
-        <button class="btn-confirm" id="btnConfirmComment" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Comment (Tiếp tục)</button>
+        <a href="https://vm.tiktok.com/ZSpfXWN7L/" target="_blank" rel="noopener" class="btn-youtube" id="btnCommentVideo" style="background:linear-gradient(180deg,#29b6f6,#0288d1);border-color:rgba(41,182,246,.5);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(41,182,246,.35)"><i class="fa-solid fa-comment-dots"></i> Mở video & Comment ngay</a>
+        <button class="btn-confirm" id="btnConfirmComment" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã comment (Tiếp tục)</button>
       </div>
       <div class="btn-confirm-note big" id="gateNote3"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Comment ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
     </div>
@@ -453,9 +454,8 @@ img{content-visibility:auto}
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
-    <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
-    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
     <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
     <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
     <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
     <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
@@ -487,9 +487,9 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d"; 
 
 const GATE_TTL_MS = 15 * 60 * 1000;
-const SUB_KEY   = "ytSubConfirmed_v4";
-const LIKE_KEY  = "ytLikedVideo_v4";
-const CMT_KEY   = "ytCommentedVideo_v4";
+const SUB_KEY   = "ttFollowConfirmed_v4";
+const LIKE_KEY  = "ttLikedVideo_v4";
+const CMT_KEY   = "ttCommentedVideo_v4";
 const TELE_KEY  = "teleJoined_v4";
 const gateMem = {};   
 function gateGet(key){
@@ -503,11 +503,10 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-// Time-gate: tracking thời điểm bấm nút link (5 giây)
-const SUB_START_TIME     = "subStartTime_v4";
-const LIKE_START_TIME    = "likeStartTime_v4";
-const COMMENT_START_TIME = "commentStartTime_v4";
-const GATE_TIMEOUT = 5000; // 5 giây
+const SUB_START_TIME     = "ttFollowStartTime_v4";
+const LIKE_START_TIME    = "ttLikeStartTime_v4";
+const COMMENT_START_TIME = "ttCommentStartTime_v4";
+const GATE_TIMEOUT = 5000;
 
 function startTimer(timeKey){
   try { localStorage.setItem(timeKey, Date.now().toString()); } catch(e){}
@@ -593,29 +592,29 @@ function checkSubGate(){
   }
 }
 
-// ===== BƯỚC 1: ĐĂNG KÝ =====
+// ===== BƯỚC 1: FOLLOW TIKTOK =====
 btnSubscribe.addEventListener("click", ()=>{
   hasClickedSubscribe = true;
   subConfirmLocked = false;
   startTimer(SUB_START_TIME);
   btnConfirmSub.disabled = false;
-  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
+  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã follow" để sang bước 2.';
 });
 
 btnConfirmSub.addEventListener("click", ()=>{
   if(!hasClickedSubscribe){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Follow TikTok ngay" trước!';
     triggerShakeAndVibrate(gateNote1);
     return;
   }
   if(subConfirmLocked){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa follow vui lòng quay lại để follow!';
     triggerShakeAndVibrate(gateNote1);
     return;
   }
   if(!checkTimeGate(SUB_START_TIME)){
     subConfirmLocked = true;
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa follow vui lòng quay lại để follow!';
     triggerShakeAndVibrate(gateNote1);
     return;
   }
@@ -624,30 +623,30 @@ btnConfirmSub.addEventListener("click", ()=>{
   showStep(2);
 });
 
-// ===== BƯỚC 2: LIKE VIDEO =====
+// ===== BƯỚC 2: TIM VIDEO =====
 btnLikeVideo.addEventListener("click", ()=>{
   hasClickedLike = true;
   likeConfirmLocked = false;
   startTimer(LIKE_START_TIME);
   btnLikeVideo.classList.add("liked");
   btnConfirmLike.disabled = false;
-  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để sang bước 3.';
+  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã tim" để sang bước 3.';
 });
 
 btnConfirmLike.addEventListener("click", ()=>{
   if(!hasClickedLike){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!';
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Tim ngay" trước!';
     triggerShakeAndVibrate(gateNote2);
     return;
   }
   if(likeConfirmLocked){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa tim video vui lòng quay lại để tim!';
     triggerShakeAndVibrate(gateNote2);
     return;
   }
   if(!checkTimeGate(LIKE_START_TIME)){
     likeConfirmLocked = true;
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa tim video vui lòng quay lại để tim!';
     triggerShakeAndVibrate(gateNote2);
     return;
   }
@@ -663,7 +662,7 @@ btnCommentVideo.addEventListener("click", ()=>{
   startTimer(COMMENT_START_TIME);
   btnCommentVideo.classList.add("commented");
   btnConfirmComment.disabled = false;
-  gateNote3.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Comment" để sang bước cuối.';
+  gateNote3.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã comment" để sang bước cuối.';
 });
 
 btnConfirmComment.addEventListener("click", ()=>{
