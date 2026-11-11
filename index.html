@@ -503,11 +503,11 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-// Time-gate: tracking thời điểm bấm nút link (4 giây)
+// Time-gate: tracking thời điểm bấm nút link (5 giây)
 const SUB_START_TIME     = "subStartTime_v4";
 const LIKE_START_TIME    = "likeStartTime_v4";
 const COMMENT_START_TIME = "commentStartTime_v4";
-const GATE_TIMEOUT = 4000; // 4 giây
+const GATE_TIMEOUT = 5000; // 5 giây
 
 function startTimer(timeKey){
   try { localStorage.setItem(timeKey, Date.now().toString()); } catch(e){}
