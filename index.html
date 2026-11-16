@@ -1,226 +1,796 @@
-<!doctype html>
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="#f6f2e9" name="theme-color"/>
-<meta content="Bên Kia Trang Giấy — câu chuyện light novel về một sinh viên đại học bắt đầu lại cuộc đời và trở thành tiểu thuyết gia, mangaka ở một thế giới song song." name="description"/>
-<title>Bên Kia Trang Giấy — Chương 1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ôn Thi Hub — Tài liệu ôn tập</title>
+<meta name="description" content="Tổng hợp tài liệu ôn thi, đề cương và bài tập cho học sinh sinh viên.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{color-scheme:light;--page:#f1f3f5;--surface:#fff;--surface-2:#f8f9fa;--ink:#252a30;--muted:#68727c;--line:#dfe3e7;--accent:#b83c31;--accent-soft:#f7e9e7;--nav:#f8f9fa;--nav-ink:#263238;--story-size:19px;--shadow:0 2px 8px rgba(30,42,52,.06)}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}body.dark{color-scheme:dark;--page:#171a1d;--surface:#22272b;--surface-2:#292f34;--ink:#e7e9eb;--muted:#abb3ba;--line:#3a4248;--accent:#f07868;--accent-soft:#3b2927;--nav:#202529;--nav-ink:#e7e9eb;--shadow:0 2px 10px rgba(0,0,0,.2)}body.sepia{--page:#eee6d8;--surface:#fbf6ed;--surface-2:#f5eddf;--ink:#3b3025;--muted:#786d5d;--line:#ded2bf;--accent:#96563b;--accent-soft:#eee0cf;--nav:#f7f0e5;--nav-ink:#3b3025}
-a{color:inherit}button{font:inherit}.progress-track{position:fixed;z-index:40;inset:0 0 auto;height:3px;background:transparent}.progress-fill{height:100%;width:0;background:var(--accent);transition:width .12s linear}
-.topbar{position:sticky;z-index:30;top:0;display:flex;align-items:center;gap:20px;min-height:58px;padding:0 max(16px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);background:var(--nav);color:var(--nav-ink);box-shadow:0 1px 3px rgba(0,0,0,.04)}.brand{display:flex;align-items:center;gap:9px;white-space:nowrap;text-decoration:none;font:800 13px/1 system-ui,sans-serif;letter-spacing:.08em}.brand-mark{display:grid;width:30px;height:30px;place-items:center;border-radius:4px;background:var(--accent);color:white;font:18px Georgia,serif}.site-links{display:flex;align-items:center;gap:2px;flex:1}.site-links a{padding:9px 11px;border-radius:4px;color:var(--muted);text-decoration:none;font:14px system-ui,sans-serif}.site-links a:hover,.site-links a.active{background:var(--accent-soft);color:var(--accent)}.top-actions{display:flex;align-items:center;gap:5px}.tool-button{display:inline-grid;min-width:35px;height:34px;place-items:center;padding:0 9px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);cursor:pointer;font:14px system-ui,sans-serif}.tool-button:hover,.tool-button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}.font-label{min-width:35px;text-align:center;color:var(--muted);font:11px system-ui,sans-serif}
-.reader-crumb{background:#303a42;color:#e9eef1;font:12px/1.4 system-ui,sans-serif}.reader-crumb .wrap{padding-top:10px;padding-bottom:10px}.reader-crumb strong{color:#fff}.wrap{width:min(100% - 32px,1020px);margin:0 auto}.hero{margin:22px 0 14px;padding:23px 25px 21px;border:1px solid var(--line);border-radius:5px;background:var(--surface);box-shadow:var(--shadow)}.eyebrow{margin:0 0 8px;color:var(--accent);font:700 11px/1.4 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}h1{max-width:780px;margin:0;font-size:clamp(28px,5vw,42px);line-height:1.12;letter-spacing:-.035em;font-weight:700}.subtitle{max-width:840px;margin:10px 0 0;color:var(--muted);font:14px/1.7 system-ui,sans-serif}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.chip{padding:5px 9px;border:1px solid var(--line);border-radius:3px;background:var(--surface-2);color:var(--muted);font:11px system-ui,sans-serif}.start-link{display:inline-flex;align-items:center;gap:8px;margin-top:15px;padding:9px 14px;border-radius:4px;background:var(--accent);color:white;text-decoration:none;font:700 13px system-ui,sans-serif}.start-link:hover{filter:brightness(.95)}.sync-status{margin:9px 0 0;color:var(--muted);font:11px/1.5 system-ui,sans-serif}
-.reader-pager{display:flex;align-items:center;justify-content:space-between;margin:14px auto 10px;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}.pager-button{padding:7px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface-2);color:var(--muted);font:12px system-ui,sans-serif}.pager-button:disabled{opacity:.55}.pager-count{color:var(--muted);font:12px system-ui,sans-serif}
-.chapter-card{overflow:hidden;margin:0 0 20px;border:1px solid var(--line);border-radius:5px;background:var(--surface);box-shadow:var(--shadow)}.chapter-head{padding:16px 22px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}.chapter-kicker{margin:0 0 6px;color:var(--muted);font:11px system-ui,sans-serif}.chapter-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:650}.chapter-meta{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:8px;color:var(--muted);font:11px system-ui,sans-serif}.chapter-body{max-width:860px;margin:0 auto;padding:26px clamp(20px,6vw,66px) 40px;font-family:Georgia,"Times New Roman",serif}.chapter-body p{margin:0 0 1.18em;font-size:var(--story-size);line-height:1.95;letter-spacing:.004em}.chapter-body p:first-child:first-letter{float:left;margin:.06em .12em 0 0;color:var(--accent);font-size:3.15em;line-height:.78}.scene-break{display:flex;align-items:center;gap:12px;margin:25px 0;color:var(--accent);font-size:14px}.scene-break:before,.scene-break:after{content:"";height:1px;flex:1;background:var(--line)}.pullquote{margin:24px 0;padding:6px 0 6px 17px;border-left:3px solid var(--accent);color:var(--muted);font-size:1.08em;font-style:italic;line-height:1.7}.chapter-end{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);text-align:center;font:12px/1.7 system-ui,sans-serif}
-.afterword{display:flex;align-items:flex-start;gap:12px;margin:0 0 20px;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:4px;background:var(--surface);color:var(--muted);font:12px/1.65 system-ui,sans-serif}.afterword strong{color:var(--ink)}details{margin:14px 0 30px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}summary{padding:13px 16px;cursor:pointer;font:650 13px system-ui,sans-serif}.bible{padding:0 17px 15px;color:var(--muted);font:12px/1.75 system-ui,sans-serif}.bible p{margin:8px 0}.bible strong{color:var(--ink)}footer{padding:16px 0 26px;border-top:1px solid var(--line);color:var(--muted);text-align:center;font:11px/1.7 system-ui,sans-serif}.toast{position:fixed;z-index:50;bottom:18px;left:50%;transform:translate(-50%,16px);padding:9px 13px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s ease;font:11px system-ui,sans-serif}.toast.show{transform:translate(-50%,0);opacity:1}
-@media(max-width:720px){.topbar{gap:8px;padding:0 10px;min-height:55px}.brand{gap:7px;font-size:10px;letter-spacing:.04em}.brand-mark{width:27px;height:27px}.site-links{gap:0}.site-links a{padding:8px 6px;font-size:11px}.top-actions{gap:3px}.tool-button{min-width:32px;height:32px;padding:0 7px}.font-label{display:none}.wrap{width:min(100% - 20px,1020px)}.hero{margin-top:12px;padding:18px 16px}.subtitle{font-size:13px}.chapter-head{padding:14px 16px}.chapter-head h2{font-size:20px}.chapter-body{padding:22px 20px 32px}.chapter-body p{line-height:1.84}.reader-pager{margin-top:10px}}
-@media(max-width:440px){.site-links a:first-child{display:none}.site-links a{font-size:10px;padding:7px 5px}.brand{font-size:9px}.reader-crumb{font-size:10px}.reader-pager{padding:6px}.pager-button{padding:6px 7px;font-size:10px}.pager-count{font-size:10px}.hero h1{font-size:28px}.chips{gap:5px}.chip{font-size:10px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05070a; --txt:#f4f7f5; --txt-2:#a9b3bd; --txt-3:#68737d;
+  --gold:#ffd60a; --gold-2:#f5b301; --mint:#7df9d6; --green:#22c55e;
+  --red:#ff4d4d; --bd:rgba(255,255,255,.09); --bd-hi:rgba(255,255,255,.2);
+  --glass:rgba(255,255,255,.04); --glass-2:rgba(255,255,255,.07);
+  --r:20px; --ease:cubic-bezier(.32,.72,0,1);
+  --tg:#29b6f6; --tg-2:#0288d1;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg); color:var(--txt); min-height:100vh; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(125,249,214,.06), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 100%, rgba(255,214,10,.05), transparent 60%);
+  background-attachment:fixed;
+}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+body, .post-card, .post-desc, .modal-content, .guide-line, .post-title, .modal-title {
+  -webkit-user-select: text !important; -moz-user-select: text !important;
+  -ms-user-select: text !important; user-select: text !important;
+}
+button, .gbtn, .btn-download, .modal-download-btn, .modal-close, .copy-btn,
+.btn-youtube, .btn-confirm, .btn-skip, .btn-box {
+  -webkit-user-select: none !important; -moz-user-select: none !important;
+  -ms-user-select: none !important; user-select: none !important;
+}
+
+.glass{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--bd); border-radius:var(--r);
+  box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 -1px 0 rgba(0,0,0,.25) inset, 0 8px 28px rgba(0,0,0,.35);
+}
+
+.header{
+  position:sticky;top:0;z-index:100; padding:12px 22px; display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap; background:rgba(10,14,21,.7);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid var(--bd);
+}
+.header-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-size:21px;font-weight:900;letter-spacing:-.6px;color:var(--txt);display:flex;align-items:center;gap:8px;}
+.logo i{color:var(--mint)}
+.logo span{background:linear-gradient(135deg,var(--gold),var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+
+.gbtn{
+  position:relative; padding:9px 18px;border-radius:14px; font-weight:700;font-size:13px;
+  border:1px solid var(--bd); cursor:pointer; display:inline-flex;align-items:center;gap:7px;
+  color:var(--txt); background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  box-shadow: 0 1px 0 rgba(255,255,255,.14) inset, 0 -1px 0 rgba(0,0,0,.2) inset, 0 3px 12px rgba(0,0,0,.25);
+  transition:transform .2s var(--ease), border-color .2s, box-shadow .2s, background .2s; will-change:transform;
+}
+.gbtn:hover{
+  transform:translateY(-2px); border-color:var(--bd-hi);
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -1px 0 rgba(0,0,0,.2) inset, 0 6px 20px rgba(0,0,0,.35);
+}
+.gbtn:active{transform:translateY(0) scale(.97)}
+.btn-social.youtube i{color:var(--red)}
+.btn-social.telegram i{color:var(--mint)}
+.btn-social.tiktok i{color:#fff}
+.btn-social.zalo i{color:#4fc3f7}
+.btn-social.youtube:hover{border-color:rgba(255,77,77,.5)}
+.btn-social.telegram:hover{border-color:rgba(125,249,214,.5)}
+.btn-social.tiktok:hover{border-color:rgba(255,255,255,.5)}
+.btn-social.zalo:hover{border-color:rgba(79,195,247,.5)}
+
+.container{max-width:980px;margin:0 auto;padding:24px 20px 70px}
+.guide-line{
+  text-align:center;color:var(--txt-2);margin-bottom:22px;font-size:14px;
+  padding:13px 22px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  border:1px solid var(--bd); box-shadow:0 1px 0 rgba(255,255,255,.1) inset;
+}
+.guide-line strong{
+  color:var(--gold);padding:3px 10px;border-radius:8px;
+  background:rgba(255,214,10,.1); border:1px solid rgba(255,214,10,.25);
+}
+
+.posts-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.post-card{
+  padding:24px 26px; transition:transform .25s var(--ease), border-color .25s, box-shadow .25s;
+  will-change:transform;
+}
+.post-card:hover{
+  transform:translateY(-4px); border-color:var(--bd-hi);
+  box-shadow: 0 1px 0 rgba(255,255,255,.16) inset, 0 -1px 0 rgba(0,0,0,.25) inset, 0 14px 36px rgba(0,0,0,.45);
+}
+.post-card .post-title{
+  font-size:18px;font-weight:800;letter-spacing:-.3px; color:var(--txt);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.post-card .post-title .post-id{
+  font-size:11px;font-weight:700; color:var(--gold); background:rgba(255,214,10,.1);
+  padding:3px 10px;border-radius:12px; border:1px solid rgba(255,214,10,.25);
+}
+.post-card .post-image{
+  width:100%;max-height:320px;object-fit:cover; border-radius:14px;margin:14px 0; border:1px solid var(--bd);
+}
+.post-card .post-desc{display:none}
+.post-card .post-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+
+.btn-download{
+  padding:11px 24px;border-radius:14px; font-weight:800;font-size:13.5px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;gap:9px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 4px 16px rgba(125,249,214,.25);
+  transition:transform .2s var(--ease), box-shadow .2s, filter .2s; will-change:transform;
+}
+.btn-download:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 8px 22px rgba(125,249,214,.35)}
+.btn-download:active{transform:translateY(0) scale(.97)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.8); z-index:9999;display:none;
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{
+  position:relative; background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi); border-radius:24px; padding:30px;max-width:720px;width:100%;max-height:85vh;overflow-y:auto;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .3s var(--ease);
+}
+@keyframes popIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{
+  position:absolute;top:14px;right:16px; width:38px;height:38px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--bd); color:var(--txt-2);font-size:17px;cursor:pointer;
+  transition:all .25s var(--ease); display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{color:var(--mint);border-color:rgba(125,249,214,.5);transform:rotate(90deg)}
+.modal-title{
+  font-size:20px;font-weight:800;letter-spacing:-.3px; color:var(--txt);margin-bottom:18px;padding-right:50px;
+  padding-bottom:14px;border-bottom:1px solid var(--bd);
+}
+.modal-content{color:var(--txt-2);font-size:14.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word;user-select:text}
+.modal-content a{
+  color:var(--mint);text-decoration:none;font-weight:700;
+  border-bottom:1px dashed rgba(125,249,214,.4); word-break:break-all;
+}
+.modal-content a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.modal-actions{
+  margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--bd);padding-top:20px;
+}
+.modal-download-btn{
+  padding:14px 40px;border-radius:16px; font-weight:900;font-size:15px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;gap:9px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.modal-download-btn:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+
+.copy-btn{
+  padding:12px 26px;border-radius:14px; font-weight:700;font-size:13.5px;
+  border:1px solid var(--bd); background:var(--glass); color:var(--txt);cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px; transition:all .2s var(--ease);
+}
+.copy-btn:hover{background:var(--glass-2);border-color:var(--mint);color:var(--mint);transform:translateY(-2px)}
+.copy-btn.copied{background:rgba(125,249,214,.15);border-color:var(--mint);color:var(--mint)}
+
+.sub-gate{
+  position:fixed;inset:0;z-index:99999; background:rgba(3,5,8,.96);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  display:none;align-items:center;justify-content:center;padding:20px; overflow-y:auto;
+}
+.sub-gate.active{display:flex;animation:fadeIn .3s ease}
+.sub-gate-box{
+  max-width:560px;width:100%; background:linear-gradient(180deg,rgba(28,34,42,.98),rgba(18,22,28,.98));
+  border:1px solid var(--bd-hi); border-radius:26px; padding:34px 30px; text-align:center;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 30px 80px rgba(0,0,0,.75);
+  animation:popIn .35s var(--ease); margin:auto;
+}
+.sub-gate-icon{
+  width:76px;height:76px;border-radius:50%; margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 40%,rgba(255,77,77,.35),rgba(255,77,77,.05));
+  border:1px solid rgba(255,77,77,.4); box-shadow:0 0 40px rgba(255,77,77,.25);
+}
+.sub-gate-icon i{font-size:36px;color:#ff4d4d}
+.sub-gate h2{font-size:21px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px;color:var(--txt);}
+.sub-gate > .sub-gate-box > p.sub-gate-sub{color:var(--txt-2);font-size:14px;line-height:1.65;margin-bottom:20px;}
+.sub-gate p b{color:var(--gold)}
+
+.step-bar{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.step-dot{
+  display:flex;align-items:center;gap:7px; padding:7px 14px;border-radius:20px;
+  font-size:12px;font-weight:800;letter-spacing:.3px; border:1px solid var(--bd);
+  background:var(--glass);color:var(--txt-3); transition:all .25s var(--ease);
+}
+.step-dot i{font-size:12px}
+.step-dot.active{color:var(--gold); border-color:rgba(255,214,10,.45); background:rgba(255,214,10,.1); box-shadow:0 0 0 3px rgba(255,214,10,.08);}
+.step-dot.done{color:var(--mint); border-color:rgba(125,249,214,.45); background:rgba(125,249,214,.1);}
+.step-dot.done i{color:var(--mint)}
+.step-dot.opt{border-style:dashed}
+.step-dot.active.tg{color:var(--tg);border-color:rgba(41,182,246,.5);background:rgba(41,182,246,.1);box-shadow:0 0 0 3px rgba(41,182,246,.08)}
+.gate-step{display:none}
+.gate-step.active{display:block;animation:fadeIn .3s ease}
+
+.video-card{
+  display:flex;align-items:center;gap:14px; padding:12px;border-radius:16px;
+  background:rgba(0,0,0,.35); border:1px solid var(--bd); margin-bottom:20px;text-align:left;
+}
+.video-thumb{
+  width:120px;height:68px;border-radius:10px; flex-shrink:0;overflow:hidden;position:relative;
+  background:#000;border:1px solid var(--bd);
+}
+.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.video-thumb .play-ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);}
+.video-thumb .play-ic i{font-size:22px;color:#ff4d4d;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.video-info{min-width:0;flex:1}
+.video-info .v-title{
+  font-size:13.5px;font-weight:800;color:var(--txt); line-height:1.4;margin-bottom:3px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.video-info .v-sub{font-size:12px;color:var(--txt-3)}
+
+.sub-gate-actions{display:flex;flex-direction:column;gap:12px}
+.btn-youtube{
+  padding:15px 26px;border-radius:16px; font-weight:900;font-size:14.5px;
+  border:1px solid rgba(255,77,77,.5); background:linear-gradient(180deg,#ff4d4d,#cc0000);
+  color:#fff;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -2px 0 rgba(0,0,0,.2) inset, 0 6px 22px rgba(255,77,77,.35);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-youtube:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 10px 30px rgba(255,77,77,.5)}
+.btn-youtube:active{transform:translateY(0) scale(.98)}
+.btn-youtube.liked{
+  border-color:rgba(125,249,214,.5); background:linear-gradient(180deg,#22c55e,#15803d);
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(34,197,94,.35);
+}
+.btn-youtube.commented{
+  border-color:rgba(41,182,246,.5); background:linear-gradient(180deg,#29b6f6,#0288d1);
+  box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(41,182,246,.35);
+}
+.btn-confirm{
+  padding:15px 26px;border-radius:16px; font-weight:800;font-size:15px;
+  border:1px solid rgba(125,249,214,.45); background:linear-gradient(180deg,#7df9d6,#22c55e);
+  color:#052e12;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -2px 0 rgba(0,0,0,.12) inset, 0 6px 20px rgba(125,249,214,.3);
+  transition:all .25s var(--ease);will-change:transform;
+}
+.btn-confirm:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 12px 32px rgba(125,249,214,.45)}
+.btn-confirm:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none;}
+.btn-confirm-note{font-size:12px;color:var(--txt-3);margin-top:14px;line-height:1.55;}
+.btn-confirm-note b{color:var(--mint)}
+.warn-note{color:var(--gold)}
+
+.big-word{
+  display:inline-block;font-weight:900;font-size:clamp(22px,6vw,30px);
+  line-height:1.2;letter-spacing:.3px;padding:2px 12px;margin:2px 3px;border-radius:12px;
+  vertical-align:middle;
+}
+.big-word.red{color:#fff;background:linear-gradient(180deg,#ff4d4d,#cc0000);box-shadow:0 4px 18px rgba(255,77,77,.4)}
+.big-word.mint{color:#052e12;background:linear-gradient(180deg,#7df9d6,#22c55e);box-shadow:0 4px 18px rgba(125,249,214,.35)}
+.big-word.blue{color:#fff;background:linear-gradient(180deg,#29b6f6,#0288d1);box-shadow:0 4px 18px rgba(41,182,246,.4)}
+
+.btn-confirm-note.big{font-size:clamp(14px,3.9vw,16px);font-weight:700;color:var(--txt-2);margin-top:16px;line-height:1.5;}
+.btn-confirm-note.big b{color:var(--gold);font-size:1.15em}
+
+.req-badge{
+  display:inline-flex;align-items:center;gap:7px;margin:0 auto 14px;padding:7px 16px;border-radius:999px;
+  font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;
+}
+.req-badge.opt{color:var(--tg);background:rgba(41,182,246,.12);border:1px dashed rgba(41,182,246,.55)}
+.skip-hero{
+  margin:0 0 16px;padding:16px 14px;border-radius:18px;text-align:center;
+  background:linear-gradient(180deg,rgba(255,214,10,.14),rgba(255,214,10,.05));
+  border:2px dashed rgba(255,214,10,.65);
+  animation:pulseGold 2.2s ease-in-out infinite;
+}
+.skip-hero .big{font-size:clamp(17px,5vw,21px);font-weight:900;color:var(--gold);line-height:1.35}
+.skip-hero .small{font-size:13px;font-weight:700;color:var(--txt-2);margin-top:4px}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 0 0 rgba(255,214,10,.0)}50%{box-shadow:0 0 0 6px rgba(255,214,10,.12)}}
+.btn-skip.big{
+  width:100%;padding:16px 24px;font-size:16px;font-weight:900;color:#1a1500;
+  background:linear-gradient(180deg,#ffe45c,#ffc400);border:1px solid rgba(255,214,10,.7);
+  box-shadow:0 6px 22px rgba(255,196,0,.35);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .25s var(--ease);
+}
+.btn-skip.big:hover{color:#1a1500;background:linear-gradient(180deg,#ffe97f,#ffcf2e);border-color:rgba(255,214,10,.9);transform:translateY(-2px)}
+.box-title{font-size:12.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--txt-3);margin:18px 0 10px}
+.box-list{display:grid;grid-template-columns:1fr;gap:10px}
+.btn-box{
+  display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;font-weight:900;font-size:14.5px;
+  color:#fff;text-decoration:none;text-align:left;border:1px solid rgba(255,255,255,.18);
+  transition:all .25s var(--ease);cursor:pointer;
+}
+.btn-box i{font-size:20px;flex:0 0 auto}
+.btn-box span{flex:1}
+.btn-box em{font-style:normal;font-size:11px;font-weight:800;opacity:.85;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.25)}
+.btn-box.tg{background:linear-gradient(180deg,#29b6f6,#0288d1);border-color:rgba(41,182,246,.6)}
+.btn-box.zalo{background:linear-gradient(180deg,#2d8cff,#0068ff);border-color:rgba(0,104,255,.6)}
+.btn-box:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-box:active{transform:scale(.98)}
+.box-note{margin:14px 0 14px;font-size:13px;font-weight:700;color:var(--txt-2);line-height:1.55}
+.box-note b{color:var(--gold)}
+.tg-banner{
+  display:inline-block;margin:0 0 12px;padding:10px 16px;border-radius:14px;font-weight:900;
+  font-size:clamp(15px,4.2vw,18px);line-height:1.4;color:var(--gold);letter-spacing:.2px;
+  background:rgba(255,214,10,.08);border:1px dashed rgba(255,214,10,.45);
+}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--txt-3)}
+.empty-state i{font-size:48px;margin-bottom:16px;display:block;color:rgba(125,249,214,.3)}
+.empty-state h3{font-size:17px;color:var(--txt-2);margin-bottom:6px;font-weight:700}
+.loading-spinner{display:flex;justify-content:center;align-items:center;padding:50px 0;gap:12px;color:var(--mint);font-weight:700}
+.loading-spinner i{font-size:24px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
+}
+.shake{animation:shake .4s ease-in-out !important}
+
+@media (max-width:768px){
+  .header{padding:11px 14px} .logo{font-size:17px} .gbtn{font-size:12px;padding:8px 14px}
+  .container{padding:18px 14px 55px} .post-card{padding:20px} .post-card .post-title{font-size:16px}
+  .modal-box{padding:24px 20px} .sub-gate-box{padding:26px 18px}
+  .sub-gate h2{font-size:18px} .step-dot{font-size:11px;padding:6px 10px} .video-thumb{width:96px;height:56px}
+  .video-info .v-title{font-size:12.5px}
+}
+@media (max-width:480px){.header-right .gbtn span{display:none} .header-right .gbtn i{margin:0} .step-dot{padding:6px 9px} .step-dot span{display:none} .step-dot.active span{display:inline}}
+.gbtn,.btn-download,.modal-download-btn,.post-card,.modal-box,.btn-youtube,.btn-confirm,.btn-skip,.btn-box{-webkit-tap-highlight-color:transparent;}
+img{content-visibility:auto}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="reader-crumb"><div class="wrap">Trang chủ  ›  Truyện đang đọc  ›  <strong>Chương 1: Trang giấy còn ấm</strong></div></div><div aria-hidden="true" class="progress-track"><div class="progress-fill" id="progress"></div></div>
-<header class="topbar"><a aria-label="Về đầu trang" class="brand" href="#top"><span class="brand-mark">頁</span><span>BÊN KIA TRANG GIẤY</span></a><nav aria-label="Điều hướng chính" class="site-links"><a href="#top">Trang chủ</a><a class="active" href="#chuong-1">Đang đọc</a><a href="#story-info">Thông tin</a></nav><div aria-label="Tùy chỉnh trang đọc" class="top-actions"><button aria-label="Giảm cỡ chữ" class="tool-button" id="smaller" title="Giảm cỡ chữ">A−</button><span aria-live="polite" class="font-label" id="fontLabel">19 px</span><button aria-label="Tăng cỡ chữ" class="tool-button" id="larger" title="Tăng cỡ chữ">A+</button><button aria-label="Đổi giao diện sáng, giấy ngà, tối" class="tool-button" id="theme" title="Đổi giao diện">◐</button></div></header>
-<main class="wrap" id="top">
-<section aria-labelledby="series-title" class="hero"><p class="eyebrow">Một câu chuyện về lần bắt đầu thứ hai</p><h1 id="series-title">Trở thành người viết nên thế giới</h1><p class="subtitle">Một sinh viên đại học tỉnh dậy trong cuộc đời của người khác, ở nơi những câu chuyện cậu từng yêu chưa từng được viết ra. Nhưng trước khi cứu cả thế giới bằng một trang truyện, cậu phải học cách sống qua ngày hôm nay.</p><div class="chips"><span class="chip">Xuyên không</span><span class="chip">Đời thường</span><span class="chip">Light novel</span><span class="chip">Tình bạn · sáng tạo · hồi sinh</span></div><a class="start-link" href="#chuong-1">Đọc chương 1 <span aria-hidden="true">↓</span></a><p aria-live="polite" class="sync-status" id="syncStatus" role="status">Đang tải nội dung truyện…</p></section>
-<div aria-label="Điều hướng chương" class="reader-pager wrap"><button class="pager-button" disabled="disabled">‹ Chương trước</button><span class="pager-count">Chương 1 / 1</span><button class="pager-button" disabled="disabled">Chương sau ›</button></div><article class="chapter-card" id="chuong-1"><header class="chapter-head"><p class="chapter-kicker">Quyển 1 · Ngày đầu tiên</p><h2>Chương 1: Trang giấy còn ấm</h2><div class="chapter-meta"><span>Thời lượng đọc khoảng 8 phút</span><span>Đang đồng bộ nội dung từ JSONBin</span></div></header>
-<div class="chapter-body" id="story">
-<p>Tiếng mưa là thứ đầu tiên tôi nhận ra.</p>
-<p>Nó gõ lên cửa kính thành những nhịp nhỏ, đều đặn, như ai đó đang kiên nhẫn nhắc rằng thế giới vẫn tiếp tục chuyển động. Mùi thuốc sát trùng lẫn với mùi cháo trắng. Một chiếc máy cạnh giường phát ra tiếng bíp bình thản đến khó chịu.</p>
-<p>Tôi mở mắt.</p>
-<p>Trần nhà xa lạ. Cánh tay xa lạ. Cơn đau âm ỉ trong lồng ngực và sự mệt mỏi nặng đến mức chỉ một lần chớp mắt cũng như kéo cả mùa đông qua mi mắt.</p>
-<p>— Em tỉnh rồi à?</p>
-<p>Người phụ nữ ngồi cạnh giường đứng bật dậy. Chị mặc áo blouse trắng, tóc buộc gọn, vẻ mặt vừa nhẹ nhõm vừa cố giữ bình tĩnh.</p>
-<p>— Đây là đâu?</p>
-<p>Giọng tôi khàn đặc. Câu hỏi ấy nghe ngốc nghếch, nhưng đó là tất cả những gì tôi gom được từ đống sương mù trong đầu.</p>
-<p>— Bệnh viện Đại học Nam Thành. Em được đưa tới đây kịp thời sau một lần cố kết thúc cuộc đời mình. Bây giờ em đang an toàn. Bác sĩ sẽ theo dõi em, và sau đó chúng ta sẽ cùng tìm người có thể hỗ trợ em lâu dài.</p>
-<p>Chị không hỏi tại sao. Không trách móc. Không bảo rằng mọi chuyện rồi sẽ ổn như thể một câu nói có thể sửa được cả thế giới.</p>
-<p>Chị chỉ đặt cốc nước xuống chỗ tôi với tới, rồi nói, rất khẽ:</p>
-<div class="pullquote">— Hôm nay em chưa cần giải quyết cả cuộc đời. Chỉ cần ở lại đây, qua hôm nay đã.</div>
-<p>Tôi nhìn bàn tay mình. Những ngón tay dài, có vết chai mảnh ở đầu ngón trỏ. Không phải tay tôi. Nhưng dưới lớp da xa lạ ấy, có một nỗi buồn quá quen, sâu và lặng, như căn phòng đã bị bỏ không từ lâu.</p>
-<p>Ký ức đổ xuống từng mảnh: một phòng trọ nhỏ, những tin nhắn chưa trả lời, bài tập thiết kế bị bỏ dở, tiếng cười của ai đó ngoài hành lang. Một cái tên cứ lặp đi lặp lại trong đầu—<strong>Phạm Nhật Huy</strong>, hai mươi tuổi, sinh viên năm hai ngành truyền thông thị giác.</p>
-<p>Còn tôi là ai?</p>
-<p>Câu trả lời trượt khỏi tay như tờ giấy ướt. Tôi chỉ nhớ mình cũng từng là sinh viên. Từng có những ngày thức trắng vì vẽ, từng nghĩ chỉ cần cố thêm chút nữa thì sẽ chạm tới thứ mình muốn. Rồi có một khoảng thời gian dài, mọi thứ đều trở nên quá nặng. Tôi đã không biết phải nhờ ai kéo mình lên.</p>
-<p>Tôi không nhớ mình đã đến đây bằng cách nào. Cũng không biết tại sao trong đầu lại có hai cuộc đời chồng lên nhau. Chỉ biết người đang thở trong chiếc giường này đã gần như không còn cơ hội thứ hai.</p>
-<p>Và tôi—một kẻ lạc đường—đang dùng nó.</p>
-<div aria-hidden="true" class="scene-break">✦</div>
-<p>Ba ngày sau, bác sĩ cho tôi xuất viện với một danh sách những việc phải làm: tái khám, gặp chuyên viên tâm lý, ăn đúng bữa, đừng ở một mình trong những ngày đầu. Chị điều dưỡng ghi số hỗ trợ lên tờ giấy rồi nhắc tôi giữ nó ở nơi dễ thấy.</p>
-<p>Tôi gấp tờ giấy lại cẩn thận, bỏ vào túi áo.</p>
-<p>Không phải vì tôi đã hiểu hết chuyện gì đang xảy ra. Chỉ là có người đã dành thời gian viết nó cho tôi, nên tôi muốn thử làm theo.</p>
-<p>Người đón tôi là Đỗ Hoàng Phúc, bạn cùng phòng của Nhật Huy. Cậu ấy cao, gầy, tóc dựng như vừa đánh nhau với cái gối và thua một cách không cam lòng.</p>
-<p>— Cậu đi chậm thôi. Nếu chóng mặt thì nói. Tớ đã nhắn cô chủ nhiệm rồi, bài nhóm để sau. À, mẹ cậu gửi cháo, tớ mang theo… nhưng chắc nó đã nguội thành một khối kiến trúc.</p>
-<p>Phúc chìa chiếc hộp giữ nhiệt ra. Tôi bật cười—tiếng cười đầu tiên kể từ khi tỉnh lại. Nó ngắn và khàn, nhưng khiến cả hai chúng tôi đều ngạc nhiên.</p>
-<p>— Cậu còn biết cười là tốt rồi — Phúc nói, rồi lập tức nhìn xuống đôi giày. — Ý tớ là… tớ mừng vì cậu còn ở đây.</p>
-<p>Câu nói ấy vụng về đến mức không thể coi là an ủi. Chính vì thế mà nó thật.</p>
-<p>Đường về ký túc xá đi qua một con phố nhiều cây. Những tán phượng ướt mưa rũ xuống, xe máy né nhau trong tiếng còi inh ỏi, một cô bán bánh mì vừa gói đồ vừa mắng chiếc ô của mình vì cứ lật ngược. Thành phố này giống nơi tôi từng sống, nhưng mọi biển hiệu đều lệch đi nửa nhịp.</p>
-<p>Trên xe buýt, Phúc lén nhìn tôi qua cửa kính.</p>
-<p>— Cậu có nhớ tớ là ai không?</p>
-<p>— Bạn cùng phòng. Hoàng Phúc.</p>
-<p>— Còn nhớ tớ nợ cậu tám mươi nghìn không?</p>
-<p>— Không.</p>
-<p>— Tốt. Vậy là trí nhớ của cậu vẫn ổn. Tớ định tranh thủ lúc cậu mất trí để xóa khoản nợ.</p>
-<p>Lần này tôi cười lâu hơn một chút. Phúc cũng cười, nhưng sau đó cậu im lặng, không cố lấp khoảng trống. Tôi biết đó là một kiểu tử tế.</p>
-<div aria-hidden="true" class="scene-break">✦</div>
-<p>Phòng ký túc xá có hai chiếc giường, một cái bàn chất đầy sách và một chậu cây nhỏ đang héo theo cách rất có nguyên tắc. Trên bàn của Nhật Huy là một cuốn sổ vẽ bìa xanh. Phúc đặt nó xuống cạnh tôi.</p>
-<p>— Cậu muốn giữ thì giữ. Nếu chưa muốn nhìn, tớ cất đi.</p>
-<p>Tôi không trả lời ngay. Trên bìa có một vết mực lem hình ngôi sao. Khi mở ra, những trang đầu là bài tập phối cảnh, vài nét phác dở, một nhân vật đang ngủ gục trên xe buýt. Ở giữa cuốn sổ, nét bút bỗng ngập ngừng. Những trang sau gần như trống trơn.</p>
-<p>Chỉ có một dòng chữ nhỏ nằm sát mép giấy:</p>
-<p><em>“Mình không còn nghĩ ra được câu chuyện nào đáng để kể.”</em></p>
-<p>Tôi khép sổ lại.</p>
-<p>Không phải vì câu ấy làm tôi giận. Tôi chỉ không muốn giả vờ rằng mình có thể đáp lại nó bằng một câu thần kỳ. Có những ngày con người không cần nghe rằng họ phải mạnh mẽ. Có lẽ họ chỉ cần một người chịu ngồi lại, không biến nỗi đau của họ thành bài học cho người khác.</p>
-<p>— Hôm nay ăn cháo trước nhé — Phúc nói. — Mai tính tiếp.</p>
-<p>Chúng tôi ăn cháo nguội bằng hai chiếc thìa nhựa. Nó đúng là đã đông thành một khối kiến trúc. Phúc gọi đó là “công trình tối giản”, còn tôi bảo tác giả nên bị phê bình vì thiếu tính ứng dụng. Cậu ấy chống chế rằng đây là trường phái mới. Chúng tôi cãi nhau về nghệ thuật trong khi cố cạo cháo khỏi thành hộp.</p>
-<p>Thật kỳ lạ. Bên ngoài cửa sổ, trời vẫn xám. Trong ngực tôi vẫn có một khoảng trống chưa biết lấp bằng gì. Nhưng giữa căn phòng nhỏ, có tiếng thìa va vào hộp, có người bạn đang kể chuyện lớp, và có một chậu cây cần được tưới.</p>
-<p>Thế giới không bỗng nhiên đẹp lên. Chỉ có một buổi chiều bình thường chịu mở cửa cho tôi bước vào.</p>
-<div aria-hidden="true" class="scene-break">✦</div>
-<p>Tối đó, tôi mở điện thoại của Nhật Huy để xem lịch học. Màn hình đầy những thông báo chưa đọc. Tôi không mở chúng. Ở trang tìm kiếm, một cái tên tự nhiên bật lên trong đầu—như ký ức về một ngọn đèn từng soi đường qua những ngày dài.</p>
-<p><strong>Attack on Titan.</strong></p>
-<p>Tôi tìm thử. Không có kết quả. Không có bộ truyện ấy, cũng không có những cái tên đáng lẽ phải xuất hiện bên cạnh nó. Lịch sử ngành truyện tranh ở thế giới này rẽ sang một nhánh khác; những tác phẩm từng khiến tôi vừa hồi hộp vừa đau lòng chưa từng được xuất bản.</p>
-<p>Ngón tay tôi khựng lại trên màn hình. Nếu thật sự có thể viết lại những câu chuyện ấy, nếu có thể trao chúng cho những người chưa từng được gặp chúng… liệu tôi có đang lấy cắp điều gì không? Hay đây chỉ là một ký ức mà tôi phải học cách biến thành thứ của riêng mình—bằng lao động, bằng tôn trọng, bằng những năm tháng không thể đi đường tắt?</p>
-<p>Tôi chưa có câu trả lời. Tôi chỉ biết mình không muốn dùng một câu chuyện để trốn khỏi đời sống. Nếu bắt đầu vẽ, tôi sẽ bắt đầu từ những nét chì đầu tiên, từ những giờ học, những lần sửa đi sửa lại, từ những người thật ở ngay trước mặt. Tôi sẽ không gọi sự đau khổ là cái giá bắt buộc để làm nghệ thuật.</p>
-<p>Phúc đã ngủ. Ngoài cửa sổ, mưa rơi lại. Tôi lấy cuốn sổ bìa xanh, tìm một trang còn trắng.</p>
-<p>Bàn tay run nhẹ. Tôi vẽ một đường chân trời, rồi dựng lên phía trên nó một bức tường khổng lồ. Không phải để nhốt ai lại—ít nhất, đó không phải điều tôi muốn vẽ. Tôi muốn kể về những người đứng sau bức tường, về nỗi sợ, về tự do, và về cái giá của việc bước ra ngoài.</p>
-<p>Ở góc trang, tôi viết bằng nét chữ chưa quen:</p>
-<p><strong>Attack on Titan — bản nháp.</strong></p>
-<p>Tôi nhìn dòng chữ ấy rất lâu. Nó không phải lời hứa rằng từ ngày mai mọi thứ sẽ ổn. Nó chỉ là một việc nhỏ có thể làm vào ngày mai: hỏi bác sĩ lịch tái khám, ăn sáng với Phúc, rồi vẽ tiếp một chút.</p>
-<p>Với một người vừa trở về từ rìa vực thẳm, “ngày mai” đã là một thế giới rộng lớn.</p>
-<p>Trang giấy dưới bàn tay tôi vẫn còn ấm.</p>
-<p>Và lần đầu tiên sau một thời gian dài, tôi muốn biết nó sẽ viết tiếp điều gì.</p>
-<div class="chapter-end">— Hết chương 1 —</div>
-</div>
-</article>
 
-<aside class="afterword"><span aria-hidden="true">✦</span><div><strong>Ghi chú của tác giả</strong><br/>Chủ đề tuyệt vọng và tự tử được nhắc đến ngắn gọn, không mô tả cách thức hay xem đó là lối thoát. Trọng tâm của câu chuyện là sự chăm sóc, những kết nối nhỏ và việc tìm hỗ trợ chuyên môn.</div></aside>
-<details id="story-info"><summary>Hồ sơ truyện · ghi chú để giữ mạch các chương</summary><div class="bible"><p><strong>Tên tạm:</strong> Trở thành người viết nên thế giới.</p><p><strong>Thể loại &amp; giọng kể:</strong> Light novel xuyên không, nhịp nhanh nhưng giàu cảm xúc; đời sống sinh viên là trục chính, xen hài hước, tình bạn, mất mát và những cao trào sáng tạo.</p><p><strong>Nhân vật chính:</strong> Một sinh viên yêu vẽ và kể chuyện từ thế giới khác, tỉnh dậy trong thân thể Phạm Nhật Huy, 20 tuổi, sinh viên năm hai ngành truyền thông thị giác. Cậu không có lời giải tức thì cho nỗi đau; việc hồi phục diễn ra từng bước và có hỗ trợ.</p><p><strong>Nhân vật đồng hành:</strong> Đỗ Hoàng Phúc, bạn cùng phòng, hay đùa vụng về nhưng biết ở bên mà không ép Huy phải vui lên.</p><p><strong>Tiền đề thế giới:</strong> Thế giới song song có lịch sử văn hóa đại chúng khác; một số tác phẩm mà nhân vật chính nhớ như <em>Attack on Titan</em> chưa từng xuất hiện. Cậu muốn trở thành tiểu thuyết gia và mangaka, nhưng phải học nghề, tôn trọng độc giả và tự tạo dấu ấn, không thành công chỉ nhờ ký ức.</p></div></details>
-</main>
-<footer class="wrap">Bản đọc thử · vị trí đọc và tùy chỉnh được lưu trên thiết bị này.<br/>Muốn đọc chương mới, cứ nhắn yêu cầu trong cuộc trò chuyện; nội dung trang có thể được cập nhật thêm.</footer>
-<div aria-live="polite" class="toast" id="toast" role="status">Đã lưu vị trí đọc</div>
+<!-- MÀN HÌNH CHẶN 4 BƯỚC (LIKE -> COMMENT -> SUBSCRIBE -> BOX) -->
+<div class="sub-gate" id="subGate">
+  <div class="sub-gate-box">
+    <div class="step-bar">
+      <div class="step-dot" id="stepDot1"><i class="fa-solid fa-thumbs-up"></i> <span>Like</span></div>
+      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-comment-dots"></i> <span>Comment</span></div>
+      <div class="step-dot" id="stepDot3"><i class="fa-brands fa-youtube"></i> <span>Đăng ký</span></div>
+      <div class="step-dot opt" id="stepDot4"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
+    </div>
+    
+    <!-- BƯỚC 1: LIKE VIDEO -->
+    <div class="gate-step active" id="gateStep1">
+      <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
+        <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
+      </div>
+      <h2>Bước 1: Like video</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video hướng dẫn ôn tập dưới đây để tiếp tục.</p>
+      
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://i.ytimg.com/vi/BddOhRmuvzs/hqdefault.jpg" alt="Video ôn tập" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="v-title">Video hướng dẫn ôn tập hiệu quả</div>
+          <div class="v-sub">youtu.be/BddOhRmuvzs</div>
+        </div>
+      </div>
+      
+      <div class="sub-gate-actions">
+        <a href="https://youtu.be/BddOhRmuvzs" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
+        <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
+    </div>
+    
+    <!-- BƯỚC 2: COMMENT VIDEO -->
+    <div class="gate-step" id="gateStep2">
+      <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(41,182,246,.3),rgba(41,182,246,.04));border-color:rgba(41,182,246,.4);box-shadow:0 0 40px rgba(41,182,246,.2)">
+        <i class="fa-solid fa-comment-dots" style="color:var(--tg)"></i>
+      </div>
+      <h2>Bước 2: Comment video</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word blue"><i class="fa-solid fa-comment-dots"></i> COMMENT</span> video dưới đây (nội dung gì cũng được) để hoàn tất.</p>
+      
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="https://i.ytimg.com/vi/BddOhRmuvzs/hqdefault.jpg" alt="Video ôn tập" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="v-title">Video hướng dẫn ôn tập hiệu quả</div>
+          <div class="v-sub">youtu.be/BddOhRmuvzs</div>
+        </div>
+      </div>
+      
+      <div class="sub-gate-actions">
+        <a href="https://youtu.be/BddOhRmuvzs" target="_blank" rel="noopener" class="btn-youtube" id="btnCommentVideo" style="background:linear-gradient(180deg,#29b6f6,#0288d1);border-color:rgba(41,182,246,.5);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 -2px 0 rgba(0,0,0,.2) inset,0 6px 22px rgba(41,182,246,.35)"><i class="fa-solid fa-comment-dots"></i> Mở video & Comment ngay</a>
+        <button class="btn-confirm" id="btnConfirmComment" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Comment (Tiếp tục)</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Comment ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
+    </div>
+    
+    <!-- BƯỚC 3: ĐĂNG KÝ KÊNH -->
+    <div class="gate-step" id="gateStep3">
+      <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
+      <h2>Bước 3: Đăng ký kênh</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
+      <div class="sub-gate-actions">
+        <a href="https://youtube.com/@sikemodder?si=nLKIb1eb8aiyFmwF" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay</a>
+        <button class="btn-confirm" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote3"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
+    </div>
+    
+    <!-- BƯỚC 4: BOX TELEGRAM + ZALO (TUỲ CHỌN) -->
+    <div class="gate-step" id="gateStep4">
+      <div class="req-badge opt"><i class="fa-solid fa-unlock"></i> Không bắt buộc</div>
+      <div class="skip-hero">
+        <div class="big">👉 CÓ THỂ BỎ QUA, KHÔNG VÀO CŨNG ĐƯỢC</div>
+        <div class="small">Không vào box vẫn xem và tải tài liệu bình thường.</div>
+      </div>
+      <button class="btn-skip big" id="btnSkipBox"><i class="fa-solid fa-forward"></i> Bỏ qua, vào web luôn</button>
+
+      <div class="box-title">Hoặc tham gia box (nếu muốn)</div>
+      <p class="tg-banner"><i class="fa-solid fa-hand-point-down"></i> Vào Box Hoặc Không Ấn Xong Quay Lại</p>
+      <div class="box-list">
+        <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="btn-box tg"><i class="fa-brands fa-telegram-plane"></i><span>Box Telegram</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/0hbi6p2gplz0idb9sfnz" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 1</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 2</span><em>Tuỳ chọn</em></a>
+        <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="btn-box zalo"><i class="fa-solid fa-comment-dots"></i><span>Box Zalo 3</span><em>Tuỳ chọn</em></a>
+      </div>
+      <div class="box-note">Vào xong quay lại đây, bấm nút vàng <b>"Bỏ qua, vào web luôn"</b> ở trên để tiếp tục.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo"><i class="fa-solid fa-graduation-cap"></i>Ôn Thi<span>Hub</span></div>
+  </div>
+  <div class="header-right">
+    <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
+    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
+    <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
+    <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="guide-line"><i class="fa-regular fa-circle-question" style="margin-right:6px"></i> Ấn vào <strong>"Xem tài liệu"</strong> để xem các link tải.</div>
+  
+  <div id="postsContainer"><div class="loading-spinner"><i class="fa-solid fa-spinner"></i> Đang tải dữ liệu...</div></div>
+</div>
+
+<!-- MODAL XEM LINK -->
+<div id="downloadModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+    <h3 id="modalTitle" class="modal-title">Tiêu đề bài viết</h3>
+    <div id="modalContent" class="modal-content">Nội dung các link sẽ hiện ra ở đây...</div>
+    <div class="modal-actions">
+      <button id="copyContentBtn" class="copy-btn"><i class="fa-regular fa-copy"></i> Copy nội dung</button>
+      <a id="modalDownloadBtn" href="#" target="_blank" rel="noopener" class="modal-download-btn" style="display:none"><i class="fa-solid fa-download"></i> Tải xuống ngay</a>
+    </div>
+  </div>
+</div>
+
 <script>
-(()=>{
- 'use strict';
- const BIN_ID='6afa934cac6210605a8aebd6';
- const MASTER_KEY="$2a$10$D3TQY0hHFabCoAHzA8sw4uuZthpjYT4SLPBdxrYLIuCzwEjNSBk82";
- const API=`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
- const FONT='ben-kia-font',THEME='ben-kia-theme',SCROLL='ben-kia-scroll',CURRENT='ben-kia-current-chapter';
- const body=document.body,progress=document.getElementById('progress');
- const fontLabel=document.getElementById('fontLabel'),toast=document.getElementById('toast');
- const status=document.getElementById('syncStatus'),story=document.getElementById('story');
- const article=document.querySelector('.chapter-card'),headline=article.querySelector('h2');
- const kicker=article.querySelector('.chapter-kicker'),meta=[...article.querySelectorAll('.chapter-meta span')];
- const pager=document.querySelector('.reader-pager'),prevButton=pager.querySelector('.pager-button:first-child');
- const countLabel=pager.querySelector('.pager-count'),nextButton=pager.querySelector('.pager-button:last-child');
- const crumb=document.querySelector('.reader-crumb .wrap'),readLink=document.querySelector('.start-link');
- const readingLink=document.querySelector('.site-links a.active');
- const fallback={id:'chuong-1',title:headline.textContent.trim(),volume:kicker.textContent.trim(),readTime:meta[0]?.textContent.trim()||'',contentHtml:story.innerHTML};
- let chapters=[fallback],currentIndex=0,loadedFromBin=false,size=Number(localStorage.getItem(FONT))||19;
- let toastTimer,saveTimer,restoring=false;
- const setFont=n=>{size=Math.max(17,Math.min(26,n));document.documentElement.style.setProperty('--story-size',size+'px');fontLabel.textContent=size+' px';localStorage.setItem(FONT,String(size));};
- setFont(size);
- const savedTheme=localStorage.getItem(THEME);
- if(savedTheme==='dark'||savedTheme==='sepia')body.classList.add(savedTheme);
- document.getElementById('smaller').addEventListener('click',()=>setFont(size-1));
- document.getElementById('larger').addEventListener('click',()=>setFont(size+1));
- document.getElementById('theme').addEventListener('click',()=>{
-  const next=body.classList.contains('dark')?'sepia':body.classList.contains('sepia')?'light':'dark';
-  body.classList.remove('dark','sepia');if(next!=='light')body.classList.add(next);
-  localStorage.setItem(THEME,next);
-  document.querySelector('meta[name="theme-color"]').content=next==='dark'?'#171916':next==='sepia'?'#efe3cc':'#f6f2e9';
- });
- function safeFragment(markup){
-  const doc=new DOMParser().parseFromString(String(markup||''),'text/html');
-  const out=document.createDocumentFragment();
-  const allowed=new Set(['p','strong','em','br','div','span','blockquote','ul','ol','li','h3']);
-  function copy(node,target){
-   if(node.nodeType===Node.TEXT_NODE){target.append(document.createTextNode(node.nodeValue||''));return;}
-   if(node.nodeType!==Node.ELEMENT_NODE)return;
-   const tag=node.tagName.toLowerCase();
-   if(['script','style','iframe','object','embed','svg','math'].includes(tag))return;
-   if(!allowed.has(tag)){node.childNodes.forEach(child=>copy(child,target));return;}
-   const clean=document.createElement(tag);
-   if(tag==='div'){
-    for(const cls of ['scene-break','pullquote','chapter-end'])if(node.classList.contains(cls)){clean.classList.add(cls);break;}
-    if(clean.classList.contains('scene-break'))clean.setAttribute('aria-hidden','true');
-   }
-   node.childNodes.forEach(child=>copy(child,clean));target.append(clean);
+/* ====== CẤU HÌNH API TRỰC TIẾP TỪ JSONBIN ====== */
+const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d"; 
+
+const GATE_TTL_MS = 15 * 60 * 1000;
+const LIKE_KEY  = "ytLikedVideo_v5";
+const CMT_KEY   = "ytCommentedVideo_v5";
+const SUB_KEY   = "ytSubConfirmed_v5";
+const TELE_KEY  = "teleJoined_v5";
+const gateMem = {};   
+function gateGet(key){
+  let exp = gateMem[key] || 0;
+  try{ exp = Math.max(exp, parseInt(localStorage.getItem(key),10) || 0); }catch(e){}
+  return exp > Date.now();
+}
+function gateSet(key){
+  const exp = Date.now() + GATE_TTL_MS;
+  gateMem[key] = exp;
+  try{ localStorage.setItem(key, String(exp)); }catch(e){}
+}
+
+// Time-gate: tracking thời điểm bấm nút link (5 giây)
+const LIKE_START_TIME    = "likeStartTime_v5";
+const COMMENT_START_TIME = "commentStartTime_v5";
+const SUB_START_TIME     = "subStartTime_v5";
+const GATE_TIMEOUT = 5000;
+
+function startTimer(timeKey){
+  try { localStorage.setItem(timeKey, Date.now().toString()); } catch(e){}
+}
+
+function checkTimeGate(timeKey){
+  let storedTime;
+  try { storedTime = localStorage.getItem(timeKey); } catch(e){}
+  if(!storedTime) return false;
+  const elapsed = Date.now() - parseInt(storedTime);
+  return elapsed >= GATE_TIMEOUT;
+}
+
+function triggerShakeAndVibrate(element){
+  element.classList.add("shake");
+  setTimeout(() => element.classList.remove("shake"), 400);
+  if(navigator.vibrate){
+    navigator.vibrate([100, 50, 100, 50, 100]);
   }
-  doc.body.childNodes.forEach(node=>copy(node,out));return out;
- }
- function showToast(){toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1400);}
- function render(){
-  const item=chapters[currentIndex];if(!item)return;
-  article.id=item.id;article.dataset.chapterId=item.id;
-  headline.textContent=item.title||`Chương ${currentIndex+1}`;
-  kicker.textContent=item.volume||'Quyển 1';
-  if(meta[0])meta[0].textContent=item.readTime||'';
-  if(meta[1])meta[1].textContent=loadedFromBin?'Đã đồng bộ nội dung từ JSONBin.':'Đang dùng nội dung dự phòng trong trang.';
-  story.replaceChildren(safeFragment(item.contentHtml));
-  crumb.replaceChildren(document.createTextNode('Trang chủ  ›  Truyện đang đọc  ›  '));
-  const crumbTitle=document.createElement('strong');crumbTitle.textContent=item.title||`Chương ${currentIndex+1}`;crumb.append(crumbTitle);
-  prevButton.disabled=currentIndex<=0;nextButton.disabled=currentIndex>=chapters.length-1;
-  countLabel.textContent=`Chương ${currentIndex+1} / ${chapters.length}`;
-  readLink.href=`#${item.id}`;if(readLink.firstChild&&readLink.firstChild.nodeType===Node.TEXT_NODE)readLink.firstChild.nodeValue=`Đọc chương ${currentIndex+1} `;
-  readingLink.href=`#${item.id}`;
-  document.title=`Bên Kia Trang Giấy — ${item.title||`Chương ${currentIndex+1}`}`;
- }
- function indexForId(id){return chapters.findIndex(item=>item.id===id);}
- function selectChapter(index,{scroll=true,push=true}={}){
-  if(index<0||index>=chapters.length)return;
-  currentIndex=index;render();
-  const item=chapters[currentIndex];localStorage.setItem(CURRENT,item.id);
-  clearTimeout(saveTimer);localStorage.setItem(SCROLL,'0');
-  if(push&&location.hash!==`#${item.id}`)history.pushState({chapterId:item.id},'',`#${item.id}`);
-  if(scroll){restoring=true;requestAnimationFrame(()=>{article.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>{restoring=false;},700);});}
- }
- prevButton.addEventListener('click',()=>selectChapter(currentIndex-1));
- nextButton.addEventListener('click',()=>selectChapter(currentIndex+1));
- window.addEventListener('popstate',()=>{const index=indexForId(location.hash.slice(1));if(index>=0)selectChapter(index,{scroll:true,push:false});});
- let lastToast=0;
- window.addEventListener('scroll',()=>{
-  const max=document.documentElement.scrollHeight-innerHeight,y=window.scrollY||document.documentElement.scrollTop;
-  progress.style.width=(max>0?Math.min(100,y/max*100):0)+'%';
-  if(restoring)return;
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-   localStorage.setItem(SCROLL,String(Math.round(window.scrollY||document.documentElement.scrollTop)));
-   if(chapters[currentIndex])localStorage.setItem(CURRENT,chapters[currentIndex].id);
-   if(Date.now()-lastToast>1200){showToast();lastToast=Date.now();}
-  },900);
- },{passive:true});
- function restorePosition(){
-  const hashIndex=indexForId(location.hash.slice(1));
-  if(hashIndex>=0){restoring=true;setTimeout(()=>{article.scrollIntoView({behavior:'instant',block:'start'});setTimeout(()=>restoring=false,700);},80);return;}
-  const savedId=localStorage.getItem(CURRENT);
-  const savedY=Number(localStorage.getItem(SCROLL))||0;
-  if(savedId===chapters[currentIndex]?.id&&savedY>0){restoring=true;setTimeout(()=>{window.scrollTo({top:savedY,behavior:'instant'});setTimeout(()=>restoring=false,700);},80);}
- }
- async function load(){
+}
+
+let posts = [];
+
+const $ = id => document.getElementById(id);
+const postsContainer=$("postsContainer"), modalOverlay=$("downloadModal"), modalTitle=$("modalTitle"),
+modalContent=$("modalContent"), modalDownloadBtn=$("modalDownloadBtn");
+
+/* ====== Cổng chặn 4 bước ====== */
+const subGate = $("subGate");
+const stepDot1 = $("stepDot1"), stepDot2 = $("stepDot2"), stepDot3 = $("stepDot3"), stepDot4 = $("stepDot4");
+const gateStep1 = $("gateStep1"), gateStep2 = $("gateStep2"), gateStep3 = $("gateStep3"), gateStep4 = $("gateStep4");
+const btnLikeVideo = $("btnLikeVideo"), btnConfirmLike = $("btnConfirmLike"), gateNote1 = $("gateNote1");
+const btnCommentVideo = $("btnCommentVideo"), btnConfirmComment = $("btnConfirmComment"), gateNote2 = $("gateNote2");
+const btnSubscribe = $("btnSubscribe"), btnConfirmSub = $("btnConfirmSub"), gateNote3 = $("gateNote3");
+const btnSkipBox = $("btnSkipBox");
+
+let hasClickedLike = false;
+let hasClickedComment = false;
+let hasClickedSubscribe = false;
+let likeConfirmLocked = false;
+let commentConfirmLocked = false;
+let subConfirmLocked = false;
+
+function showStep(n){
+  gateStep1.classList.toggle("active", n===1);
+  gateStep2.classList.toggle("active", n===2);
+  gateStep3.classList.toggle("active", n===3);
+  gateStep4.classList.toggle("active", n===4);
+}
+
+function setDots(current){
+  [stepDot1, stepDot2, stepDot3, stepDot4].forEach((dot, i) => {
+    const n = i + 1;
+    dot.classList.remove("active", "done");
+    if(n < current) dot.classList.add("done");
+    else if(n === current) dot.classList.add("active");
+  });
+}
+
+function checkSubGate(){
+  const likeDone = gateGet(LIKE_KEY);
+  const cmtDone = gateGet(CMT_KEY);
+  const subDone = gateGet(SUB_KEY);
+  const teleDone = gateGet(TELE_KEY);
+  
+  if(likeDone && cmtDone && subDone && teleDone){
+    subGate.classList.remove("active");
+    document.body.style.overflow="";
+    return false;
+  } else {
+    subGate.classList.add("active");
+    document.body.style.overflow="hidden";
+    if(!likeDone){
+      showStep(1); setDots(1);
+    } else if(!cmtDone){
+      showStep(2); setDots(2);
+    } else if(!subDone){
+      showStep(3); setDots(3);
+    } else {
+      showStep(4); setDots(4);
+    }
+    return true;
+  }
+}
+
+// ===== BƯỚC 1: LIKE VIDEO =====
+btnLikeVideo.addEventListener("click", ()=>{
+  hasClickedLike = true;
+  likeConfirmLocked = false;
+  startTimer(LIKE_START_TIME);
+  btnLikeVideo.classList.add("liked");
+  btnConfirmLike.disabled = false;
+  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để sang bước 2.';
+});
+
+btnConfirmLike.addEventListener("click", ()=>{
+  if(!hasClickedLike){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  if(likeConfirmLocked){
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  if(!checkTimeGate(LIKE_START_TIME)){
+    likeConfirmLocked = true;
+    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
+    triggerShakeAndVibrate(gateNote1);
+    return;
+  }
+  gateSet(LIKE_KEY); 
+  setDots(2);
+  showStep(2);
+});
+
+// ===== BƯỚC 2: COMMENT VIDEO =====
+btnCommentVideo.addEventListener("click", ()=>{
+  hasClickedComment = true;
+  commentConfirmLocked = false;
+  startTimer(COMMENT_START_TIME);
+  btnCommentVideo.classList.add("commented");
+  btnConfirmComment.disabled = false;
+  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Comment" để sang bước 3.';
+});
+
+btnConfirmComment.addEventListener("click", ()=>{
+  if(!hasClickedComment){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Comment ngay" trước!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  if(commentConfirmLocked){
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa comment video vui lòng quay lại để comment!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  if(!checkTimeGate(COMMENT_START_TIME)){
+    commentConfirmLocked = true;
+    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa comment video vui lòng quay lại để comment!';
+    triggerShakeAndVibrate(gateNote2);
+    return;
+  }
+  gateSet(CMT_KEY); 
+  setDots(3);
+  showStep(3);
+});
+
+// ===== BƯỚC 3: ĐĂNG KÝ =====
+btnSubscribe.addEventListener("click", ()=>{
+  hasClickedSubscribe = true;
+  subConfirmLocked = false;
+  startTimer(SUB_START_TIME);
+  btnConfirmSub.disabled = false;
+  gateNote3.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước cuối.';
+});
+
+btnConfirmSub.addEventListener("click", ()=>{
+  if(!hasClickedSubscribe){
+    gateNote3.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
+    triggerShakeAndVibrate(gateNote3);
+    return;
+  }
+  if(subConfirmLocked){
+    gateNote3.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote3);
+    return;
+  }
+  if(!checkTimeGate(SUB_START_TIME)){
+    subConfirmLocked = true;
+    gateNote3.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
+    triggerShakeAndVibrate(gateNote3);
+    return;
+  }
+  gateSet(SUB_KEY);
+  setDots(4);
+  showStep(4);
+});
+
+// ===== BƯỚC 4: BOX (TUỲ CHỌN) =====
+btnSkipBox.addEventListener("click", ()=>{
+  gateSet(TELE_KEY);
+  stepDot4.classList.add("done"); stepDot4.classList.remove("active");
+  subGate.classList.remove("active");
+  document.body.style.overflow="";
+});
+
+/* ========================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+  checkSubGate();
+  fetchPosts();
+  document.querySelector(".modal-close").addEventListener("click",closeModal);
+  modalOverlay.addEventListener("click",closeModalOnOutside);
+});
+
+/* === ĐỌC DỮ LIỆU TỪ JSONBIN (GET) === */
+async function fetchPosts(){
   try{
-   const response=await fetch(API,{headers:{'X-Master-Key':MASTER_KEY,'Accept':'application/json'},cache:'no-store'});
-   if(!response.ok)throw new Error(`HTTP ${response.status}`);
-   const data=await response.json(),record=data.record||{};
-   const remote=Array.isArray(record.chapters)?record.chapters.filter(item=>item&&typeof item.id==='string'&&/^chuong-[a-z0-9-]+$/i.test(item.id)&&typeof item.contentHtml==='string'):[];
-   const unique=[],seen=new Set();
-   for(const item of remote){if(seen.has(item.id))continue;seen.add(item.id);unique.push(item);}
-   if(!unique.some(item=>item.id==='chuong-1'))unique.unshift(fallback);
-   if(unique.length>0){chapters=unique;loadedFromBin=true;}
-   const preferredId=location.hash.slice(1)||localStorage.getItem(CURRENT)||'chuong-1';
-   const preferredIndex=indexForId(preferredId);
-   currentIndex=preferredIndex>=0?preferredIndex:Math.max(0,indexForId('chuong-1'));
-   render();
-   if(loadedFromBin)status.textContent=`Đã tải ${chapters.length} chương từ JSONBin.`;
-   else status.textContent='Bin chưa có chương; đang hiển thị bản Chương 1 lưu sẵn trong trang.';
-   restorePosition();
-  }catch(error){
-   chapters=[fallback];currentIndex=0;loadedFromBin=false;render();
-   status.textContent='Không kết nối được JSONBin; đang hiển thị Chương 1 lưu sẵn trong trang.';
-   restorePosition();
+    const res = await fetch(BIN_URL, {
+        headers: { "X-Bin-Meta": "false" },
+        cache: "no-store" 
+    });
+    
+    if(!res.ok) throw new Error("Server trả mã " + res.status);
+    
+    const data = await res.json();
+    
+    if(Array.isArray(data)){
+        posts = data;
+    } else if (data && Array.isArray(data.posts)) {
+        posts = data.posts;
+    } else {
+        posts = []; 
+    }
+
+    renderPosts();
+  }catch(e){
+    console.error("fetchPosts lỗi:", e);
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-database"></i><h3>Không thể tải dữ liệu</h3><p style="color:var(--txt-3);font-size:14px">${escapeHtml(e.message)}. Thử reload lại trang.</p></div>`;
   }
- }
- load();
-})();
-</script></body>
+}
+
+function escapeHtml(str){
+  if(str===null||str===undefined)return"";
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+function formatDesc(text){
+  if(!text)return"";
+  const escaped=escapeHtml(text).replace(/\n/g,"<br>");
+  return escaped.replace(/(https?:\/\/[^\s<>"']+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function openDownloadModal(id){
+  const p=posts.find(item=>item.id==id);
+  if(!p)return;
+  modalTitle.textContent=p.title; modalContent.innerHTML=formatDesc(p.desc);
+  if(p.redirectLink&&p.redirectLink.trim()!==""){
+    modalDownloadBtn.style.display="inline-flex"; modalDownloadBtn.href=p.redirectLink;
+  } else { modalDownloadBtn.style.display="none"; }
+  modalOverlay.classList.add("active"); document.body.style.overflow="hidden";
+}
+function closeModal(){modalOverlay.classList.remove("active");document.body.style.overflow="";}
+function closeModalOnOutside(e){if(e.target===modalOverlay)closeModal();}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modalOverlay.classList.contains("active"))closeModal();});
+
+function renderPosts(){
+  if(!posts||posts.length===0){
+    postsContainer.innerHTML=`<div class="empty-state"><i class="fa-regular fa-newspaper"></i><h3>Chưa có tài liệu</h3><p style="color:var(--txt-3);font-size:14px">Hiện chưa có tài liệu nào được đăng.</p></div>`; return;
+  }
+  postsContainer.innerHTML=`<div class="posts-grid">${posts.map(p=>`
+    <div class="post-card glass">
+      <div class="post-title">${escapeHtml(p.title)}<span class="post-id">#${p.id.toString().slice(-6)}</span></div>
+      ${p.image?`<img src="${escapeHtml(p.image)}" class="post-image" alt="${escapeHtml(p.title)}" loading="lazy">`:""}
+      <div class="post-desc">${formatDesc(p.desc)}</div>
+      <div class="post-meta"><button class="btn-download" onclick="openDownloadModal(${p.id})"><i class="fa-solid fa-file-lines"></i> Xem tài liệu</button></div>
+    </div>`).join("")}</div>`;
+}
+
+const copyContentBtn = document.getElementById("copyContentBtn");
+if (copyContentBtn) {
+  copyContentBtn.addEventListener("click", async () => {
+    const text = modalContent.innerText || modalContent.textContent || "";
+    try {
+      await navigator.clipboard.writeText(text);
+      copyContentBtn.classList.add("copied"); copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+      setTimeout(() => { copyContentBtn.classList.remove("copied"); copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung'; }, 1800);
+    } catch (err) {
+      const range = document.createRange(); range.selectNodeContents(modalContent);
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      try {
+        document.execCommand("copy"); copyContentBtn.classList.add("copied"); copyContentBtn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+        setTimeout(() => { copyContentBtn.classList.remove("copied"); copyContentBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy nội dung'; }, 1800);
+      } catch (e) { alert("Không thể copy tự động. Hãy bôi đen và copy thủ công."); }
+      sel.removeAllRanges();
+    }
+  });
+}
+if (modalContent) {
+  modalContent.addEventListener("dblclick", () => {
+    const range = document.createRange(); range.selectNodeContents(modalContent);
+    const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  });
+}
+</script>
+</body>
 </html>
