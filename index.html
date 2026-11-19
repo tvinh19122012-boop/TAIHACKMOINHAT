@@ -366,7 +366,7 @@ img{content-visibility:auto}
       <p class="gate-sub">Hãy <span class="big-word tt"><i class="fa-brands fa-tiktok"></i> FOLLOW</span> kênh TikTok dưới đây để tiếp tục.</p>
 
       <div class="sub-gate-actions">
-        <a href="https://tiktok.com/@sikereal" target="_blank" rel="noopener noreferrer" class="btn-tiktok" id="btnFollowTikTok"><i class="fa-brands fa-tiktok"></i> Mở TikTok & Follow ngay</a>
+        <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener noreferrer" class="btn-tiktok" id="btnFollowTikTok"><i class="fa-brands fa-tiktok"></i> Mở TikTok & Follow ngay</a>
         <button class="btn-confirm" id="btnConfirmFollow" type="button" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Follow (Tiếp tục)</button>
       </div>
       <div class="btn-confirm-note" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở TikTok & Follow ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
@@ -467,11 +467,11 @@ function safeRemove(key){
 }
 
 /* ====== GATE STATE ====== */
-const GATE_KEY = "gateBoxDone_v7";
-const GATE_TTL_MS = 15 * 60 * 1000; // 15 phút
+const GATE_KEY = "gateBoxDone_v8";
+const GATE_TTL_MS = 5 * 60 * 1000; // 5 phút
 
-const TT_FOLLOW_KEY = "ttFollowDone_v7";
-const TT_START_KEY = "ttFollowStart_v7";
+const TT_FOLLOW_KEY = "ttFollowDone_v8";
+const TT_START_KEY = "ttFollowStart_v8";
 const TT_TIMEOUT = 4000; // 4s sau khi bấm link
 
 function gateIsDone(){
