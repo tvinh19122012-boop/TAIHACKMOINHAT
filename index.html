@@ -412,55 +412,91 @@ img{content-visibility:auto}
 </head>
 <body>
 
-<!-- MÀN HÌNH CHẶN 3 BƯỚC -->
+<!-- MÀN HÌNH CHẶN 5 BƯỚC -->
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Đăng ký</span></div>
-      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-thumbs-up"></i> <span>Like</span></div>
-      <div class="step-dot opt" id="stepDot3"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
+      <div class="step-dot" id="stepDot1"><i class="fa-brands fa-youtube"></i> <span>Kênh 1</span></div>
+      <div class="step-dot" id="stepDot2"><i class="fa-brands fa-youtube"></i> <span>Kênh 2</span></div>
+      <div class="step-dot" id="stepDot3"><i class="fa-solid fa-thumbs-up"></i> <span>Like 1</span></div>
+      <div class="step-dot" id="stepDot4"><i class="fa-solid fa-thumbs-up"></i> <span>Like 2</span></div>
+      <div class="step-dot opt" id="stepDot5"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
     </div>
-    
-    <!-- BƯỚC 1: ĐĂNG KÝ KÊNH -->
+
+    <!-- BƯỚC 1: ĐĂNG KÝ KÊNH 1 -->
     <div class="gate-step active" id="gateStep1">
       <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
-      <h2>Bước 1: Đăng ký kênh</h2>
+      <h2>Bước 1/4: Đăng ký kênh 1</h2>
       <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube của chúng tôi để tiếp tục.<br>Cảm ơn bạn đã ủng hộ! ❤️</p>
       <div class="sub-gate-actions">
-        <a href="https://youtube.com/@SikeXModz" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe"><i class="fa-brands fa-youtube"></i> Đăng ký kênh ngay</a>
-        <button class="btn-confirm" id="btnConfirmSub" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe1" data-link="subKenh1"><i class="fa-brands fa-youtube"></i> Đăng ký kênh 1</a>
+        <button class="btn-confirm" id="btnConfirmSub1" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh ngay" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
+      <div class="btn-confirm-note big" id="gateNote1"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh 1" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
     </div>
-    
-    <!-- BƯỚC 2: LIKE VIDEO -->
+
+    <!-- BƯỚC 2: ĐĂNG KÝ KÊNH 2 -->
     <div class="gate-step" id="gateStep2">
+      <div class="sub-gate-icon"><i class="fa-brands fa-youtube"></i></div>
+      <h2>Bước 2/4: Đăng ký kênh 2</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới và <span class="big-word red"><i class="fa-brands fa-youtube"></i> ĐĂNG KÝ</span> kênh YouTube thứ hai để tiếp tục.</p>
+      <div class="sub-gate-actions">
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="btnSubscribe2" data-link="subKenh2"><i class="fa-brands fa-youtube"></i> Đăng ký kênh 2</a>
+        <button class="btn-confirm" id="btnConfirmSub2" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã đăng ký</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm "Đăng ký kênh 2" trước, sau đó quay lại bấm "Tôi đã đăng ký".</div>
+    </div>
+
+    <!-- BƯỚC 3: LIKE VIDEO 1 -->
+    <div class="gate-step" id="gateStep3">
       <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
         <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
       </div>
-      <h2>Bước 2: Like video</h2>
-      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để hoàn tất.</p>
-      
+      <h2>Bước 3/4: Like video 1</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để tiếp tục.</p>
       <div class="video-card">
         <div class="video-thumb">
-          <img src="https://i.ytimg.com/vi/z210KVXxlB8/hqdefault.jpg" alt="Video YouTube" loading="lazy">
+          <img id="thumbVideo1" alt="Video YouTube 1" loading="lazy">
           <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
         </div>
         <div class="video-info">
-          <div class="v-title">Video cần like để tiếp tục vào web</div>
-          <div class="v-sub">youtu.be/z210KVXxlB8</div>
+          <div class="v-title">Video 1 cần like để tiếp tục vào web</div>
+          <div class="v-sub" id="linkVideo1"></div>
         </div>
       </div>
-      
       <div class="sub-gate-actions">
-        <a href="https://youtu.be/z210KVXxlB8" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like ngay</a>
-        <button class="btn-confirm" id="btnConfirmLike" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like (Tiếp tục)</button>
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo1" data-link="likeVideo1"><i class="fa-solid fa-thumbs-up"></i> Mở video 1 & Like</a>
+        <button class="btn-confirm" id="btnConfirmLike1" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like video 1</button>
       </div>
-      <div class="btn-confirm-note big" id="gateNote2"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video & Like ngay"</b>, sau đó quay lại đây bấm nút tiếp tục.</div>
+      <div class="btn-confirm-note big" id="gateNote3"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video 1 & Like"</b> trước, sau đó quay lại bấm nút tiếp tục.</div>
     </div>
-    
-    <!-- BƯỚC 3: GHI CHÚ TELEGRAM + ZALO (TUỲ CHỌN) -->
-    <div class="gate-step" id="gateStep3">
+
+    <!-- BƯỚC 4: LIKE VIDEO 2 -->
+    <div class="gate-step" id="gateStep4">
+      <div class="sub-gate-icon" style="background:radial-gradient(circle at 50% 40%,rgba(125,249,214,.3),rgba(125,249,214,.04));border-color:rgba(125,249,214,.4);box-shadow:0 0 40px rgba(125,249,214,.2)">
+        <i class="fa-solid fa-thumbs-up" style="color:var(--mint)"></i>
+      </div>
+      <h2>Bước 4/4: Like video 2</h2>
+      <p class="sub-gate-sub">Hãy <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video YouTube dưới đây để hoàn tất.</p>
+      <div class="video-card">
+        <div class="video-thumb">
+          <img id="thumbVideo2" alt="Video YouTube 2" loading="lazy">
+          <div class="play-ic"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="v-title">Video 2 cần like để tiếp tục vào web</div>
+          <div class="v-sub" id="linkVideo2"></div>
+        </div>
+      </div>
+      <div class="sub-gate-actions">
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="btnLikeVideo2" data-link="likeVideo2"><i class="fa-solid fa-thumbs-up"></i> Mở video 2 & Like</a>
+        <button class="btn-confirm" id="btnConfirmLike2" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like video 2</button>
+      </div>
+      <div class="btn-confirm-note big" id="gateNote4"><i class="fa-regular fa-clock"></i> Bấm <b>"Mở video 2 & Like"</b> trước, sau đó quay lại bấm nút tiếp tục.</div>
+    </div>
+
+    <!-- BƯỚC 5: GHI CHÚ TELEGRAM + ZALO (TUỲ CHỌN) -->
+    <div class="gate-step" id="gateStep5">
       <div class="note-head">
         <div class="note-ic"><i class="fa-solid fa-note-sticky"></i></div>
         <h2>Vào Box Để Nhận <em>Hack No</em> Vượt Link</h2>
@@ -472,19 +508,19 @@ img{content-visibility:auto}
         <div class="note-list">
           <div class="note-row tg">
             <span class="lbl"><i class="fa-brands fa-telegram-plane"></i>Telegram:</span>
-            <a class="link" href="https://t.me/SIKEMODFF" target="_blank" rel="noopener noreferrer">https://t.me/SIKEMODFF</a>
+            <a class="link" href="#" data-link="telegram" data-show-url target="_blank" rel="noopener noreferrer"></a>
           </div>
           <div class="note-row zalo">
             <span class="lbl"><i class="fa-solid fa-comment-dots"></i>Zalo 1:</span>
-            <a class="link" href="https://zalo.me/g/0hbi6p2gplz0idb9sfnz" target="_blank" rel="noopener noreferrer">https://zalo.me/g/0hbi6p2gplz0idb9sfnz</a>
+            <a class="link" href="#" data-link="zalo1" data-show-url target="_blank" rel="noopener noreferrer"></a>
           </div>
           <div class="note-row zalo">
             <span class="lbl"><i class="fa-solid fa-comment-dots"></i>Zalo 2:</span>
-            <a class="link" href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener noreferrer">https://zalo.me/g/inj3bicbrjuz53itudvj</a>
+            <a class="link" href="#" data-link="zalo2" data-show-url target="_blank" rel="noopener noreferrer"></a>
           </div>
           <div class="note-row zalo">
             <span class="lbl"><i class="fa-solid fa-comment-dots"></i>Zalo 3:</span>
-            <a class="link" href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener noreferrer">https://zalo.me/g/2xqvud1opgic0gy0tc9r</a>
+            <a class="link" href="#" data-link="zalo3" data-show-url target="_blank" rel="noopener noreferrer"></a>
           </div>
         </div>
         <div class="note-foot">Vào xong quay lại đây, bấm nút vàng <b>"Bỏ qua, vào web luôn"</b> để tiếp tục.</div>
@@ -504,12 +540,12 @@ img{content-visibility:auto}
     <div class="logo"><i class="fa-solid fa-bolt"></i>Download<span>Hub</span></div>
   </div>
   <div class="header-right">
-    <a href="https://www.youtube.com/@SIKEREAL" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
-    <a href="https://t.me/SIKEMODFF" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
-    <a href="https://tiktok.com/@sikeffmod" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
-    <a href="https://zalo.me/g/2xqvud1opgic0gy0tc9r" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
-    <a href="https://zalo.me/g/inj3bicbrjuz53itudvj" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
-    <a href="https://tvinh19122012-boop.github.io/BYPASS-WEB" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
+    <a href="#" data-link="headerYoutube" target="_blank" rel="noopener" class="gbtn btn-social youtube"><i class="fa-brands fa-youtube"></i> <span>YouTube</span></a>
+    <a href="#" data-link="telegram" target="_blank" rel="noopener" class="gbtn btn-social telegram"><i class="fa-brands fa-telegram-plane"></i> <span>Telegram</span></a>
+    <a href="#" data-link="headerTiktok" target="_blank" rel="noopener" class="gbtn btn-social tiktok"><i class="fa-brands fa-tiktok"></i> <span>TikTok</span></a>
+    <a href="#" data-link="zalo3" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 1</span></a>
+    <a href="#" data-link="zalo2" target="_blank" rel="noopener" class="gbtn btn-social zalo"><i class="fa-solid fa-comment-dots"></i> <span>Zalo 2</span></a>
+    <a href="#" data-link="bypass" target="_blank" class="gbtn btn-bypass" rel="noopener"><i class="fa-solid fa-rocket"></i> <span>Bypass Key</span></a>
   </div>
 </header>
 
@@ -538,10 +574,55 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d"; 
 
 const GATE_TTL_MS = 15 * 60 * 1000;
-const SUB_KEY   = "ytSubConfirmed_v4";
-const LIKE_KEY  = "ytLikedVideo_v4";
-const TELE_KEY  = "teleJoined_v4";
-const gateMem = {};   
+const GATE_TIMEOUT = 3000; // 3 giây cho mỗi nút Đăng ký / Like
+
+/* =====================================================================
+   TẤT CẢ LINK NẰM Ở ĐÂY — sửa link chỉ cần sửa trong khối này
+   ===================================================================== */
+const LINKS = {
+  // Cổng chặn: đăng ký kênh + like video
+  subKenh1:   "https://youtube.com/@SikeXModz",
+  subKenh2:   "https://youtube.com/@sikemodz",
+  likeVideo1: "https://youtu.be/z210KVXxlB8",
+  likeVideo2: "https://youtu.be/YzLBIEuO4rk",
+
+  // Box Telegram / Zalo
+  telegram:   "https://t.me/SIKEMODFF",
+  zalo1:      "https://zalo.me/g/0hbi6p2gplz0idb9sfnz",
+  zalo2:      "https://zalo.me/g/inj3bicbrjuz53itudvj",
+  zalo3:      "https://zalo.me/g/2xqvud1opgic0gy0tc9r",
+
+  // Header
+  headerYoutube: "https://www.youtube.com/@SIKEREAL",
+  headerTiktok:  "https://tiktok.com/@sikeffmod",
+  bypass:        "https://tvinh19122012-boop.github.io/BYPASS-WEB"
+};
+/* ===================================================================== */
+
+// Gắn link vào mọi phần tử có data-link (nút, header, box)
+document.querySelectorAll("[data-link]").forEach(a => {
+  const url = LINKS[a.dataset.link];
+  if(!url) return;
+  a.href = url;
+  if(a.hasAttribute("data-show-url")) a.textContent = url;
+});
+
+// Thumbnail + tên video lấy từ link like
+function ytVideoId(url){ return url.split("/").pop(); }
+const VIDEO_1_ID = ytVideoId(LINKS.likeVideo1);
+const VIDEO_2_ID = ytVideoId(LINKS.likeVideo2);
+
+const KEY = {
+  sub1: "ytSub1_v5", sub2: "ytSub2_v5",
+  like1: "ytLike1_v5", like2: "ytLike2_v5",
+  tele: "teleJoined_v5"
+};
+const TIME_KEY = {
+  sub1: "subStartTime_1_v5", sub2: "subStartTime_2_v5",
+  like1: "likeStartTime_1_v5", like2: "likeStartTime_2_v5"
+};
+
+const gateMem = {};
 function gateGet(key){
   let exp = gateMem[key] || 0;
   try{ exp = Math.max(exp, parseInt(localStorage.getItem(key),10) || 0); }catch(e){}
@@ -552,11 +633,6 @@ function gateSet(key){
   gateMem[key] = exp;
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
-
-// Time-gate: tracking thời điểm bấm nút link (5 giây)
-const SUB_START_TIME     = "subStartTime_v4";
-const LIKE_START_TIME    = "likeStartTime_v4";
-const GATE_TIMEOUT = 5000; // 5 giây cho Đăng ký và Like
 
 const timerMem = Object.create(null);
 
@@ -583,33 +659,36 @@ function triggerShakeAndVibrate(element){
   }
 }
 
+function warn(el, html){
+  el.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> ' + html;
+  triggerShakeAndVibrate(el);
+}
+function ok(el, html){
+  el.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> ' + html;
+}
+
 let posts = [];
 
 const $ = id => document.getElementById(id);
 const postsContainer=$("postsContainer"), modalOverlay=$("downloadModal"), modalTitle=$("modalTitle"),
 modalContent=$("modalContent"), modalDownloadBtn=$("modalDownloadBtn");
 
-/* ====== Cổng chặn 3 bước ====== */
+/* ====== Cổng chặn 5 bước (mỗi nút một màn riêng) ====== */
 const subGate = $("subGate");
-const stepDot1 = $("stepDot1"), stepDot2 = $("stepDot2"), stepDot3 = $("stepDot3");
-const gateStep1 = $("gateStep1"), gateStep2 = $("gateStep2"), gateStep3 = $("gateStep3");
-const btnSubscribe = $("btnSubscribe"), btnConfirmSub = $("btnConfirmSub"), gateNote1 = $("gateNote1");
-const btnLikeVideo = $("btnLikeVideo"), btnConfirmLike = $("btnConfirmLike"), gateNote2 = $("gateNote2");
-const btnSkipBox = $("btnSkipBox");
+const stepDots = [1,2,3,4,5].map(n => $("stepDot" + n));
+const gateSteps = [1,2,3,4,5].map(n => $("gateStep" + n));
 
-let hasClickedSubscribe = false;
-let hasClickedLike = false;
-let subConfirmLocked = false;
-let likeConfirmLocked = false;
+$("thumbVideo1").src = "https://i.ytimg.com/vi/" + VIDEO_1_ID + "/hqdefault.jpg";
+$("linkVideo1").textContent = "youtu.be/" + VIDEO_1_ID;
+$("thumbVideo2").src = "https://i.ytimg.com/vi/" + VIDEO_2_ID + "/hqdefault.jpg";
+$("linkVideo2").textContent = "youtu.be/" + VIDEO_2_ID;
 
 function showStep(n){
-  gateStep1.classList.toggle("active", n===1);
-  gateStep2.classList.toggle("active", n===2);
-  gateStep3.classList.toggle("active", n===3);
+  gateSteps.forEach((el, i) => el.classList.toggle("active", i === n - 1));
 }
 
 function setDots(current){
-  [stepDot1, stepDot2, stepDot3].forEach((dot, i) => {
+  stepDots.forEach((dot, i) => {
     const n = i + 1;
     dot.classList.remove("active", "done");
     if(n < current) dot.classList.add("done");
@@ -617,98 +696,103 @@ function setDots(current){
   });
 }
 
-function checkSubGate(){
-  const subDone = gateGet(SUB_KEY);
-  const likeDone = gateGet(LIKE_KEY);
-  const teleDone = gateGet(TELE_KEY);
-  
-  if(subDone && likeDone && teleDone){
-    subGate.classList.remove("active");
-    document.body.style.overflow="";
-    return false;
-  } else {
-    subGate.classList.add("active");
-    document.body.style.overflow="hidden";
-    if(!subDone){
-      showStep(1); setDots(1);
-    } else if(!likeDone){
-      showStep(2); setDots(2);
-    } else {
-      showStep(3); setDots(3);
-    }
-    return true;
-  }
+function goToStep(n){
+  showStep(n);
+  setDots(n);
 }
 
-// ===== BƯỚC 1: ĐĂNG KÝ =====
-btnSubscribe.addEventListener("click", ()=>{
-  hasClickedSubscribe = true;
-  subConfirmLocked = false;
-  startTimer(SUB_START_TIME);
-  btnConfirmSub.disabled = false;
-  gateNote1.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.';
+// Gắn logic cho một màn: bấm link -> bắt đầu đếm -> bấm xác nhận sau 3 giây
+function bindTimedStep(o){
+  let clicked = false, locked = false;
+
+  o.link.addEventListener("click", () => {
+    clicked = true;
+    locked = false;
+    startTimer(o.timeKey);
+    if(o.onClick) o.onClick();
+    o.confirm.disabled = false;
+    ok(o.note, o.msgs.next);
+  });
+
+  o.confirm.addEventListener("click", () => {
+    if(!clicked){
+      warn(o.note, o.msgs.need);
+      return;
+    }
+    if(locked || !checkTimeGate(o.timeKey)){
+      locked = true;
+      warn(o.note, o.msgs.early);
+      return;
+    }
+    gateSet(o.doneKey);
+    o.onPass();
+  });
+}
+
+bindTimedStep({
+  link: $("btnSubscribe1"), confirm: $("btnConfirmSub1"), note: $("gateNote1"),
+  timeKey: TIME_KEY.sub1, doneKey: KEY.sub1, onPass: () => goToStep(2),
+  msgs: {
+    need:  'Bạn cần bấm "Đăng ký kênh 1" trước!',
+    early: 'Bạn chưa đăng ký kênh 1, vui lòng quay lại để đăng ký!',
+    next:  'Tốt! Bây giờ bấm "Tôi đã đăng ký" để sang bước 2.'
+  }
 });
 
-btnConfirmSub.addEventListener("click", ()=>{
-  if(!hasClickedSubscribe){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Đăng ký kênh ngay" trước!';
-    triggerShakeAndVibrate(gateNote1);
-    return;
+bindTimedStep({
+  link: $("btnSubscribe2"), confirm: $("btnConfirmSub2"), note: $("gateNote2"),
+  timeKey: TIME_KEY.sub2, doneKey: KEY.sub2, onPass: () => goToStep(3),
+  msgs: {
+    need:  'Bạn cần bấm "Đăng ký kênh 2" trước!',
+    early: 'Bạn chưa đăng ký kênh 2, vui lòng quay lại để đăng ký!',
+    next:  'Tốt! Bây giờ bấm "Tôi đã đăng ký" để sang bước 3.'
   }
-  if(subConfirmLocked){
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote1);
-    return;
-  }
-  if(!checkTimeGate(SUB_START_TIME)){
-    subConfirmLocked = true;
-    gateNote1.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa đăng ký vui lòng quay lại để đăng ký!';
-    triggerShakeAndVibrate(gateNote1);
-    return;
-  }
-  gateSet(SUB_KEY);
-  setDots(2);
-  showStep(2);
 });
 
-// ===== BƯỚC 2: LIKE VIDEO =====
-btnLikeVideo.addEventListener("click", ()=>{
-  hasClickedLike = true;
-  likeConfirmLocked = false;
-  startTimer(LIKE_START_TIME);
-  btnLikeVideo.classList.add("liked");
-  btnConfirmLike.disabled = false;
-  gateNote2.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> Tuyệt! Bây giờ bấm "Tôi đã Like" để sang bước 3.';
+bindTimedStep({
+  link: $("btnLikeVideo1"), confirm: $("btnConfirmLike1"), note: $("gateNote3"),
+  timeKey: TIME_KEY.like1, doneKey: KEY.like1, onPass: () => goToStep(4),
+  onClick: () => $("btnLikeVideo1").classList.add("liked"),
+  msgs: {
+    need:  'Bạn cần bấm "Mở video 1 & Like" trước!',
+    early: 'Bạn chưa like video 1, vui lòng quay lại để like!',
+    next:  'Tuyệt! Bây giờ bấm "Tôi đã Like video 1" để sang bước 4.'
+  }
 });
 
-btnConfirmLike.addEventListener("click", ()=>{
-  if(!hasClickedLike){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn cần bấm "Mở video & Like ngay" trước!';
-    triggerShakeAndVibrate(gateNote2);
-    return;
+bindTimedStep({
+  link: $("btnLikeVideo2"), confirm: $("btnConfirmLike2"), note: $("gateNote4"),
+  timeKey: TIME_KEY.like2, doneKey: KEY.like2, onPass: () => goToStep(5),
+  onClick: () => $("btnLikeVideo2").classList.add("liked"),
+  msgs: {
+    need:  'Bạn cần bấm "Mở video 2 & Like" trước!',
+    early: 'Bạn chưa like video 2, vui lòng quay lại để like!',
+    next:  'Tuyệt! Bây giờ bấm "Tôi đã Like video 2" để sang bước box.'
   }
-  if(likeConfirmLocked){
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
-    triggerShakeAndVibrate(gateNote2);
-    return;
-  }
-  if(!checkTimeGate(LIKE_START_TIME)){
-    likeConfirmLocked = true;
-    gateNote2.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> Bạn chưa like video vui lòng quay lại để like!';
-    triggerShakeAndVibrate(gateNote2);
-    return;
-  }
-  gateSet(LIKE_KEY); 
-  setDots(3);
-  showStep(3);
 });
 
-// ===== BƯỚC 3: BOX (TUỲ CHỌN) =====
-btnSkipBox.addEventListener("click", ()=>{
-  gateSet(TELE_KEY);
-  stepDot3.classList.add("done"); stepDot3.classList.remove("active");
+function checkSubGate(){
+  const order = [[KEY.sub1, 1], [KEY.sub2, 2], [KEY.like1, 3], [KEY.like2, 4]];
+  const pending = order.find(([key]) => !gateGet(key));
+
+  if(!pending && gateGet(KEY.tele)){
+    subGate.classList.remove("active");
+    document.body.style.overflow = "";
+    return false;
+  }
+  subGate.classList.add("active");
+  document.body.style.overflow = "hidden";
+  goToStep(pending ? pending[1] : 5);
+  return true;
+}
+
+// ===== BƯỚC 5: BOX (TUỲ CHỌN) =====
+$("btnSkipBox").addEventListener("click", () => {
+  gateSet(KEY.tele);
+  stepDots[4].classList.add("done");
+  stepDots[4].classList.remove("active");
   subGate.classList.remove("active");
-  document.body.style.overflow="";
+  document.body.style.overflow = "";
 });
 
 /* ========================================== */
@@ -815,10 +899,10 @@ if(btnCopyNote){
   btnCopyNote.addEventListener("click", async () => {
     const text = [
       "Vào Box Để Nhận Hack No Vượt Link",
-      "Telegram: https://t.me/SIKEMODFF",
-      "Zalo 1: https://zalo.me/g/0hbi6p2gplz0idb9sfnz",
-      "Zalo 2: https://zalo.me/g/inj3bicbrjuz53itudvj",
-      "Zalo 3: https://zalo.me/g/2xqvud1opgic0gy0tc9r"
+      "Telegram: " + LINKS.telegram,
+      "Zalo 1: " + LINKS.zalo1,
+      "Zalo 2: " + LINKS.zalo2,
+      "Zalo 3: " + LINKS.zalo3
     ].join("\n");
     const ok = await copyText(text);
     const original = btnCopyNote.innerHTML;
