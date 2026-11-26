@@ -497,24 +497,39 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-/* ----- Đồng hồ 20 giây: bắt đầu khi bấm nút, đếm cả trong lẫn ngoài web.
-         Đóng tab / thoát trình duyệt thì mất tiến độ, không lưu lại.
+/* ----- Đồng hồ 20 giây: bắt đầu khi bấm nút, chỉ đếm khi bạn ở ngoài web (tab ẩn).
+         Quay lại web thì đồng hồ tạm dừng. Đóng tab / thoát trình duyệt thì mất tiến độ.
          Bấm lại hoặc bấm xác nhận sớm không reset thời gian. ----- */
 let watchStarted = false;
-let watchStartAt = 0;
+let watchAccum = 0;   // ms đã đếm trong các lần ở ngoài web
+let hiddenSince = 0;  // mốc bắt đầu lần ở ngoài web hiện tại (0 = đang ở trên web)
 
+function watchElapsed(){
+  return watchAccum + (hiddenSince ? Date.now() - hiddenSince : 0);
+}
 function watchLeftMs(){
   if(!watchStarted) return WATCH_MS;
-  return Math.max(0, WATCH_MS - (Date.now() - watchStartAt));
+  return Math.max(0, WATCH_MS - watchElapsed());
 }
+document.addEventListener("visibilitychange", () => {
+  if(!watchStarted) return;
+  if(document.visibilityState === "hidden"){
+    if(!hiddenSince) hiddenSince = Date.now();
+  } else if(hiddenSince){
+    watchAccum += Date.now() - hiddenSince;
+    hiddenSince = 0;
+  }
+});
 function startWatch(){
   if(watchStarted) return;
   watchStarted = true;
-  watchStartAt = Date.now();
+  watchAccum = 0;
+  hiddenSince = document.visibilityState === "hidden" ? Date.now() : 0;
 }
 function stopWatch(){
   watchStarted = false;
-  watchStartAt = 0;
+  watchAccum = 0;
+  hiddenSince = 0;
 }
 
 /* ----- Thông báo ----- */
