@@ -357,7 +357,7 @@ img{content-visibility:auto}
     <div class="gate-step active" id="gateStep1">
       <div class="sub-gate-icon red"><i class="fa-brands fa-youtube"></i></div>
       <h2>Bước 1/2: Xem video</h2>
-      <p class="sub-gate-sub">Bấm nút đỏ bên dưới rồi <b>xem hết video</b>.</p>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới rồi <b>xem hết video</b>, <b>không được tua</b>.</p>
       <div class="video-card">
         <div class="video-thumb"><img class="thumbVideo" alt="Video YouTube" loading="lazy"><div class="play-ic"><i class="fa-brands fa-youtube"></i></div></div>
         <div class="video-info"><div class="v-title">Xem hết video này để tiếp tục vào web</div><div class="v-sub videoShort"></div></div>
@@ -432,7 +432,7 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d";
 
 /* ====== THỜI GIAN ====== */
-const WATCH_SECONDS = 20;               // số giây xem video
+const WATCH_SECONDS = 12;               // số giây xem video
 const WATCH_MS = WATCH_SECONDS * 1000;
 const GATE_TTL_MS = 10 * 60 * 1000;     // nhớ đã qua cổng trong 10 phút
 
@@ -497,7 +497,7 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-/* ----- Đồng hồ 20 giây: bắt đầu khi bấm nút, chỉ đếm khi bạn ở ngoài web (tab ẩn).
+/* ----- Đồng hồ 12 giây: bắt đầu khi bấm nút, chỉ đếm khi bạn ở ngoài web (tab ẩn).
          Quay lại web thì đồng hồ tạm dừng. Đóng tab / thoát trình duyệt thì mất tiến độ.
          Bấm lại hoặc bấm xác nhận sớm không reset thời gian. ----- */
 let watchStarted = false;
@@ -556,7 +556,7 @@ function updateWatchUI(){
     return;
   }
   watchConfirm.disabled = false;
-  ok('Hãy xem hết video. Xong thì quay lại bấm <b>"Tôi đã xem hết video"</b>.');
+  ok('Hãy xem hết video, không được tua. Xong thì quay lại bấm <b>"Tôi đã xem hết video"</b>.');
 }
 setInterval(updateWatchUI, 250);
 
@@ -573,7 +573,7 @@ watchConfirm.addEventListener("click", () => {
     return;
   }
   if(watchLeftMs() > 0){
-    warn('Chưa xem hết video, hãy ở lại xem hết video rồi bấm lại nhé.');
+    warn('Chưa xem hết video, hãy quay lại tiếp tục xem hết video rồi bấm lại nhé.');
     return;
   }
   stopWatch();
