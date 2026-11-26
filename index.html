@@ -432,7 +432,7 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d";
 
 /* ====== THỜI GIAN ====== */
-const WATCH_SECONDS = 12;               // số giây xem video
+const WATCH_SECONDS = 20;               // số giây xem video
 const WATCH_MS = WATCH_SECONDS * 1000;
 const GATE_TTL_MS = 10 * 60 * 1000;     // nhớ đã qua cổng trong 10 phút
 
@@ -497,39 +497,24 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-/* ----- Đồng hồ 12 giây: bắt đầu khi bấm nút, chỉ đếm khi bạn ở ngoài web (tab ẩn).
-         Quay lại web thì đồng hồ tạm dừng. Đóng tab / thoát trình duyệt thì mất tiến độ.
+/* ----- Đồng hồ: bắt đầu khi bấm nút, đếm cả trong lẫn ngoài web.
+         Đóng tab / thoát trình duyệt thì mất tiến độ, không lưu lại.
          Bấm lại hoặc bấm xác nhận sớm không reset thời gian. ----- */
 let watchStarted = false;
-let watchAccum = 0;   // ms đã đếm trong các lần ở ngoài web
-let hiddenSince = 0;  // mốc bắt đầu lần ở ngoài web hiện tại (0 = đang ở trên web)
+let watchStartAt = 0;
 
-function watchElapsed(){
-  return watchAccum + (hiddenSince ? Date.now() - hiddenSince : 0);
-}
 function watchLeftMs(){
   if(!watchStarted) return WATCH_MS;
-  return Math.max(0, WATCH_MS - watchElapsed());
+  return Math.max(0, WATCH_MS - (Date.now() - watchStartAt));
 }
-document.addEventListener("visibilitychange", () => {
-  if(!watchStarted) return;
-  if(document.visibilityState === "hidden"){
-    if(!hiddenSince) hiddenSince = Date.now();
-  } else if(hiddenSince){
-    watchAccum += Date.now() - hiddenSince;
-    hiddenSince = 0;
-  }
-});
 function startWatch(){
   if(watchStarted) return;
   watchStarted = true;
-  watchAccum = 0;
-  hiddenSince = document.visibilityState === "hidden" ? Date.now() : 0;
+  watchStartAt = Date.now();
 }
 function stopWatch(){
   watchStarted = false;
-  watchAccum = 0;
-  hiddenSince = 0;
+  watchStartAt = 0;
 }
 
 /* ----- Thông báo ----- */
