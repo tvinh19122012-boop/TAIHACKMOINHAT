@@ -349,28 +349,45 @@ img{content-visibility:auto}
 <div class="sub-gate" id="subGate">
   <div class="sub-gate-box">
     <div class="step-bar">
-      <div class="step-dot" id="stepDot1"><i class="fa-solid fa-circle-play"></i> <span>Xem</span></div>
-      <div class="step-dot opt" id="stepDot2"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
+      <div class="step-dot" id="stepDot1"><i class="fa-solid fa-thumbs-up"></i> <span>Like</span></div>
+      <div class="step-dot" id="stepDot2"><i class="fa-solid fa-bell"></i> <span>Sub</span></div>
+      <div class="step-dot opt" id="stepDot3"><i class="fa-solid fa-unlock"></i> <span>Box</span></div>
     </div>
 
-    <!-- BƯỚC 1: XEM VIDEO -->
+    <!-- BƯỚC 1: LIKE -->
     <div class="gate-step active" id="gateStep1">
-      <div class="sub-gate-icon red"><i class="fa-brands fa-youtube"></i></div>
-      <h2>Bước 1/2: Xem video</h2>
-      <p class="sub-gate-sub">Bấm nút đỏ bên dưới rồi <b>xem hết video</b>, <b>không được tua</b>.</p>
+      <div class="sub-gate-icon red"><i class="fa-solid fa-thumbs-up"></i></div>
+      <h2>Bước 1/3: Like video</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới rồi <span class="big-word mint"><i class="fa-solid fa-thumbs-up"></i> LIKE</span> video.</p>
       <div class="video-card">
         <div class="video-thumb"><img class="thumbVideo" alt="Video YouTube" loading="lazy"><div class="play-ic"><i class="fa-brands fa-youtube"></i></div></div>
-        <div class="video-info"><div class="v-title">Xem hết video này để tiếp tục vào web</div><div class="v-sub videoShort"></div></div>
+        <div class="video-info"><div class="v-title">Like video này để tiếp tục vào web</div><div class="v-sub videoShort"></div></div>
       </div>
       <div class="sub-gate-actions">
-        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="watchBtn" data-link="watchVideo"><i class="fa-solid fa-circle-play"></i> Mở video</a>
-        <button class="btn-confirm" id="watchConfirm" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã xem hết video</button>
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="likeBtn" data-link="likeVideo"><i class="fa-solid fa-thumbs-up"></i> Mở video & Like</a>
+        <button class="btn-confirm" id="likeConfirm" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Like</button>
       </div>
-      <div class="btn-confirm-note" id="watchNote"></div>
+      <div class="btn-confirm-note" id="likeNote"></div>
     </div>
 
-    <!-- BƯỚC 2: BOX TELEGRAM + ZALO (TUỲ CHỌN) -->
+    <!-- BƯỚC 2: SUB -->
     <div class="gate-step" id="gateStep2">
+      <div class="sub-gate-icon red"><i class="fa-solid fa-bell"></i></div>
+      <h2>Bước 2/3: Sub kênh</h2>
+      <p class="sub-gate-sub">Bấm nút đỏ bên dưới rồi <b>sub kênh</b>.</p>
+      <div class="video-card">
+        <div class="video-thumb icon-only"><i class="fa-brands fa-youtube"></i></div>
+        <div class="video-info"><div class="v-title">Sub kênh này để tiếp tục vào web</div><div class="v-sub">youtube.com/@sikemodz</div></div>
+      </div>
+      <div class="sub-gate-actions">
+        <a href="#" target="_blank" rel="noopener" class="btn-youtube" id="subBtn" data-link="subChannel"><i class="fa-solid fa-bell"></i> Mở kênh & Sub</a>
+        <button class="btn-confirm" id="subConfirm" disabled><i class="fa-solid fa-circle-check"></i> Tôi đã Sub</button>
+      </div>
+      <div class="btn-confirm-note" id="subNote"></div>
+    </div>
+
+    <!-- BƯỚC 3: BOX TELEGRAM + ZALO (TUỲ CHỌN) -->
+    <div class="gate-step" id="gateStep3">
       <div class="sub-gate-icon tg"><i class="fa-brands fa-telegram-plane"></i></div>
       <h2>Vào Box Để Nhận Hack No Vượt Link</h2>
       <div class="box-hero">
@@ -432,16 +449,18 @@ img{content-visibility:auto}
 const BIN_URL = "https://api.jsonbin.io/v3/b/6aed7068ac6210605a71525d";
 
 /* ====== THỜI GIAN ====== */
-const WATCH_SECONDS = 20;               // số giây xem video
-const WATCH_MS = WATCH_SECONDS * 1000;
+const TASK_MS = 5 * 1000;               // mỗi bước like / sub: 5 giây ở ngoài web
 const GATE_TTL_MS = 10 * 60 * 1000;     // nhớ đã qua cổng trong 10 phút
 
 /* =====================================================================
    TẤT CẢ LINK NẰM Ở ĐÂY — sửa link chỉ cần sửa trong khối này
    ===================================================================== */
 const LINKS = {
-  // Bước 1: video cần xem
-  watchVideo: "https://youtu.be/CS9ZYRySW0Q",
+  // Bước 1: like video
+  likeVideo: "https://youtu.be/CS9ZYRySW0Q?si=DU7UPs87TwFT4ibn",
+
+  // Bước 2: sub kênh
+  subChannel: "https://youtube.com/@sikemodz?si=-Z8gxI97oc8iDh1m",
 
   // Bước 4: box Telegram / Zalo
   telegram:   "https://t.me/SIKEMODFF",
@@ -465,7 +484,7 @@ document.querySelectorAll("[data-link]").forEach(a => {
 });
 
 // Thumbnail và link ngắn của video
-const VIDEO_ID = LINKS.watchVideo.split("/").pop().split("?")[0];
+const VIDEO_ID = LINKS.likeVideo.split("/").pop().split("?")[0];
 document.querySelectorAll(".thumbVideo").forEach(img => {
   img.src = "https://i.ytimg.com/vi/" + VIDEO_ID + "/hqdefault.jpg";
 });
@@ -478,11 +497,10 @@ const postsContainer = $("postsContainer"), modalOverlay = $("downloadModal"), m
       modalContent = $("modalContent"), modalDownloadBtn = $("modalDownloadBtn");
 
 const subGate = $("subGate");
-const stepDots = [$("stepDot1"), $("stepDot2")];
-const gateSteps = [$("gateStep1"), $("gateStep2")];
-const watchBtn = $("watchBtn"), watchConfirm = $("watchConfirm"), watchNote = $("watchNote");
+const stepDots = [$("stepDot1"), $("stepDot2"), $("stepDot3")];
+const gateSteps = [$("gateStep1"), $("gateStep2"), $("gateStep3")];
 
-const KEY = { watch: "watchPass_v9", tele: "teleJoined_v9" };
+const KEY = { tasks: "tasksPass_v10", tele: "teleJoined_v10" };
 
 /* ----- Nhớ trạng thái đã qua cổng (localStorage, có hạn 10 phút) ----- */
 const gateMem = {};
@@ -497,73 +515,127 @@ function gateSet(key){
   try{ localStorage.setItem(key, String(exp)); }catch(e){}
 }
 
-/* ----- Đồng hồ: bắt đầu khi bấm nút, đếm cả trong lẫn ngoài web.
-         Đóng tab / thoát trình duyệt thì mất tiến độ, không lưu lại.
-         Bấm lại hoặc bấm xác nhận sớm không reset thời gian. ----- */
-let watchStarted = false;
-let watchStartAt = 0;
-
-function watchLeftMs(){
-  if(!watchStarted) return WATCH_MS;
-  return Math.max(0, WATCH_MS - (Date.now() - watchStartAt));
-}
-function startWatch(){
-  if(watchStarted) return;
-  watchStarted = true;
-  watchStartAt = Date.now();
-}
-function stopWatch(){
-  watchStarted = false;
-  watchStartAt = 0;
-}
-
-/* ----- Thông báo ----- */
-let msgHoldUntil = 0;
-function warn(html){
-  msgHoldUntil = Date.now() + 2800;
-  watchNote.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> ' + html;
-  watchNote.classList.add("shake");
-  setTimeout(() => watchNote.classList.remove("shake"), 400);
-  if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-}
-function ok(html){
-  watchNote.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> ' + html;
-}
-
-/* ----- Cập nhật giao diện bước 1 ----- */
-function updateWatchUI(){
-  if(!gateSteps[0].classList.contains("active")) return;
-  if(Date.now() < msgHoldUntil) return;
-
-  if(!watchStarted){
-    watchConfirm.disabled = true;
-    watchNote.innerHTML = '<i class="fa-regular fa-clock"></i> Bấm <b>"Mở video"</b> trước, sau đó quay lại bấm <b>"Tôi đã xem hết video"</b>.';
-    return;
-  }
-  watchConfirm.disabled = false;
-  ok('Hãy xem hết video, không được tua. Xong thì quay lại bấm <b>"Tôi đã xem hết video"</b>.');
-}
-setInterval(updateWatchUI, 250);
-
-/* ----- Bấm nút mở video hoặc kênh: bắt đầu đếm ----- */
-watchBtn.addEventListener("click", () => {
-  startWatch();
-  updateWatchUI();
+/* =====================================================================
+   BỘ ĐẾM 5 GIÂY CHO TỪNG BƯỚC (like / sub)
+   - Chỉ bắt đầu khi bấm nút mở.
+   - Chỉ cộng thời gian khi tab web đang ẩn (bạn đang ở ngoài web).
+   - Bấm nút mở lại khi đang đếm: không reset.
+   - Bấm "Tôi đã ..." khi chưa đủ 5 giây ngoài web: reset bộ đếm của bước đó.
+   - Đóng tab / thoát trình duyệt: mất tiến độ, không lưu lại.
+   ===================================================================== */
+const TASKS = ["like", "sub"];
+const taskState = {};
+const taskDone  = {};
+const msgHoldUntil = {};
+TASKS.forEach(k => {
+  taskState[k] = { started: false, accum: 0, hiddenSince: 0 };
+  taskDone[k] = false;
+  msgHoldUntil[k] = 0;
 });
 
-/* ----- Bấm xác nhận ----- */
-watchConfirm.addEventListener("click", () => {
-  if(!watchStarted){
-    warn('Bạn cần bấm <b>"Mở video"</b> trước!');
+function taskElapsed(k){
+  const s = taskState[k];
+  if(!s.started) return 0;
+  return s.accum + (s.hiddenSince ? Date.now() - s.hiddenSince : 0);
+}
+function taskLeftMs(k){
+  return Math.max(0, TASK_MS - taskElapsed(k));
+}
+function taskStart(k){
+  const s = taskState[k];
+  if(s.started) return;
+  s.started = true;
+  s.accum = 0;
+  s.hiddenSince = document.visibilityState === "hidden" ? Date.now() : 0;
+}
+function taskReset(k){
+  const s = taskState[k];
+  s.started = false;
+  s.accum = 0;
+  s.hiddenSince = 0;
+}
+document.addEventListener("visibilitychange", () => {
+  const hidden = document.visibilityState === "hidden";
+  TASKS.forEach(k => {
+    const s = taskState[k];
+    if(!s.started) return;
+    if(hidden){
+      if(!s.hiddenSince) s.hiddenSince = Date.now();
+    } else if(s.hiddenSince){
+      s.accum += Date.now() - s.hiddenSince;
+      s.hiddenSince = 0;
+    }
+  });
+});
+
+const TASK_UI = {
+  like: { btn: $("likeBtn"), confirm: $("likeConfirm"), note: $("likeNote"), label: "Like",
+          undoneMsg: "Chưa like video, hãy quay lại like video rồi bấm lại nhé." },
+  sub:  { btn: $("subBtn"),  confirm: $("subConfirm"),  note: $("subNote"),  label: "Sub",
+          undoneMsg: "Chưa sub kênh, hãy quay lại sub kênh rồi bấm lại nhé." }
+};
+
+/* ----- Thông báo theo từng bước ----- */
+function warnTask(k, html){
+  const ui = TASK_UI[k];
+  msgHoldUntil[k] = Date.now() + 2800;
+  ui.note.innerHTML = '<i class="fa-solid fa-triangle-exclamation warn-note"></i> ' + html;
+  ui.note.classList.add("shake");
+  setTimeout(() => ui.note.classList.remove("shake"), 400);
+  if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+}
+function okTask(k, html){
+  TASK_UI[k].note.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--mint)"></i> ' + html;
+}
+
+/* ----- Cập nhật giao diện bước hiện tại ----- */
+function currentTaskKey(){
+  return TASKS.find(k => !taskDone[k]) || null;
+}
+function updateUI(){
+  const k = currentTaskKey();
+  if(!k) return;
+  const ui = TASK_UI[k];
+  if(Date.now() < msgHoldUntil[k]) return;
+
+  if(!taskState[k].started){
+    ui.confirm.disabled = true;
+    ui.btn.classList.remove("liked");
+    ui.note.innerHTML = '<i class="fa-regular fa-clock"></i> Bấm <b>"Mở"</b> trước, sau đó quay lại bấm <b>"Tôi đã ' + ui.label + '"</b>.';
     return;
   }
-  if(watchLeftMs() > 0){
-    warn('Chưa xem hết video, hãy quay lại tiếp tục xem hết video rồi bấm lại nhé.');
-    return;
-  }
-  stopWatch();
-  gateSet(KEY.watch);
-  goToStep(2);
+  ui.confirm.disabled = false;
+  ui.btn.classList.add("liked");
+  okTask(k, 'Hãy ở ngoài web và làm xong. Xong thì quay lại bấm <b>"Tôi đã ' + ui.label + '"</b>.');
+}
+setInterval(updateUI, 250);
+
+/* ----- Gắn sự kiện cho 2 bước ----- */
+TASKS.forEach(k => {
+  const ui = TASK_UI[k];
+
+  ui.btn.addEventListener("click", () => {
+    taskStart(k);
+    ui.btn.classList.add("liked");
+    updateUI();
+  });
+
+  ui.confirm.addEventListener("click", () => {
+    if(!taskState[k].started){
+      warnTask(k, 'Bạn cần bấm <b>"Mở"</b> trước!');
+      return;
+    }
+    if(taskLeftMs(k) > 0){
+      taskReset(k);
+      ui.btn.classList.remove("liked");
+      warnTask(k, ui.undoneMsg);
+      return;
+    }
+    taskReset(k);
+    taskDone[k] = true;
+    if(TASKS.every(t => taskDone[t])) gateSet(KEY.tasks);
+    renderCurrentStep();
+  });
 });
 
 /* ----- Điều hướng giữa các bước ----- */
@@ -577,30 +649,34 @@ function setDots(current){
     if(n < current) dot.classList.add("done");
     else if(n === current) dot.classList.add("active");
   });
+  TASKS.forEach((k, i) => { if(taskDone[k]) stepDots[i].classList.add("done"); });
 }
-function goToStep(n){
+function renderCurrentStep(){
+  const k = currentTaskKey();
+  const n = k ? TASKS.indexOf(k) + 1 : 3;
   showStep(n);
   setDots(n);
 }
 
 /* ----- Kiểm tra khi tải trang ----- */
 function gateCheck(){
-  const watchDone = gateGet(KEY.watch);
-  if(watchDone && gateGet(KEY.tele)){
+  const tasksDone = gateGet(KEY.tasks);
+  if(tasksDone && gateGet(KEY.tele)){
     subGate.classList.remove("active");
     document.body.style.overflow = "";
     return;
   }
+  if(tasksDone) TASKS.forEach(k => taskDone[k] = true);
   subGate.classList.add("active");
   document.body.style.overflow = "hidden";
-  goToStep(watchDone ? 2 : 1);
+  renderCurrentStep();
 }
 
-/* ----- Bước 2: bỏ qua box ----- */
+/* ----- Bước 3: bỏ qua box ----- */
 $("btnSkipBox").addEventListener("click", () => {
   gateSet(KEY.tele);
-  stepDots[1].classList.add("done");
-  stepDots[1].classList.remove("active");
+  stepDots[2].classList.add("done");
+  stepDots[2].classList.remove("active");
   subGate.classList.remove("active");
   document.body.style.overflow = "";
 });
